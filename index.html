@@ -18,7 +18,7 @@
   a:hover{text-decoration:underline}
 
   .admira-nav.admira-nav-app-bar{position:fixed;top:0;left:0;right:0;z-index:11}
-  header{position:fixed;top:42px;left:0;right:0;z-index:10;padding:14px 22px;background:linear-gradient(to bottom,rgba(2,8,13,.92),rgba(2,8,13,.6) 70%,transparent);backdrop-filter:blur(8px);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  header{position:fixed;top:44px;left:0;right:0;z-index:10;padding:14px 22px;background:linear-gradient(to bottom,rgba(2,8,13,.92),rgba(2,8,13,.6) 70%,transparent);backdrop-filter:blur(8px);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .logo{font-family:monospace;font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:bold;white-space:nowrap}
   .logo .dot{color:var(--brand)}
   .logo .ver{font-weight:normal;font-size:10px;letter-spacing:.08em;color:var(--mut);margin-left:10px}
@@ -45,7 +45,7 @@
   #map{position:absolute;inset:0;background:#000}
 
   /* Top-right global live ticker */
-  .live-ticker{position:fixed;top:116px;right:18px;z-index:8;background:rgba(10,22,32,.92);border:1px solid var(--line);border-radius:12px;padding:10px 14px;backdrop-filter:blur(10px);font-family:monospace;font-size:11px;color:var(--mut);min-width:170px}
+  .live-ticker{position:fixed;top:118px;right:18px;z-index:8;background:rgba(10,22,32,.92);border:1px solid var(--line);border-radius:12px;padding:10px 14px;backdrop-filter:blur(10px);font-family:monospace;font-size:11px;color:var(--mut);min-width:170px}
   .live-ticker .lt-row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:3px 0}
   .live-ticker .lt-row b{color:var(--brand);font-size:14px;font-weight:700}
   .live-ticker .lt-row.up b{color:var(--good)}
@@ -170,7 +170,6 @@
     <a class="admira-nav-link admira-nav-link-external" href="https://www.admira.studio">Pixer.IA</a>
     <a class="admira-nav-link admira-nav-link-external" href="https://www.xpaceos.com">XpaceOS</a>
     <a class="admira-nav-link admira-nav-link-active" href="https://www.admira.app">Xbusiness</a>
-    <a class="admira-nav-link" href="backoffice.html">Login</a>
     <a class="admira-nav-link admira-nav-link-cta" href="mailto:csilva@admira.com">Contacto</a>
   </div>
 </nav>
@@ -185,6 +184,9 @@
     </label>
     <div id="suggest" class="suggest" hidden></div>
   </div>
+  <nav>
+    <a href="backoffice.html">Login</a>
+  </nav>
 </header>
 
 <div id="map"></div>

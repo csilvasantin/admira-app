@@ -66,6 +66,19 @@ window.OMNIP_LOCATIONS_DEFAULT = [
       { name:'PWA Admira Club',   desc:'Push contextual a socios cercanos',               status:'live',  impr:160, cpm:'€2', surface:'pwa' },
     ],
   },
+  {
+    id:'super-santa-rosa', name:'Súper Santa Rosa', kind:'Supermercado · Retail físico',
+    addr:'Carrer de Santa Rosa 4 · Barcelona 08012', coords:[2.1583, 41.4061],
+    surfaces:[
+      { name:'LED cabeceras góndola',         desc:'4 cabeceras digitales en pasillos · 1080×1920 vertical',           status:'live',  impr:920, cpm:'€7', surface:'pantalla' },
+      { name:'LED checkout',                  desc:'Pantallas sobre las 6 cajas · cola + impulso de última hora',      status:'live',  impr:780, cpm:'€8', surface:'pantalla' },
+      { name:'Estantería ePaper lácteos',     desc:'8 etiquetas digitales con precio dinámico + microspot 3s',         status:'sched', impr:240, cpm:'€4', surface:'mostrador' },
+      { name:'Escaparate refrigerado',        desc:'LED transparente sobre puerta de frescos · audiencia atrapada',    status:'live',  impr:360, cpm:'€6', surface:'escaparate' },
+      { name:'Carro con tablet',              desc:'30 carros con tablet 10" · contextual por pasillo',                status:'idle',  impr:120, cpm:'€3', surface:'mostrador' },
+      { name:'Vending de bebidas',            desc:'Panel digital del vending exterior · cervezas y refrescos',         status:'sched', impr:80,  cpm:'€3', surface:'vending' },
+      { name:'PWA Súper Club',                desc:'Push contextual a socios cercanos · ofertas por hora del día',      status:'live',  impr:260, cpm:'€2', surface:'pwa' },
+    ],
+  },
 ];
 
 // Sync: localStorage → bundled default. Sin red. Para arranque inmediato.

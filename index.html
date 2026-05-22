@@ -85,6 +85,12 @@
   .surface .info .desc{color:var(--mut);font-size:11px;margin-bottom:6px;line-height:1.35}
   .surface .info .stats{font-family:monospace;font-size:10px;color:var(--mut);letter-spacing:.02em}
   .surface .info .stats span{color:var(--brand);font-weight:700}
+  /* Botón "lanzar ganador → gemelo" — solo en surfaces con pantalla real (pixerScreens) */
+  .surface .twin-launch{margin-top:8px;width:100%;display:flex;align-items:center;justify-content:center;gap:6px;font-family:monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#001620;background:var(--good);border:0;border-radius:5px;padding:6px 8px;cursor:pointer;font-weight:700;transition:filter .15s,opacity .15s}
+  .surface .twin-launch:hover{filter:brightness(1.08)}
+  .surface .twin-launch:disabled{opacity:.55;cursor:default}
+  .surface .twin-launch.ok{background:var(--brand)}
+  .surface .twin-launch.err{background:var(--warn)}
 
   /* Live bid feed */
   .bidfeed-wrap{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
@@ -99,6 +105,7 @@
   .bid-row .bf-ts{color:var(--mut);font-size:9.5px;text-align:right}
   .bid-row.fresh{background:rgba(136,255,170,.10)}
   .bid-row.real{border-left:2px solid var(--good)}
+  .bid-row.win{border-left:2px solid var(--accent);background:rgba(255,216,102,.10)}
   .bid-row .bf-live{display:inline-block;font-size:8.5px;font-weight:700;letter-spacing:.08em;color:#001620;background:var(--good);padding:1px 4px;border-radius:2px;margin-right:5px;vertical-align:middle}
   .bidfeed-empty{color:var(--mut);font-family:monospace;font-size:11px;padding:8px;border-radius:6px;background:rgba(10,22,32,.5)}
 
@@ -549,19 +556,22 @@ function renderPanel(loc) {
     document.getElementById('p-cpm').textContent = lo === hi ? `€${lo}` : `€${lo}-€${hi}`;
   }
   const list = document.getElementById('surfaces');
-  list.innerHTML = loc.surfaces.map(s => `
+  list.innerHTML = loc.surfaces.map((s, i) => {
+    const hasTwin = Array.isArray(s.pixerScreens) && s.pixerScreens.length;
+    return `
     <div class="surface" data-surface="${s.surface}">
       <div class="thumb ${s.status==='live'?'live':''}">${thumbFor(s.surface, s.status)}</div>
       <div class="info">
         <div class="top">
-          <div class="name">${s.name}</div>
+          <div class="name">${escHtml(s.name)}</div>
           <div class="status ${s.status}">${s.status === 'live' ? '● LIVE' : s.status === 'sched' ? 'PROG' : 'IDLE'}</div>
         </div>
-        <div class="desc">${s.desc}</div>
-        <div class="stats"><span>${s.impr}</span> impr/día · <span>${s.cpm}</span> CPM · <span>${s.surface}</span></div>
+        <div class="desc">${escHtml(s.desc)}</div>
+        <div class="stats"><span>${s.impr}</span> impr/día · <span>${escHtml(s.cpm)}</span> CPM · <span>${escHtml(s.surface)}</span></div>
+        ${hasTwin ? `<button class="twin-launch" data-surf-idx="${i}">🔨 Lanzar ganador → pantalla</button>` : ''}
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
   // Reset bid feed
   bidFeedItems = [];
   renderBidFeedEmpty();
@@ -601,9 +611,9 @@ function renderBidFeed() {
   const el = document.getElementById('bidfeed');
   if (!el || !bidFeedItems.length) return;
   el.innerHTML = bidFeedItems.map((b,i) => `
-    <div class="bid-row${i===0?' fresh':''}${b.real?' real':''}">
+    <div class="bid-row${i===0?' fresh':''}${b.real?' real':''}${b.win?' win':''}">
       <span class="bf-price">€${escHtml(b.price)}</span>
-      <span class="bf-adv">${b.real?'<span class="bf-live">LIVE</span>':''}${escHtml(b.advertiser)}</span>
+      <span class="bf-adv">${b.win?'🔨 ':''}${b.real&&!b.win?'<span class="bf-live">LIVE</span>':''}${escHtml(b.advertiser)}</span>
       <span class="bf-surf">${escHtml(b.surface)}</span>
       <span class="bf-ts">${escHtml(b.ts)}</span>
     </div>
@@ -624,6 +634,76 @@ function stopBidFeed() {
   if (bidFeedTimer) clearInterval(bidFeedTimer);
   bidFeedTimer = null;
 }
+
+// ─── Cierre del loop RTB → Gemelo Digital ─────────────────────────
+// Cuando una surface respaldada por una pantalla real del gemelo
+// (campo pixerScreens) "gana" una subasta, empujamos el creativo
+// ganador (un asset real del Stock de Pixer.ia) a /signage/push del
+// worker. El reproductor del gemelo (game.html) lee /signage/feed?limit=1
+// cada 5s y lo muestra en la pantalla física. Loop cerrado.
+let stockCreativesCache = null;
+async function fetchStockCreatives() {
+  if (stockCreativesCache) return stockCreativesCache;
+  try {
+    const r = await fetch(PIXER + '/stock/list?limit=80', {cache:'no-store'});
+    if (!r.ok) return [];
+    const d = await r.json();
+    const items = Array.isArray(d && d.items) ? d.items : [];
+    // Solo creativos visuales para una pantalla
+    const visual = items.filter(it => it && it.url && ['image','video','animation'].includes(it.type));
+    if (visual.length) stockCreativesCache = visual;
+    return visual;
+  } catch { return []; }
+}
+
+function pushKindForStock(type) { return type === 'image' ? 'image' : 'video'; }
+
+async function launchWinnerToTwin(surfIdx, btn) {
+  const loc = activeLocation;
+  if (!loc) return;
+  const surf = loc.surfaces[surfIdx];
+  if (!surf || !(Array.isArray(surf.pixerScreens) && surf.pixerScreens.length)) return;
+
+  const reset = (cls, label, ms) => {
+    btn.classList.remove('ok','err'); if (cls) btn.classList.add(cls);
+    btn.textContent = label;
+    if (ms) setTimeout(() => { btn.disabled = false; btn.classList.remove('ok','err'); btn.textContent = '🔨 Lanzar ganador → pantalla'; }, ms);
+  };
+
+  btn.disabled = true;
+  btn.textContent = '… subastando';
+  const creatives = await fetchStockCreatives();
+  if (!creatives.length) { reset('err', 'Sin creativos en Stock', 2600); return; }
+
+  const cre = creatives[Math.floor(Math.random() * creatives.length)];
+  const advertiser = ADVERTISERS[Math.floor(Math.random() * ADVERTISERS.length)];
+  const cpm = parseFloat(String(surf.cpm).replace(/[^\d.]/g,'')) || 1;
+  const price = Math.max(0.0008, cpm * (0.6 + Math.random() * 0.45) / 1000).toFixed(4);
+  const title = `🔨 ${advertiser} · €${price} · ${surf.name}`;
+
+  try {
+    const r = await fetch(PIXER + '/signage/push', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ kind: pushKindForStock(cre.type), src: cre.url, mime: cre.mime || null, title }),
+    });
+    if (!r.ok) throw new Error('http ' + r.status);
+    const ts = new Date().toLocaleTimeString('es-ES', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    bidFeedItems.unshift({ advertiser, surface: surf.name, price, ts, real: true, win: true });
+    if (bidFeedItems.length > 12) bidFeedItems.pop();
+    renderBidFeed();
+    reset('ok', '✓ En pantalla del gemelo', 3200);
+  } catch (e) {
+    reset('err', 'Error al empujar', 2600);
+  }
+}
+
+// Delegación: clic en cualquier botón "lanzar ganador" del panel.
+document.getElementById('surfaces').addEventListener('click', (e) => {
+  const btn = e.target.closest('.twin-launch');
+  if (!btn || btn.disabled) return;
+  launchWinnerToTwin(parseInt(btn.dataset.surfIdx, 10), btn);
+});
 
 // Background ticker — sigue subiendo aunque no haya panel abierto
 function backgroundTick() {

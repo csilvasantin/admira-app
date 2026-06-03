@@ -80,19 +80,26 @@
   .space .shooting-star::after{content:'';position:absolute;right:-1px;top:-1px;width:4px;height:4px;border-radius:50%;background:#dff8ff;box-shadow:0 0 8px 2px rgba(120,243,255,.9)}
   /* Capa clicable sobre el mapa para el lucero del deseo */
   .sky-fx{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden}
-  .wish-seed{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;padding:0;border:0;background:transparent;cursor:pointer;pointer-events:auto;transform-origin:center}
-  .wish-seed::before{content:'';position:absolute;inset:11px;border-radius:50%;background:#fff;box-shadow:0 0 7px 2px rgba(255,255,255,.95),0 0 16px 5px rgba(120,243,255,.85)}
-  .wish-seed::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 47%,rgba(180,235,255,.7) 47% 53%,transparent 53%),linear-gradient(90deg,transparent 47%,rgba(180,235,255,.7) 47% 53%,transparent 53%)}
+  .wish-seed{position:absolute;width:46px;height:46px;margin:-23px 0 0 -23px;padding:0;border:0;background:transparent;cursor:pointer;pointer-events:auto;transform-origin:center}
+  .wish-seed::before{content:'';position:absolute;inset:16px;border-radius:50%;background:#fff;box-shadow:0 0 9px 3px rgba(255,255,255,.95),0 0 22px 7px rgba(120,243,255,.85)}
+  .wish-seed::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 47.5%,rgba(180,235,255,.75) 47.5% 52.5%,transparent 52.5%),linear-gradient(90deg,transparent 47.5%,rgba(180,235,255,.75) 47.5% 52.5%,transparent 52.5%)}
   /* Popup del deseo */
-  .wish-modal{position:fixed;inset:0;z-index:21;background:rgba(2,8,13,.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center}
+  .wish-modal{position:fixed;inset:0;z-index:21;background:rgba(2,8,13,.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px}
   .wish-modal[hidden]{display:none}
-  .wish-modal .wish-card{width:min(360px,calc(100vw - 32px));text-align:center;background:radial-gradient(120% 130% at 50% 0%,rgba(13,28,40,.98),rgba(2,8,13,.97));border:1px solid var(--line);border-radius:18px;padding:30px 28px 24px;box-shadow:0 24px 70px rgba(0,0,0,.6),inset 0 1px 0 rgba(120,243,255,.14);animation:wishPop .4s cubic-bezier(.2,.9,.3,1.2)}
+  .wish-modal .wish-card{position:relative;width:min(360px,calc(100vw - 32px));text-align:center;background:radial-gradient(120% 130% at 50% 0%,rgba(13,28,40,.98),rgba(2,8,13,.97));border:1px solid var(--line);border-radius:18px;padding:30px 28px 24px;box-shadow:0 24px 70px rgba(0,0,0,.6),inset 0 1px 0 rgba(120,243,255,.14);animation:wishPop .4s cubic-bezier(.2,.9,.3,1.2)}
+  /* Al conceder el deseo, el popup pasa al tamaño de la pastilla del hero */
+  .wish-modal .wish-card.with-video{width:min(580px,calc(100vw - 32px));padding:46px 18px 18px}
   @keyframes wishPop{from{opacity:0;transform:translateY(10px) scale(.94)}to{opacity:1;transform:none}}
+  .wish-modal .wish-close{position:absolute;top:9px;right:13px;background:transparent;border:0;color:var(--mut);font-size:24px;line-height:1;cursor:pointer;z-index:2;border-radius:6px;transition:color .15s,background .15s}
+  .wish-modal .wish-close:hover{color:var(--ink);background:rgba(120,243,255,.08)}
   .wish-modal .wish-star{font-size:46px;line-height:1;margin-bottom:10px;filter:drop-shadow(0 0 12px rgba(255,216,102,.6))}
   .wish-modal h3{margin:0 0 8px;font-size:19px;letter-spacing:-.01em;color:var(--ink)}
-  .wish-modal p{margin:0 0 20px;color:#a9d4e0;font-size:14px;line-height:1.5}
+  .wish-modal .wish-intro p{margin:0 0 20px;color:#a9d4e0;font-size:14px;line-height:1.5}
   .wish-modal .wish-ok{font-family:monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:0;border-radius:9px;background:var(--accent);color:#1a0e00;font-weight:700;cursor:pointer;transition:filter .15s}
   .wish-modal .wish-ok:hover{filter:brightness(1.07)}
+  .wish-modal .wish-video{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000}
+  .wish-modal .wish-video[hidden]{display:none}
+  .wish-modal .wish-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   #map{position:absolute;inset:0;background:transparent;z-index:1}
 
   /* Top-right global live ticker */
@@ -385,11 +392,15 @@
 
 <!-- Popup "pide un deseo" al atrapar una estrella fugaz -->
 <div class="wish-modal" id="wish-modal" hidden>
-  <div class="wish-card">
-    <div class="wish-star">🌠</div>
-    <h3>¡Has atrapado una estrella fugaz!</h3>
-    <p>Cierra los ojos y pide un deseo…</p>
-    <button class="wish-ok" id="wish-ok" type="button">Pedido ✨</button>
+  <div class="wish-card" id="wish-card">
+    <button class="wish-close" id="wish-close" type="button" aria-label="Cerrar">×</button>
+    <div class="wish-intro" id="wish-intro">
+      <div class="wish-star">🌠</div>
+      <h3>¡Has atrapado una estrella fugaz!</h3>
+      <p>Cierra los ojos y pide un deseo…</p>
+      <button class="wish-ok" id="wish-ok" type="button">Pedido ✨</button>
+    </div>
+    <div class="wish-video" id="wish-video" hidden></div>
   </div>
 </div>
 
@@ -1516,14 +1527,39 @@ function resetToHome() {
   }
 
   // Popup del deseo.
-  function openWish(){
-    const m = document.getElementById('wish-modal');
-    if (m) m.hidden = false;
-  }
+  const WISH_VIDEO = 'mvQTfq1qD2w'; // YouTube Short del deseo
   const wishModal = document.getElementById('wish-modal');
-  const wishOk = document.getElementById('wish-ok');
-  if (wishOk) wishOk.addEventListener('click', () => { wishModal.hidden = true; });
-  if (wishModal) wishModal.addEventListener('click', (e) => { if (e.target === wishModal) wishModal.hidden = true; });
+  const wishCard  = document.getElementById('wish-card');
+  const wishIntro = document.getElementById('wish-intro');
+  const wishVideo = document.getElementById('wish-video');
+  const wishOk    = document.getElementById('wish-ok');
+  const wishClose = document.getElementById('wish-close');
+
+  function resetWish(){
+    if (wishVideo) { wishVideo.innerHTML = ''; wishVideo.hidden = true; }
+    if (wishIntro) wishIntro.hidden = false;
+    if (wishCard)  wishCard.classList.remove('with-video');
+  }
+  function openWish(){
+    resetWish();
+    if (wishModal) wishModal.hidden = false;
+  }
+  function closeWish(){
+    if (wishModal) wishModal.hidden = true;
+    resetWish(); // quita el iframe → para el vídeo
+  }
+  // Conceder el deseo: el popup pasa al tamaño del hero y reproduce el vídeo.
+  function grantWish(){
+    if (wishIntro) wishIntro.hidden = true;
+    if (wishCard)  wishCard.classList.add('with-video');
+    if (wishVideo) {
+      wishVideo.innerHTML = `<iframe src="https://www.youtube.com/embed/${WISH_VIDEO}?autoplay=1&playsinline=1&rel=0" title="Tu deseo" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+      wishVideo.hidden = false;
+    }
+  }
+  if (wishOk)    wishOk.addEventListener('click', grantWish);
+  if (wishClose) wishClose.addEventListener('click', closeWish);
+  if (wishModal) wishModal.addEventListener('click', (e) => { if (e.target === wishModal) closeWish(); });
 
   function loop(){
     setTimeout(() => { if (!document.hidden) spawnShootingStar(); loop(); }, 5000 + Math.random()*11000); // cada 5–16 s

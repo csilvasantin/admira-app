@@ -227,6 +227,14 @@
       </fieldset>
 
       <fieldset>
+        <legend>Gemelo Digital</legend>
+        <div class="row"><label for="f-music">Hilo musical</label><input id="f-music" type="text" placeholder="lounge · techno · pop · flamenco · seoul · trap"></div>
+        <div class="row"><label for="f-cameras">Cámaras</label><label style="display:flex;align-items:center;gap:8px;font-weight:normal;cursor:pointer"><input id="f-cameras" type="checkbox" style="width:auto"> El punto tiene cámaras (LiveCam)</label></div>
+        <div class="row" style="align-items:flex-start"><label for="f-employees">Empleados</label><textarea id="f-employees" rows="4" placeholder="Un empleado por línea: Nombre, rol&#10;Marta, cajero&#10;Jordi, repositor&#10;Núria, azafata&#10;Pau, manager" style="flex:1;min-width:0;font-family:inherit;font-size:13px;line-height:1.5;padding:8px 10px;border-radius:8px;background:rgba(2,8,13,.6);color:var(--ink);border:1px solid var(--line);resize:vertical"></textarea></div>
+        <div class="row"><label></label><span style="font-size:11px;color:var(--mut)">Roles: cajero · repositor · azafata · manager · dj. El gemelo (game.html?loc=&lt;id&gt;) usa estos datos.</span></div>
+      </fieldset>
+
+      <fieldset>
         <legend>Surfaces</legend>
         <div class="surf-headrow">
           <span>Nombre</span><span>Descripción</span><span>Estado</span><span>Impr/día</span><span>CPM</span><span>Tipo</span><span></span>
@@ -514,6 +522,9 @@ function editLocation(idx) {
   $('f-addr').value = loc.addr || '';
   $('f-lat').value = loc.coords ? loc.coords[1] : '';
   $('f-lng').value = loc.coords ? loc.coords[0] : '';
+  $('f-music').value = loc.music || '';
+  $('f-cameras').checked = (loc.cameras !== false); // por defecto con cámaras
+  $('f-employees').value = employeesToText(loc.employees);
   renderSurfaces(loc.surfaces);
   renderList();
   if (loc.coords && map) map.flyTo({center: loc.coords, zoom: 14, duration: 600});
@@ -536,8 +547,26 @@ function newLocation() {
   $('f-addr').value = '';
   $('f-lat').value = loc.coords[1];
   $('f-lng').value = loc.coords[0];
+  $('f-music').value = '';
+  $('f-cameras').checked = true;
+  $('f-employees').value = '';
   renderSurfaces(loc.surfaces);
   renderList();
+}
+
+// Empleados ⇄ texto (una línea "Nombre, rol" por empleado).
+function employeesToText(emp) {
+  if (!Array.isArray(emp)) return '';
+  return emp.map(e => `${e.name || ''}, ${e.role != null ? e.role : (e.roleLabel || 'cajero')}`).join('\n');
+}
+function parseEmployees(text) {
+  return String(text || '').split('\n').map(line => {
+    const t = line.trim(); if (!t) return null;
+    const parts = t.split(',').map(x => x.trim());
+    const name = parts[0]; if (!name) return null;
+    const role = (parts[1] || 'cajero').toLowerCase();
+    return { name, role };
+  }).filter(Boolean);
 }
 
 function closeEditor() {
@@ -550,15 +579,25 @@ function closeEditor() {
 function readForm() {
   const lat = parseFloat($('f-lat').value);
   const lng = parseFloat($('f-lng').value);
-  const surfaces = [...document.querySelectorAll('#surf-list .surf-row')].map(row => ({
-    name: row.querySelector('[data-k=name]').value.trim(),
-    desc: row.querySelector('[data-k=desc]').value.trim(),
-    status: row.querySelector('[data-k=status]').value,
-    impr: parseInt(row.querySelector('[data-k=impr]').value, 10) || 0,
-    cpm: row.querySelector('[data-k=cpm]').value.trim() || '€0',
-    surface: row.querySelector('[data-k=surface]').value,
-  })).filter(s => s.name); // descarta filas vacías
-  return {
+  // Tienda previa (al editar): para preservar campos que el form no gestiona
+  // explícitamente — pixerScreens de cada surface.
+  const prev = (editingIdx >= 0 && locations[editingIdx]) ? locations[editingIdx] : null;
+  const prevSurf = (prev && Array.isArray(prev.surfaces)) ? prev.surfaces : [];
+  const surfaces = [...document.querySelectorAll('#surf-list .surf-row')].map(row => {
+    const s = {
+      name: row.querySelector('[data-k=name]').value.trim(),
+      desc: row.querySelector('[data-k=desc]').value.trim(),
+      status: row.querySelector('[data-k=status]').value,
+      impr: parseInt(row.querySelector('[data-k=impr]').value, 10) || 0,
+      cpm: row.querySelector('[data-k=cpm]').value.trim() || '€0',
+      surface: row.querySelector('[data-k=surface]').value,
+    };
+    // Preserva pixerScreens (mapeo a pantallas reales) de la surface previa homónima.
+    const match = prevSurf.find(ps => ps && ps.name === s.name);
+    if (match && Array.isArray(match.pixerScreens) && match.pixerScreens.length) s.pixerScreens = match.pixerScreens;
+    return s;
+  }).filter(s => s.name); // descarta filas vacías
+  const loc = {
     id: $('f-id').value.trim(),
     name: $('f-name').value.trim(),
     kind: $('f-kind').value.trim(),
@@ -566,6 +605,15 @@ function readForm() {
     coords: [Number.isFinite(lng) ? lng : 0, Number.isFinite(lat) ? lat : 0],
     surfaces,
   };
+  // Config del Digital Twin
+  const music = $('f-music').value.trim();
+  if (music) loc.music = music;
+  loc.cameras = $('f-cameras').checked;
+  const emp = parseEmployees($('f-employees').value);
+  if (emp.length) loc.employees = emp;
+  // Preserva el twin propio si la tienda lo tenía.
+  if (prev && prev.twin) loc.twin = prev.twin;
+  return loc;
 }
 
 function validateLocation(loc, isNew) {

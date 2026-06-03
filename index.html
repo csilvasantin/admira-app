@@ -336,6 +336,7 @@
     <div class="actions">
       <a href="about.html" class="primary">Cómo funciona la subasta</a>
       <a id="p-twin" href="../01.-AdmiraXperience-Game/" target="_blank" rel="noopener">Ver Gemelo Digital ↗</a>
+      <a id="p-twin-hd" href="#" target="_blank" rel="noopener" style="display:none">🎥 Gemelo Hiperrealista ↗</a>
     </div>
   </div>
 </aside>
@@ -354,6 +355,12 @@ const PIXER = 'https://pixer-eleven.csilvasantin.workers.dev';
 // (p.ej. Xtanco Barcelona → su juego con modelo Barcelona) lo sobrescriben.
 // Bump del ?v= al subir build nueva del gemelo (xtanco-version.js del 01).
 const TWIN_BASE = 'https://www.carlossilva.info/01.-AdmiraXperience-Game/game.html?v=20260603-0030';
+// Gemelo Hiperrealista (Unreal Engine 5 + Pixel Streaming). Base del player de
+// Pixel Streaming (lo sirve el signalling server en la workstation del stand,
+// expuesto p.ej. por Tailscale Funnel). VACÍO = botón oculto hasta que esté
+// arriba. Cada punto puede además definir su propio `twinHD` en locations.js.
+// El gemelo UE lee ?loc=<id> y se autoconfigura del mismo KV omnipublicity.
+const TWIN_HD_BASE = '';
 // Botón "Red de tiendas" → abre la vista mapa/red de todos los puntos en el gemelo.
 try { const _navRed = document.getElementById('nav-red'); if (_navRed) _navRed.href = TWIN_BASE + '&view=red'; } catch (e) {}
 
@@ -710,6 +717,15 @@ function renderPanel(loc) {
   const pTwin = document.getElementById('p-twin');
   pTwin.href = loc.twin || (TWIN_BASE + '&loc=' + encodeURIComponent(loc.id));
   pTwin.setAttribute('target', '_blank'); // siempre nueva pestaña (URL absoluta)
+  // Gemelo Hiperrealista (UE5 · Pixel Streaming): aparece solo si el punto tiene
+  // su propia URL (loc.twinHD) o si hay base global configurada (TWIN_HD_BASE).
+  const pTwinHD = document.getElementById('p-twin-hd');
+  if (pTwinHD) {
+    const sep = u => (u.indexOf('?') === -1 ? '?' : '&');
+    const hd = loc.twinHD || (TWIN_HD_BASE ? (TWIN_HD_BASE + sep(TWIN_HD_BASE) + 'loc=' + encodeURIComponent(loc.id)) : '');
+    if (hd) { pTwinHD.href = hd; pTwinHD.style.display = ''; pTwinHD.setAttribute('target', '_blank'); }
+    else { pTwinHD.style.display = 'none'; }
+  }
 }
 
 function renderBidFeedEmpty() {

@@ -188,7 +188,12 @@
     nav{justify-content:center}
     aside.panel{width:100%;top:auto;height:65vh;border-left:0;border-top:1px solid var(--line);transform:translateY(110%)}
     aside.panel.open{transform:translateY(0)}
-    .splash h1{font-size:30px}
+    /* Hero compacto: ocupa menos del globo y deja respirar los controles */
+    .splash{top:38%;padding:20px 22px 18px;border-radius:16px;width:min(420px,calc(100vw - 24px))}
+    .splash .eyebrow{font-size:10px;margin:0 0 10px}
+    .splash h1{font-size:27px;margin:0 0 10px}
+    .splash p{font-size:13px;line-height:1.45;max-width:none}
+    .splash .arrow{margin-top:16px;font-size:11px}
     .live-ticker{top:auto;bottom:170px;right:12px;left:12px;font-size:10px;min-width:0}
   }
 </style>
@@ -384,9 +389,12 @@ let currentView = '3d';
 function applySky() {
   try {
     map.setSky({
-      'sky-color':'#050a14','sky-horizon-blend':0.6,
-      'horizon-color':'#0a1620','horizon-fog-blend':0.5,
-      'fog-color':'#02080d','fog-ground-blend':0.4,
+      // Halo atmosférico azul-cian en el borde del globo (estilo Google Earth),
+      // intenso al estar lejos (vista mundo) y desvaneciéndose al bajar a calle.
+      'sky-color':'#0a1c3a','sky-horizon-blend':0.5,
+      'horizon-color':'#7be3ff','horizon-fog-blend':0.7,
+      'fog-color':'#0a1620','fog-ground-blend':0.5,
+      'atmosphere-blend':['interpolate',['linear'],['zoom'], 0,1, 5,1, 8,0],
     });
   } catch(e) {}
 }
@@ -446,29 +454,41 @@ function addLocationsLayer() {
     },
     paint:{'text-color':'#001620'},
   });
-  // Single point
+  // Glow ambiental bajo cada tienda — brilla sobre el globo satélite.
+  map.addLayer({
+    id:'locs-glow', type:'circle', source:'locs',
+    filter:['!',['has','point_count']],
+    paint:{
+      'circle-color':'#ffd866',
+      'circle-radius':['interpolate',['linear'],['zoom'], 2,11, 6,16, 12,26],
+      'circle-blur':1,
+      'circle-opacity':0.4,
+    },
+  });
+  // Anillo pulsante (beacon) para tiendas con surfaces live — animado en JS.
+  map.addLayer({
+    id:'unclustered-pulse', type:'circle', source:'locs',
+    filter:['all',['!',['has','point_count']],['>',['get','live'],0]],
+    paint:{
+      'circle-color':'rgba(136,255,170,0)',
+      'circle-radius':12,
+      'circle-stroke-color':'#88ffaa',
+      'circle-stroke-width':2,
+      'circle-stroke-opacity':0.6,
+      'circle-blur':0.25,
+    },
+  });
+  // Punto nítido encima del glow.
   map.addLayer({
     id:'unclustered-point', type:'circle', source:'locs',
     filter:['!',['has','point_count']],
     paint:{
       'circle-color':'#ffd866',
-      'circle-radius':9,
+      'circle-radius':['interpolate',['linear'],['zoom'], 2,5, 6,7, 12,9],
       'circle-stroke-color':'#fff',
       'circle-stroke-width':2,
     },
   });
-  // Halo pulsante de las que tienen surfaces live
-  map.addLayer({
-    id:'unclustered-halo', type:'circle', source:'locs',
-    filter:['all',['!',['has','point_count']],['>',['get','live'],0]],
-    paint:{
-      'circle-color':'rgba(255,216,102,0)',
-      'circle-radius':16,
-      'circle-stroke-color':'rgba(255,216,102,.55)',
-      'circle-stroke-width':2,
-      'circle-blur':0.6,
-    },
-  }, 'unclustered-point');
   // Click en cluster → zoom in
   map.on('click', 'clusters', (e) => {
     const f = map.queryRenderedFeatures(e.point, {layers:['clusters']})[0];
@@ -1064,6 +1084,22 @@ requestAnimationFrame(tickRotate);
 // exploración limpia (estilo Google Earth) y paramos la autorrotación.
 map.on('dragstart', () => { rotating = false; splash.classList.add('hidden'); });
 map.on('zoomstart', () => { rotating = false; });
+
+// ─── Beacon pulsante de las tiendas live ──────────────────────────
+// Anillo que se expande y desvanece en bucle (1.6s) sobre cada tienda con
+// surfaces en vivo. Todas pulsan en sincronía; el efecto "faro" del retail.
+let pulseT0 = 0;
+function animatePulse(ts) {
+  requestAnimationFrame(animatePulse);
+  if (!pulseT0) pulseT0 = ts;
+  try {
+    if (!map.isStyleLoaded() || !map.getLayer('unclustered-pulse')) return;
+    const t = ((ts - pulseT0) % 1600) / 1600;       // 0 → 1
+    map.setPaintProperty('unclustered-pulse', 'circle-radius', 11 + t * 24);
+    map.setPaintProperty('unclustered-pulse', 'circle-stroke-opacity', 0.6 * (1 - t));
+  } catch (e) {}
+}
+requestAnimationFrame(animatePulse);
 </script>
 
 </body>

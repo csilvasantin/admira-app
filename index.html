@@ -22,6 +22,9 @@
   .admira-nav.admira-nav-app-bar{position:fixed;top:0;left:0;right:0;z-index:11}
   header{position:fixed;top:44px;left:0;right:0;z-index:10;padding:14px 22px;background:linear-gradient(to bottom,rgba(2,8,13,.92),rgba(2,8,13,.6) 70%,transparent);backdrop-filter:blur(8px);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .logo{font-family:monospace;font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:bold;white-space:nowrap}
+  .logo .logo-home{cursor:pointer;border-radius:4px;outline:none;transition:opacity .15s,text-shadow .15s}
+  .logo .logo-home:hover{text-shadow:0 0 12px rgba(255,216,102,.55)}
+  .logo .logo-home:focus-visible{box-shadow:0 0 0 2px var(--brand)}
   .logo .dot{color:var(--brand)}
   .logo .ver{font-weight:normal;font-size:10px;letter-spacing:.08em;color:var(--mut);margin-left:10px}
   .search-wrap{flex:1;min-width:280px;max-width:520px;position:relative}
@@ -264,7 +267,7 @@
 </nav>
 
 <header>
-  <span class="logo">OMNI<span class="dot">·</span>PUBLICITY <span class="ver" id="omnip-ver">AdmiraNext v26.05.07.2</span></span>
+  <span class="logo"><span class="logo-home" id="logo-home" role="button" tabindex="0" title="Volver al inicio">OMNI<span class="dot">·</span>PUBLICITY</span> <span class="ver" id="omnip-ver">AdmiraNext v26.05.07.2</span></span>
   <div class="search-wrap">
     <label class="search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -458,9 +461,12 @@ const STYLE_RELIEVE = {
 };
 
 // ─── Map ───────────────────────────────────────────────────────────
+// Vista inicial ("posición 0") — compartida por el arranque y por el reset
+// al pulsar el logo de OmniPublicity.
+const HOME_VIEW = {center: [-28, 16], zoom: 2.15, pitch: 0, bearing: 0};
 const map = new maplibregl.Map({
   container: 'map', style: STYLE_TIERRA,
-  center: [-28, 16], zoom: 2.15, pitch: 0,
+  center: HOME_VIEW.center, zoom: HOME_VIEW.zoom, pitch: HOME_VIEW.pitch,
   attributionControl: false,
   renderWorldCopies: false,
 });
@@ -1363,6 +1369,36 @@ function animatePulse(ts) {
   } catch (e) {}
 }
 requestAnimationFrame(animatePulse);
+
+// ─── Logo OmniPublicity → volver al inicio ("posición 0") ─────────
+function resetToHome() {
+  // Cierra todo lo abierto
+  panel.classList.remove('open');
+  stopBidFeed();
+  activeLocation = null;
+  const ac = document.getElementById('addr-card'); if (ac) ac.hidden = true;
+  const sv = document.getElementById('streetview'); if (sv) sv.hidden = true;
+  document.body.classList.remove('admira-contact-open');
+  if (addrMarker) { addrMarker.remove(); addrMarker = null; }
+  // Limpia la búsqueda
+  searchInput.value = '';
+  suggest.hidden = true; suggest.innerHTML = '';
+  // Vuelve a la capa Tierra y a la vista 3D/globo
+  if (currentLayer !== 'tierra') setLayer('tierra');
+  if (currentView !== '3d') setView('3d');
+  // Reaparece el hero y vuela a la posición inicial
+  splash.classList.remove('hidden');
+  rotating = false; // no rotar durante el vuelo de vuelta
+  map.flyTo({...HOME_VIEW, duration: 2200, essential: true});
+  map.once('moveend', () => { rotating = true; }); // reanuda la autorrotación al llegar
+}
+const logoHome = document.getElementById('logo-home');
+if (logoHome) {
+  logoHome.addEventListener('click', resetToHome);
+  logoHome.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); resetToHome(); }
+  });
+}
 </script>
 
 </body>

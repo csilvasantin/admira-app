@@ -144,7 +144,9 @@
 
   /* hint inicial sobre el globo — tarjeta de cristal para legibilidad total */
   .splash{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;z-index:5;transition:opacity .4s,transform .4s;width:min(580px,calc(100vw - 32px));padding:34px 38px 30px;border-radius:20px;background:radial-gradient(120% 130% at 50% 0%,rgba(10,22,32,.82),rgba(2,8,13,.72));border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 24px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(120,243,255,.12)}
-  .splash.hidden{opacity:0;transform:translate(-50%,-46%)}
+  .splash.hidden{opacity:0;transform:translate(-50%,-46%);pointer-events:none}
+  .splash-close{position:absolute;top:10px;right:13px;background:transparent;border:0;color:var(--mut);font-size:22px;line-height:1;cursor:pointer;pointer-events:auto;padding:2px 7px;border-radius:6px;transition:color .15s,background .15s}
+  .splash-close:hover{color:var(--ink);background:rgba(120,243,255,.08)}
   .splash .eyebrow{font-family:monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 14px;display:inline-flex;align-items:center;gap:8px}
   .splash .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good);animation:pulseDot 1.4s ease-in-out infinite}
   .splash h1{font-size:46px;line-height:1.04;margin:0 0 16px;letter-spacing:-.02em;font-weight:800;text-wrap:balance}
@@ -160,7 +162,7 @@
   .status-pill b{color:var(--brand)}
 
   /* Controles derecha estilo Google Maps */
-  .map-ctrls{position:fixed;right:18px;bottom:120px;display:flex;flex-direction:column;gap:8px;z-index:9}
+  .map-ctrls{position:fixed;right:18px;bottom:26px;display:flex;flex-direction:column;gap:8px;z-index:9}
   .ctrl-btn{width:46px;height:46px;border-radius:12px;background:rgba(10,22,32,.92);border:1px solid var(--line);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:13px;font-weight:700;letter-spacing:.04em;transition:border-color .15s,background .15s,transform .12s;backdrop-filter:blur(8px)}
   .ctrl-btn:hover{border-color:var(--brand);color:var(--brand)}
   .ctrl-btn:active{transform:scale(.96)}
@@ -171,13 +173,15 @@
   .zoom-grp .ctrl-btn{border:0;border-radius:0;background:transparent;width:46px;height:46px}
   .zoom-grp .ctrl-btn.ztop{border-bottom:1px solid var(--line)}
 
-  /* Selector capas abajo izquierda */
-  .layer-chooser{position:fixed;left:22px;bottom:24px;display:flex;gap:6px;background:rgba(10,22,32,.92);border:1px solid var(--line);border-radius:14px;padding:6px;z-index:9;backdrop-filter:blur(8px)}
-  .layer-btn{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 8px 4px;border-radius:10px;border:1px solid transparent;background:transparent;color:var(--mut);cursor:pointer;transition:border-color .15s,background .15s}
-  .layer-btn:hover{border-color:var(--line);background:rgba(120,243,255,.05);color:var(--ink)}
-  .layer-btn.active{border-color:var(--brand);background:rgba(120,243,255,.1);color:var(--brand)}
-  .layer-btn .thumb{width:54px;height:38px;border-radius:6px;border:1px solid var(--line);background-size:cover;background-position:center}
-  .layer-btn .lbl{font-family:monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+  /* Selector de capas — grupo vertical cuadrado (proporción del zoom), bajo +/− */
+  .layer-chooser{display:flex;flex-direction:column;background:rgba(10,22,32,.92);border:1px solid var(--line);border-radius:12px;overflow:hidden;backdrop-filter:blur(8px)}
+  .layer-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:46px;height:46px;padding:0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--mut);cursor:pointer;transition:background .15s,color .15s}
+  .layer-btn:last-child{border-bottom:0}
+  .layer-btn:hover{background:rgba(120,243,255,.06);color:var(--ink)}
+  .layer-btn.active{background:rgba(120,243,255,.12);color:var(--brand)}
+  .layer-btn .thumb{width:30px;height:15px;border-radius:4px;border:1px solid var(--line);background-size:cover;background-position:center}
+  .layer-btn.active .thumb{border-color:var(--brand)}
+  .layer-btn .lbl{font-family:monospace;font-size:7.5px;letter-spacing:.03em;text-transform:uppercase;line-height:1}
   .layer-btn .t-tierra{background:radial-gradient(circle at 38% 38%,#3b6e4a 0%,#2e5a8c 42%,#16335c 70%,#04080f 100%);position:relative}
   .layer-btn .t-tierra::after{content:"";position:absolute;inset:0;border-radius:6px;box-shadow:inset 0 0 6px 1px rgba(120,243,255,.35)}
   .layer-btn .t-mapa{background:linear-gradient(135deg,#02080d 0%,#0a1620 55%,#0d2230 100%);position:relative}
@@ -247,7 +251,7 @@
     .splash h1{font-size:27px;margin:0 0 10px}
     .splash p{font-size:13px;line-height:1.45;max-width:none}
     .splash .arrow{margin-top:16px;font-size:11px}
-    .live-ticker{top:auto;bottom:170px;right:12px;left:12px;font-size:10px;min-width:0}
+    .live-ticker{top:auto;bottom:90px;right:74px;left:12px;font-size:10px;min-width:0}
   }
 </style>
 </head>
@@ -293,6 +297,7 @@
 </div>
 
 <div class="splash" id="splash">
+  <button class="splash-close" id="splash-close" type="button" aria-label="Cerrar">×</button>
   <div class="eyebrow">OmniPublicity · RTB en vivo</div>
   <h1>El retail físico,<br><span class="grad">subastado por impresión.</span></h1>
   <p>Cada hueco visible — pantalla LED, escaparate, vending, panel del mostrador, push de la PWA — es <span class="tag">inventario subastable</span> en tiempo real. Busca una tienda y aterriza en su ficha de surfaces.</p>
@@ -317,18 +322,17 @@
     <button class="ctrl-btn ztop" id="btn-zin" title="Zoom +" aria-label="Acercar">+</button>
     <button class="ctrl-btn zbot" id="btn-zout" title="Zoom −" aria-label="Alejar">−</button>
   </div>
-</div>
-
-<div class="layer-chooser" id="layers">
-  <button class="layer-btn active" data-layer="tierra" title="Vista satélite (globo)">
-    <span class="thumb t-tierra"></span><span class="lbl">Tierra</span>
-  </button>
-  <button class="layer-btn" data-layer="mapa" title="Vista de mapa oscuro">
-    <span class="thumb t-mapa"></span><span class="lbl">Mapa</span>
-  </button>
-  <button class="layer-btn" data-layer="relieve" title="Vista de relieve / topográfica">
-    <span class="thumb t-relieve"></span><span class="lbl">Relieve</span>
-  </button>
+  <div class="layer-chooser" id="layers">
+    <button class="layer-btn active" data-layer="tierra" title="Vista satélite (globo)">
+      <span class="thumb t-tierra"></span><span class="lbl">Tierra</span>
+    </button>
+    <button class="layer-btn" data-layer="mapa" title="Vista de mapa oscuro">
+      <span class="thumb t-mapa"></span><span class="lbl">Mapa</span>
+    </button>
+    <button class="layer-btn" data-layer="relieve" title="Vista de relieve / topográfica">
+      <span class="thumb t-relieve"></span><span class="lbl">Relieve</span>
+    </button>
+  </div>
 </div>
 
 <div class="status-pill" id="status">
@@ -1392,6 +1396,10 @@ function resetToHome() {
   map.flyTo({...HOME_VIEW, duration: 2200, essential: true});
   map.once('moveend', () => { rotating = true; }); // reanuda la autorrotación al llegar
 }
+// Cruz de cierre del hero
+const splashClose = document.getElementById('splash-close');
+if (splashClose) splashClose.addEventListener('click', () => splash.classList.add('hidden'));
+
 const logoHome = document.getElementById('logo-home');
 if (logoHome) {
   logoHome.addEventListener('click', resetToHome);

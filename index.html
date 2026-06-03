@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OmniPublicity — Mapa de espacios | AdmiraNext</title>
 <meta name="description" content="Cada hueco del retail físico, subastado por impresión. Busca una tienda, aterriza en su ficha y mira sus surfaces pujando en tiempo real.">
-<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+<link href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css" rel="stylesheet">
 <link rel="stylesheet" href="https://csilvasantin.github.io/admira-design/tokens.css">
 <link rel="stylesheet" href="https://csilvasantin.github.io/admira-design/nav.css">
 <link rel="stylesheet" href="https://csilvasantin.github.io/admira-design/contact-panel.css">
 <script defer src="https://csilvasantin.github.io/admira-design/contact-panel.js"></script>
-<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
 <script src="locations.js"></script>
 <style>
   :root{--bg:#02080d;--ink:#dff8ff;--mut:#75aab9;--brand:#78f3ff;--accent:#ffd866;--good:#88ffaa;--warn:#ff8866;--card:#0a1620;--card2:#0d1c28;--line:rgba(120,243,255,.18)}
@@ -44,7 +44,28 @@
   header > nav a{color:var(--mut)}
   header > nav a:hover{color:var(--ink)}
 
-  #map{position:absolute;inset:0;background:#000}
+  /* Espacio profundo con estrellas detrás del globo (vista Tierra) */
+  .space{position:fixed;inset:0;z-index:0;background:
+    radial-gradient(ellipse at 22% 28%, rgba(120,243,255,.06), transparent 42%),
+    radial-gradient(ellipse at 82% 72%, rgba(255,216,102,.05), transparent 46%),
+    radial-gradient(ellipse at 50% 50%, #050b18 0%, #01030a 70%, #000206 100%);
+    overflow:hidden}
+  .space::before, .space::after{content:'';position:absolute;inset:-60%;background-repeat:repeat;background-position:0 0}
+  .space::before{background-image:
+    radial-gradient(1.2px 1.2px at 40px 60px,#fff,transparent),
+    radial-gradient(1px 1px at 130px 160px,rgba(255,255,255,.85),transparent),
+    radial-gradient(1.4px 1.4px at 230px 90px,rgba(200,235,255,.9),transparent),
+    radial-gradient(1px 1px at 300px 250px,rgba(255,255,255,.7),transparent),
+    radial-gradient(1.1px 1.1px at 80px 320px,#fff,transparent);
+    background-size:360px 360px;opacity:.7;animation:drift 220s linear infinite}
+  .space::after{background-image:
+    radial-gradient(.8px .8px at 60px 120px,rgba(255,255,255,.55),transparent),
+    radial-gradient(.9px .9px at 200px 40px,rgba(255,216,102,.5),transparent),
+    radial-gradient(.8px .8px at 280px 200px,rgba(120,243,255,.5),transparent),
+    radial-gradient(.9px .9px at 140px 300px,rgba(255,255,255,.5),transparent);
+    background-size:520px 520px;opacity:.5;animation:drift 360s linear infinite reverse}
+  @keyframes drift{to{transform:translate3d(-360px,-180px,0)}}
+  #map{position:absolute;inset:0;background:transparent;z-index:1}
 
   /* Top-right global live ticker */
   .live-ticker{position:fixed;top:118px;right:18px;z-index:8;background:rgba(10,22,32,.92);border:1px solid var(--line);border-radius:12px;padding:10px 14px;backdrop-filter:blur(10px);font-family:monospace;font-size:11px;color:var(--mut);min-width:170px}
@@ -115,14 +136,16 @@
   aside.panel .actions a.primary{background:var(--brand);color:#001620}
   aside.panel .actions a.primary:hover{background:transparent;color:var(--brand)}
 
-  /* hint inicial sobre el globo */
-  .splash{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;z-index:5;transition:opacity .4s;max-width:580px;padding:0 22px}
-  .splash.hidden{opacity:0}
-  .splash h1{font-size:46px;line-height:1.05;margin:0 0 16px;letter-spacing:-.02em;font-weight:800}
+  /* hint inicial sobre el globo — tarjeta de cristal para legibilidad total */
+  .splash{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;z-index:5;transition:opacity .4s,transform .4s;width:min(580px,calc(100vw - 32px));padding:34px 38px 30px;border-radius:20px;background:radial-gradient(120% 130% at 50% 0%,rgba(10,22,32,.82),rgba(2,8,13,.72));border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 24px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(120,243,255,.12)}
+  .splash.hidden{opacity:0;transform:translate(-50%,-46%)}
+  .splash .eyebrow{font-family:monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin:0 0 14px;display:inline-flex;align-items:center;gap:8px}
+  .splash .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--good);box-shadow:0 0 8px var(--good);animation:pulseDot 1.4s ease-in-out infinite}
+  .splash h1{font-size:46px;line-height:1.04;margin:0 0 16px;letter-spacing:-.02em;font-weight:800;text-wrap:balance}
   .splash h1 .grad{background:linear-gradient(90deg,var(--brand),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .splash p{color:var(--mut);font-size:15px;margin:0 auto 8px;max-width:500px;line-height:1.5}
-  .splash p .tag{color:var(--accent);font-family:monospace;background:rgba(255,216,102,.08);padding:1px 6px;border-radius:3px;font-size:13px}
-  .splash .arrow{margin-top:22px;font-family:monospace;font-size:12px;color:var(--brand);letter-spacing:.15em;animation:up 1.6s ease-in-out infinite}
+  .splash p{color:#a9d4e0;font-size:15px;margin:0 auto;max-width:480px;line-height:1.55}
+  .splash p .tag{color:var(--accent);font-family:monospace;background:rgba(255,216,102,.1);padding:1px 6px;border-radius:3px;font-size:13px}
+  .splash .arrow{margin-top:24px;font-family:monospace;font-size:12px;color:var(--brand);letter-spacing:.15em;animation:up 1.6s ease-in-out infinite}
   @keyframes up{0%,100%{transform:translateY(0);opacity:.7}50%{transform:translateY(-6px);opacity:1}}
 
   /* status pill al estilo "buscando..." abajo */
@@ -149,8 +172,10 @@
   .layer-btn.active{border-color:var(--brand);background:rgba(120,243,255,.1);color:var(--brand)}
   .layer-btn .thumb{width:54px;height:38px;border-radius:6px;border:1px solid var(--line);background-size:cover;background-position:center}
   .layer-btn .lbl{font-family:monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
-  .layer-btn .t-mapa{background:linear-gradient(135deg,#2a4d6e 0%,#5d8fb5 50%,#a9c5dc 100%);position:relative}
-  .layer-btn .t-mapa::after{content:"";position:absolute;inset:6px 4px;background:linear-gradient(90deg,transparent 47%,rgba(255,255,255,.5) 47% 53%,transparent 53%),linear-gradient(0deg,transparent 60%,rgba(255,255,255,.4) 60% 64%,transparent 64%);border-radius:3px}
+  .layer-btn .t-tierra{background:radial-gradient(circle at 38% 38%,#3b6e4a 0%,#2e5a8c 42%,#16335c 70%,#04080f 100%);position:relative}
+  .layer-btn .t-tierra::after{content:"";position:absolute;inset:0;border-radius:6px;box-shadow:inset 0 0 6px 1px rgba(120,243,255,.35)}
+  .layer-btn .t-mapa{background:linear-gradient(135deg,#02080d 0%,#0a1620 55%,#0d2230 100%);position:relative}
+  .layer-btn .t-mapa::after{content:"";position:absolute;inset:6px 4px;background:linear-gradient(90deg,transparent 47%,rgba(120,243,255,.55) 47% 53%,transparent 53%),linear-gradient(0deg,transparent 60%,rgba(120,243,255,.4) 60% 64%,transparent 64%);border-radius:3px}
   .layer-btn .t-relieve{background:linear-gradient(135deg,#3d4a2a 0%,#7a8b4d 35%,#c4a566 65%,#e8d8a8 100%)}
 
   /* Marker custom */
@@ -199,6 +224,7 @@
   </nav>
 </header>
 
+<div class="space" id="space" aria-hidden="true"></div>
 <div id="map"></div>
 
 <div class="live-ticker" id="ticker">
@@ -209,6 +235,7 @@
 </div>
 
 <div class="splash" id="splash">
+  <div class="eyebrow">OmniPublicity · RTB en vivo</div>
   <h1>El retail físico,<br><span class="grad">subastado por impresión.</span></h1>
   <p>Cada hueco visible — pantalla LED, escaparate, vending, panel del mostrador, push de la PWA — es <span class="tag">inventario subastable</span> en tiempo real. Busca una tienda y aterriza en su ficha de surfaces.</p>
   <div class="arrow">↑ buscar arriba o pinchar un punto del mapa</div>
@@ -229,7 +256,10 @@
 </div>
 
 <div class="layer-chooser" id="layers">
-  <button class="layer-btn active" data-layer="mapa" title="Vista de mapa estándar">
+  <button class="layer-btn active" data-layer="tierra" title="Vista satélite (globo)">
+    <span class="thumb t-tierra"></span><span class="lbl">Tierra</span>
+  </button>
+  <button class="layer-btn" data-layer="mapa" title="Vista de mapa oscuro">
     <span class="thumb t-mapa"></span><span class="lbl">Mapa</span>
   </button>
   <button class="layer-btn" data-layer="relieve" title="Vista de relieve / topográfica">
@@ -288,7 +318,36 @@ const TWIN_BASE = 'https://www.carlossilva.info/01.-AdmiraXperience-Game/game.ht
 try { const _navRed = document.getElementById('nav-red'); if (_navRed) _navRed.href = TWIN_BASE + '&view=red'; } catch (e) {}
 
 // ─── Estilos disponibles ───────────────────────────────────────────
-const STYLE_MAPA = 'https://tiles.openfreemap.org/styles/liberty';
+// Glyphs compartidos (CARTO sirve "Open Sans …") para las capas que no
+// traen su propio fontstack (satélite). El estilo de relieve usa demotiles.
+const CARTO_GLYPHS = 'https://tiles.basemaps.cartocdn.com/fonts/{fontstack}/{range}.pbf';
+
+// Vista "Tierra" — imagería satélite (ESRI World Imagery) sobre el globo.
+// Es la entrada tipo Google Earth: una bola del mundo realista que se gira
+// y de la que se elige dónde comprar publicidad.
+const STYLE_TIERRA = {
+  version: 8,
+  glyphs: CARTO_GLYPHS,
+  sources: {
+    esri: {
+      type: 'raster',
+      tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+      tileSize: 256, maxzoom: 19,
+      attribution: '© Esri · Maxar · Earthstar Geographics · OpenStreetMap',
+    },
+  },
+  layers: [
+    // Fondo transparente para que el starfield CSS asome alrededor del globo.
+    {id:'bg', type:'background', paint:{'background-color':'rgba(0,0,0,0)'}},
+    {id:'esri', type:'raster', source:'esri'},
+  ],
+};
+
+// Basemap oscuro (CARTO dark-matter, vector) — coherente con el chrome
+// de la marca: navy casi negro, sobre el que el cian/ámbar de los
+// markers y clusters destaca como un centro de mando. Ideal al bajar a
+// nivel de ciudad/calle.
+const STYLE_MAPA = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 const STYLE_RELIEVE = {
   version: 8,
   sources: {
@@ -312,14 +371,14 @@ const STYLE_RELIEVE = {
 
 // ─── Map ───────────────────────────────────────────────────────────
 const map = new maplibregl.Map({
-  container: 'map', style: STYLE_MAPA,
-  center: [-3, 30], zoom: 1.6, pitch: 0,
-  projection: 'globe', attributionControl: false,
+  container: 'map', style: STYLE_TIERRA,
+  center: [-28, 16], zoom: 2.15, pitch: 0,
+  attributionControl: false,
   renderWorldCopies: false,
 });
 map.addControl(new maplibregl.AttributionControl({compact:true}), 'bottom-left');
 
-let currentLayer = 'mapa';
+let currentLayer = 'tierra';
 let currentView = '3d';
 
 function applySky() {
@@ -333,6 +392,8 @@ function applySky() {
 }
 
 map.on('style.load', () => {
+  // Reaplica la proyección activa al cambiar de capa (setStyle la resetea).
+  try { map.setProjection({type: currentView === '3d' ? 'globe' : 'mercator'}); } catch(e) {}
   applySky();
   addLocationsLayer();
 });
@@ -372,12 +433,15 @@ function addLocationsLayer() {
       'circle-opacity':.85,
     },
   });
+  // El glyph endpoint depende del estilo activo: satélite y mapa usan los
+  // glyphs de CARTO ("Open Sans"); el relieve (demotiles) usa "Noto Sans".
+  const clusterFont = currentLayer === 'relieve' ? ['Noto Sans Bold'] : ['Open Sans Bold'];
   map.addLayer({
     id:'cluster-count', type:'symbol', source:'locs',
     filter:['has','point_count'],
     layout:{
       'text-field':'{point_count_abbreviated}',
-      'text-font':['Noto Sans Bold'],
+      'text-font':clusterFont,
       'text-size':14,
     },
     paint:{'text-color':'#001620'},
@@ -432,7 +496,9 @@ function setLayer(name) {
   if (name === currentLayer) return;
   currentLayer = name;
   document.querySelectorAll('.layer-btn').forEach(b => b.classList.toggle('active', b.dataset.layer === name));
-  if (name === 'mapa') {
+  if (name === 'tierra') {
+    map.setStyle(STYLE_TIERRA);
+  } else if (name === 'mapa') {
     map.setStyle(STYLE_MAPA);
   } else if (name === 'relieve') {
     map.setStyle(STYLE_RELIEVE);
@@ -994,6 +1060,10 @@ requestAnimationFrame(tickRotate);
 ['mousedown','wheel','touchstart','keydown'].forEach(ev => {
   document.addEventListener(ev, () => { rotating = false; }, {once:true});
 });
+// Al empezar a girar la bola del mundo, retiramos el hero para dejar la
+// exploración limpia (estilo Google Earth) y paramos la autorrotación.
+map.on('dragstart', () => { rotating = false; splash.classList.add('hidden'); });
+map.on('zoomstart', () => { rotating = false; });
 </script>
 
 </body>

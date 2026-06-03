@@ -194,6 +194,7 @@
     <div id="suggest" class="suggest" hidden></div>
   </div>
   <nav>
+    <a id="nav-red" target="_blank" rel="noopener" title="Abrir la red de tiendas en el Gemelo Digital">🌐 Red de tiendas</a>
     <a href="backoffice.html">Login</a>
   </nav>
 </header>
@@ -283,6 +284,8 @@ const PIXER = 'https://pixer-eleven.csilvasantin.workers.dev';
 // (p.ej. Xtanco Barcelona → su juego con modelo Barcelona) lo sobrescriben.
 // Bump del ?v= al subir build nueva del gemelo (xtanco-version.js del 01).
 const TWIN_BASE = 'https://www.carlossilva.info/01.-AdmiraXperience-Game/game.html?v=20260603-0006';
+// Botón "Red de tiendas" → abre la vista mapa/red de todos los puntos en el gemelo.
+try { const _navRed = document.getElementById('nav-red'); if (_navRed) _navRed.href = TWIN_BASE + '&view=red'; } catch (e) {}
 
 // ─── Estilos disponibles ───────────────────────────────────────────
 const STYLE_MAPA = 'https://tiles.openfreemap.org/styles/liberty';

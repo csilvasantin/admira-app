@@ -40,6 +40,9 @@
   .suggest .item .name{font-weight:700;color:var(--ink);font-size:14px}
   .suggest .item .addr{color:var(--mut);font-size:12px}
   .suggest .item .badge-live{display:inline-block;font-family:monospace;font-size:9px;color:var(--good);border:1px solid rgba(136,255,170,.4);padding:0 5px;border-radius:3px;margin-left:6px;letter-spacing:.05em}
+  .suggest .addr-item .kind{color:var(--brand)}
+  .suggest .addr-loading{padding:10px 14px;color:var(--mut);font-family:monospace;font-size:11px;display:flex;align-items:center;gap:8px}
+  .suggest .addr-loading::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand);box-shadow:0 0 8px var(--brand);animation:pulseDot 1s ease-in-out infinite}
   header > nav{display:flex;gap:14px;font-size:12px;font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
   header > nav a{color:var(--mut)}
   header > nav a:hover{color:var(--ink)}
@@ -177,6 +180,9 @@
   .layer-btn .t-mapa{background:linear-gradient(135deg,#02080d 0%,#0a1620 55%,#0d2230 100%);position:relative}
   .layer-btn .t-mapa::after{content:"";position:absolute;inset:6px 4px;background:linear-gradient(90deg,transparent 47%,rgba(120,243,255,.55) 47% 53%,transparent 53%),linear-gradient(0deg,transparent 60%,rgba(120,243,255,.4) 60% 64%,transparent 64%);border-radius:3px}
   .layer-btn .t-relieve{background:linear-gradient(135deg,#3d4a2a 0%,#7a8b4d 35%,#c4a566 65%,#e8d8a8 100%)}
+
+  /* Pin de dirección buscada (cian) — distinto del ámbar del inventario */
+  .addr-pin{width:16px;height:16px;border-radius:50%;background:var(--brand);border:2px solid #fff;box-shadow:0 0 0 4px rgba(120,243,255,.22),0 0 16px rgba(120,243,255,.75);cursor:default;animation:ping 2.4s ease-in-out infinite}
 
   /* Marker custom */
   .marker-pin{width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 30% 30%,#ffd866,#7a5d00);border:2px solid var(--accent);box-shadow:0 0 18px rgba(255,216,102,.5),0 0 0 6px rgba(255,216,102,.18);display:flex;align-items:center;justify-content:center;color:#1a0e00;font-weight:800;font-family:monospace;font-size:11px;letter-spacing:.04em;cursor:pointer;animation:ping 2.4s ease-in-out infinite}
@@ -947,7 +953,32 @@ function pushRecent(id) {
   try { localStorage.setItem('omnip-recent', JSON.stringify(r.slice(0,5))); } catch {}
 }
 
-// Sugerencias dropdown
+// Geocoder multi-resultado para el autocompletado de direcciones.
+async function geocodeSuggest(q, limit = 5) {
+  const url = `https://nominatim.openstreetmap.org/search?format=jsonv2&accept-language=es&limit=${limit}&q=${encodeURIComponent(q)}`;
+  const r = await fetch(url, {headers:{'Accept':'application/json'}});
+  if (!r.ok) return [];
+  const d = await r.json();
+  return Array.isArray(d) ? d : [];
+}
+
+// ─── Vuelo a una dirección geocodificada (sin panel; deja un pin) ──
+let addrMarker = null;
+function flyToAddress(lon, lat, label) {
+  splash.classList.add('hidden');
+  if (label) setStatus('Aterrizando en ' + label.split(',').slice(0,2).join(','));
+  if (addrMarker) addrMarker.remove();
+  const el = document.createElement('div');
+  el.className = 'addr-pin';
+  el.title = label || '';
+  addrMarker = new maplibregl.Marker({element: el}).setLngLat([lon, lat]).addTo(map);
+  map.flyTo({center:[lon, lat], zoom:16.5, pitch: currentView==='3d'?55:0, duration:4500, essential:true});
+  panel.classList.remove('open');
+  stopBidFeed();
+  activeLocation = null;
+}
+
+// Sugerencias dropdown — tiendas (Xpacios) + direcciones (Nominatim)
 function findMatches(q) {
   const norm = q.toLowerCase().trim();
   if (!norm) return [];
@@ -958,32 +989,73 @@ function findMatches(q) {
     l.id.toLowerCase().includes(norm)
   );
 }
-let suggIdx = -1;
-function renderSuggest(q) {
-  const matches = findMatches(q);
-  const recents = q ? [] : getRecent().map(id => LOCATIONS.find(l => l.id === id)).filter(Boolean);
-  const showRecent = !matches.length && recents.length;
-  const items = matches.length ? matches : recents;
-  if (!items.length) {
-    suggest.hidden = true;
-    suggest.innerHTML = '';
-    suggIdx = -1;
-    return;
-  }
-  let html = '';
-  if (showRecent) html += '<div class="group">Recientes</div>';
-  else if (matches.length) html += `<div class="group">${matches.length} tienda${matches.length>1?'s':''} en bidding</div>`;
-  html += items.map(l => {
+function storeItemsHTML(list) {
+  return list.map(l => {
     const live = l.surfaces.filter(s=>s.status==='live').length;
-    return `<div class="item" data-id="${l.id}">
-      <div class="kind">${l.kind}</div>
-      <div class="name">${l.name}${live?` <span class="badge-live">● ${live} LIVE</span>`:''}</div>
-      <div class="addr">${l.addr}</div>
+    return `<div class="item" data-id="${escHtml(l.id)}">
+      <div class="kind">${escHtml(l.kind)}</div>
+      <div class="name">${escHtml(l.name)}${live?` <span class="badge-live">● ${live} LIVE</span>`:''}</div>
+      <div class="addr">${escHtml(l.addr)}</div>
     </div>`;
   }).join('');
+}
+let suggIdx = -1;
+let geoTimer = null, geoSeq = 0;
+// addresses: null = cargando, [] = sin resultados, [...] = resultados
+function buildSuggest(q, addresses) {
+  const norm = q.trim();
+  const matches = findMatches(norm);
+  let html = '';
+  if (!norm) {
+    const recents = getRecent().map(id => LOCATIONS.find(l => l.id === id)).filter(Boolean);
+    if (recents.length) html += '<div class="group">Recientes</div>' + storeItemsHTML(recents);
+  } else {
+    if (matches.length) html += `<div class="group">${matches.length} tienda${matches.length>1?'s':''} en bidding</div>` + storeItemsHTML(matches);
+    if (norm.length >= 3) {
+      html += '<div class="group">Direcciones</div>';
+      if (addresses === null) html += '<div class="addr-loading">buscando direcciones…</div>';
+      else if (addresses.length) html += addresses.map(a => {
+        const dn = a.display_name || '';
+        return `<div class="item addr-item" data-lon="${a.lon}" data-lat="${a.lat}" data-label="${escHtml(dn)}">
+          <div class="kind">📍 ${escHtml(a.type || a.addresstype || 'lugar')}</div>
+          <div class="name">${escHtml(dn.split(',')[0])}</div>
+          <div class="addr">${escHtml(dn.split(',').slice(1,4).join(',').trim())}</div>
+        </div>`;
+      }).join('');
+      else html += '<div class="addr-loading">sin direcciones</div>';
+    }
+  }
+  suggIdx = -1;
+  if (!html) { suggest.hidden = true; suggest.innerHTML = ''; return; }
   suggest.innerHTML = html;
   suggest.hidden = false;
-  suggIdx = -1;
+}
+function scheduleGeocode(q) {
+  clearTimeout(geoTimer);
+  const seq = ++geoSeq;
+  geoTimer = setTimeout(async () => {
+    const results = await geocodeSuggest(q, 5).catch(() => []);
+    if (seq !== geoSeq || searchInput.value.trim() !== q) return; // query cambió
+    buildSuggest(q, results);
+  }, 350);
+}
+function renderSuggest(q) {
+  buildSuggest(q, null);
+  const norm = (q || '').trim();
+  if (norm.length >= 3) scheduleGeocode(norm);
+  else clearTimeout(geoTimer);
+}
+// Activa un item del desplegable: tienda (data-id) o dirección (data-lat/lon).
+function activateItem(item) {
+  if (!item) return;
+  suggest.hidden = true;
+  if (item.dataset.id) {
+    const loc = LOCATIONS.find(l => l.id === item.dataset.id);
+    if (loc) { searchInput.value = loc.name; flyToLocation(loc); }
+  } else if (item.dataset.lat) {
+    searchInput.value = (item.dataset.label || '').split(',').slice(0,2).join(',');
+    flyToAddress(parseFloat(item.dataset.lon), parseFloat(item.dataset.lat), item.dataset.label);
+  }
 }
 searchInput.addEventListener('input', e => renderSuggest(e.target.value));
 searchInput.addEventListener('focus', e => renderSuggest(e.target.value));
@@ -993,12 +1065,7 @@ suggest.addEventListener('mousedown', e => {
   const item = e.target.closest('.item');
   if (!item) return;
   e.preventDefault();
-  const loc = LOCATIONS.find(l => l.id === item.dataset.id);
-  if (loc) {
-    suggest.hidden = true;
-    searchInput.value = loc.name;
-    flyToLocation(loc);
-  }
+  activateItem(item);
 });
 searchInput.addEventListener('keydown', async (e) => {
   const items = suggest.querySelectorAll('.item');
@@ -1006,6 +1073,7 @@ searchInput.addEventListener('keydown', async (e) => {
     e.preventDefault();
     suggIdx = Math.min(items.length - 1, suggIdx + 1);
     items.forEach((it, i) => it.classList.toggle('active', i === suggIdx));
+    items[suggIdx].scrollIntoView({block:'nearest'});
     return;
   }
   if (e.key === 'ArrowUp' && items.length) {
@@ -1016,25 +1084,17 @@ searchInput.addEventListener('keydown', async (e) => {
   }
   if (e.key === 'Escape') { suggest.hidden = true; return; }
   if (e.key !== 'Enter') return;
-  // Enter: si hay suggIdx activo lo usamos; si no, primer match exacto/parcial; si no, Nominatim
-  if (suggIdx >= 0 && items[suggIdx]) {
-    const loc = LOCATIONS.find(l => l.id === items[suggIdx].dataset.id);
-    if (loc) { suggest.hidden = true; searchInput.value = loc.name; flyToLocation(loc); return; }
-  }
+  // Enter: item activo → directo; si no, primera tienda; si no, mejor dirección
+  if (suggIdx >= 0 && items[suggIdx]) { activateItem(items[suggIdx]); return; }
   const q = searchInput.value.trim();
   if (!q) return;
   const matches = findMatches(q);
-  if (matches.length) { suggest.hidden = true; flyToLocation(matches[0]); return; }
-  splash.classList.add('hidden');
+  if (matches.length) { suggest.hidden = true; searchInput.value = matches[0].name; flyToLocation(matches[0]); return; }
   suggest.hidden = true;
   setStatus('Buscando "' + q.slice(0,40) + '"…');
   try {
     const res = await geocodeNominatim(q);
-    setStatus('Aterrizando en ' + res.name.split(',').slice(0,2).join(','));
-    map.flyTo({center:[res.lon, res.lat], zoom:16, pitch: currentView==='3d'?55:0, duration:4500, essential:true});
-    panel.classList.remove('open');
-    stopBidFeed();
-    activeLocation = null;
+    flyToAddress(res.lon, res.lat, res.name);
   } catch {
     setStatus('Sin resultados · prueba "Xtanco", "BCN" o una dirección completa');
   }

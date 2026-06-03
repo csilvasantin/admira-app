@@ -279,6 +279,11 @@ let LOCATIONS = window.loadOmnipLocations();
 // ─── Workers (mismos que xpace-os) ────────────────────────────────
 const PIXER = 'https://pixer-eleven.csilvasantin.workers.dev';
 
+// Gemelo digital genérico (público). Las tiendas con campo `twin` propio
+// (p.ej. Xtanco Barcelona → su juego con modelo Barcelona) lo sobrescriben.
+// Bump del ?v= al subir build nueva del gemelo (xtanco-version.js del 01).
+const TWIN_BASE = 'https://www.carlossilva.info/01.-AdmiraXperience-Game/game.html?v=20260603-0001';
+
 // ─── Estilos disponibles ───────────────────────────────────────────
 const STYLE_MAPA = 'https://tiles.openfreemap.org/styles/liberty';
 const STYLE_RELIEVE = {
@@ -579,8 +584,8 @@ function renderPanel(loc) {
   // Twin link target: si la ubicacion define su propio gemelo (twin), usarlo;
   // si no, el gemelo generico por id.
   const pTwin = document.getElementById('p-twin');
-  pTwin.href = loc.twin || ('../01.-AdmiraXperience-Game/?loc=' + encodeURIComponent(loc.id));
-  if (loc.twin) pTwin.setAttribute('target', '_blank'); else pTwin.removeAttribute('target');
+  pTwin.href = loc.twin || (TWIN_BASE + '&loc=' + encodeURIComponent(loc.id));
+  pTwin.setAttribute('target', '_blank'); // siempre nueva pestaña (URL absoluta)
 }
 
 function renderBidFeedEmpty() {

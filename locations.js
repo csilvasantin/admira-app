@@ -8,8 +8,14 @@
 //                                // que pintan en esta surface (ej: 'xtore-lg8qao').
 //                                // Si está, los items que llegan a esos screens
 //                                // se inyectan como bids LIVE en el feed.
-//   }
-// ] }
+//   } ],
+//   twin?:<string>      // opcional. URL del gemelo de esta tienda; si no, cae a TWIN_BASE+&loc=<id>.
+//   // ── Config del Digital Twin (la lee game.html vía ?loc= → window.STORE_CFG) ──
+//   employees?:[{ name, role }]  // roster real. role: 'cajero'|'repositor'|'azafata'|
+//                                // 'manager'|'dj' (o índice 0-4). El twin usa este roster.
+//   music?:<string>     // hilo musical del punto (id de pista; fase 2).
+//   cameras?:Boolean     // cámaras/LiveCam on-off del punto (fase 2).
+// }
 window.OMNIP_API = 'https://omnipublicity-api.csilvasantin.workers.dev';
 window.OMNIP_STORE_KEY = 'omnip-locations';
 
@@ -17,6 +23,13 @@ window.OMNIP_LOCATIONS_DEFAULT = [
   {
     id:'xtanco-bcn', name:'Xtanco Barcelona', kind:'Estanco · Retail físico · Gemelo digital',
     addr:'Portal de l\'Àngel 20 · Barcelona 08002', coords:[2.1730, 41.3863],
+    employees:[
+      { name:'Marta', role:'cajero' },
+      { name:'Jordi', role:'repositor' },
+      { name:'Núria', role:'azafata' },
+      { name:'Pau',   role:'manager' },
+    ],
+    music:'lounge', cameras:true,
     surfaces:[
       { name:'LED Frontal',       desc:'Pantalla principal sobre el mostrador · 1920×1080',  status:'live', impr:680, cpm:'€8', surface:'pantalla' },
       { name:'LED Vertical',      desc:'Display lateral del producto destacado · 1080×1920',  status:'live', impr:410, cpm:'€7', surface:'pantalla' },

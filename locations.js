@@ -16,7 +16,7 @@ window.OMNIP_STORE_KEY = 'omnip-locations';
 window.OMNIP_LOCATIONS_DEFAULT = [
   {
     id:'xtanco-bcn', name:'Xtanco Barcelona', kind:'Estanco · Retail físico · Gemelo digital',
-    addr:'Passeig de Gràcia 45 · Barcelona', coords:[2.1660, 41.3930],
+    addr:'Portal de l\'Àngel 20 · Barcelona 08002', coords:[2.1730, 41.3863],
     twin:'https://macmini.tail48b61c.ts.net/yarig/game.html?loc=barcelona',
     surfaces:[
       { name:'LED Frontal',       desc:'Pantalla principal sobre el mostrador · 1920×1080',  status:'live', impr:680, cpm:'€8', surface:'pantalla' },

@@ -78,6 +78,21 @@
   /* Estrella fugaz ocasional */
   .space .shooting-star{position:absolute;width:150px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(180,235,255,0),rgba(200,240,255,.95));filter:drop-shadow(0 0 6px rgba(120,243,255,.85));will-change:transform,opacity;pointer-events:none}
   .space .shooting-star::after{content:'';position:absolute;right:-1px;top:-1px;width:4px;height:4px;border-radius:50%;background:#dff8ff;box-shadow:0 0 8px 2px rgba(120,243,255,.9)}
+  /* Capa clicable sobre el mapa para el lucero del deseo */
+  .sky-fx{position:fixed;inset:0;z-index:4;pointer-events:none;overflow:hidden}
+  .wish-seed{position:absolute;width:30px;height:30px;margin:-15px 0 0 -15px;padding:0;border:0;background:transparent;cursor:pointer;pointer-events:auto;transform-origin:center}
+  .wish-seed::before{content:'';position:absolute;inset:11px;border-radius:50%;background:#fff;box-shadow:0 0 7px 2px rgba(255,255,255,.95),0 0 16px 5px rgba(120,243,255,.85)}
+  .wish-seed::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 47%,rgba(180,235,255,.7) 47% 53%,transparent 53%),linear-gradient(90deg,transparent 47%,rgba(180,235,255,.7) 47% 53%,transparent 53%)}
+  /* Popup del deseo */
+  .wish-modal{position:fixed;inset:0;z-index:21;background:rgba(2,8,13,.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center}
+  .wish-modal[hidden]{display:none}
+  .wish-modal .wish-card{width:min(360px,calc(100vw - 32px));text-align:center;background:radial-gradient(120% 130% at 50% 0%,rgba(13,28,40,.98),rgba(2,8,13,.97));border:1px solid var(--line);border-radius:18px;padding:30px 28px 24px;box-shadow:0 24px 70px rgba(0,0,0,.6),inset 0 1px 0 rgba(120,243,255,.14);animation:wishPop .4s cubic-bezier(.2,.9,.3,1.2)}
+  @keyframes wishPop{from{opacity:0;transform:translateY(10px) scale(.94)}to{opacity:1;transform:none}}
+  .wish-modal .wish-star{font-size:46px;line-height:1;margin-bottom:10px;filter:drop-shadow(0 0 12px rgba(255,216,102,.6))}
+  .wish-modal h3{margin:0 0 8px;font-size:19px;letter-spacing:-.01em;color:var(--ink)}
+  .wish-modal p{margin:0 0 20px;color:#a9d4e0;font-size:14px;line-height:1.5}
+  .wish-modal .wish-ok{font-family:monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:0;border-radius:9px;background:var(--accent);color:#1a0e00;font-weight:700;cursor:pointer;transition:filter .15s}
+  .wish-modal .wish-ok:hover{filter:brightness(1.07)}
   #map{position:absolute;inset:0;background:transparent;z-index:1}
 
   /* Top-right global live ticker */
@@ -295,6 +310,8 @@
 
 <div class="space" id="space" aria-hidden="true"></div>
 <div id="map"></div>
+<!-- Capa sobre el mapa para el lucero clicable (pide un deseo) -->
+<div class="sky-fx" id="sky-fx" aria-hidden="true"></div>
 
 <div class="live-ticker" id="ticker">
   <div class="lt-head"><span class="pulse"></span>BIDDING LIVE</div>
@@ -363,6 +380,16 @@
     <div class="sv-coords" id="sv-coords"></div>
     <p class="sv-msg">Entra a la vista de calle de Google Street View en este punto exacto.</p>
     <a class="sv-link" id="sv-link" target="_blank" rel="noopener">Entrar a Street View ↗</a>
+  </div>
+</div>
+
+<!-- Popup "pide un deseo" al atrapar una estrella fugaz -->
+<div class="wish-modal" id="wish-modal" hidden>
+  <div class="wish-card">
+    <div class="wish-star">🌠</div>
+    <h3>¡Has atrapado una estrella fugaz!</h3>
+    <p>Cierra los ojos y pide un deseo…</p>
+    <button class="wish-ok" id="wish-ok" type="button">Pedido ✨</button>
   </div>
 </div>
 
@@ -1426,13 +1453,52 @@ function resetToHome() {
   space.appendChild(layer);
 
   // Estrella fugaz: nace en la franja superior y cruza en diagonal.
+  const skyFx = document.getElementById('sky-fx');
+
+  // Mini-juego: antes de dispararse, el lucero parpadea 4 veces. Si lo pulsas
+  // a tiempo, pides un deseo; si no, sale como estrella fugaz.
   function spawnShootingStar(){
-    if (document.hidden) return;
+    if (!skyFx) return;
     const W = window.innerWidth, H = window.innerHeight;
     const startX = Math.random() * W * 0.7;
     const startY = Math.random() * H * 0.45;
     const len = W * 0.35 + 220;
     const angle = 22 + Math.random()*22;        // hacia abajo-derecha
+
+    // Fase 1: lucero parpadeante y clicable (capa por encima del mapa).
+    const seed = document.createElement('button');
+    seed.className = 'wish-seed';
+    seed.type = 'button';
+    seed.setAttribute('aria-label', 'Pide un deseo');
+    seed.style.left = startX + 'px';
+    seed.style.top = startY + 'px';
+    skyFx.appendChild(seed);
+    const blinkMs = 440 * 4;
+    let claimed = false;
+    const blink = seed.animate(
+      [ {opacity:0, transform:'scale(.4)'}, {opacity:1, transform:'scale(1.2)'}, {opacity:0, transform:'scale(.4)'} ],
+      { duration: 440, iterations: 4, easing: 'ease-in-out' }
+    );
+    // El lanzamiento lo gobierna un temporizador (robusto frente a pausas de la
+    // animación), no el onfinish. Si lo pulsas a tiempo, se cancela.
+    const launchTimer = setTimeout(() => {
+      if (claimed) return;
+      seed.remove();
+      launchStreak(startX, startY, len, angle);
+    }, blinkMs);
+    seed.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (claimed) return;
+      claimed = true;
+      clearTimeout(launchTimer);
+      try { blink.cancel(); } catch(_) {}
+      seed.remove();
+      openWish();
+    });
+  }
+
+  // Fase 2: la estrella fugaz cruza el cielo (por detrás del globo).
+  function launchStreak(startX, startY, len, angle){
     const star = document.createElement('div');
     star.className = 'shooting-star';
     star.style.left = startX + 'px';
@@ -1448,8 +1514,19 @@ function resetToHome() {
     anim.onfinish = () => star.remove();
     setTimeout(() => star.remove(), dur + 600); // limpieza de seguridad
   }
+
+  // Popup del deseo.
+  function openWish(){
+    const m = document.getElementById('wish-modal');
+    if (m) m.hidden = false;
+  }
+  const wishModal = document.getElementById('wish-modal');
+  const wishOk = document.getElementById('wish-ok');
+  if (wishOk) wishOk.addEventListener('click', () => { wishModal.hidden = true; });
+  if (wishModal) wishModal.addEventListener('click', (e) => { if (e.target === wishModal) wishModal.hidden = true; });
+
   function loop(){
-    setTimeout(() => { spawnShootingStar(); loop(); }, 5000 + Math.random()*11000); // cada 5–16 s
+    setTimeout(() => { if (!document.hidden) spawnShootingStar(); loop(); }, 5000 + Math.random()*11000); // cada 5–16 s
   }
   loop();
 })();

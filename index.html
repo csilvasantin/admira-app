@@ -1454,9 +1454,15 @@ function resetToHome() {
   loop();
 })();
 
-// Cruz de cierre del hero
+// Cruz de cierre del hero. Cerrar la tarjeta NO debe parar el giro suave del
+// globo: evitamos que el clic cuente como "interacción" (stopPropagation, para
+// no disparar el listener que para la rotación) y reanudamos por si acaso.
 const splashClose = document.getElementById('splash-close');
-if (splashClose) splashClose.addEventListener('click', () => splash.classList.add('hidden'));
+if (splashClose) {
+  splashClose.addEventListener('mousedown', e => e.stopPropagation());
+  splashClose.addEventListener('touchstart', e => e.stopPropagation(), {passive:true});
+  splashClose.addEventListener('click', () => { splash.classList.add('hidden'); rotating = true; });
+}
 
 const logoHome = document.getElementById('logo-home');
 if (logoHome) {

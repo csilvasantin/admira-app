@@ -24,10 +24,10 @@ window.OMNIP_LOCATIONS_DEFAULT = [
     id:'xtanco-bcn', name:'Xtanco Barcelona', kind:'Estanco · Retail físico · Gemelo digital',
     addr:'Portal de l\'Àngel 20 · Barcelona 08002', coords:[2.1730, 41.3863],
     employees:[
-      { name:'Marta', role:'cajero' },
-      { name:'Jordi', role:'repositor' },
-      { name:'Núria', role:'azafata' },
-      { name:'Pau',   role:'manager' },
+      { name:'Marta', role:'cajero',    since:'2024-09-02T09:00:00.000Z' },
+      { name:'Jordi', role:'repositor', since:'2025-03-15T10:30:00.000Z' },
+      { name:'Núria', role:'azafata',   since:'2025-11-20T11:00:00.000Z' },
+      { name:'Pau',   role:'manager',   since:'2026-01-10T08:30:00.000Z' },
     ],
     music:'lounge', cameras:true,
     surfaces:[

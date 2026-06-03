@@ -559,13 +559,19 @@ function employeesToText(emp) {
   if (!Array.isArray(emp)) return '';
   return emp.map(e => `${e.name || ''}, ${e.role != null ? e.role : (e.roleLabel || 'cajero')}`).join('\n');
 }
-function parseEmployees(text) {
+function parseEmployees(text, prev) {
+  // Conserva la antigüedad (since) de los empleados previos por nombre; a los
+  // nuevos les asigna la fecha/hora de alta de ahora.
+  const prevBy = {};
+  (Array.isArray(prev) ? prev : []).forEach(e => { if (e && e.name) prevBy[String(e.name).toLowerCase()] = e; });
   return String(text || '').split('\n').map(line => {
     const t = line.trim(); if (!t) return null;
     const parts = t.split(',').map(x => x.trim());
     const name = parts[0]; if (!name) return null;
     const role = (parts[1] || 'cajero').toLowerCase();
-    return { name, role };
+    const old = prevBy[name.toLowerCase()];
+    const since = (old && old.since) ? old.since : new Date().toISOString();
+    return { name, role, since };
   }).filter(Boolean);
 }
 
@@ -609,7 +615,7 @@ function readForm() {
   const music = $('f-music').value.trim();
   if (music) loc.music = music;
   loc.cameras = $('f-cameras').checked;
-  const emp = parseEmployees($('f-employees').value);
+  const emp = parseEmployees($('f-employees').value, prev && prev.employees);
   if (emp.length) loc.employees = emp;
   // Preserva el twin propio si la tienda lo tenía.
   if (prev && prev.twin) loc.twin = prev.twin;

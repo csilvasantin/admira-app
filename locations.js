@@ -15,6 +15,18 @@ window.OMNIP_STORE_KEY = 'omnip-locations';
 
 window.OMNIP_LOCATIONS_DEFAULT = [
   {
+    id:'xtanco-bcn', name:'Xtanco Barcelona', kind:'Estanco · Retail físico · Gemelo digital',
+    addr:'Passeig de Gràcia 45 · Barcelona', coords:[2.1660, 41.3930],
+    twin:'https://macmini.tail48b61c.ts.net/yarig/game.html?loc=barcelona',
+    surfaces:[
+      { name:'LED Frontal',       desc:'Pantalla principal sobre el mostrador · 1920×1080',  status:'live', impr:680, cpm:'€8', surface:'pantalla' },
+      { name:'LED Vertical',      desc:'Display lateral del producto destacado · 1080×1920',  status:'live', impr:410, cpm:'€7', surface:'pantalla' },
+      { name:'Escaparate Gràcia', desc:'Visible desde Passeig de Gràcia · alto tráfico',      status:'live', impr:520, cpm:'€9', surface:'escaparate' },
+      { name:'Mostrador panel',   desc:'Panel táctil del mostrador · interacción cliente',    status:'live', impr:120, cpm:'€4', surface:'mostrador' },
+      { name:'PWA Xtanco Club',   desc:'Notificaciones push a socios cercanos',               status:'live', impr:160, cpm:'€2', surface:'pwa' },
+    ],
+  },
+  {
     id:'xtanco', name:'Xtanco', kind:'Estanco · Retail físico',
     addr:'Calle de Santa Rosa 4 · Madrid', coords:[-3.7283, 40.4036],
     surfaces:[

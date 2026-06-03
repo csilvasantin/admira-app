@@ -71,6 +71,13 @@
     radial-gradient(.9px .9px at 140px 300px,rgba(255,255,255,.5),transparent);
     background-size:520px 520px;opacity:.5;animation:drift 360s linear infinite reverse}
   @keyframes drift{to{transform:translate3d(-360px,-180px,0)}}
+  /* Estrellas que titilan (generadas en JS) */
+  .space .twinkle-layer{position:absolute;inset:0;pointer-events:none}
+  .space .twinkle{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 5px 1px rgba(255,255,255,.45);animation:twinkle var(--dur,3.5s) ease-in-out infinite;animation-delay:var(--delay,0s);will-change:opacity,transform}
+  @keyframes twinkle{0%,100%{opacity:.18;transform:scale(.75)}50%{opacity:1;transform:scale(1.2)}}
+  /* Estrella fugaz ocasional */
+  .space .shooting-star{position:absolute;width:150px;height:2px;border-radius:2px;background:linear-gradient(90deg,rgba(180,235,255,0),rgba(200,240,255,.95));filter:drop-shadow(0 0 6px rgba(120,243,255,.85));will-change:transform,opacity;pointer-events:none}
+  .space .shooting-star::after{content:'';position:absolute;right:-1px;top:-1px;width:4px;height:4px;border-radius:50%;background:#dff8ff;box-shadow:0 0 8px 2px rgba(120,243,255,.9)}
   #map{position:absolute;inset:0;background:transparent;z-index:1}
 
   /* Top-right global live ticker */
@@ -1396,6 +1403,57 @@ function resetToHome() {
   map.flyTo({...HOME_VIEW, duration: 2200, essential: true});
   map.once('moveend', () => { rotating = true; }); // reanuda la autorrotación al llegar
 }
+// ─── Vida en el cielo: estrellas que titilan + fugaces ocasionales ─
+(function starfieldLife(){
+  const space = document.getElementById('space');
+  if (!space) return;
+
+  // Estrellas titilantes esparcidas por el cielo (algunas cian/ámbar).
+  const layer = document.createElement('div');
+  layer.className = 'twinkle-layer';
+  let html = '';
+  for (let i = 0; i < 16; i++) {
+    const x = (Math.random()*100).toFixed(1);
+    const y = (Math.random()*100).toFixed(1);
+    const size = (1.1 + Math.random()*1.7).toFixed(1);
+    const dur = (2.4 + Math.random()*3.4).toFixed(1);
+    const delay = (Math.random()*4).toFixed(1);
+    const tone = Math.random();
+    const color = tone < 0.16 ? 'rgba(120,243,255,.9)' : (tone < 0.28 ? 'rgba(255,216,102,.85)' : '#fff');
+    html += `<span class="twinkle" style="left:${x}%;top:${y}%;width:${size}px;height:${size}px;background:${color};--dur:${dur}s;--delay:${delay}s"></span>`;
+  }
+  layer.innerHTML = html;
+  space.appendChild(layer);
+
+  // Estrella fugaz: nace en la franja superior y cruza en diagonal.
+  function spawnShootingStar(){
+    if (document.hidden) return;
+    const W = window.innerWidth, H = window.innerHeight;
+    const startX = Math.random() * W * 0.7;
+    const startY = Math.random() * H * 0.45;
+    const len = W * 0.35 + 220;
+    const angle = 22 + Math.random()*22;        // hacia abajo-derecha
+    const star = document.createElement('div');
+    star.className = 'shooting-star';
+    star.style.left = startX + 'px';
+    star.style.top = startY + 'px';
+    space.appendChild(star);
+    const dur = 850 + Math.random()*550;
+    const anim = star.animate([
+      { transform: `rotate(${angle}deg) translateX(0)`, opacity: 0 },
+      { opacity: 1, offset: 0.12 },
+      { opacity: 1, offset: 0.82 },
+      { transform: `rotate(${angle}deg) translateX(${len}px)`, opacity: 0 },
+    ], { duration: dur, easing: 'cubic-bezier(.4,0,.7,1)' });
+    anim.onfinish = () => star.remove();
+    setTimeout(() => star.remove(), dur + 600); // limpieza de seguridad
+  }
+  function loop(){
+    setTimeout(() => { spawnShootingStar(); loop(); }, 5000 + Math.random()*11000); // cada 5–16 s
+  }
+  loop();
+})();
+
 // Cruz de cierre del hero
 const splashClose = document.getElementById('splash-close');
 if (splashClose) splashClose.addEventListener('click', () => splash.classList.add('hidden'));

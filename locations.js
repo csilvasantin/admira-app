@@ -17,7 +17,6 @@ window.OMNIP_LOCATIONS_DEFAULT = [
   {
     id:'xtanco-bcn', name:'Xtanco Barcelona', kind:'Estanco · Retail físico · Gemelo digital',
     addr:'Portal de l\'Àngel 20 · Barcelona 08002', coords:[2.1730, 41.3863],
-    twin:'https://macmini.tail48b61c.ts.net/yarig/game.html?loc=barcelona',
     surfaces:[
       { name:'LED Frontal',       desc:'Pantalla principal sobre el mostrador · 1920×1080',  status:'live', impr:680, cpm:'€8', surface:'pantalla' },
       { name:'LED Vertical',      desc:'Display lateral del producto destacado · 1080×1920',  status:'live', impr:410, cpm:'€7', surface:'pantalla' },

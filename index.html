@@ -576,8 +576,11 @@ function renderPanel(loc) {
   bidFeedItems = [];
   renderBidFeedEmpty();
   startBidFeed(loc);
-  // Twin link target (placeholder global por ahora)
-  document.getElementById('p-twin').href = '../01.-AdmiraXperience-Game/?loc=' + encodeURIComponent(loc.id);
+  // Twin link target: si la ubicacion define su propio gemelo (twin), usarlo;
+  // si no, el gemelo generico por id.
+  const pTwin = document.getElementById('p-twin');
+  pTwin.href = loc.twin || ('../01.-AdmiraXperience-Game/?loc=' + encodeURIComponent(loc.id));
+  if (loc.twin) pTwin.setAttribute('target', '_blank'); else pTwin.removeAttribute('target');
 }
 
 function renderBidFeedEmpty() {

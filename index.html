@@ -81,7 +81,7 @@
       radial-gradient(ellipse 12% 12% at 50% 50%, rgba(255,244,220,.9), rgba(255,221,170,.45) 35%, transparent 70%),
       radial-gradient(ellipse 46% 9% at 50% 50%, rgba(255,236,205,.55), rgba(196,156,255,.34) 42%, rgba(120,150,255,.14) 64%, transparent 80%),
       radial-gradient(ellipse 60% 16% at 50% 50%, rgba(130,150,255,.16), transparent 72%);
-    transform:rotate(-23deg);filter:blur(1px)}
+    transform:rotate(-23deg);filter:blur(1px);z-index:1}
   .space .galaxy::after{content:'';position:absolute;inset:0;mix-blend-mode:screen;transform:rotate(-23deg);
     background:
       radial-gradient(1px 1px at 30% 49%,#fff,transparent),
@@ -92,6 +92,20 @@
       radial-gradient(1px 1px at 36% 50.5%,rgba(255,230,200,.8),transparent),
       radial-gradient(1.2px 1.2px at 50% 49.5%,#fff,transparent);
     background-repeat:no-repeat}
+  /* El resto de planetas, revelados al alejar el zoom */
+  .space .planets{position:absolute;inset:0;z-index:2;opacity:0;transition:opacity .7s ease;pointer-events:none}
+  .space .planet{position:absolute;transform:translate(-50%,-50%);text-align:center}
+  .space .planet .pl-dot{display:block;width:var(--sz,14px);height:var(--sz,14px);border-radius:50%;margin:0 auto;position:relative;box-shadow:0 0 10px rgba(0,0,0,.45)}
+  .space .planet .pl-lbl{display:block;margin-top:6px;font-family:monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);opacity:.85;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+  .space .p-mercury{--sz:9px}  .space .p-mercury .pl-dot{background:radial-gradient(circle at 34% 30%,#d6cbc1,#6c635b)}
+  .space .p-venus{--sz:15px}   .space .p-venus .pl-dot{background:radial-gradient(circle at 34% 30%,#f5e4ba,#b78a3f)}
+  .space .p-mars{--sz:13px}    .space .p-mars .pl-dot{background:radial-gradient(circle at 34% 30%,#ef7d4d,#7c2208)}
+  .space .p-jupiter{--sz:34px} .space .p-jupiter .pl-dot{background:radial-gradient(circle at 34% 30%,#ecc59a,#965f31);box-shadow:0 0 14px rgba(0,0,0,.5),inset -7px -3px 11px rgba(80,44,18,.55)}
+  .space .p-saturn{--sz:22px}  .space .p-saturn .pl-dot{background:radial-gradient(circle at 34% 30%,#f2e3b6,#b89a5e)}
+  .space .p-saturn .pl-dot::after{content:'';position:absolute;left:50%;top:50%;width:235%;height:66%;transform:translate(-50%,-50%) rotate(-18deg);border:2px solid rgba(224,205,156,.65);border-radius:50%}
+  .space .p-uranus{--sz:17px}  .space .p-uranus .pl-dot{background:radial-gradient(circle at 34% 30%,#cfeff3,#76b6c4)}
+  .space .p-neptune{--sz:16px} .space .p-neptune .pl-dot{background:radial-gradient(circle at 34% 30%,#a3b8f0,#34509e)}
+
   /* Guiño de Marte al ver la galaxia entera */
   .mars-hint{position:fixed;left:50%;bottom:84px;transform:translate(-50%,8px);z-index:6;pointer-events:none;
     font-family:monospace;font-size:12px;letter-spacing:.08em;color:var(--mut);background:rgba(10,22,32,.78);
@@ -325,15 +339,26 @@
   </div>
   <nav>
     <a href="backoffice.html" data-i18n="login">Login</a>
-    <a class="nav-cta" href="#contact" data-admira-contact data-i18n="contact">Contacto</a>
     <div class="lang-switch" id="lang-switch" role="group" aria-label="Idioma / Language">
       <button type="button" class="lang-btn" data-lang="en">EN</button>
       <button type="button" class="lang-btn" data-lang="es">ES</button>
     </div>
+    <a class="nav-cta" href="#contact" data-admira-contact data-i18n="contact">Contacto</a>
   </nav>
 </header>
 
-<div class="space" id="space" aria-hidden="true"><div class="galaxy" id="galaxy"></div></div>
+<div class="space" id="space" aria-hidden="true">
+  <div class="galaxy" id="galaxy"></div>
+  <div class="planets" id="planets" aria-hidden="true">
+    <div class="planet p-mercury" style="left:15%;top:64%"><span class="pl-dot"></span><span class="pl-lbl" data-i18n="pl_mercury">Mercurio</span></div>
+    <div class="planet p-venus" style="left:25%;top:22%"><span class="pl-dot"></span><span class="pl-lbl" data-i18n="pl_venus">Venus</span></div>
+    <div class="planet p-mars" style="left:80%;top:34%"><span class="pl-dot"></span><span class="pl-lbl" data-i18n="pl_mars">Marte</span></div>
+    <div class="planet p-jupiter" style="left:71%;top:75%"><span class="pl-dot"></span><span class="pl-lbl" data-i18n="pl_jupiter">Júpiter</span></div>
+    <div class="planet p-saturn" style="left:86%;top:15%"><span class="pl-dot"></span><span class="pl-lbl" data-i18n="pl_saturn">Saturno</span></div>
+    <div class="planet p-uranus" style="left:9%;top:40%"><span class="pl-dot"></span><span class="pl-lbl" data-i18n="pl_uranus">Urano</span></div>
+    <div class="planet p-neptune" style="left:31%;top:85%"><span class="pl-dot"></span><span class="pl-lbl" data-i18n="pl_neptune">Neptuno</span></div>
+  </div>
+</div>
 <div id="map"></div>
 <!-- Guiño techie: aparece al alejar el zoom hasta ver toda la galaxia -->
 <div class="mars-hint" id="mars-hint" aria-hidden="true"><span data-i18n="mars_hint">Todavía no vendemos publi en Marte 🔴</span></div>
@@ -499,6 +524,7 @@ const I18N = {
     surf_live:'● LIVE', surf_sched:'PROG', surf_idle:'IDLE',
     twin_launch:'🔨 Lanzar ganador → pantalla', live_tag:'live',
     mars_hint:'Todavía no vendemos publi en Marte 🔴',
+    pl_mercury:'Mercurio', pl_venus:'Venus', pl_mars:'Marte', pl_jupiter:'Júpiter', pl_saturn:'Saturno', pl_uranus:'Urano', pl_neptune:'Neptuno',
   },
   en: {
     logo_home_title:'Back to start',
@@ -536,6 +562,7 @@ const I18N = {
     surf_live:'● LIVE', surf_sched:'SCHED', surf_idle:'IDLE',
     twin_launch:'🔨 Launch winner → screen', live_tag:'live',
     mars_hint:'We don’t sell ads on Mars yet 🔴',
+    pl_mercury:'Mercury', pl_venus:'Venus', pl_mars:'Mars', pl_jupiter:'Jupiter', pl_saturn:'Saturn', pl_uranus:'Uranus', pl_neptune:'Neptune',
   },
 };
 let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'en' ? 'en' : 'es'; } catch(_) { return 'es'; } })();
@@ -667,14 +694,18 @@ map.on('load', applySky);
 
 // ─── Guiño techie: revelar la galaxia al alejar el zoom ───────────
 const galaxyEl = document.getElementById('galaxy');
+const planetsEl = document.getElementById('planets');
 const marsHint = document.getElementById('mars-hint');
 function updateGalaxy(){
   const z = map.getZoom();
-  // z>=2 (vista mundo) → galaxia oculta; z<=0 → galaxia al máximo.
-  const op = Math.max(0, Math.min(1, (2 - z) / 2));
+  // El zoom-out está limitado (~1.49 por renderWorldCopies:false). Mapeamos la
+  // opacidad al rango alcanzable: vista mundo (z≈2.15) oculta → muy alejado
+  // (z≈1.55) al máximo. Así la galaxia y los planetas se revelan al alejar.
+  const op = Math.max(0, Math.min(1, (2.15 - z) / 0.6));
   if (galaxyEl) galaxyEl.style.opacity = op.toFixed(2);
-  // El guiño de Marte aparece cuando se ve casi toda la galaxia.
-  if (marsHint) marsHint.classList.toggle('show', z < 0.75);
+  if (planetsEl) planetsEl.style.opacity = op.toFixed(2);
+  // El guiño de Marte aparece cuando casi se ve toda la galaxia.
+  if (marsHint) marsHint.classList.toggle('show', op > 0.7);
 }
 map.on('zoom', updateGalaxy);
 map.on('load', updateGalaxy);

@@ -75,6 +75,28 @@
     radial-gradient(.9px .9px at 140px 300px,rgba(255,255,255,.5),transparent);
     background-size:520px 520px;opacity:.5;animation:drift 360s linear infinite reverse}
   @keyframes drift{to{transform:translate3d(-360px,-180px,0)}}
+  /* Galaxia (Vía Láctea) — se revela al alejar el zoom. Opacidad por JS. */
+  .space .galaxy{position:absolute;inset:-25%;opacity:0;transition:opacity .7s ease;pointer-events:none;mix-blend-mode:screen;
+    background:
+      radial-gradient(ellipse 12% 12% at 50% 50%, rgba(255,244,220,.9), rgba(255,221,170,.45) 35%, transparent 70%),
+      radial-gradient(ellipse 46% 9% at 50% 50%, rgba(255,236,205,.55), rgba(196,156,255,.34) 42%, rgba(120,150,255,.14) 64%, transparent 80%),
+      radial-gradient(ellipse 60% 16% at 50% 50%, rgba(130,150,255,.16), transparent 72%);
+    transform:rotate(-23deg);filter:blur(1px)}
+  .space .galaxy::after{content:'';position:absolute;inset:0;mix-blend-mode:screen;transform:rotate(-23deg);
+    background:
+      radial-gradient(1px 1px at 30% 49%,#fff,transparent),
+      radial-gradient(1px 1px at 42% 51%,rgba(255,240,220,.9),transparent),
+      radial-gradient(1.3px 1.3px at 58% 50%,#fff,transparent),
+      radial-gradient(1px 1px at 66% 52%,rgba(200,220,255,.9),transparent),
+      radial-gradient(1px 1px at 72% 49%,#fff,transparent),
+      radial-gradient(1px 1px at 36% 50.5%,rgba(255,230,200,.8),transparent),
+      radial-gradient(1.2px 1.2px at 50% 49.5%,#fff,transparent);
+    background-repeat:no-repeat}
+  /* Guiño de Marte al ver la galaxia entera */
+  .mars-hint{position:fixed;left:50%;bottom:84px;transform:translate(-50%,8px);z-index:6;pointer-events:none;
+    font-family:monospace;font-size:12px;letter-spacing:.08em;color:var(--mut);background:rgba(10,22,32,.78);
+    border:1px solid var(--line);border-radius:999px;padding:7px 16px;opacity:0;transition:opacity .6s ease,transform .6s ease;backdrop-filter:blur(6px);white-space:nowrap}
+  .mars-hint.show{opacity:1;transform:translate(-50%,0)}
   /* Estrellas que titilan (generadas en JS) */
   .space .twinkle-layer{position:absolute;inset:0;pointer-events:none}
   .space .twinkle{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 5px 1px rgba(255,255,255,.45);animation:twinkle var(--dur,3.5s) ease-in-out infinite;animation-delay:var(--delay,0s);will-change:opacity,transform}
@@ -302,8 +324,6 @@
     <div id="suggest" class="suggest" hidden></div>
   </div>
   <nav>
-    <a class="nav-ext" href="https://www.admira.studio">Pixer.IA</a>
-    <a class="nav-ext" href="https://www.xpaceos.com">XpaceOS</a>
     <a href="backoffice.html" data-i18n="login">Login</a>
     <a class="nav-cta" href="#contact" data-admira-contact data-i18n="contact">Contacto</a>
     <div class="lang-switch" id="lang-switch" role="group" aria-label="Idioma / Language">
@@ -313,8 +333,10 @@
   </nav>
 </header>
 
-<div class="space" id="space" aria-hidden="true"></div>
+<div class="space" id="space" aria-hidden="true"><div class="galaxy" id="galaxy"></div></div>
 <div id="map"></div>
+<!-- Guiño techie: aparece al alejar el zoom hasta ver toda la galaxia -->
+<div class="mars-hint" id="mars-hint" aria-hidden="true"><span data-i18n="mars_hint">Todavía no vendemos publi en Marte 🔴</span></div>
 <!-- Capa sobre el mapa para el lucero clicable (pide un deseo) -->
 <div class="sky-fx" id="sky-fx" aria-hidden="true"></div>
 
@@ -476,6 +498,7 @@ const I18N = {
     status_sv_landing:'Bajando a Street View · ', status_sv_opening:'Abriendo Street View en Google Maps…',
     surf_live:'● LIVE', surf_sched:'PROG', surf_idle:'IDLE',
     twin_launch:'🔨 Lanzar ganador → pantalla', live_tag:'live',
+    mars_hint:'Todavía no vendemos publi en Marte 🔴',
   },
   en: {
     logo_home_title:'Back to start',
@@ -512,6 +535,7 @@ const I18N = {
     status_sv_landing:'Descending to Street View · ', status_sv_opening:'Opening Street View in Google Maps…',
     surf_live:'● LIVE', surf_sched:'SCHED', surf_idle:'IDLE',
     twin_launch:'🔨 Launch winner → screen', live_tag:'live',
+    mars_hint:'We don’t sell ads on Mars yet 🔴',
   },
 };
 let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'en' ? 'en' : 'es'; } catch(_) { return 'es'; } })();
@@ -640,6 +664,20 @@ map.on('style.load', () => {
   addLocationsLayer();
 });
 map.on('load', applySky);
+
+// ─── Guiño techie: revelar la galaxia al alejar el zoom ───────────
+const galaxyEl = document.getElementById('galaxy');
+const marsHint = document.getElementById('mars-hint');
+function updateGalaxy(){
+  const z = map.getZoom();
+  // z>=2 (vista mundo) → galaxia oculta; z<=0 → galaxia al máximo.
+  const op = Math.max(0, Math.min(1, (2 - z) / 2));
+  if (galaxyEl) galaxyEl.style.opacity = op.toFixed(2);
+  // El guiño de Marte aparece cuando se ve casi toda la galaxia.
+  if (marsHint) marsHint.classList.toggle('show', z < 0.75);
+}
+map.on('zoom', updateGalaxy);
+map.on('load', updateGalaxy);
 
 // ─── Cluster source con todas las tiendas ──────────────────────────
 function locationsGeoJSON() {

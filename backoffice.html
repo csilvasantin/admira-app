@@ -27,6 +27,10 @@
   nav .badge{font-size:10px;color:var(--accent);border:1px solid rgba(255,216,102,.4);padding:1px 6px;border-radius:3px;letter-spacing:.1em}
   nav .logout{background:transparent;border:1px solid var(--line);border-radius:6px;color:var(--mut);font-family:monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;cursor:pointer;transition:border-color .12s,color .12s}
   nav .logout:hover{border-color:var(--danger);color:var(--danger)}
+  .lang-switch{display:inline-flex;gap:2px;background:rgba(10,22,32,.6);border:1px solid var(--line);border-radius:8px;padding:2px}
+  .lang-switch .lang-btn{font-family:monospace;font-size:11px;letter-spacing:.06em;font-weight:700;color:var(--mut);background:transparent;border:0;border-radius:6px;padding:4px 8px;cursor:pointer;transition:background .15s,color .15s}
+  .lang-switch .lang-btn:hover{color:var(--ink)}
+  .lang-switch .lang-btn.active{background:rgba(120,243,255,.14);color:var(--brand);box-shadow:inset 0 0 0 1px rgba(120,243,255,.4)}
 
   /* Login gate */
   .gate{position:fixed;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(120,243,255,.12),transparent 55%),radial-gradient(ellipse at 80% 80%,rgba(255,216,102,.08),transparent 55%),var(--bg);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px}
@@ -149,25 +153,29 @@
 <div class="gate" id="gate">
   <div class="gbox">
     <div class="glogo">OMNI<span class="dot">·</span>PUBLICITY</div>
-    <h2>Backoffice</h2>
-    <p class="gsub">Acceso restringido. Introduce el password para gestionar gemelos digitales en <b>OmniPublicity</b>.</p>
+    <h2 data-i18n="gate_title">Backoffice</h2>
+    <p class="gsub" data-i18n-html="gate_sub">Acceso restringido. Introduce el password para gestionar gemelos digitales en <b>OmniPublicity</b>.</p>
     <input id="g-pass" type="password" placeholder="Password" autocomplete="current-password" autofocus>
-    <label class="grow"><input id="g-remember" type="checkbox" checked> Recordar en este navegador</label>
-    <button class="gsubmit" id="g-submit">Entrar</button>
+    <label class="grow"><input id="g-remember" type="checkbox" checked> <span data-i18n="remember">Recordar en este navegador</span></label>
+    <button class="gsubmit" id="g-submit" data-i18n="enter">Entrar</button>
     <div class="gerr" id="g-err"></div>
-    <div class="gfoot">¿Vienes a mirar el mapa? <a href="index.html">Ir al mapa público →</a></div>
+    <div class="gfoot" data-i18n-html="gate_foot">¿Vienes a mirar el mapa? <a href="index.html">Ir al mapa público →</a></div>
   </div>
 </div>
 
 <header>
-  <span class="logo">OMNI<span class="dot">·</span>PUBLICITY <span class="sub">/ backoffice</span> <span class="ver" id="omnip-ver">AdmiraNext v26.05.07.2</span></span>
+  <span class="logo">OMNI<span class="dot">·</span>PUBLICITY <span class="sub" data-i18n="bo_sub">/ backoffice</span></span>
   <nav>
-    <a href="index.html">Mapa público</a>
-    <a href="about.html">Concepto RTB</a>
+    <a href="index.html" data-i18n="nav_public_map">Mapa público</a>
+    <a href="about.html" data-i18n="nav_rtb">Concepto RTB</a>
     <a href="../xpace-os/">Xpace OS</a>
     <a href="../01.-AdmiraXperience-Game/" target="_blank" rel="noopener">↗ Admira XP</a>
-    <button id="btn-logout" class="logout">Logout</button>
-    <span class="badge" id="badge-mode" title="Estado de sincronización con omnipublicity-api">CARGANDO…</span>
+    <div class="lang-switch" id="lang-switch" role="group" aria-label="Idioma / Language">
+      <button type="button" class="lang-btn" data-lang="en">EN</button>
+      <button type="button" class="lang-btn" data-lang="es">ES</button>
+    </div>
+    <button id="btn-logout" class="logout" data-i18n="logout">Logout</button>
+    <span class="badge" id="badge-mode" title="Sync status with omnipublicity-api">CARGANDO…</span>
   </nav>
 </header>
 
@@ -176,17 +184,17 @@
   <!-- ── Lista de tiendas ── -->
   <aside class="bo-list">
     <div class="lh">
-      <h3>Tiendas</h3>
+      <h3 data-i18n="stores">Tiendas</h3>
       <span class="count" id="lh-count">0</span>
     </div>
-    <button class="new" id="btn-new">+ Nueva tienda</button>
+    <button class="new" id="btn-new" data-i18n="new_store">+ Nueva tienda</button>
     <ul id="bo-list-ul"></ul>
     <div class="tools">
-      <button id="btn-publish" style="border-color:rgba(120,243,255,.5);color:var(--brand)">☁ Publicar al sitio</button>
-      <button id="btn-import">📥 Importar JSON</button>
-      <button id="btn-export">📤 Exportar JSON</button>
-      <button id="btn-token">🔑 Cambiar API token</button>
-      <button id="btn-reset" class="danger">↺ Reset al catálogo por defecto</button>
+      <button id="btn-publish" style="border-color:rgba(120,243,255,.5);color:var(--brand)" data-i18n="publish">☁ Publicar al sitio</button>
+      <button id="btn-import" data-i18n="import_json">📥 Importar JSON</button>
+      <button id="btn-export" data-i18n="export_json">📤 Exportar JSON</button>
+      <button id="btn-token" data-i18n="change_token">🔑 Cambiar API token</button>
+      <button id="btn-reset" class="danger" data-i18n="reset_default">↺ Reset al catálogo por defecto</button>
     </div>
   </aside>
 
@@ -194,53 +202,52 @@
   <section class="bo-form" id="bo-form">
     <div class="empty" id="bo-empty">
       <span class="big">🏪</span>
-      Selecciona una tienda de la lista o pulsa <b style="color:var(--brand)">+ Nueva tienda</b> para empezar.<br><br>
-      Los cambios se guardan en <b>localStorage</b> mientras editas. Cuando termines, pulsa <b style="color:var(--brand)">☁ Publicar al sitio</b> para subirlos al worker (KV) y que se vean en el mapa público.
+      <span data-i18n-html="empty_msg">Selecciona una tienda de la lista o pulsa <b style="color:var(--brand)">+ Nueva tienda</b> para empezar.<br><br>Los cambios se guardan en <b>localStorage</b> mientras editas. Cuando termines, pulsa <b style="color:var(--brand)">☁ Publicar al sitio</b> para subirlos al worker (KV) y que se vean en el mapa público.</span>
     </div>
     <div id="bo-editor" hidden>
       <div class="formhead">
         <h2><span id="f-title">Nueva tienda</span><span class="sub" id="f-sub"></span></h2>
         <div class="actions">
-          <button class="save" id="btn-save">💾 Guardar</button>
-          <button class="cancel" id="btn-cancel">Cancelar</button>
-          <button class="delete" id="btn-delete" hidden>🗑 Eliminar</button>
+          <button class="save" id="btn-save" data-i18n="save">💾 Guardar</button>
+          <button class="cancel" id="btn-cancel" data-i18n="cancel">Cancelar</button>
+          <button class="delete" id="btn-delete" hidden data-i18n="del">🗑 Eliminar</button>
         </div>
       </div>
 
       <fieldset>
-        <legend>Identidad</legend>
+        <legend data-i18n="legend_identity">Identidad</legend>
         <div class="row"><label for="f-id">ID</label><input id="f-id" type="text" placeholder="ej: admira-malaga" autocomplete="off"></div>
-        <div class="row"><label for="f-name">Nombre</label><input id="f-name" type="text" placeholder="Admira Málaga"></div>
-        <div class="row"><label for="f-kind">Tipo</label><input id="f-kind" type="text" placeholder="Estanco · Retail físico"></div>
-        <div class="row"><label for="f-addr">Dirección</label><input id="f-addr" type="text" placeholder="Calle Larios 8 · Málaga"></div>
+        <div class="row"><label for="f-name" data-i18n="label_name">Nombre</label><input id="f-name" type="text" placeholder="Admira Málaga"></div>
+        <div class="row"><label for="f-kind" data-i18n="label_kind">Tipo</label><input id="f-kind" type="text" placeholder="Estanco · Retail físico"></div>
+        <div class="row"><label for="f-addr" data-i18n="label_addr">Dirección</label><input id="f-addr" type="text" placeholder="Calle Larios 8 · Málaga"></div>
       </fieldset>
 
       <fieldset>
-        <legend>Coordenadas</legend>
+        <legend data-i18n="legend_coords">Coordenadas</legend>
         <div class="coords-row">
           <label>lat / lng</label>
           <input id="f-lat" type="number" step="any" placeholder="40.4036" inputmode="decimal">
           <input id="f-lng" type="number" step="any" placeholder="-3.7283" inputmode="decimal">
-          <button type="button" id="btn-geocode">🔍 Geocodificar dirección</button>
-          <button type="button" id="btn-pin">📍 Pin desde mapa →</button>
+          <button type="button" id="btn-geocode" data-i18n="geocode">🔍 Geocodificar dirección</button>
+          <button type="button" id="btn-pin" data-i18n="pin_from_map">📍 Pin desde mapa →</button>
         </div>
       </fieldset>
 
       <fieldset>
-        <legend>Gemelo Digital</legend>
-        <div class="row"><label for="f-music">Hilo musical</label><input id="f-music" type="text" placeholder="lounge · techno · pop · flamenco · seoul · trap"></div>
-        <div class="row"><label for="f-cameras">Cámaras</label><label style="display:flex;align-items:center;gap:8px;font-weight:normal;cursor:pointer"><input id="f-cameras" type="checkbox" style="width:auto"> El punto tiene cámaras (LiveCam)</label></div>
-        <div class="row" style="align-items:flex-start"><label for="f-employees">Empleados</label><textarea id="f-employees" rows="4" placeholder="Un empleado por línea: Nombre, rol&#10;Marta, cajero&#10;Jordi, repositor&#10;Núria, azafata&#10;Pau, manager" style="flex:1;min-width:0;font-family:inherit;font-size:13px;line-height:1.5;padding:8px 10px;border-radius:8px;background:rgba(2,8,13,.6);color:var(--ink);border:1px solid var(--line);resize:vertical"></textarea></div>
-        <div class="row"><label></label><span style="font-size:11px;color:var(--mut)">Roles: cajero · repositor · azafata · manager · dj. El gemelo (game.html?loc=&lt;id&gt;) usa estos datos.</span></div>
+        <legend data-i18n="legend_twin">Gemelo Digital</legend>
+        <div class="row"><label for="f-music" data-i18n="label_music">Hilo musical</label><input id="f-music" type="text" placeholder="lounge · techno · pop · flamenco · seoul · trap"></div>
+        <div class="row"><label for="f-cameras" data-i18n="label_cameras">Cámaras</label><label style="display:flex;align-items:center;gap:8px;font-weight:normal;cursor:pointer"><input id="f-cameras" type="checkbox" style="width:auto"> <span data-i18n="cameras_note">El punto tiene cámaras (LiveCam)</span></label></div>
+        <div class="row" style="align-items:flex-start"><label for="f-employees" data-i18n="label_employees">Empleados</label><textarea id="f-employees" rows="4" placeholder="Un empleado por línea: Nombre, rol&#10;Marta, cajero&#10;Jordi, repositor&#10;Núria, azafata&#10;Pau, manager" style="flex:1;min-width:0;font-family:inherit;font-size:13px;line-height:1.5;padding:8px 10px;border-radius:8px;background:rgba(2,8,13,.6);color:var(--ink);border:1px solid var(--line);resize:vertical"></textarea></div>
+        <div class="row"><label></label><span style="font-size:11px;color:var(--mut)" data-i18n-html="employees_note">Roles: cajero · repositor · azafata · manager · dj. El gemelo (game.html?loc=&lt;id&gt;) usa estos datos.</span></div>
       </fieldset>
 
       <fieldset>
-        <legend>Surfaces</legend>
+        <legend data-i18n="legend_surfaces">Surfaces</legend>
         <div class="surf-headrow">
-          <span>Nombre</span><span>Descripción</span><span>Estado</span><span>Impr/día</span><span>CPM</span><span>Tipo</span><span></span>
+          <span data-i18n="col_name">Nombre</span><span data-i18n="col_desc">Descripción</span><span data-i18n="col_status">Estado</span><span data-i18n="col_impr">Impr/día</span><span>CPM</span><span data-i18n="col_type">Tipo</span><span></span>
         </div>
         <div class="surf-list" id="surf-list"></div>
-        <button type="button" class="surf-add" id="btn-surf-add">+ Añadir surface</button>
+        <button type="button" class="surf-add" id="btn-surf-add" data-i18n="add_surface">+ Añadir surface</button>
       </fieldset>
     </div>
   </section>
@@ -248,13 +255,13 @@
   <!-- ── Mini-mapa ── -->
   <aside class="bo-map-pane">
     <div class="mh">
-      <h3>Pin en mapa</h3>
-      <span class="hint">Haz click en cualquier punto del mapa para fijar las coordenadas del formulario.</span>
+      <h3 data-i18n="pin_on_map">Pin en mapa</h3>
+      <span class="hint" data-i18n="pin_hint">Haz click en cualquier punto del mapa para fijar las coordenadas del formulario.</span>
     </div>
     <div id="bo-map"></div>
     <div class="mfoot">
-      <span>Centro: <b id="m-center">—</b></span>
-      <span>zoom <b id="m-zoom">—</b></span>
+      <span><span data-i18n="center">Centro:</span> <b id="m-center">—</b></span>
+      <span><span data-i18n="zoom">zoom</span> <b id="m-zoom">—</b></span>
     </div>
   </aside>
 
@@ -268,15 +275,101 @@
     <h3 id="mo-title">JSON</h3>
     <textarea id="mo-text" spellcheck="false"></textarea>
     <div class="mactions">
-      <button id="mo-cancel">Cerrar</button>
-      <button id="mo-confirm" class="primary" hidden>Confirmar</button>
-      <button id="mo-copy" hidden>📋 Copiar al portapapeles</button>
-      <button id="mo-download" hidden>⬇ Descargar locations.js</button>
+      <button id="mo-cancel" data-i18n="close">Cerrar</button>
+      <button id="mo-confirm" class="primary" hidden data-i18n="confirm">Confirmar</button>
+      <button id="mo-copy" hidden data-i18n="copy_clip">📋 Copiar al portapapeles</button>
+      <button id="mo-download" hidden data-i18n="download_loc">⬇ Descargar locations.js</button>
     </div>
   </div>
 </div>
 
 <script>
+// ─── i18n (comparte idioma con la portada vía localStorage omnip-lang) ──
+const I18N = {
+  es: {
+    bo_sub:'/ backoffice',
+    gate_title:'Backoffice',
+    gate_sub:'Acceso restringido. Introduce el password para gestionar gemelos digitales en <b>OmniPublicity</b>.',
+    remember:'Recordar en este navegador', enter:'Entrar',
+    gate_foot:'¿Vienes a mirar el mapa? <a href="index.html">Ir al mapa público →</a>',
+    nav_public_map:'Mapa público', nav_rtb:'Concepto RTB', logout:'Logout',
+    stores:'Tiendas', new_store:'+ Nueva tienda',
+    publish:'☁ Publicar al sitio', import_json:'📥 Importar JSON', export_json:'📤 Exportar JSON',
+    change_token:'🔑 Cambiar API token', reset_default:'↺ Reset al catálogo por defecto',
+    empty_msg:'Selecciona una tienda de la lista o pulsa <b style="color:var(--brand)">+ Nueva tienda</b> para empezar.<br><br>Los cambios se guardan en <b>localStorage</b> mientras editas. Cuando termines, pulsa <b style="color:var(--brand)">☁ Publicar al sitio</b> para subirlos al worker (KV) y que se vean en el mapa público.',
+    save:'💾 Guardar', cancel:'Cancelar', del:'🗑 Eliminar',
+    legend_identity:'Identidad', label_name:'Nombre', label_kind:'Tipo', label_addr:'Dirección',
+    legend_coords:'Coordenadas', geocode:'🔍 Geocodificar dirección', pin_from_map:'📍 Pin desde mapa →',
+    legend_twin:'Gemelo Digital', label_music:'Hilo musical', label_cameras:'Cámaras',
+    cameras_note:'El punto tiene cámaras (LiveCam)', label_employees:'Empleados',
+    employees_note:'Roles: cajero · repositor · azafata · manager · dj. El gemelo (game.html?loc=&lt;id&gt;) usa estos datos.',
+    legend_surfaces:'Surfaces', col_name:'Nombre', col_desc:'Descripción', col_status:'Estado', col_impr:'Impr/día', col_type:'Tipo',
+    add_surface:'+ Añadir surface',
+    pin_on_map:'Pin en mapa', pin_hint:'Haz click en cualquier punto del mapa para fijar las coordenadas del formulario.',
+    center:'Centro:', zoom:'zoom',
+    close:'Cerrar', confirm:'Confirmar', copy_clip:'📋 Copiar al portapapeles', download_loc:'⬇ Descargar locations.js',
+    st_live:'● LIVE', st_sched:'PROG', st_idle:'IDLE',
+    badge_loading:'CARGANDO…', badge_synced:'KV · sincronizado', badge_offline:'OFFLINE · solo local',
+    badge_unpublished:'CAMBIOS SIN PUBLICAR', badge_local:'LOCAL · localStorage',
+    wrong_pass:'✕ Password incorrecto', logout_confirm:'¿Cerrar sesión del backoffice?',
+    publishing:'⏳ Publicando…', err_prefix:'Error: ',
+    noname:'(sin nombre)', editing:'· editando', new_store_title:'Nueva tienda', unsaved:'· sin guardar',
+    saved:'Guardado · ', no_geo:'Sin resultados — escribe la dirección completa', cant_copy:'No se pudo copiar',
+    invalid_store:'Tienda inválida: ',
+    delete_confirm_1:'¿Eliminar la tienda "', delete_confirm_2:'"? Esta acción solo afecta a este navegador (localStorage).',
+    reset_confirm_1:'¿Borrar todos los cambios locales y restaurar el catálogo por defecto (', reset_confirm_2:' tiendas)?',
+  },
+  en: {
+    bo_sub:'/ backoffice',
+    gate_title:'Backoffice',
+    gate_sub:'Restricted access. Enter the password to manage digital twins in <b>OmniPublicity</b>.',
+    remember:'Remember on this browser', enter:'Sign in',
+    gate_foot:'Here to see the map? <a href="index.html">Go to the public map →</a>',
+    nav_public_map:'Public map', nav_rtb:'RTB concept', logout:'Logout',
+    stores:'Stores', new_store:'+ New store',
+    publish:'☁ Publish to site', import_json:'📥 Import JSON', export_json:'📤 Export JSON',
+    change_token:'🔑 Change API token', reset_default:'↺ Reset to default catalog',
+    empty_msg:'Select a store from the list or click <b style="color:var(--brand)">+ New store</b> to begin.<br><br>Changes are saved to <b>localStorage</b> while you edit. When you’re done, click <b style="color:var(--brand)">☁ Publish to site</b> to push them to the worker (KV) so they show on the public map.',
+    save:'💾 Save', cancel:'Cancel', del:'🗑 Delete',
+    legend_identity:'Identity', label_name:'Name', label_kind:'Type', label_addr:'Address',
+    legend_coords:'Coordinates', geocode:'🔍 Geocode address', pin_from_map:'📍 Pin from map →',
+    legend_twin:'Digital Twin', label_music:'Music thread', label_cameras:'Cameras',
+    cameras_note:'This location has cameras (LiveCam)', label_employees:'Employees',
+    employees_note:'Roles: cashier · stocker · host · manager · dj. The twin (game.html?loc=&lt;id&gt;) uses this data.',
+    legend_surfaces:'Surfaces', col_name:'Name', col_desc:'Description', col_status:'Status', col_impr:'Impr/day', col_type:'Type',
+    add_surface:'+ Add surface',
+    pin_on_map:'Pin on map', pin_hint:'Click anywhere on the map to set the form coordinates.',
+    center:'Center:', zoom:'zoom',
+    close:'Close', confirm:'Confirm', copy_clip:'📋 Copy to clipboard', download_loc:'⬇ Download locations.js',
+    st_live:'● LIVE', st_sched:'SCHED', st_idle:'IDLE',
+    badge_loading:'LOADING…', badge_synced:'KV · synced', badge_offline:'OFFLINE · local only',
+    badge_unpublished:'UNPUBLISHED CHANGES', badge_local:'LOCAL · localStorage',
+    wrong_pass:'✕ Wrong password', logout_confirm:'Log out of the backoffice?',
+    publishing:'⏳ Publishing…', err_prefix:'Error: ',
+    noname:'(no name)', editing:'· editing', new_store_title:'New store', unsaved:'· unsaved',
+    saved:'Saved · ', no_geo:'No results — type the full address', cant_copy:'Couldn’t copy',
+    invalid_store:'Invalid store: ',
+    delete_confirm_1:'Delete store "', delete_confirm_2:'"? This only affects this browser (localStorage).',
+    reset_confirm_1:'Discard all local changes and restore the default catalog (', reset_confirm_2:' stores)?',
+  },
+};
+let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'en' ? 'en' : 'es'; } catch(_) { return 'es'; } })();
+function t(key){ return (I18N[LANG] && I18N[LANG][key] != null) ? I18N[LANG][key] : (I18N.es[key] != null ? I18N.es[key] : key); }
+function applyI18n(){
+  document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  document.documentElement.lang = LANG;
+}
+function setLang(lang){
+  LANG = (lang === 'en') ? 'en' : 'es';
+  try { localStorage.setItem('omnip-lang', LANG); } catch(_){}
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === LANG));
+  applyI18n();
+  try { if (typeof renderList === 'function') renderList(); } catch(_){}
+  try { if (typeof refreshBadge === 'function') refreshBadge(); } catch(_){}
+}
+
 // ─── Login gate ────────────────────────────────────────────────────
 // SHA-256("Nomeacuerd0") — cualquier cambio se hace regenerando el hash.
 const PASS_HASH = '09418087246c5efc32d92ed30f678fd02c0a4ade7dde8f2376da130991827a15';
@@ -317,7 +410,7 @@ async function tryUnlock() {
   const h = await sha256Hex(v);
   if (h !== PASS_HASH) {
     gPass.classList.add('err');
-    gErr.textContent = '✕ Password incorrecto';
+    gErr.textContent = t('wrong_pass');
     setTimeout(()=>gPass.classList.remove('err'), 400);
     gPass.select();
     return;
@@ -332,7 +425,7 @@ gPass.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
 gPass.addEventListener('input', () => { gErr.textContent = ''; });
 
 document.getElementById('btn-logout').addEventListener('click', () => {
-  if (!confirm('¿Cerrar sesión del backoffice?')) return;
+  if (!confirm(t('logout_confirm'))) return;
   clearAuth();
   location.reload();
 });
@@ -371,27 +464,30 @@ async function bootBackoffice() {
 }
 
 // ─── Badge de estado de sincronización ─────────────────────────────
+let _lastBadge = { mode: 'local', at: 0 };
 function setBadge(mode, updatedAt) {
+  _lastBadge = { mode, at: updatedAt || 0 };
   const el = document.getElementById('badge-mode'); if (!el) return;
   if (mode === 'kv') {
-    const when = updatedAt ? new Date(updatedAt * 1000).toLocaleString('es-ES', {dateStyle:'short', timeStyle:'short'}) : '';
-    el.textContent = 'KV · sincronizado' + (when ? ' · ' + when : '');
+    const when = updatedAt ? new Date(updatedAt * 1000).toLocaleString(LANG === 'en' ? 'en-GB' : 'es-ES', {dateStyle:'short', timeStyle:'short'}) : '';
+    el.textContent = t('badge_synced') + (when ? ' · ' + when : '');
     el.style.color = 'var(--good)';
     el.style.borderColor = 'rgba(136,255,170,.4)';
   } else if (mode === 'offline') {
-    el.textContent = 'OFFLINE · solo local';
+    el.textContent = t('badge_offline');
     el.style.color = 'var(--warn)';
     el.style.borderColor = 'rgba(255,136,102,.4)';
   } else if (mode === 'dirty') {
-    el.textContent = 'CAMBIOS SIN PUBLICAR';
+    el.textContent = t('badge_unpublished');
     el.style.color = 'var(--accent)';
     el.style.borderColor = 'rgba(255,216,102,.5)';
   } else {
-    el.textContent = 'LOCAL · localStorage';
+    el.textContent = t('badge_local');
     el.style.color = 'var(--accent)';
     el.style.borderColor = 'rgba(255,216,102,.4)';
   }
 }
+function refreshBadge(){ setBadge(_lastBadge.mode, _lastBadge.at); }
 
 // ─── API token storage ────────────────────────────────────────────
 const TOKEN_KEY = 'omnip-bo-api-token';
@@ -432,7 +528,7 @@ async function publishToWorker() {
   }
   const btn = document.getElementById('btn-publish');
   const orig = btn.textContent;
-  btn.textContent = '⏳ Publicando…'; btn.disabled = true;
+  btn.textContent = t('publishing'); btn.disabled = true;
   try {
     const res = await window.publishOmnipLocations(locations, token);
     setBadge('kv', res.updatedAt);
@@ -444,7 +540,7 @@ async function publishToWorker() {
       setApiToken('');
       await promptApiToken('Token rechazado. Pega el ADMIN_TOKEN correcto');
     } else {
-      showToast('Error: ' + msg, 'err');
+      showToast(t('err_prefix') + msg, 'err');
     }
   } finally {
     btn.textContent = orig; btn.disabled = false;
@@ -453,9 +549,9 @@ async function publishToWorker() {
 
 const SURF_TYPES = ['pantalla','escaparate','mostrador','vending','pwa'];
 const STATUSES = [
-  {v:'live',  l:'● LIVE'},
-  {v:'sched', l:'PROG'},
-  {v:'idle',  l:'IDLE'},
+  {v:'live',  k:'st_live'},
+  {v:'sched', k:'st_sched'},
+  {v:'idle',  k:'st_idle'},
 ];
 
 // ─── Helpers ───────────────────────────────────────────────────────
@@ -483,7 +579,7 @@ function renderList() {
   ul.innerHTML = locations.map((l, i) => {
     const live = l.surfaces.filter(s=>s.status==='live').length;
     return `<li data-idx="${i}" class="${i===editingIdx?'active':''}">
-      <div class="nm">${escHtml(l.name||'(sin nombre)')}</div>
+      <div class="nm">${escHtml(l.name||t('noname'))}</div>
       <div class="ad">${escHtml(l.addr||'—')}</div>
       <div class="sf">${l.surfaces.length} surfaces · ${live} LIVE</div>
     </li>`;
@@ -513,8 +609,8 @@ function editLocation(idx) {
   $('bo-empty').hidden = true;
   $('bo-editor').hidden = false;
   $('btn-delete').hidden = false;
-  $('f-title').textContent = loc.name || '(sin nombre)';
-  $('f-sub').textContent = '· editando';
+  $('f-title').textContent = loc.name || t('noname');
+  $('f-sub').textContent = t('editing');
   $('f-id').value = loc.id || '';
   $('f-id').disabled = true; // id no editable una vez creada (evita romper recientes)
   $('f-name').value = loc.name || '';
@@ -538,8 +634,8 @@ function newLocation() {
   $('bo-empty').hidden = true;
   $('bo-editor').hidden = false;
   $('btn-delete').hidden = true;
-  $('f-title').textContent = 'Nueva tienda';
-  $('f-sub').textContent = '· sin guardar';
+  $('f-title').textContent = t('new_store_title');
+  $('f-sub').textContent = t('unsaved');
   $('f-id').value = '';
   $('f-id').disabled = false;
   $('f-name').value = '';
@@ -649,13 +745,13 @@ function saveLocation() {
   persistAndRefresh();
   // Re-cargar el formulario en modo edición (para reflejar el nuevo orden de id en list y desactivar el id input)
   editLocation(editingIdx);
-  showToast('Guardado · ' + loc.name);
+  showToast(t('saved') + loc.name);
 }
 
 function deleteLocation() {
   if (editingIdx < 0) return;
   const loc = locations[editingIdx];
-  if (!confirm('¿Eliminar la tienda "' + (loc.name || loc.id) + '"? Esta acción solo afecta a este navegador (localStorage).')) return;
+  if (!confirm(t('delete_confirm_1') + (loc.name || loc.id) + t('delete_confirm_2'))) return;
   locations.splice(editingIdx, 1);
   closeEditor();
   persistAndRefresh();
@@ -671,7 +767,7 @@ function surfaceRow(s, i) {
   return `<div class="surf-row" data-i="${i}">
     <input data-k="name" type="text" placeholder="LED Frontal" value="${escHtml(s.name||'')}">
     <input data-k="desc" type="text" placeholder="Descripción visible en el panel" value="${escHtml(s.desc||'')}">
-    <select data-k="status">${STATUSES.map(st => `<option value="${st.v}"${s.status===st.v?' selected':''}>${st.l}</option>`).join('')}</select>
+    <select data-k="status">${STATUSES.map(st => `<option value="${st.v}"${s.status===st.v?' selected':''}>${t(st.k)}</option>`).join('')}</select>
     <input data-k="impr" type="number" min="0" placeholder="200" value="${s.impr ?? ''}">
     <input data-k="cpm" type="text" placeholder="€5" value="${escHtml(s.cpm||'')}">
     <select data-k="surface">${SURF_TYPES.map(t => `<option value="${t}"${s.surface===t?' selected':''}>${t}</option>`).join('')}</select>
@@ -707,7 +803,7 @@ async function geocodeAddress() {
     if (map) map.flyTo({center:[lng, lat], zoom:15, duration: 800});
     showToast('Coordenadas fijadas: ' + lat.toFixed(4) + ', ' + lng.toFixed(4));
   } catch (e) {
-    showToast('Sin resultados — escribe la dirección completa', 'err');
+    showToast(t('no_geo'), 'err');
   }
 }
 
@@ -783,7 +879,7 @@ function openModal({title, value, allowEdit, confirmLabel, onConfirm, showCopy, 
   $('mo-text').value = value || '';
   $('mo-text').readOnly = !allowEdit;
   $('mo-confirm').hidden = !onConfirm;
-  $('mo-confirm').textContent = confirmLabel || 'Confirmar';
+  $('mo-confirm').textContent = confirmLabel || t('confirm');
   $('mo-copy').hidden = !showCopy;
   $('mo-download').hidden = !showDownload;
   $('modal').classList.add('show');
@@ -793,7 +889,7 @@ function openModal({title, value, allowEdit, confirmLabel, onConfirm, showCopy, 
   };
   $('mo-copy').onclick = async () => {
     try { await navigator.clipboard.writeText($('mo-text').value); showToast('Copiado'); }
-    catch { showToast('No se pudo copiar', 'err'); }
+    catch { showToast(t('cant_copy'), 'err'); }
   };
   $('mo-download').onclick = () => {
     const content = `// OmniPublicity — catálogo de tiendas (gemelos digitales).\n// Generado por backoffice.html · ${new Date().toISOString()}\nwindow.OMNIP_LOCATIONS_DEFAULT = ${$('mo-text').value};\nwindow.OMNIP_STORE_KEY = 'omnip-locations';\nwindow.loadOmnipLocations = function() {\n  try {\n    const raw = localStorage.getItem(window.OMNIP_STORE_KEY);\n    if (raw) { const p = JSON.parse(raw); if (Array.isArray(p) && p.length) return p; }\n  } catch (e) {}\n  return window.OMNIP_LOCATIONS_DEFAULT;\n};\nwindow.saveOmnipLocations = function(arr) {\n  try { localStorage.setItem(window.OMNIP_STORE_KEY, JSON.stringify(arr)); return true; }\n  catch (e) { return false; }\n};\n`;
@@ -829,7 +925,7 @@ function importJSON() {
       if (!Array.isArray(parsed)) throw new Error('El JSON debe ser un array');
       // Validación básica: todos tienen id y coords
       for (const l of parsed) {
-        if (!l.id || !Array.isArray(l.coords) || l.coords.length !== 2) throw new Error('Tienda inválida: ' + (l.name || l.id || '?'));
+        if (!l.id || !Array.isArray(l.coords) || l.coords.length !== 2) throw new Error(t('invalid_store') + (l.name || l.id || '?'));
         if (!Array.isArray(l.surfaces)) l.surfaces = [];
       }
       locations = parsed;
@@ -841,7 +937,7 @@ function importJSON() {
 }
 
 function resetToDefault() {
-  if (!confirm('¿Borrar todos los cambios locales y restaurar el catálogo por defecto (' + window.OMNIP_LOCATIONS_DEFAULT.length + ' tiendas)?')) return;
+  if (!confirm(t('reset_confirm_1') + window.OMNIP_LOCATIONS_DEFAULT.length + t('reset_confirm_2'))) return;
   try { localStorage.removeItem(window.OMNIP_STORE_KEY); } catch {}
   locations = window.OMNIP_LOCATIONS_DEFAULT.map(l => JSON.parse(JSON.stringify(l)));
   closeEditor();
@@ -873,7 +969,7 @@ $('btn-token').addEventListener('click', () => promptApiToken('Editar API token 
 
 // Re-renderiza cuando los inputs cambian (para el title "editando")
 ['f-name'].forEach(id => $(id).addEventListener('input', e => {
-  $('f-title').textContent = e.target.value || '(sin nombre)';
+  $('f-title').textContent = e.target.value || t('noname');
 }));
 
 // ─── Init ──────────────────────────────────────────────────────────
@@ -886,6 +982,14 @@ if (isAuthed()) {
   gate.classList.add('hidden');
   bootBackoffice();
 }
+
+// ─── Selector de idioma EN/ES (comparte preferencia con la portada) ──
+document.querySelectorAll('#lang-switch .lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => setLang(btn.dataset.lang));
+});
+const _badgeEl = document.getElementById('badge-mode');
+if (_badgeEl) _badgeEl.textContent = t('badge_loading');
+setLang(LANG);
 </script>
 
 </body>

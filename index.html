@@ -111,6 +111,21 @@
     font-family:monospace;font-size:12px;letter-spacing:.08em;color:var(--mut);background:rgba(10,22,32,.78);
     border:1px solid var(--line);border-radius:999px;padding:7px 16px;opacity:0;transition:opacity .6s ease,transform .6s ease;backdrop-filter:blur(6px);white-space:nowrap}
   .mars-hint.show{opacity:1;transform:translate(-50%,0)}
+  /* Hotspot clicable sobre Marte (alineado con .p-mars: left:80% top:34%) */
+  .mars-hotspot{position:fixed;left:80%;top:34%;transform:translate(-50%,-50%);width:54px;height:54px;border-radius:50%;background:transparent;border:0;cursor:pointer;z-index:6;pointer-events:none;transition:box-shadow .2s}
+  .mars-hotspot.live{pointer-events:auto}
+  .mars-hotspot.live:hover{box-shadow:0 0 0 2px rgba(255,120,80,.55),0 0 22px 6px rgba(255,80,40,.4)}
+  /* Modal "Próximamente en Marte" */
+  .mars-modal{position:fixed;inset:0;z-index:21;background:rgba(2,8,13,.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:16px}
+  .mars-modal[hidden]{display:none}
+  .mars-modal .mars-card{position:relative;width:min(360px,calc(100vw - 32px));text-align:center;background:radial-gradient(120% 130% at 50% 0%,rgba(40,18,14,.97),rgba(8,4,3,.97));border:1px solid rgba(255,120,80,.3);border-radius:18px;padding:30px 28px 24px;box-shadow:0 24px 70px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,150,110,.18);animation:wishPop .4s cubic-bezier(.2,.9,.3,1.2)}
+  .mars-modal .mars-close{position:absolute;top:9px;right:13px;background:transparent;border:0;color:var(--mut);font-size:24px;line-height:1;cursor:pointer}
+  .mars-modal .mars-close:hover{color:var(--ink)}
+  .mars-modal .mars-emoji{font-size:46px;line-height:1;margin-bottom:10px;filter:drop-shadow(0 0 12px rgba(255,120,80,.6))}
+  .mars-modal h3{margin:0 0 8px;font-size:19px;letter-spacing:-.01em;color:#ffd5c2}
+  .mars-modal p{margin:0 0 20px;color:#e9c3b3;font-size:14px;line-height:1.5}
+  .mars-modal .mars-ok{font-family:monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:0;border-radius:9px;background:#e8784a;color:#2a0e04;font-weight:700;cursor:pointer;transition:filter .15s}
+  .mars-modal .mars-ok:hover{filter:brightness(1.08)}
   /* Estrellas que titilan (generadas en JS) */
   .space .twinkle-layer{position:absolute;inset:0;pointer-events:none}
   .space .twinkle{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 5px 1px rgba(255,255,255,.45);animation:twinkle var(--dur,3.5s) ease-in-out infinite;animation-delay:var(--delay,0s);will-change:opacity,transform}
@@ -362,6 +377,18 @@
 <div id="map"></div>
 <!-- Guiño techie: aparece al alejar el zoom hasta ver toda la galaxia -->
 <div class="mars-hint" id="mars-hint" aria-hidden="true"><span data-i18n="mars_hint">Todavía no vendemos publi en Marte 🔴</span></div>
+<!-- Zona clicable sobre Marte (solo activa al verse los planetas) -->
+<button class="mars-hotspot" id="mars-hotspot" type="button" aria-label="Marte"></button>
+<!-- Popup de broma "Próximamente en Marte" -->
+<div class="mars-modal" id="mars-modal" hidden>
+  <div class="mars-card">
+    <button class="mars-close" id="mars-close" type="button" data-i18n-aria="close" aria-label="Cerrar">×</button>
+    <div class="mars-emoji">🚀</div>
+    <h3 data-i18n="mars_soon_title">Próximamente en Marte</h3>
+    <p data-i18n="mars_soon_sub">Reservando el primer escaparate del Planeta Rojo…</p>
+    <button class="mars-ok" id="mars-ok" type="button" data-i18n="mars_soon_ok">Avísame 🔴</button>
+  </div>
+</div>
 <!-- Capa sobre el mapa para el lucero clicable (pide un deseo) -->
 <div class="sky-fx" id="sky-fx" aria-hidden="true"></div>
 
@@ -525,6 +552,7 @@ const I18N = {
     twin_launch:'🔨 Lanzar ganador → pantalla', live_tag:'live',
     mars_hint:'Todavía no vendemos publi en Marte 🔴',
     pl_mercury:'Mercurio', pl_venus:'Venus', pl_mars:'Marte', pl_jupiter:'Júpiter', pl_saturn:'Saturno', pl_uranus:'Urano', pl_neptune:'Neptuno',
+    mars_soon_title:'Próximamente en Marte', mars_soon_sub:'Reservando el primer escaparate del Planeta Rojo… Sé el primer anunciante interplanetario.', mars_soon_ok:'Avísame 🔴',
   },
   en: {
     logo_home_title:'Back to start',
@@ -563,6 +591,7 @@ const I18N = {
     twin_launch:'🔨 Launch winner → screen', live_tag:'live',
     mars_hint:'We don’t sell ads on Mars yet 🔴',
     pl_mercury:'Mercury', pl_venus:'Venus', pl_mars:'Mars', pl_jupiter:'Jupiter', pl_saturn:'Saturn', pl_uranus:'Uranus', pl_neptune:'Neptune',
+    mars_soon_title:'Coming soon to Mars', mars_soon_sub:'Reserving the first shop window on the Red Planet… Be the first interplanetary advertiser.', mars_soon_ok:'Notify me 🔴',
   },
 };
 let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'en' ? 'en' : 'es'; } catch(_) { return 'es'; } })();
@@ -696,6 +725,7 @@ map.on('load', applySky);
 const galaxyEl = document.getElementById('galaxy');
 const planetsEl = document.getElementById('planets');
 const marsHint = document.getElementById('mars-hint');
+const marsHotspot = document.getElementById('mars-hotspot');
 function updateGalaxy(){
   const z = map.getZoom();
   // El zoom-out está limitado (~1.49 por renderWorldCopies:false). Mapeamos la
@@ -706,9 +736,21 @@ function updateGalaxy(){
   if (planetsEl) planetsEl.style.opacity = op.toFixed(2);
   // El guiño de Marte aparece cuando casi se ve toda la galaxia.
   if (marsHint) marsHint.classList.toggle('show', op > 0.7);
+  // Marte sólo es clicable cuando se ve bien.
+  if (marsHotspot) marsHotspot.classList.toggle('live', op > 0.55);
 }
 map.on('zoom', updateGalaxy);
 map.on('load', updateGalaxy);
+
+// ─── Marte clicable → "Próximamente en Marte" 🚀 ──────────────────
+const marsModal = document.getElementById('mars-modal');
+function closeMars(){ if (marsModal) marsModal.hidden = true; }
+if (marsHotspot) marsHotspot.addEventListener('click', () => { if (marsModal) marsModal.hidden = false; });
+const marsOk = document.getElementById('mars-ok');
+const marsClose = document.getElementById('mars-close');
+if (marsOk) marsOk.addEventListener('click', closeMars);
+if (marsClose) marsClose.addEventListener('click', closeMars);
+if (marsModal) marsModal.addEventListener('click', e => { if (e.target === marsModal) closeMars(); });
 
 // ─── Cluster source con todas las tiendas ──────────────────────────
 function locationsGeoJSON() {

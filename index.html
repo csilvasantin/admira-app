@@ -724,6 +724,7 @@ let LOCATIONS = window.loadOmnipLocations();
 let selectedCircuitId = 'kioskos';
 let selectedLocationIds = new Set();
 let circuitAutoSelect = true;
+let circuitMapFilterActive = false;
 
 // ─── i18n: español / inglés ───────────────────────────────────────
 const I18N = {
@@ -912,6 +913,11 @@ function currentCircuit() {
 function selectedLocations() {
   const byId = new Map(LOCATIONS.map(l => [l.id, l]));
   return [...selectedLocationIds].map(id => byId.get(id)).filter(Boolean);
+}
+
+function mapVisibleLocations() {
+  if (!circuitMapFilterActive) return LOCATIONS;
+  return currentCircuit().items;
 }
 
 function formatImpr(n) {
@@ -1327,7 +1333,15 @@ function bindCircuitSelector() {
   if (headerBtn) {
     headerBtn.addEventListener('click', () => {
       panelEl.hidden = !panelEl.hidden;
-      if (!panelEl.hidden) restoreCircuitPanelPosition();
+      circuitMapFilterActive = !panelEl.hidden;
+      if (!panelEl.hidden) {
+        restoreCircuitPanelPosition();
+        circuitAutoSelect = false;
+        selectedLocationIds = new Set();
+        renderCircuitSelector();
+      } else {
+        refreshSelectedMapSource();
+      }
       headerBtn.classList.toggle('active', !panelEl.hidden);
     });
   }
@@ -1337,8 +1351,9 @@ function bindCircuitSelector() {
   });
   select.addEventListener('change', () => {
     selectedCircuitId = select.value;
-    circuitAutoSelect = true;
+    circuitAutoSelect = false;
     selectedLocationIds = new Set();
+    circuitMapFilterActive = true;
     renderCircuitSelector();
   });
   document.getElementById('circuit-select-all').addEventListener('click', selectWholeCircuit);
@@ -1355,7 +1370,7 @@ function bindCircuitSelector() {
     refreshSelectedMapSource();
   });
   bindCircuitPanelDrag();
-  selectWholeCircuit();
+  clearCircuitSelection();
 }
 
 // ─── Estilos disponibles ───────────────────────────────────────────
@@ -1509,9 +1524,10 @@ if (planetModal) planetModal.addEventListener('click', e => { if (e.target === p
 
 // ─── Cluster source con todas las tiendas ──────────────────────────
 function locationsGeoJSON() {
+  const visible = mapVisibleLocations();
   return {
     type:'FeatureCollection',
-    features: LOCATIONS.map(l => ({
+    features: visible.map(l => ({
       type:'Feature',
       geometry:{type:'Point', coordinates: l.coords},
       properties:{

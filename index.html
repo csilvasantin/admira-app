@@ -492,6 +492,7 @@
       <option value="estancos">Circuito estancos</option>
       <option value="retail">Otros retail físicos</option>
     </select>
+    <select class="circuit-select" id="circuit-subselect" aria-label="Subcircuito" hidden></select>
     <div class="circuit-actions">
       <button type="button" id="circuit-select-all">Todo circuito</button>
       <button type="button" id="circuit-clear">Limpiar</button>
@@ -722,6 +723,7 @@
 // counters. Primer load = instantáneo; segundo paint = autoritativo.
 let LOCATIONS = window.loadOmnipLocations();
 let selectedCircuitId = 'kioskos';
+let selectedMetroLine = 'all';
 let selectedLocationIds = new Set();
 let circuitAutoSelect = true;
 let circuitMapFilterActive = false;
@@ -880,6 +882,26 @@ function isMetroBarcelonaLocation(loc) {
   return hay.includes('metro-barcelona') || (hay.includes('metro') && hay.includes('barcelona'));
 }
 
+function metroLinesForLocation(loc) {
+  if (!isMetroBarcelonaLocation(loc)) return [];
+  const text = String(loc.kind || loc.addr || '');
+  const parts = text.split('·').map(s => s.trim()).filter(Boolean);
+  return parts.filter(p => /^L\d/i.test(p)).map(p => p.replace(/\s+/g, ' '));
+}
+
+function metroLineSort(a, b) {
+  const na = parseInt(String(a).match(/\d+/)?.[0] || '999', 10);
+  const nb = parseInt(String(b).match(/\d+/)?.[0] || '999', 10);
+  if (na !== nb) return na - nb;
+  return String(a).localeCompare(String(b), 'ca');
+}
+
+function metroLineOptions(items) {
+  const lines = new Set();
+  items.forEach(loc => metroLinesForLocation(loc).forEach(line => lines.add(line)));
+  return [...lines].sort(metroLineSort);
+}
+
 function circuitDefinitions() {
   return {
     metro_bcn: {
@@ -910,6 +932,18 @@ function currentCircuit() {
   return defs[selectedCircuitId] || defs.kioskos;
 }
 
+function currentCircuitItems() {
+  const circuit = currentCircuit();
+  if (selectedCircuitId !== 'metro_bcn' || selectedMetroLine === 'all') return circuit.items;
+  return circuit.items.filter(loc => metroLinesForLocation(loc).includes(selectedMetroLine));
+}
+
+function currentCircuitLabel() {
+  const circuit = currentCircuit();
+  if (selectedCircuitId === 'metro_bcn' && selectedMetroLine !== 'all') return `${circuit.label} · ${selectedMetroLine}`;
+  return circuit.label;
+}
+
 function selectedLocations() {
   const byId = new Map(LOCATIONS.map(l => [l.id, l]));
   return [...selectedLocationIds].map(id => byId.get(id)).filter(Boolean);
@@ -917,7 +951,7 @@ function selectedLocations() {
 
 function mapVisibleLocations() {
   if (!circuitMapFilterActive) return LOCATIONS;
-  return currentCircuit().items;
+  return currentCircuitItems();
 }
 
 function formatImpr(n) {
@@ -946,16 +980,31 @@ function refreshSelectedMapSource() {
 function renderCircuitSelector() {
   const defs = circuitDefinitions();
   const select = document.getElementById('circuit-select');
+  const subselect = document.getElementById('circuit-subselect');
   const list = document.getElementById('circuit-list');
   const title = document.getElementById('circuit-list-title');
+  const selectAllBtn = document.getElementById('circuit-select-all');
   if (!select || !list || !title) return;
   const circuit = defs[selectedCircuitId] || defs.kioskos;
   select.value = selectedCircuitId;
-  const idsInCircuit = new Set(circuit.items.map(l => l.id));
+  const lineOptions = selectedCircuitId === 'metro_bcn' ? metroLineOptions(circuit.items) : [];
+  if (subselect) {
+    subselect.hidden = selectedCircuitId !== 'metro_bcn';
+    if (!subselect.hidden) {
+      if (selectedMetroLine !== 'all' && !lineOptions.includes(selectedMetroLine)) selectedMetroLine = 'all';
+      subselect.innerHTML = '<option value="all">Todas las líneas</option>' + lineOptions.map(line => `<option value="${escHtml(line)}">${escHtml(line)}</option>`).join('');
+      subselect.value = selectedMetroLine;
+    }
+  }
+  const items = currentCircuitItems();
+  if (selectAllBtn) {
+    selectAllBtn.textContent = selectedCircuitId === 'metro_bcn' && selectedMetroLine !== 'all' ? 'Toda línea' : 'Todo circuito';
+  }
+  const idsInCircuit = new Set(items.map(l => l.id));
   selectedLocationIds = circuitAutoSelect
-    ? new Set(circuit.items.map(l => l.id))
+    ? new Set(items.map(l => l.id))
     : new Set([...selectedLocationIds].filter(id => idsInCircuit.has(id)));
-  list.innerHTML = circuit.items.map(loc => {
+  list.innerHTML = items.map(loc => {
     const live = loc.surfaces.filter(s => s.status === 'live').length;
     const checked = selectedLocationIds.has(loc.id) ? ' checked' : '';
     return `<label class="circuit-point">
@@ -967,7 +1016,7 @@ function renderCircuitSelector() {
       <span class="cp-meta">${live}/${loc.surfaces.length}</span>
     </label>`;
   }).join('');
-  title.textContent = `${circuit.label} · ${circuit.items.length} puntos`;
+  title.textContent = `${currentCircuitLabel()} · ${items.length} puntos`;
   updateCircuitSummary();
   refreshSelectedMapSource();
 }
@@ -991,7 +1040,7 @@ function updateCircuitSummary() {
 
 function selectWholeCircuit() {
   circuitAutoSelect = true;
-  selectedLocationIds = new Set(currentCircuit().items.map(l => l.id));
+  selectedLocationIds = new Set(currentCircuitItems().map(l => l.id));
   renderCircuitSelector();
 }
 
@@ -1328,6 +1377,7 @@ function bindCircuitSelector() {
   const toggle = document.getElementById('circuit-toggle');
   const headerBtn = document.getElementById('header-circuit-btn');
   const select = document.getElementById('circuit-select');
+  const subselect = document.getElementById('circuit-subselect');
   const list = document.getElementById('circuit-list');
   if (!panelEl || !toggle || !select || !list) return;
   if (headerBtn) {
@@ -1351,11 +1401,21 @@ function bindCircuitSelector() {
   });
   select.addEventListener('change', () => {
     selectedCircuitId = select.value;
+    selectedMetroLine = 'all';
     circuitAutoSelect = false;
     selectedLocationIds = new Set();
     circuitMapFilterActive = true;
     renderCircuitSelector();
   });
+  if (subselect) {
+    subselect.addEventListener('change', () => {
+      selectedMetroLine = subselect.value || 'all';
+      circuitAutoSelect = false;
+      selectedLocationIds = new Set();
+      circuitMapFilterActive = true;
+      renderCircuitSelector();
+    });
+  }
   document.getElementById('circuit-select-all').addEventListener('click', selectWholeCircuit);
   document.getElementById('circuit-clear').addEventListener('click', clearCircuitSelection);
   document.getElementById('circuit-zoom').addEventListener('click', zoomToSelectedCircuit);

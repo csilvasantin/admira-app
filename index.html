@@ -486,6 +486,7 @@
   </div>
   <div class="circuit-body">
     <select class="circuit-select" id="circuit-select" aria-label="Circuito">
+      <option value="metro_bcn">Circuito Metro Barcelona</option>
       <option value="kioskos">Circuito kioskos de prensa</option>
       <option value="all">Toda la red OmniPublicity</option>
       <option value="estancos">Circuito estancos</option>
@@ -873,8 +874,17 @@ function isEstancoLocation(loc) {
   return hay.includes('estanco') || hay.includes('xtanco');
 }
 
+function isMetroBarcelonaLocation(loc) {
+  const hay = normText([loc.id, loc.name, loc.kind, loc.addr].join(' '));
+  return hay.includes('metro-barcelona') || (hay.includes('metro') && hay.includes('barcelona'));
+}
+
 function circuitDefinitions() {
   return {
+    metro_bcn: {
+      label: 'Circuito Metro Barcelona',
+      items: LOCATIONS.filter(isMetroBarcelonaLocation),
+    },
     kioskos: {
       label: 'Circuito kioskos de prensa',
       items: LOCATIONS.filter(isKioskoLocation),
@@ -889,7 +899,7 @@ function circuitDefinitions() {
     },
     retail: {
       label: 'Otros retail físicos',
-      items: LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l)),
+      items: LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l)),
     },
   };
 }
@@ -934,6 +944,7 @@ function renderCircuitSelector() {
   const title = document.getElementById('circuit-list-title');
   if (!select || !list || !title) return;
   const circuit = defs[selectedCircuitId] || defs.kioskos;
+  select.value = selectedCircuitId;
   const idsInCircuit = new Set(circuit.items.map(l => l.id));
   selectedLocationIds = circuitAutoSelect
     ? new Set(circuit.items.map(l => l.id))

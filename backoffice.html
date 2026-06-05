@@ -124,9 +124,18 @@
   .bo-map-pane .mh{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
   .bo-map-pane .mh h3{font-family:monospace;font-size:11px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;margin:0}
   .bo-map-pane .mh .hint{font-size:11px;color:var(--mut);line-height:1.4}
-  .bo-map-pane #bo-map{flex:1;min-height:300px}
+  .bo-map-pane #bo-map{flex:1 1 48%;min-height:260px}
   .bo-map-pane .mfoot{padding:10px 18px;border-top:1px solid var(--line);font-family:monospace;font-size:11px;color:var(--mut);display:flex;justify-content:space-between;gap:8px}
   .bo-map-pane .mfoot b{color:var(--brand)}
+  .place-photo{border-top:1px solid var(--line);background:rgba(2,8,13,.72);padding:14px 18px 16px;display:flex;flex-direction:column;gap:10px}
+  .place-photo .photo-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .place-photo h3{font-family:monospace;font-size:11px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase;margin:0}
+  .place-photo a{font-family:monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);white-space:nowrap}
+  .place-photo .photo-frame{height:260px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:linear-gradient(135deg,rgba(10,22,32,.92),rgba(2,8,13,.96));position:relative}
+  .place-photo iframe{width:100%;height:100%;border:0;display:block;background:#0a1620}
+  .place-photo .photo-empty{height:100%;display:flex;align-items:center;justify-content:center;text-align:center;padding:22px;color:var(--mut);font-family:monospace;font-size:12px;line-height:1.5}
+  .place-photo .photo-caption{font-size:11px;color:var(--mut);line-height:1.4}
+  @media(max-width:1100px){.place-photo .photo-frame{height:220px}}
 
   /* Toast */
   .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(10,22,32,.96);border:1px solid var(--brand);border-radius:8px;padding:12px 20px;font-family:monospace;font-size:12px;color:var(--ink);letter-spacing:.04em;z-index:30;display:none;backdrop-filter:blur(8px);box-shadow:0 4px 24px rgba(0,0,0,.5)}
@@ -259,6 +268,16 @@
       <span class="hint" data-i18n="pin_hint">Haz click en cualquier punto del mapa para fijar las coordenadas del formulario.</span>
     </div>
     <div id="bo-map"></div>
+    <section class="place-photo" id="place-photo">
+      <div class="photo-head">
+        <h3>Foto del Xpacio</h3>
+        <a id="photo-link" href="https://www.google.com/maps" target="_blank" rel="noopener">Abrir en Google Maps ↗</a>
+      </div>
+      <div class="photo-frame" id="photo-frame">
+        <div class="photo-empty">Selecciona un Xpacio para cargar su vista de Google Maps.</div>
+      </div>
+      <div class="photo-caption" id="photo-caption">La vista se genera automáticamente con las coordenadas del formulario.</div>
+    </section>
     <div class="mfoot">
       <span><span data-i18n="center">Centro:</span> <b id="m-center">—</b></span>
       <span><span data-i18n="zoom">zoom</span> <b id="m-zoom">—</b></span>
@@ -622,6 +641,7 @@ function editLocation(idx) {
   $('f-cameras').checked = (loc.cameras !== false); // por defecto con cámaras
   $('f-employees').value = employeesToText(loc.employees);
   renderSurfaces(loc.surfaces);
+  renderPlacePhoto(loc);
   renderList();
   if (loc.coords && map) map.flyTo({center: loc.coords, zoom: 14, duration: 600});
 }
@@ -647,6 +667,7 @@ function newLocation() {
   $('f-cameras').checked = true;
   $('f-employees').value = '';
   renderSurfaces(loc.surfaces);
+  renderPlacePhoto(loc);
   renderList();
 }
 
@@ -675,6 +696,7 @@ function closeEditor() {
   editingIdx = -1;
   $('bo-empty').hidden = false;
   $('bo-editor').hidden = true;
+  renderPlacePhoto(null);
   renderList();
 }
 
@@ -801,6 +823,7 @@ async function geocodeAddress() {
     $('f-lat').value = lat.toFixed(6);
     $('f-lng').value = lng.toFixed(6);
     if (map) map.flyTo({center:[lng, lat], zoom:15, duration: 800});
+    renderPlacePhoto(readPhotoFormLocation());
     showToast('Coordenadas fijadas: ' + lat.toFixed(4) + ', ' + lng.toFixed(4));
   } catch (e) {
     showToast(t('no_geo'), 'err');
@@ -837,6 +860,7 @@ function initMap() {
     $('f-lat').value = lat.toFixed(6);
     $('f-lng').value = lng.toFixed(6);
     placePinMarker(lng, lat);
+    renderPlacePhoto(readPhotoFormLocation());
     showToast('Pin: ' + lat.toFixed(4) + ', ' + lng.toFixed(4));
   });
 }
@@ -850,7 +874,52 @@ function placePinMarker(lng, lat) {
     const c = pinMarker.getLngLat();
     $('f-lat').value = c.lat.toFixed(6);
     $('f-lng').value = c.lng.toFixed(6);
+    renderPlacePhoto(readPhotoFormLocation());
   });
+}
+
+// ─── Foto del Xpacio desde Google Maps / Street View ──────────────
+function readPhotoFormLocation() {
+  const lat = parseFloat($('f-lat').value);
+  const lng = parseFloat($('f-lng').value);
+  return {
+    name: $('f-name').value.trim() || $('f-title').textContent || 'Xpacio',
+    addr: $('f-addr').value.trim(),
+    coords: [Number.isFinite(lng) ? lng : NaN, Number.isFinite(lat) ? lat : NaN],
+  };
+}
+
+function googleMapsUrl(loc) {
+  const [lng, lat] = loc.coords || [];
+  const query = loc.addr ? loc.addr : `${lat},${lng}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+function googleStreetViewEmbedUrl(loc) {
+  const [lng, lat] = loc.coords || [];
+  const label = loc.addr || loc.name || `${lat},${lng}`;
+  const q = encodeURIComponent(label);
+  return `https://maps.google.com/maps?q=${q}&layer=c&cbll=${encodeURIComponent(lat + ',' + lng)}&cbp=12,0,0,0,0&output=svembed`;
+}
+
+function renderPlacePhoto(loc) {
+  const frame = $('photo-frame');
+  const caption = $('photo-caption');
+  const link = $('photo-link');
+  if (!frame || !caption || !link) return;
+  const coords = loc && Array.isArray(loc.coords) ? loc.coords : [];
+  const lng = Number(coords[0]);
+  const lat = Number(coords[1]);
+  if (!Number.isFinite(lng) || !Number.isFinite(lat)) {
+    frame.innerHTML = '<div class="photo-empty">Selecciona un Xpacio para cargar su vista de Google Maps.</div>';
+    caption.textContent = 'La vista se genera automáticamente con las coordenadas del formulario.';
+    link.href = 'https://www.google.com/maps';
+    return;
+  }
+  const title = (loc.name || 'Xpacio') + (loc.addr ? ' · ' + loc.addr : '');
+  link.href = googleMapsUrl(loc);
+  frame.innerHTML = `<iframe title="Foto Google Maps · ${escHtml(title)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="${escHtml(googleStreetViewEmbedUrl(loc))}"></iframe>`;
+  caption.textContent = title;
 }
 
 function renderMap() {

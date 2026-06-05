@@ -171,10 +171,11 @@
   @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
 
   /* Selector de circuitos para compra de inventario */
-  .circuit-panel{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:12;width:360px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
+  .circuit-panel{position:fixed;top:82px;right:18px;z-index:12;width:360px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
   .circuit-panel[hidden]{display:none}
   .circuit-panel.collapsed .circuit-body{display:none}
-  .circuit-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line)}
+  .circuit-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);cursor:grab;user-select:none}
+  .circuit-head:active{cursor:grabbing}
   .circuit-head h3{margin:0;font-family:monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
   .circuit-toggle{width:28px;height:28px;border:1px solid var(--line);border-radius:7px;background:transparent;color:var(--brand);font-family:monospace;cursor:pointer}
   .circuit-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px}
@@ -374,7 +375,7 @@
     .splash p{font-size:13px;line-height:1.45;max-width:none}
     .splash .arrow{margin-top:16px;font-size:11px}
     .live-ticker{top:auto;bottom:90px;right:74px;left:12px;font-size:10px;min-width:0}
-    .circuit-panel{top:146px;bottom:auto;left:12px;transform:none;width:calc(100vw - 24px)}
+    .circuit-panel{top:146px;right:12px;bottom:auto;left:auto;width:calc(100vw - 24px)}
     .circuit-list{max-height:160px}
   }
 </style>
@@ -877,6 +878,60 @@ function openCircuitPurchase() {
   setStatus('Compra preparada · ' + locs.length + ' puntos seleccionados');
 }
 
+function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+
+function setCircuitPanelPosition(x, y, persist = true) {
+  const panelEl = document.getElementById('circuit-panel');
+  if (!panelEl) return;
+  const rect = panelEl.getBoundingClientRect();
+  const margin = 12;
+  const maxX = Math.max(margin, window.innerWidth - rect.width - margin);
+  const maxY = Math.max(margin, window.innerHeight - rect.height - margin);
+  const nx = clamp(x, margin, maxX);
+  const ny = clamp(y, margin, maxY);
+  panelEl.style.left = nx + 'px';
+  panelEl.style.top = ny + 'px';
+  panelEl.style.right = 'auto';
+  panelEl.style.bottom = 'auto';
+  panelEl.style.transform = 'none';
+  if (persist) {
+    try { localStorage.setItem('omnip-circuit-panel-pos', JSON.stringify({x:nx, y:ny})); } catch (_) {}
+  }
+}
+
+function restoreCircuitPanelPosition() {
+  try {
+    const pos = JSON.parse(localStorage.getItem('omnip-circuit-panel-pos') || 'null');
+    if (pos && Number.isFinite(pos.x) && Number.isFinite(pos.y)) setCircuitPanelPosition(pos.x, pos.y, false);
+  } catch (_) {}
+}
+
+function bindCircuitPanelDrag() {
+  const panelEl = document.getElementById('circuit-panel');
+  const head = panelEl && panelEl.querySelector('.circuit-head');
+  if (!panelEl || !head) return;
+  let dragging = false, dx = 0, dy = 0;
+  head.addEventListener('pointerdown', e => {
+    if (e.target.closest('button')) return;
+    dragging = true;
+    const rect = panelEl.getBoundingClientRect();
+    dx = e.clientX - rect.left;
+    dy = e.clientY - rect.top;
+    try { head.setPointerCapture(e.pointerId); } catch (_) {}
+  });
+  head.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    setCircuitPanelPosition(e.clientX - dx, e.clientY - dy);
+  });
+  function stopDrag() { dragging = false; }
+  head.addEventListener('pointerup', stopDrag);
+  head.addEventListener('pointercancel', stopDrag);
+  window.addEventListener('resize', () => {
+    const rect = panelEl.getBoundingClientRect();
+    setCircuitPanelPosition(rect.left, rect.top);
+  });
+}
+
 function bindCircuitSelector() {
   const panelEl = document.getElementById('circuit-panel');
   const toggle = document.getElementById('circuit-toggle');
@@ -887,6 +942,7 @@ function bindCircuitSelector() {
   if (headerBtn) {
     headerBtn.addEventListener('click', () => {
       panelEl.hidden = !panelEl.hidden;
+      if (!panelEl.hidden) restoreCircuitPanelPosition();
       headerBtn.classList.toggle('active', !panelEl.hidden);
     });
   }
@@ -913,6 +969,7 @@ function bindCircuitSelector() {
     updateCircuitSummary();
     refreshSelectedMapSource();
   });
+  bindCircuitPanelDrag();
   selectWholeCircuit();
 }
 

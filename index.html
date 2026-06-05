@@ -168,6 +168,38 @@
   .live-ticker .lt-head .pulse{width:6px;height:6px;border-radius:50%;background:var(--good);box-shadow:0 0 6px var(--good);animation:pulseDot 1.4s ease-in-out infinite}
   @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
 
+  /* Selector de circuitos para compra de inventario */
+  .circuit-panel{position:fixed;top:92px;left:18px;z-index:8;width:330px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.94);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
+  .circuit-panel.collapsed .circuit-body{display:none}
+  .circuit-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line)}
+  .circuit-head h3{margin:0;font-family:monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .circuit-toggle{width:28px;height:28px;border:1px solid var(--line);border-radius:7px;background:transparent;color:var(--brand);font-family:monospace;cursor:pointer}
+  .circuit-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px}
+  .circuit-select{width:100%;height:36px;background:rgba(2,8,13,.75);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:13px;padding:0 10px;outline:0}
+  .circuit-select:focus{border-color:var(--brand)}
+  .circuit-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .circuit-actions button,.circuit-secondary,.circuit-buy{height:34px;border-radius:7px;border:1px solid var(--line);background:transparent;color:var(--mut);font-family:monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+  .circuit-actions button:hover,.circuit-secondary:hover{border-color:var(--brand);color:var(--brand)}
+  .circuit-buy{height:38px;background:var(--brand);border-color:var(--brand);color:#001620;font-weight:800}
+  .circuit-buy:disabled{opacity:.45;cursor:default;filter:saturate(.4)}
+  .circuit-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .circuit-stat{background:rgba(2,8,13,.55);border:1px solid rgba(120,243,255,.12);border-radius:8px;padding:8px 7px;font-family:monospace;font-size:9px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase}
+  .circuit-stat b{display:block;color:var(--brand);font-size:15px;letter-spacing:0;text-transform:none;margin-bottom:2px}
+  .circuit-list-wrap{border:1px solid var(--line);border-radius:9px;overflow:hidden;background:rgba(2,8,13,.42)}
+  .circuit-list-wrap summary{cursor:pointer;list-style:none;padding:9px 10px;font-family:monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);border-bottom:1px solid var(--line)}
+  .circuit-list-wrap summary::-webkit-details-marker{display:none}
+  .circuit-list{max-height:230px;overflow-y:auto}
+  .circuit-point{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:start;padding:8px 10px;border-bottom:1px solid rgba(120,243,255,.07);cursor:pointer}
+  .circuit-point:last-child{border-bottom:0}
+  .circuit-point:hover{background:rgba(120,243,255,.06)}
+  .circuit-point input{margin:2px 0 0;accent-color:var(--brand)}
+  .circuit-point .cp-name{display:block;font-size:12px;font-weight:700;color:var(--ink);line-height:1.2}
+  .circuit-point .cp-addr{display:block;font-size:10.5px;color:var(--mut);line-height:1.3;margin-top:2px}
+  .circuit-point .cp-meta{font-family:monospace;font-size:10px;color:var(--brand);white-space:nowrap}
+  .circuit-foot{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .circuit-note{color:var(--mut);font-size:11px;line-height:1.35}
+  .circuit-note b{color:var(--accent);font-family:monospace}
+
   /* Panel lateral con surfaces */
   aside.panel{position:fixed;top:80px;right:0;bottom:0;width:400px;max-width:92vw;background:rgba(10,22,32,.96);border-left:1px solid var(--line);backdrop-filter:blur(12px);overflow-y:auto;transform:translateX(110%);transition:transform .35s cubic-bezier(.2,.8,.2,1);z-index:9}
   aside.panel.open{transform:translateX(0)}
@@ -338,6 +370,8 @@
     .splash p{font-size:13px;line-height:1.45;max-width:none}
     .splash .arrow{margin-top:16px;font-size:11px}
     .live-ticker{top:auto;bottom:90px;right:74px;left:12px;font-size:10px;min-width:0}
+    .circuit-panel{top:auto;bottom:154px;left:12px;width:calc(100vw - 86px)}
+    .circuit-list{max-height:160px}
   }
 </style>
 </head>
@@ -399,6 +433,39 @@
   <div class="lt-row"><span data-i18n="stores">tiendas</span><b id="t-locs">5</b></div>
   <div class="lt-row"><span data-i18n="screens">pantallas</span><b id="t-screens">—</b></div>
 </div>
+
+<section class="circuit-panel" id="circuit-panel" aria-label="Selector de circuitos">
+  <div class="circuit-head">
+    <h3>Comprar por circuito</h3>
+    <button class="circuit-toggle" id="circuit-toggle" type="button" title="Ocultar / mostrar">−</button>
+  </div>
+  <div class="circuit-body">
+    <select class="circuit-select" id="circuit-select" aria-label="Circuito">
+      <option value="kioskos">Circuito kioskos de prensa</option>
+      <option value="all">Toda la red OmniPublicity</option>
+      <option value="estancos">Circuito estancos</option>
+      <option value="retail">Otros retail físicos</option>
+    </select>
+    <div class="circuit-actions">
+      <button type="button" id="circuit-select-all">Todo circuito</button>
+      <button type="button" id="circuit-clear">Limpiar</button>
+    </div>
+    <div class="circuit-stats">
+      <div class="circuit-stat"><b id="circuit-sel-count">0</b>puntos</div>
+      <div class="circuit-stat"><b id="circuit-sel-impr">0</b>impr/día</div>
+      <div class="circuit-stat"><b id="circuit-sel-cpm">—</b>CPM</div>
+    </div>
+    <details class="circuit-list-wrap" open>
+      <summary id="circuit-list-title">Puntos del circuito</summary>
+      <div class="circuit-list" id="circuit-list"></div>
+    </details>
+    <div class="circuit-foot">
+      <button class="circuit-secondary" type="button" id="circuit-zoom">Ver en mapa</button>
+      <button class="circuit-buy" type="button" id="circuit-buy" data-admira-contact disabled>Comprar selección</button>
+    </div>
+    <div class="circuit-note" id="circuit-note">Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.</div>
+  </div>
+</section>
 
 <div class="splash" id="splash">
   <button class="splash-close" id="splash-close" type="button" data-i18n-aria="close" aria-label="Cerrar">×</button>
@@ -513,6 +580,9 @@
 // omnipublicity-api (KV) y, si trae algo distinto, re-renderizamos sources +
 // counters. Primer load = instantáneo; segundo paint = autoritativo.
 let LOCATIONS = window.loadOmnipLocations();
+let selectedCircuitId = 'kioskos';
+let selectedLocationIds = new Set();
+let circuitAutoSelect = true;
 
 // ─── i18n: español / inglés ───────────────────────────────────────
 const I18N = {
@@ -647,6 +717,192 @@ const TWIN_BASE = 'https://www.carlossilva.info/01.-AdmiraXperience-Game/game.ht
 const TWIN_HD_BASE = '';
 // Botón "Red de tiendas" → abre la vista mapa/red de todos los puntos en el gemelo.
 try { const _navRed = document.getElementById('nav-red'); if (_navRed) _navRed.href = TWIN_BASE + '&view=red'; } catch (e) {}
+
+// ─── Selector de circuitos / compra de inventario ─────────────────
+function normText(s) {
+  return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+
+function isKioskoLocation(loc) {
+  const hay = normText([loc.id, loc.name, loc.kind, loc.addr].join(' '));
+  return hay.includes('kiosko') || hay.includes('quiosco') || hay.includes('prensa');
+}
+
+function isEstancoLocation(loc) {
+  const hay = normText([loc.id, loc.name, loc.kind].join(' '));
+  return hay.includes('estanco') || hay.includes('xtanco');
+}
+
+function circuitDefinitions() {
+  return {
+    kioskos: {
+      label: 'Circuito kioskos de prensa',
+      items: LOCATIONS.filter(isKioskoLocation),
+    },
+    all: {
+      label: 'Toda la red OmniPublicity',
+      items: LOCATIONS.slice(),
+    },
+    estancos: {
+      label: 'Circuito estancos',
+      items: LOCATIONS.filter(isEstancoLocation),
+    },
+    retail: {
+      label: 'Otros retail físicos',
+      items: LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l)),
+    },
+  };
+}
+
+function currentCircuit() {
+  const defs = circuitDefinitions();
+  return defs[selectedCircuitId] || defs.kioskos;
+}
+
+function selectedLocations() {
+  const byId = new Map(LOCATIONS.map(l => [l.id, l]));
+  return [...selectedLocationIds].map(id => byId.get(id)).filter(Boolean);
+}
+
+function formatImpr(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+  if (n >= 1000) return (n / 1000).toFixed(n >= 10000 ? 0 : 1) + 'K';
+  return String(n);
+}
+
+function locationDailyImpr(loc) {
+  return loc.surfaces.reduce((a, s) => a + (Number(s.impr) || 0), 0);
+}
+
+function locationCpmValues(loc) {
+  return loc.surfaces.map(s => parseFloat(String(s.cpm).replace(/[^\d.]/g,''))).filter(Boolean);
+}
+
+function refreshSelectedMapSource() {
+  const src = map && map.getSource && map.getSource('locs');
+  if (src) src.setData(locationsGeoJSON());
+}
+
+function renderCircuitSelector() {
+  const defs = circuitDefinitions();
+  const select = document.getElementById('circuit-select');
+  const list = document.getElementById('circuit-list');
+  const title = document.getElementById('circuit-list-title');
+  if (!select || !list || !title) return;
+  const circuit = defs[selectedCircuitId] || defs.kioskos;
+  const idsInCircuit = new Set(circuit.items.map(l => l.id));
+  selectedLocationIds = circuitAutoSelect
+    ? new Set(circuit.items.map(l => l.id))
+    : new Set([...selectedLocationIds].filter(id => idsInCircuit.has(id)));
+  list.innerHTML = circuit.items.map(loc => {
+    const live = loc.surfaces.filter(s => s.status === 'live').length;
+    const checked = selectedLocationIds.has(loc.id) ? ' checked' : '';
+    return `<label class="circuit-point">
+      <input type="checkbox" value="${escHtml(loc.id)}"${checked}>
+      <span>
+        <span class="cp-name">${escHtml(loc.name)}</span>
+        <span class="cp-addr">${escHtml(loc.addr)}</span>
+      </span>
+      <span class="cp-meta">${live}/${loc.surfaces.length}</span>
+    </label>`;
+  }).join('');
+  title.textContent = `${circuit.label} · ${circuit.items.length} puntos`;
+  updateCircuitSummary();
+  refreshSelectedMapSource();
+}
+
+function updateCircuitSummary() {
+  const locs = selectedLocations();
+  const impr = locs.reduce((a, loc) => a + locationDailyImpr(loc), 0);
+  const cpms = locs.flatMap(locationCpmValues);
+  const lo = cpms.length ? Math.min(...cpms) : null;
+  const hi = cpms.length ? Math.max(...cpms) : null;
+  document.getElementById('circuit-sel-count').textContent = locs.length;
+  document.getElementById('circuit-sel-impr').textContent = formatImpr(impr);
+  document.getElementById('circuit-sel-cpm').textContent = lo == null ? '—' : (lo === hi ? `€${lo}` : `€${lo}-${hi}`);
+  const buy = document.getElementById('circuit-buy');
+  if (buy) buy.disabled = !locs.length;
+  const note = document.getElementById('circuit-note');
+  if (note) note.innerHTML = locs.length
+    ? `Selección lista: <b>${locs.length}</b> puntos · <b>${formatImpr(impr)}</b> impresiones/día estimadas.`
+    : 'Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.';
+}
+
+function selectWholeCircuit() {
+  circuitAutoSelect = true;
+  selectedLocationIds = new Set(currentCircuit().items.map(l => l.id));
+  renderCircuitSelector();
+}
+
+function clearCircuitSelection() {
+  circuitAutoSelect = false;
+  selectedLocationIds = new Set();
+  renderCircuitSelector();
+}
+
+function zoomToSelectedCircuit() {
+  const locs = selectedLocations();
+  if (!locs.length) return;
+  splash.classList.add('hidden');
+  panel.classList.remove('open');
+  if (locs.length === 1) {
+    flyToLocation(locs[0]);
+    return;
+  }
+  const bounds = new maplibregl.LngLatBounds();
+  locs.forEach(loc => bounds.extend(loc.coords));
+  map.fitBounds(bounds, {padding:{top:120,bottom:90,left:380,right:420}, duration:1200, maxZoom:6});
+  setStatus('Selección · ' + locs.length + ' puntos');
+}
+
+function openCircuitPurchase() {
+  const locs = selectedLocations();
+  if (!locs.length) return;
+  try {
+    sessionStorage.setItem('omnip-buy-selection', JSON.stringify({
+      circuit: selectedCircuitId,
+      ids: locs.map(l => l.id),
+      names: locs.map(l => l.name),
+      imprDay: locs.reduce((a, loc) => a + locationDailyImpr(loc), 0),
+      createdAt: new Date().toISOString(),
+    }));
+  } catch (_) {}
+  document.body.classList.add('admira-contact-open');
+  location.hash = 'contact';
+  setStatus('Compra preparada · ' + locs.length + ' puntos seleccionados');
+}
+
+function bindCircuitSelector() {
+  const panelEl = document.getElementById('circuit-panel');
+  const toggle = document.getElementById('circuit-toggle');
+  const select = document.getElementById('circuit-select');
+  const list = document.getElementById('circuit-list');
+  if (!panelEl || !toggle || !select || !list) return;
+  toggle.addEventListener('click', () => {
+    panelEl.classList.toggle('collapsed');
+    toggle.textContent = panelEl.classList.contains('collapsed') ? '+' : '−';
+  });
+  select.addEventListener('change', () => {
+    selectedCircuitId = select.value;
+    circuitAutoSelect = true;
+    selectedLocationIds = new Set();
+    renderCircuitSelector();
+  });
+  document.getElementById('circuit-select-all').addEventListener('click', selectWholeCircuit);
+  document.getElementById('circuit-clear').addEventListener('click', clearCircuitSelection);
+  document.getElementById('circuit-zoom').addEventListener('click', zoomToSelectedCircuit);
+  document.getElementById('circuit-buy').addEventListener('click', openCircuitPurchase);
+  list.addEventListener('change', e => {
+    const box = e.target.closest('input[type="checkbox"]');
+    if (!box) return;
+    circuitAutoSelect = false;
+    if (box.checked) selectedLocationIds.add(box.value);
+    else selectedLocationIds.delete(box.value);
+    updateCircuitSummary();
+    refreshSelectedMapSource();
+  });
+  selectWholeCircuit();
+}
 
 // ─── Estilos disponibles ───────────────────────────────────────────
 // Glyphs compartidos (CARTO sirve "Open Sans …") para las capas que no
@@ -806,6 +1062,7 @@ function locationsGeoJSON() {
       geometry:{type:'Point', coordinates: l.coords},
       properties:{
         id: l.id, name: l.name, kind: l.kind, addr: l.addr,
+        selected: selectedLocationIds && selectedLocationIds.has(l.id) ? 1 : 0,
         live: l.surfaces.filter(s=>s.status==='live').length,
         total: l.surfaces.length,
       },
@@ -866,6 +1123,17 @@ function addLocationsLayer() {
       'circle-stroke-width':2,
       'circle-stroke-opacity':0.6,
       'circle-blur':0.25,
+    },
+  });
+  map.addLayer({
+    id:'selected-ring', type:'circle', source:'locs',
+    filter:['all',['!',['has','point_count']],['==',['get','selected'],1]],
+    paint:{
+      'circle-color':'rgba(120,243,255,0)',
+      'circle-radius':['interpolate',['linear'],['zoom'], 2,12, 6,18, 12,30],
+      'circle-stroke-color':'#78f3ff',
+      'circle-stroke-width':3,
+      'circle-stroke-opacity':0.9,
     },
   });
   // Punto nítido encima del glow.
@@ -1612,6 +1880,7 @@ searchInput.addEventListener('keydown', async (e) => {
 
 // ─── Counters iniciales ───────────────────────────────────────────
 document.getElementById('t-locs').textContent = LOCATIONS.length;
+bindCircuitSelector();
 
 // ─── Refresh asincrónico desde el worker (KV) ─────────────────────
 // El sync arrancó con localStorage/default. Si la KV trae algo nuevo,
@@ -1628,6 +1897,7 @@ document.getElementById('t-locs').textContent = LOCATIONS.length;
       const lo = Math.min(...cpms), hi = Math.max(...cpms);
       const el = document.getElementById('p-cpm'); if (el) el.textContent = lo === hi ? `€${lo}` : `€${lo}-€${hi}`;
     }
+    renderCircuitSelector();
     const src = map && map.getSource && map.getSource('locs');
     if (src) src.setData(locationsGeoJSON());
   } catch {}

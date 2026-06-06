@@ -7,7 +7,7 @@
 <meta name="description" content="Backoffice para dar de alta gemelos digitales (tiendas + surfaces) en el mapa de OmniPublicity.">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
-<script src="locations.js"></script>
+<script src="locations.js?v=segmentation-20260606"></script>
 <style>
   :root{--bg:#02080d;--ink:#dff8ff;--mut:#75aab9;--brand:#78f3ff;--accent:#ffd866;--good:#88ffaa;--warn:#ff8866;--danger:#ff4f5e;--card:#0a1620;--card2:#0d1c28;--line:rgba(120,243,255,.18)}
   *{box-sizing:border-box}
@@ -102,6 +102,17 @@
   .bo-form .row input, .bo-form .row select, .bo-form .row textarea{width:100%;background:rgba(2,8,13,.7);border:1px solid var(--line);border-radius:6px;padding:8px 10px;color:var(--ink);font-family:inherit;font-size:13px;outline:0;transition:border-color .12s}
   .bo-form .row input:focus, .bo-form .row select:focus, .bo-form .row textarea:focus{border-color:var(--brand)}
   .bo-form .row textarea{min-height:54px;resize:vertical;font-family:inherit}
+  .time-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .check-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+  .check-grid label{display:flex;align-items:center;gap:8px;background:rgba(2,8,13,.55);border:1px solid var(--line);border-radius:6px;padding:8px 10px;color:var(--ink);cursor:pointer}
+  .check-grid input{width:auto!important}
+  .meta-list{display:flex;flex-direction:column;gap:8px}
+  .meta-row{display:grid;grid-template-columns:1fr 1.2fr 1.2fr 90px 30px;gap:8px;align-items:center;background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:8px}
+  .meta-row input,.meta-row select{width:100%;background:rgba(2,8,13,.7);border:1px solid transparent;border-radius:4px;padding:6px 8px;color:var(--ink);font-size:12px;outline:0;font-family:inherit}
+  .meta-row input:focus,.meta-row select:focus{border-color:var(--brand)}
+  .meta-row .del{background:transparent;border:0;color:var(--mut);cursor:pointer;font-size:18px;padding:0;line-height:1}
+  .meta-row .del:hover{color:var(--danger)}
+  .mini-note{font-size:11px;color:var(--mut);line-height:1.5;margin:8px 0 0}
   .bo-form .coords-row{display:grid;grid-template-columns:120px 1fr 1fr auto auto;gap:8px;align-items:center;margin-bottom:10px}
   .bo-form .coords-row label{font-family:monospace;font-size:11px;color:var(--mut);letter-spacing:.06em;text-transform:uppercase}
   .bo-form .coords-row input{width:100%;background:rgba(2,8,13,.7);border:1px solid var(--line);border-radius:6px;padding:8px 10px;color:var(--ink);font-size:13px;outline:0;font-family:monospace}
@@ -243,6 +254,45 @@
       </fieldset>
 
       <fieldset>
+        <legend data-i18n="legend_segmentation">Segmentación obligatoria</legend>
+        <div class="row">
+          <label data-i18n="label_schedule">Horario</label>
+          <div class="time-pair">
+            <input id="f-seg-start" type="time" required value="08:00">
+            <input id="f-seg-end" type="time" required value="20:00">
+          </div>
+        </div>
+        <div class="row">
+          <label for="f-seg-typology" data-i18n="label_typology">Tipología</label>
+          <select id="f-seg-typology" required>
+            <option value="both" data-i18n="typology_both">Exterior + interior</option>
+            <option value="exterior" data-i18n="typology_exterior">Exterior</option>
+            <option value="interior" data-i18n="typology_interior">Interior</option>
+          </select>
+        </div>
+        <div class="row" style="align-items:flex-start">
+          <label data-i18n="label_gender">Género</label>
+          <div class="check-grid" id="seg-genders"></div>
+        </div>
+        <div class="row" style="align-items:flex-start">
+          <label data-i18n="label_age">Edad</label>
+          <div class="check-grid" id="seg-ages"></div>
+        </div>
+        <div class="row" style="align-items:flex-start">
+          <label data-i18n="label_time_slots">Franjas</label>
+          <div class="check-grid" id="seg-timeSlots"></div>
+        </div>
+        <div class="row" style="align-items:flex-start">
+          <label data-i18n="label_metadata">Metadata</label>
+          <div>
+            <div class="meta-list" id="seg-meta-list"></div>
+            <button type="button" class="surf-add" id="btn-meta-add" data-i18n="add_metadata">+ Añadir metadata</button>
+            <p class="mini-note" data-i18n="metadata_note">Criterios opcionales creados por el exclusivista: zona, audiencia premium, afluencia, idioma, temporada, etc.</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
         <legend data-i18n="legend_twin">Gemelo Digital</legend>
         <div class="row"><label for="f-music" data-i18n="label_music">Hilo musical</label><input id="f-music" type="text" placeholder="lounge · techno · pop · flamenco · seoul · trap"></div>
         <div class="row"><label for="f-cameras" data-i18n="label_cameras">Cámaras</label><label style="display:flex;align-items:center;gap:8px;font-weight:normal;cursor:pointer"><input id="f-cameras" type="checkbox" style="width:auto"> <span data-i18n="cameras_note">El punto tiene cámaras (LiveCam)</span></label></div>
@@ -319,6 +369,16 @@ const I18N = {
     save:'💾 Guardar', cancel:'Cancelar', del:'🗑 Eliminar',
     legend_identity:'Identidad', label_name:'Nombre', label_kind:'Tipo', label_addr:'Dirección',
     legend_coords:'Coordenadas', geocode:'🔍 Geocodificar dirección', pin_from_map:'📍 Pin desde mapa →',
+    legend_segmentation:'Segmentación obligatoria', label_schedule:'Horario', label_typology:'Tipología',
+    typology_both:'Exterior + interior', typology_exterior:'Exterior', typology_interior:'Interior',
+    label_gender:'Género', label_age:'Edad', label_time_slots:'Franjas', label_metadata:'Metadata',
+    seg_male:'Hombre', seg_female:'Mujer', age_child:'Niño <14', age_young:'Joven 15-30',
+    age_adult:'Adulto 30-50', age_senior:'Senior 50-65', age_elder:'Vejez >65',
+    time_morning:'Mañana 08:00-12:00', time_midday:'Mediodía 12:00-16:00',
+    time_afternoon:'Tarde 16:00-20:00', time_night:'Noche 20:00-00:00',
+    add_metadata:'+ Añadir metadata', metadata_note:'Criterios opcionales creados por el exclusivista: zona, audiencia premium, afluencia, idioma, temporada, etc.',
+    meta_key:'criterio', meta_label:'etiqueta', meta_value:'valor', meta_delete:'Eliminar metadata',
+    meta_type_text:'texto', meta_type_tag:'tag', meta_type_number:'número', meta_type_bool:'sí/no',
     legend_twin:'Gemelo Digital', label_music:'Hilo musical', label_cameras:'Cámaras',
     cameras_note:'El punto tiene cámaras (LiveCam)', label_employees:'Empleados',
     employees_note:'Roles: cajero · repositor · azafata · manager · dj. El gemelo (game.html?loc=&lt;id&gt;) usa estos datos.',
@@ -352,6 +412,16 @@ const I18N = {
     save:'💾 Save', cancel:'Cancel', del:'🗑 Delete',
     legend_identity:'Identity', label_name:'Name', label_kind:'Type', label_addr:'Address',
     legend_coords:'Coordinates', geocode:'🔍 Geocode address', pin_from_map:'📍 Pin from map →',
+    legend_segmentation:'Mandatory targeting', label_schedule:'Schedule', label_typology:'Typology',
+    typology_both:'Exterior + interior', typology_exterior:'Exterior', typology_interior:'Interior',
+    label_gender:'Gender', label_age:'Age', label_time_slots:'Time slots', label_metadata:'Metadata',
+    seg_male:'Male', seg_female:'Female', age_child:'Child <14', age_young:'Young 15-30',
+    age_adult:'Adult 30-50', age_senior:'Senior 50-65', age_elder:'Elder >65',
+    time_morning:'Morning 08:00-12:00', time_midday:'Midday 12:00-16:00',
+    time_afternoon:'Afternoon 16:00-20:00', time_night:'Night 20:00-00:00',
+    add_metadata:'+ Add metadata', metadata_note:'Optional criteria created by the exclusivist: zone, premium audience, footfall, language, season, etc.',
+    meta_key:'criterion', meta_label:'label', meta_value:'value', meta_delete:'Delete metadata',
+    meta_type_text:'text', meta_type_tag:'tag', meta_type_number:'number', meta_type_bool:'yes/no',
     legend_twin:'Digital Twin', label_music:'Music thread', label_cameras:'Cameras',
     cameras_note:'This location has cameras (LiveCam)', label_employees:'Employees',
     employees_note:'Roles: cashier · stocker · host · manager · dj. The twin (game.html?loc=&lt;id&gt;) uses this data.',
@@ -378,6 +448,9 @@ function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+  const currentSeg = $('bo-editor') && !$('bo-editor').hidden ? readSegmentationForm() : null;
+  renderSegmentationGroups();
+  if (currentSeg) fillSegmentation(currentSeg);
   document.documentElement.lang = LANG;
 }
 function setLang(lang){
@@ -459,8 +532,10 @@ async function bootBackoffice() {
   if (booted) return;
   booted = true;
   // Arranque sincrónico para no esperar al worker.
-  locations = window.loadOmnipLocations().map(l => JSON.parse(JSON.stringify(l)));
+  locations = window.loadOmnipLocations().map(l => JSON.parse(JSON.stringify(normalizeLocation(l))));
+  renderSegmentationGroups();
   bindSurfaces();
+  bindMetadata();
   initMap();
   renderList();
   setBadge('local', null);
@@ -471,7 +546,7 @@ async function bootBackoffice() {
     if (res && Array.isArray(res.locations) && res.locations.length) {
       const a = JSON.stringify(locations), b = JSON.stringify(res.locations);
       if (a !== b) {
-        locations = res.locations.map(l => JSON.parse(JSON.stringify(l)));
+        locations = res.locations.map(l => JSON.parse(JSON.stringify(normalizeLocation(l))));
         renderList();
         if (typeof renderMap === 'function') renderMap();
       }
@@ -572,6 +647,33 @@ const STATUSES = [
   {v:'sched', k:'st_sched'},
   {v:'idle',  k:'st_idle'},
 ];
+const SEGMENTATION_GROUPS = {
+  genders: [
+    {v:'hombre', k:'seg_male'},
+    {v:'mujer', k:'seg_female'},
+  ],
+  ages: [
+    {v:'nino', k:'age_child'},
+    {v:'joven', k:'age_young'},
+    {v:'adulto', k:'age_adult'},
+    {v:'senior', k:'age_senior'},
+    {v:'vejez', k:'age_elder'},
+  ],
+  timeSlots: [
+    {v:'manana', k:'time_morning'},
+    {v:'mediodia', k:'time_midday'},
+    {v:'tarde', k:'time_afternoon'},
+    {v:'noche', k:'time_night'},
+  ],
+};
+const DEFAULT_SEGMENTATION = (window.OMNIP_SEGMENTATION_OPTIONS || {
+  schedule: {start:'08:00', end:'20:00'},
+  typologies: ['exterior','interior'],
+  genders: ['hombre','mujer'],
+  ages: ['nino','joven','adulto','senior','vejez'],
+  timeSlots: ['manana','mediodia','tarde','noche'],
+  defaultTimeSlots: ['manana','mediodia','tarde'],
+});
 
 // ─── Helpers ───────────────────────────────────────────────────────
 function $(id) { return document.getElementById(id); }
@@ -584,11 +686,120 @@ function showToast(msg, kind) {
 }
 
 function persistAndRefresh() {
+  locations = locations.map(normalizeLocation);
   window.saveOmnipLocations(locations);
   renderList();
   renderMap();
   // Marcar dirty para que el usuario sepa que hay que publicar.
   if (typeof setBadge === 'function') setBadge('dirty', null);
+}
+
+function normalizeLocation(loc) {
+  if (typeof window.normalizeOmnipSegmentation === 'function') return window.normalizeOmnipSegmentation(loc);
+  const base = loc && typeof loc === 'object' ? loc : {};
+  const seg = base.segmentation && typeof base.segmentation === 'object' ? base.segmentation : {};
+  return Object.assign({}, base, {
+    segmentation: {
+      required: true,
+      schedule: Object.assign({}, DEFAULT_SEGMENTATION.schedule, seg.schedule || {}),
+      typologies: Array.isArray(seg.typologies) && seg.typologies.length ? seg.typologies : DEFAULT_SEGMENTATION.typologies.slice(),
+      genders: Array.isArray(seg.genders) && seg.genders.length ? seg.genders : DEFAULT_SEGMENTATION.genders.slice(),
+      ages: Array.isArray(seg.ages) && seg.ages.length ? seg.ages : DEFAULT_SEGMENTATION.ages.slice(),
+      timeSlots: Array.isArray(seg.timeSlots) && seg.timeSlots.length ? seg.timeSlots : DEFAULT_SEGMENTATION.defaultTimeSlots.slice(),
+      metadata: Array.isArray(seg.metadata) ? seg.metadata : [],
+    },
+  });
+}
+
+function renderSegmentationGroups() {
+  Object.entries(SEGMENTATION_GROUPS).forEach(([group, options]) => {
+    const el = $('seg-' + group);
+    if (!el) return;
+    el.innerHTML = options.map(o => `<label><input type="checkbox" data-seg-group="${group}" value="${o.v}"> ${escHtml(t(o.k))}</label>`).join('');
+  });
+}
+
+function setCheckedGroup(group, values) {
+  const selected = new Set(Array.isArray(values) ? values : []);
+  document.querySelectorAll(`[data-seg-group="${group}"]`).forEach(input => {
+    input.checked = selected.has(input.value);
+  });
+}
+
+function checkedGroup(group) {
+  return [...document.querySelectorAll(`[data-seg-group="${group}"]:checked`)].map(el => el.value);
+}
+
+function typologyToSelect(typologies) {
+  const set = new Set(Array.isArray(typologies) ? typologies : []);
+  if (set.has('exterior') && set.has('interior')) return 'both';
+  if (set.has('exterior')) return 'exterior';
+  if (set.has('interior')) return 'interior';
+  return 'both';
+}
+
+function selectToTypologies(value) {
+  if (value === 'exterior') return ['exterior'];
+  if (value === 'interior') return ['interior'];
+  return ['exterior','interior'];
+}
+
+function fillSegmentation(seg) {
+  const normalized = normalizeLocation({ segmentation: seg || {} }).segmentation;
+  $('f-seg-start').value = normalized.schedule.start || DEFAULT_SEGMENTATION.schedule.start;
+  $('f-seg-end').value = normalized.schedule.end || DEFAULT_SEGMENTATION.schedule.end;
+  $('f-seg-typology').value = typologyToSelect(normalized.typologies);
+  setCheckedGroup('genders', normalized.genders);
+  setCheckedGroup('ages', normalized.ages);
+  setCheckedGroup('timeSlots', normalized.timeSlots);
+  renderMetadata(normalized.metadata);
+}
+
+function readSegmentationForm() {
+  return normalizeLocation({
+    segmentation: {
+      required: true,
+      schedule: {
+        start: $('f-seg-start').value || DEFAULT_SEGMENTATION.schedule.start,
+        end: $('f-seg-end').value || DEFAULT_SEGMENTATION.schedule.end,
+      },
+      typologies: selectToTypologies($('f-seg-typology').value),
+      genders: checkedGroup('genders'),
+      ages: checkedGroup('ages'),
+      timeSlots: checkedGroup('timeSlots'),
+      metadata: readMetadata(),
+    },
+  }).segmentation;
+}
+
+function renderMetadata(items) {
+  const list = $('seg-meta-list');
+  if (!list) return;
+  const rows = Array.isArray(items) ? items : [];
+  list.innerHTML = rows.map((m, i) => metadataRow(m, i)).join('');
+}
+
+function metadataRow(m, i) {
+  const type = m && m.type ? m.type : 'text';
+  const opts = ['text','tag','number','bool'].map(v => `<option value="${v}"${type === v ? ' selected' : ''}>${escHtml(t('meta_type_' + v))}</option>`).join('');
+  return `<div class="meta-row" data-i="${i}">
+    <input data-meta="key" type="text" placeholder="${escHtml(t('meta_key'))}" value="${escHtml(m && m.key || '')}">
+    <input data-meta="label" type="text" placeholder="${escHtml(t('meta_label'))}" value="${escHtml(m && m.label || '')}">
+    <input data-meta="value" type="text" placeholder="${escHtml(t('meta_value'))}" value="${escHtml(m && m.value || '')}">
+    <select data-meta="type">${opts}</select>
+    <button type="button" class="del" title="${escHtml(t('meta_delete'))}">×</button>
+  </div>`;
+}
+
+function readMetadata() {
+  return [...document.querySelectorAll('#seg-meta-list .meta-row')].map(row => {
+    const key = row.querySelector('[data-meta=key]').value.trim();
+    const label = row.querySelector('[data-meta=label]').value.trim();
+    const value = row.querySelector('[data-meta=value]').value.trim();
+    const type = row.querySelector('[data-meta=type]').value || 'text';
+    if (!key && !label && !value) return null;
+    return { key, label, value, type };
+  }).filter(Boolean);
 }
 
 // ─── Lista lateral ─────────────────────────────────────────────────
@@ -618,13 +829,15 @@ function blankLocation() {
     id:'', name:'', kind:'', addr:'',
     coords: map ? [map.getCenter().lng, map.getCenter().lat] : [-3.7, 40.4],
     surfaces: [],
+    segmentation: normalizeLocation({}).segmentation,
   };
 }
 
 function editLocation(idx) {
   editingIdx = idx;
-  const loc = locations[idx];
+  const loc = normalizeLocation(locations[idx]);
   if (!loc) return;
+  locations[idx] = loc;
   $('bo-empty').hidden = true;
   $('bo-editor').hidden = false;
   $('btn-delete').hidden = false;
@@ -640,6 +853,7 @@ function editLocation(idx) {
   $('f-music').value = loc.music || '';
   $('f-cameras').checked = (loc.cameras !== false); // por defecto con cámaras
   $('f-employees').value = employeesToText(loc.employees);
+  fillSegmentation(loc.segmentation);
   renderSurfaces(loc.surfaces);
   renderPlacePhoto(loc);
   renderList();
@@ -666,6 +880,7 @@ function newLocation() {
   $('f-music').value = '';
   $('f-cameras').checked = true;
   $('f-employees').value = '';
+  fillSegmentation(loc.segmentation);
   renderSurfaces(loc.surfaces);
   renderPlacePhoto(loc);
   renderList();
@@ -721,23 +936,26 @@ function readForm() {
     if (match && Array.isArray(match.pixerScreens) && match.pixerScreens.length) s.pixerScreens = match.pixerScreens;
     return s;
   }).filter(s => s.name); // descarta filas vacías
-  const loc = {
+  const loc = Object.assign({}, prev ? JSON.parse(JSON.stringify(prev)) : {}, {
     id: $('f-id').value.trim(),
     name: $('f-name').value.trim(),
     kind: $('f-kind').value.trim(),
     addr: $('f-addr').value.trim(),
     coords: [Number.isFinite(lng) ? lng : 0, Number.isFinite(lat) ? lat : 0],
     surfaces,
-  };
+    segmentation: readSegmentationForm(),
+  });
   // Config del Digital Twin
   const music = $('f-music').value.trim();
   if (music) loc.music = music;
+  else delete loc.music;
   loc.cameras = $('f-cameras').checked;
   const emp = parseEmployees($('f-employees').value, prev && prev.employees);
   if (emp.length) loc.employees = emp;
+  else delete loc.employees;
   // Preserva el twin propio si la tienda lo tenía.
   if (prev && prev.twin) loc.twin = prev.twin;
-  return loc;
+  return normalizeLocation(loc);
 }
 
 function validateLocation(loc, isNew) {
@@ -747,6 +965,12 @@ function validateLocation(loc, isNew) {
   if (!Number.isFinite(loc.coords[0]) || !Number.isFinite(loc.coords[1])) return 'Coordenadas inválidas.';
   if (Math.abs(loc.coords[1]) > 90 || Math.abs(loc.coords[0]) > 180) return 'Coordenadas fuera de rango.';
   if (isNew && locations.some(l => l.id === loc.id)) return 'Ya existe una tienda con ese id.';
+  const seg = loc.segmentation || {};
+  if (!seg.schedule || !seg.schedule.start || !seg.schedule.end) return 'El horario de segmentación es obligatorio.';
+  if (!Array.isArray(seg.typologies) || !seg.typologies.length) return 'La tipología de segmentación es obligatoria.';
+  if (!Array.isArray(seg.genders) || !seg.genders.length) return 'El género de segmentación es obligatorio.';
+  if (!Array.isArray(seg.ages) || !seg.ages.length) return 'La edad de segmentación es obligatoria.';
+  if (!Array.isArray(seg.timeSlots) || !seg.timeSlots.length) return 'Las franjas horarias de segmentación son obligatorias.';
   return null;
 }
 
@@ -806,6 +1030,18 @@ function bindSurfaces() {
   $('btn-surf-add').addEventListener('click', () => {
     const newSurf = {name:'', desc:'', status:'live', impr:0, cpm:'€0', surface:'pantalla'};
     $('surf-list').insertAdjacentHTML('beforeend', surfaceRow(newSurf, $('surf-list').children.length));
+  });
+}
+
+function bindMetadata() {
+  $('seg-meta-list').addEventListener('click', e => {
+    const btn = e.target.closest('.del');
+    if (!btn) return;
+    const row = btn.closest('.meta-row');
+    if (row) row.remove();
+  });
+  $('btn-meta-add').addEventListener('click', () => {
+    $('seg-meta-list').insertAdjacentHTML('beforeend', metadataRow({key:'', label:'', value:'', type:'text'}, $('seg-meta-list').children.length));
   });
 }
 
@@ -997,7 +1233,7 @@ function importJSON() {
         if (!l.id || !Array.isArray(l.coords) || l.coords.length !== 2) throw new Error(t('invalid_store') + (l.name || l.id || '?'));
         if (!Array.isArray(l.surfaces)) l.surfaces = [];
       }
-      locations = parsed;
+      locations = parsed.map(normalizeLocation);
       closeEditor();
       persistAndRefresh();
       showToast('Importadas ' + parsed.length + ' tiendas');
@@ -1008,7 +1244,7 @@ function importJSON() {
 function resetToDefault() {
   if (!confirm(t('reset_confirm_1') + window.OMNIP_LOCATIONS_DEFAULT.length + t('reset_confirm_2'))) return;
   try { localStorage.removeItem(window.OMNIP_STORE_KEY); } catch {}
-  locations = window.OMNIP_LOCATIONS_DEFAULT.map(l => JSON.parse(JSON.stringify(l)));
+  locations = window.OMNIP_LOCATIONS_DEFAULT.map(l => JSON.parse(JSON.stringify(normalizeLocation(l))));
   closeEditor();
   persistAndRefresh();
   showToast('Catálogo restaurado');

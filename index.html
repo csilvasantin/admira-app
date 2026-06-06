@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://csilvasantin.github.io/admira-design/contact-panel.css">
 <script defer src="https://csilvasantin.github.io/admira-design/contact-panel.js"></script>
 <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
-<script src="locations.js"></script>
+<script src="locations.js?v=segmentation-20260606"></script>
 <style>
   :root{--bg:#02080d;--ink:#dff8ff;--mut:#75aab9;--brand:#78f3ff;--accent:#ffd866;--good:#88ffaa;--warn:#ff8866;--card:#0a1620;--card2:#0d1c28;--line:rgba(120,243,255,.18)}
   *{box-sizing:border-box}
@@ -843,7 +843,10 @@ const CIRCUIT_TARGET_OPTIONS = {
 };
 
 function defaultCircuitTarget() {
-  return Object.fromEntries(Object.entries(CIRCUIT_TARGET_OPTIONS).map(([group, options]) => [group, options.map(o => o.value)]));
+  const defaults = Object.fromEntries(Object.entries(CIRCUIT_TARGET_OPTIONS).map(([group, options]) => [group, options.map(o => o.value)]));
+  const segDefaults = window.OMNIP_SEGMENTATION_OPTIONS || {};
+  defaults.timeSlots = Array.isArray(segDefaults.defaultTimeSlots) ? segDefaults.defaultTimeSlots.slice() : ['manana','mediodia','tarde'];
+  return defaults;
 }
 
 function sanitizeCircuitTarget(raw) {
@@ -1161,30 +1164,42 @@ function metroLineOptions(items) {
 }
 
 function circuitDefinitions() {
+  const metroItems = LOCATIONS.filter(isMetroBarcelonaLocation);
+  const desigualItems = LOCATIONS.filter(isDesigualLocation);
+  const kioskoItems = LOCATIONS.filter(isKioskoLocation);
+  const allItems = LOCATIONS.slice();
+  const estancoItems = LOCATIONS.filter(isEstancoLocation);
+  const retailItems = LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l));
   return {
     metro_bcn: {
       label: t('circuit_metro_bcn'),
-      items: LOCATIONS.filter(isMetroBarcelonaLocation),
+      items: metroItems,
+      segmentation: circuitSegmentationForItems(metroItems),
     },
     desigual: {
       label: t('circuit_desigual'),
-      items: LOCATIONS.filter(isDesigualLocation),
+      items: desigualItems,
+      segmentation: circuitSegmentationForItems(desigualItems),
     },
     kioskos: {
       label: t('circuit_kioskos'),
-      items: LOCATIONS.filter(isKioskoLocation),
+      items: kioskoItems,
+      segmentation: circuitSegmentationForItems(kioskoItems),
     },
     all: {
       label: t('circuit_all'),
-      items: LOCATIONS.slice(),
+      items: allItems,
+      segmentation: circuitSegmentationForItems(allItems),
     },
     estancos: {
       label: t('circuit_estancos'),
-      items: LOCATIONS.filter(isEstancoLocation),
+      items: estancoItems,
+      segmentation: circuitSegmentationForItems(estancoItems),
     },
     retail: {
       label: t('circuit_retail'),
-      items: LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l)),
+      items: retailItems,
+      segmentation: circuitSegmentationForItems(retailItems),
     },
   };
 }
@@ -1234,8 +1249,59 @@ function locationSurfaceCount(loc) {
   return loc.surfaces.filter(s => s.status !== 'idle').length || loc.surfaces.length || 1;
 }
 
+function locationSegmentation(loc) {
+  return typeof window.normalizeOmnipSegmentation === 'function'
+    ? window.normalizeOmnipSegmentation(loc).segmentation
+    : (loc && loc.segmentation) || {};
+}
+
+function circuitSegmentationForItems(items) {
+  const options = window.OMNIP_SEGMENTATION_OPTIONS || {
+    schedule:{start:'08:00', end:'20:00'},
+    typologies:['exterior','interior'],
+    genders:['hombre','mujer'],
+    ages:['nino','joven','adulto','senior','vejez'],
+    defaultTimeSlots:['manana','mediodia','tarde'],
+  };
+  const out = {
+    required: true,
+    schedule: Object.assign({}, options.schedule),
+    typologies: new Set(),
+    genders: new Set(),
+    ages: new Set(),
+    timeSlots: new Set(),
+    metadata: [],
+  };
+  const metaSeen = new Set();
+  (Array.isArray(items) ? items : []).forEach(loc => {
+    const seg = locationSegmentation(loc);
+    (seg.typologies || []).forEach(v => out.typologies.add(v));
+    (seg.genders || []).forEach(v => out.genders.add(v));
+    (seg.ages || []).forEach(v => out.ages.add(v));
+    (seg.timeSlots || []).forEach(v => out.timeSlots.add(v));
+    (seg.metadata || []).forEach(m => {
+      const key = [m.key || '', m.label || '', m.value || ''].join('|');
+      if (metaSeen.has(key)) return;
+      metaSeen.add(key);
+      out.metadata.push(m);
+    });
+  });
+  return {
+    required: true,
+    schedule: out.schedule,
+    typologies: out.typologies.size ? [...out.typologies] : options.typologies.slice(),
+    genders: out.genders.size ? [...out.genders] : options.genders.slice(),
+    ages: out.ages.size ? [...out.ages] : options.ages.slice(),
+    timeSlots: out.timeSlots.size ? [...out.timeSlots] : options.defaultTimeSlots.slice(),
+    metadata: out.metadata,
+  };
+}
+
 function circuitTargetPayload() {
-  return sanitizeCircuitTarget(circuitTarget);
+  const target = sanitizeCircuitTarget(circuitTarget);
+  const defaults = window.OMNIP_SEGMENTATION_OPTIONS || { schedule:{start:'08:00', end:'20:00'} };
+  target.schedule = Object.assign({}, defaults.schedule);
+  return target;
 }
 
 function saveCircuitTarget() {
@@ -1430,6 +1496,7 @@ function openCircuitPurchase() {
       ids: locs.map(l => l.id),
       names: locs.map(l => l.name),
       imprDay: locs.reduce((a, loc) => a + locationDailyImpr(loc), 0),
+      segmentation: circuitSegmentationForItems(locs),
       target: circuitTargetPayload(),
       createdAt: new Date().toISOString(),
     }));

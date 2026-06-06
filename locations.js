@@ -15,9 +15,99 @@
 //                                // 'manager'|'dj' (o índice 0-4). El twin usa este roster.
 //   music?:<string>     // hilo musical del punto (id de pista; fase 2).
 //   cameras?:Boolean     // cámaras/LiveCam on-off del punto (fase 2).
+//   segmentation?:{
+//     required:Boolean,
+//     schedule:{ start:'HH:mm', end:'HH:mm' },
+//     typologies:['exterior'|'interior'],
+//     genders:['hombre'|'mujer'],
+//     ages:['nino'|'joven'|'adulto'|'senior'|'vejez'],
+//     timeSlots:['manana'|'mediodia'|'tarde'|'noche'],
+//     metadata?:[{ key, label, value, type }] // criterios dados de alta por el exclusivista.
+//   }
 // }
 window.OMNIP_API = 'https://omnipublicity-api.csilvasantin.workers.dev';
 window.OMNIP_STORE_KEY = 'omnip-locations';
+
+window.OMNIP_SEGMENTATION_OPTIONS = {
+  schedule: { start:'08:00', end:'20:00' },
+  typologies: ['exterior','interior'],
+  genders: ['hombre','mujer'],
+  ages: ['nino','joven','adulto','senior','vejez'],
+  timeSlots: ['manana','mediodia','tarde','noche'],
+  defaultTimeSlots: ['manana','mediodia','tarde'],
+};
+
+function _omnipArray(value) {
+  if (Array.isArray(value)) return value;
+  if (value == null || value === '') return [];
+  return [value];
+}
+
+function _omnipCleanSelection(value, allowed, fallback) {
+  const allow = new Set(allowed);
+  const vals = _omnipArray(value).flatMap(v => {
+    if (v === 'ambos' || v === 'both') return allowed;
+    return [String(v || '').trim()];
+  }).filter(v => allow.has(v));
+  const uniq = [...new Set(vals)];
+  return uniq.length ? uniq : fallback.slice();
+}
+
+function _omnipInferTypologies(loc) {
+  const surfaces = Array.isArray(loc && loc.surfaces) ? loc.surfaces : [];
+  let exterior = false, interior = false;
+  surfaces.forEach(s => {
+    const type = String(s && s.surface || '').toLowerCase();
+    const text = `${s && s.name || ''} ${s && s.desc || ''}`.toLowerCase();
+    if (type === 'escaparate' || text.includes('exterior') || text.includes('fachada') || text.includes('puerta')) exterior = true;
+    if (['pantalla','mostrador','vending','pwa'].includes(type) || text.includes('interior') || text.includes('sala')) interior = true;
+  });
+  if (exterior && interior) return ['exterior','interior'];
+  if (exterior) return ['exterior'];
+  if (interior) return ['interior'];
+  return window.OMNIP_SEGMENTATION_OPTIONS.typologies.slice();
+}
+
+function _omnipCleanMetadata(raw) {
+  const source = Array.isArray(raw)
+    ? raw
+    : (raw && typeof raw === 'object' ? Object.entries(raw).map(([key, value]) => ({key, value})) : []);
+  return source.map(item => {
+    if (!item || typeof item !== 'object') return null;
+    const key = String(item.key || item.id || item.label || '').trim();
+    const label = String(item.label || item.name || key).trim();
+    const value = item.value == null ? '' : String(item.value).trim();
+    const type = String(item.type || 'text').trim() || 'text';
+    if (!key && !label && !value) return null;
+    return { key: key || label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''), label: label || key, value, type };
+  }).filter(Boolean);
+}
+
+window.normalizeOmnipSegmentation = function(loc) {
+  const base = loc && typeof loc === 'object' ? loc : {};
+  const seg = base.segmentation && typeof base.segmentation === 'object' ? base.segmentation : {};
+  const options = window.OMNIP_SEGMENTATION_OPTIONS;
+  const schedule = seg.schedule && typeof seg.schedule === 'object' ? seg.schedule : {};
+  const normalized = Object.assign({}, base, {
+    segmentation: {
+      required: true,
+      schedule: {
+        start: /^([01]\d|2[0-3]):[0-5]\d$/.test(String(schedule.start || '')) ? schedule.start : options.schedule.start,
+        end: /^([01]\d|2[0-3]):[0-5]\d$/.test(String(schedule.end || '')) ? schedule.end : options.schedule.end,
+      },
+      typologies: _omnipCleanSelection(seg.typologies || seg.typology || seg.placements, options.typologies, _omnipInferTypologies(base)),
+      genders: _omnipCleanSelection(seg.genders || seg.gender, options.genders, options.genders),
+      ages: _omnipCleanSelection(seg.ages || seg.age, options.ages, options.ages),
+      timeSlots: _omnipCleanSelection(seg.timeSlots || seg.timeSlot || seg.slots, options.timeSlots, options.defaultTimeSlots),
+      metadata: _omnipCleanMetadata(seg.metadata || base.metadata),
+    },
+  });
+  return normalized;
+};
+
+window.normalizeOmnipLocations = function(arr) {
+  return (Array.isArray(arr) ? arr : []).map(window.normalizeOmnipSegmentation);
+};
 
 function desigualSurfaces(type) {
   const outlet = type === 'outlet';
@@ -213,9 +303,9 @@ window.OMNIP_LOCATIONS_EXTRA = [
 ];
 
 window.mergeOmnipLocations = function(base, extra) {
-  const out = Array.isArray(base) ? base.slice() : [];
+  const out = window.normalizeOmnipLocations(base);
   const seen = new Set(out.map(l => l && l.id).filter(Boolean));
-  const addon = Array.isArray(extra) ? extra : window.OMNIP_LOCATIONS_EXTRA;
+  const addon = window.normalizeOmnipLocations(Array.isArray(extra) ? extra : window.OMNIP_LOCATIONS_EXTRA);
   (addon || []).forEach(loc => {
     if (!loc || !loc.id || seen.has(loc.id)) return;
     out.push(loc);
@@ -258,19 +348,20 @@ window.loadOmnipLocationsAsync = async function(timeoutMs = 4000) {
 // Guarda en localStorage (cache local del backoffice). NO publica.
 window.saveOmnipLocations = function(arr) {
   try {
-    localStorage.setItem(window.OMNIP_STORE_KEY, JSON.stringify(arr));
+    localStorage.setItem(window.OMNIP_STORE_KEY, JSON.stringify(window.normalizeOmnipLocations(arr)));
     return true;
   } catch (e) { return false; }
 };
 
 // Publica al worker (PUT /locations con Bearer token). Lanza si falla.
 window.publishOmnipLocations = async function(arr, token) {
-  if (!Array.isArray(arr) || !arr.length) throw new Error('empty_array');
+  const normalized = window.normalizeOmnipLocations(arr);
+  if (!Array.isArray(normalized) || !normalized.length) throw new Error('empty_array');
   if (!token) throw new Error('missing_token');
   const r = await fetch(window.OMNIP_API + '/locations', {
     method: 'PUT',
     headers: { 'Content-Type':'application/json', 'Authorization': 'Bearer ' + token },
-    body: JSON.stringify({ locations: arr }),
+    body: JSON.stringify({ locations: normalized }),
   });
   let d = null; try { d = await r.json(); } catch {}
   if (!r.ok) throw new Error((d && d.error) || ('http ' + r.status));

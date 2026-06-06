@@ -178,12 +178,15 @@
   .circuit-head:active{cursor:grabbing}
   .circuit-head h3{margin:0;font-family:monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
   .circuit-toggle{width:28px;height:28px;border:1px solid var(--line);border-radius:7px;background:transparent;color:var(--brand);font-family:monospace;cursor:pointer}
-  .circuit-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px}
+  .circuit-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 134px);overflow-y:auto}
   .circuit-select{width:100%;height:36px;background:rgba(2,8,13,.75);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:13px;padding:0 10px;outline:0}
   .circuit-select:focus{border-color:var(--brand)}
   .circuit-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .circuit-actions button,.circuit-secondary,.circuit-buy{height:34px;border-radius:7px;border:1px solid var(--line);background:transparent;color:var(--mut);font-family:monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
   .circuit-actions button:hover,.circuit-secondary:hover{border-color:var(--brand);color:var(--brand)}
+  .circuit-actions button.active{border-color:var(--brand);color:var(--brand);background:rgba(120,243,255,.08)}
+  .circuit-main-view,.circuit-target-view{flex:0 0 auto}
+  .circuit-main-view[hidden],.circuit-target-view[hidden]{display:none}
   .circuit-buy{height:38px;background:var(--brand);border-color:var(--brand);color:#001620;font-weight:800}
   .circuit-buy:disabled{opacity:.45;cursor:default;filter:saturate(.4)}
   .circuit-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -203,6 +206,29 @@
   .circuit-foot{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .circuit-note{color:var(--mut);font-size:11px;line-height:1.35}
   .circuit-note b{color:var(--accent);font-family:monospace}
+  .circuit-target-view{border:1px solid var(--line);border-radius:10px;background:rgba(2,8,13,.42);overflow:hidden}
+  .target-head{padding:12px 12px 10px;border-bottom:1px solid rgba(120,243,255,.12)}
+  .target-kicker{font-family:monospace;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+  .target-head h4{margin:0 0 5px;color:var(--ink);font-size:15px}
+  .target-head p{margin:0;color:var(--mut);font-size:11px;line-height:1.35}
+  .target-group{padding:11px 12px;border-bottom:1px solid rgba(120,243,255,.09)}
+  .target-group:last-of-type{border-bottom:0}
+  .target-group-title{font-family:monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .target-options{display:grid;gap:7px}
+  .target-options.two{grid-template-columns:1fr 1fr}
+  .target-option{display:grid;grid-template-columns:17px 1fr;gap:8px;align-items:start;min-height:38px;border:1px solid rgba(120,243,255,.14);border-radius:8px;background:rgba(10,22,32,.55);padding:8px;cursor:pointer;transition:border-color .15s,background .15s}
+  .target-option:hover{border-color:rgba(120,243,255,.45)}
+  .target-option:has(input:checked){border-color:var(--brand);background:rgba(120,243,255,.09)}
+  .target-option input{margin:1px 0 0;accent-color:var(--brand)}
+  .target-option b{display:block;color:var(--ink);font-size:11.5px;line-height:1.2}
+  .target-option span{display:block;color:var(--mut);font-size:10.5px;line-height:1.25;margin-top:2px}
+  .target-summary-line{padding:10px 12px;color:var(--mut);font-size:11px;line-height:1.35;border-top:1px solid rgba(255,216,102,.16)}
+  .target-summary-line b{color:var(--accent);font-family:monospace}
+  .target-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 12px 12px}
+  .target-actions button{height:34px;border-radius:7px;border:1px solid var(--line);background:transparent;color:var(--mut);font-family:monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+  .target-actions button:hover{border-color:var(--brand);color:var(--brand)}
+  .target-actions .target-apply{background:var(--brand);border-color:var(--brand);color:#001620;font-weight:800}
+  .target-actions .target-apply:disabled{opacity:.45;cursor:default;filter:saturate(.4)}
 
   /* Checkout de compra de circuito */
   .buy-modal{position:fixed;inset:0;z-index:24;background:rgba(2,8,13,.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px}
@@ -419,7 +445,8 @@
     .splash p{font-size:13px;line-height:1.45;max-width:none}
     .splash .arrow{margin-top:16px;font-size:11px}
     .live-ticker{top:auto;bottom:90px;right:74px;left:12px;font-size:10px;min-width:0}
-    .circuit-panel{top:146px;right:12px;bottom:auto;left:auto;width:calc(100vw - 24px)}
+    .circuit-panel{top:198px;right:12px;bottom:auto;left:auto;width:calc(100vw - 24px)}
+    .circuit-body{max-height:calc(100vh - 256px)}
     .circuit-list{max-height:160px}
   }
 </style>
@@ -501,22 +528,72 @@
     <select class="circuit-select" id="circuit-subselect" aria-label="Subcircuito" hidden></select>
     <div class="circuit-actions">
       <button type="button" id="circuit-select-all">Todo circuito</button>
-      <button type="button" id="circuit-clear">Limpiar</button>
+      <button type="button" id="circuit-target-btn">Target</button>
     </div>
-    <div class="circuit-stats">
-      <div class="circuit-stat"><b id="circuit-sel-count">0</b>puntos</div>
-      <div class="circuit-stat"><b id="circuit-sel-impr">0</b>impr/día</div>
-      <div class="circuit-stat"><b id="circuit-sel-cpm">—</b>CPM</div>
+    <div class="circuit-main-view" id="circuit-main-view">
+      <div class="circuit-stats">
+        <div class="circuit-stat"><b id="circuit-sel-count">0</b>puntos</div>
+        <div class="circuit-stat"><b id="circuit-sel-impr">0</b>impr/día</div>
+        <div class="circuit-stat"><b id="circuit-sel-cpm">—</b>CPM</div>
+      </div>
+      <details class="circuit-list-wrap" open>
+        <summary id="circuit-list-title">Puntos del circuito</summary>
+        <div class="circuit-list" id="circuit-list"></div>
+      </details>
+      <div class="circuit-foot">
+        <button class="circuit-secondary" type="button" id="circuit-zoom">Ver en mapa</button>
+        <button class="circuit-buy" type="button" id="circuit-buy" disabled>Comprar selección</button>
+      </div>
+      <div class="circuit-note" id="circuit-note">Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.</div>
     </div>
-    <details class="circuit-list-wrap" open>
-      <summary id="circuit-list-title">Puntos del circuito</summary>
-      <div class="circuit-list" id="circuit-list"></div>
-    </details>
-    <div class="circuit-foot">
-      <button class="circuit-secondary" type="button" id="circuit-zoom">Ver en mapa</button>
-      <button class="circuit-buy" type="button" id="circuit-buy" disabled>Comprar selección</button>
+    <div class="circuit-target-view" id="circuit-target-view" hidden>
+      <div class="target-head">
+        <div class="target-kicker">Target de campaña</div>
+        <h4>A quién va dirigida la comunicación</h4>
+        <p>Define si la campaña impacta fuera o dentro del Xpacio y acota género y edad.</p>
+      </div>
+      <div class="target-group">
+        <div class="target-group-title">Tipo de publicidad</div>
+        <div class="target-options two">
+          <label class="target-option">
+            <input type="checkbox" data-target-group="placements" value="exterior">
+            <span><b>Exterior</b><span>Fuera del Xpacio · puerta del Xtanco, escaparate o acceso</span></span>
+          </label>
+          <label class="target-option">
+            <input type="checkbox" data-target-group="placements" value="interior">
+            <span><b>Interior</b><span>Dentro del Xpacio · pantalla del Metahuman o sala</span></span>
+          </label>
+        </div>
+      </div>
+      <div class="target-group">
+        <div class="target-group-title">Género</div>
+        <div class="target-options two">
+          <label class="target-option">
+            <input type="checkbox" data-target-group="genders" value="hombre">
+            <span><b>Hombre</b><span>Audiencia masculina</span></span>
+          </label>
+          <label class="target-option">
+            <input type="checkbox" data-target-group="genders" value="mujer">
+            <span><b>Mujer</b><span>Audiencia femenina</span></span>
+          </label>
+        </div>
+      </div>
+      <div class="target-group">
+        <div class="target-group-title">Edad</div>
+        <div class="target-options">
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="nino"><span><b>Niño &lt;14</b><span>Familias, colegios y ocio infantil</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="joven"><span><b>Joven 15-30</b><span>Moda, ocio, estudios y primeras compras</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="adulto"><span><b>Adulto 30-50</b><span>Consumo urbano, retail y servicios</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="senior"><span><b>Senior 50-65</b><span>Hogar, salud, viajes y fidelización</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="vejez"><span><b>Vejez &gt;65</b><span>Proximidad, asistencia y compra recurrente</span></span></label>
+        </div>
+      </div>
+      <div class="target-summary-line" id="target-summary-line">Target: <b>amplio</b></div>
+      <div class="target-actions">
+        <button type="button" id="target-reset">Limpiar target</button>
+        <button class="target-apply" type="button" id="target-apply">Aplicar target</button>
+      </div>
     </div>
-    <div class="circuit-note" id="circuit-note">Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.</div>
   </div>
 </section>
 
@@ -605,6 +682,7 @@
         <div class="buy-line"><span>Impresiones estimadas</span><b id="buy-impr">—</b></div>
         <div class="buy-line"><span>CPM base</span><b id="buy-cpm">—</b></div>
         <div class="buy-line"><span>Demanda fecha</span><b id="buy-demand">—</b></div>
+        <div class="buy-line"><span>Target</span><b id="buy-target">—</b></div>
         <div class="buy-total"><span>Total</span><b id="buy-total">—</b></div>
         <button class="buy-submit" id="buy-submit" type="button">Pagar y reservar</button>
         <p class="buy-legal">La web valida la tarjeta y prepara la orden sin guardar el número completo. El cargo real queda listo para enlazar con la pasarela de pago de Admira.</p>
@@ -733,6 +811,45 @@ let selectedMetroLine = 'all';
 let selectedLocationIds = new Set();
 let circuitAutoSelect = true;
 let circuitMapFilterActive = false;
+const CIRCUIT_TARGET_OPTIONS = {
+  placements: [
+    {value:'exterior', label:'Exterior'},
+    {value:'interior', label:'Interior'},
+  ],
+  genders: [
+    {value:'hombre', label:'Hombre'},
+    {value:'mujer', label:'Mujer'},
+  ],
+  ages: [
+    {value:'nino', label:'Niño <14'},
+    {value:'joven', label:'Joven 15-30'},
+    {value:'adulto', label:'Adulto 30-50'},
+    {value:'senior', label:'Senior 50-65'},
+    {value:'vejez', label:'Vejez >65'},
+  ],
+};
+
+function defaultCircuitTarget() {
+  return Object.fromEntries(Object.entries(CIRCUIT_TARGET_OPTIONS).map(([group, options]) => [group, options.map(o => o.value)]));
+}
+
+function sanitizeCircuitTarget(raw) {
+  const defaults = defaultCircuitTarget();
+  const clean = {};
+  Object.entries(CIRCUIT_TARGET_OPTIONS).forEach(([group, options]) => {
+    const allowed = new Set(options.map(o => o.value));
+    const values = Array.isArray(raw && raw[group]) ? raw[group].filter(v => allowed.has(v)) : defaults[group];
+    clean[group] = values.length ? [...new Set(values)] : [];
+  });
+  return clean;
+}
+
+function loadCircuitTarget() {
+  try { return sanitizeCircuitTarget(JSON.parse(localStorage.getItem('omnip-circuit-target') || 'null')); }
+  catch (_) { return defaultCircuitTarget(); }
+}
+
+let circuitTarget = loadCircuitTarget();
 
 // ─── i18n: español / inglés ───────────────────────────────────────
 const I18N = {
@@ -987,6 +1104,91 @@ function locationSurfaceCount(loc) {
   return loc.surfaces.filter(s => s.status !== 'idle').length || loc.surfaces.length || 1;
 }
 
+function circuitTargetPayload() {
+  return sanitizeCircuitTarget(circuitTarget);
+}
+
+function saveCircuitTarget() {
+  circuitTarget = circuitTargetPayload();
+  try { localStorage.setItem('omnip-circuit-target', JSON.stringify(circuitTarget)); } catch (_) {}
+}
+
+function targetIsComplete() {
+  return Object.keys(CIRCUIT_TARGET_OPTIONS).every(group => Array.isArray(circuitTarget[group]) && circuitTarget[group].length);
+}
+
+function targetLabels(group) {
+  const lookup = new Map((CIRCUIT_TARGET_OPTIONS[group] || []).map(o => [o.value, o.label]));
+  const values = Array.isArray(circuitTarget[group]) ? circuitTarget[group] : [];
+  return values.map(v => lookup.get(v) || v);
+}
+
+function targetGroupSummary(group) {
+  const selected = targetLabels(group);
+  const total = (CIRCUIT_TARGET_OPTIONS[group] || []).length;
+  if (!selected.length) return 'sin definir';
+  if (selected.length === total) {
+    if (group === 'placements') return 'Exterior + interior';
+    if (group === 'genders') return 'Hombre + mujer';
+    return 'todas las edades';
+  }
+  return selected.join(' + ');
+}
+
+function circuitTargetSummary() {
+  return `${targetGroupSummary('placements')} · ${targetGroupSummary('genders')} · ${targetGroupSummary('ages')}`;
+}
+
+function renderCircuitTarget() {
+  saveCircuitTarget();
+  document.querySelectorAll('[data-target-group]').forEach(input => {
+    const group = input.dataset.targetGroup;
+    input.checked = Array.isArray(circuitTarget[group]) && circuitTarget[group].includes(input.value);
+  });
+  const summary = document.getElementById('target-summary-line');
+  if (summary) {
+    summary.innerHTML = targetIsComplete()
+      ? `Target: <b>${escHtml(circuitTargetSummary())}</b>`
+      : 'Target incompleto: <b>elige al menos una opción por bloque</b>';
+  }
+  const apply = document.getElementById('target-apply');
+  if (apply) apply.disabled = !targetIsComplete();
+  updateCircuitSummary();
+}
+
+function setCircuitTargetMode(open) {
+  const main = document.getElementById('circuit-main-view');
+  const target = document.getElementById('circuit-target-view');
+  const btn = document.getElementById('circuit-target-btn');
+  if (main) main.hidden = !!open;
+  if (target) target.hidden = !open;
+  if (btn) btn.classList.toggle('active', !!open);
+  if (open) renderCircuitTarget();
+  requestAnimationFrame(() => {
+    const panelEl = document.getElementById('circuit-panel');
+    if (!panelEl || panelEl.hidden) return;
+    const rect = panelEl.getBoundingClientRect();
+    setCircuitPanelPosition(rect.left, rect.top, false);
+  });
+}
+
+function resetCircuitTarget() {
+  circuitTarget = defaultCircuitTarget();
+  renderCircuitTarget();
+}
+
+function bindCircuitTargetControls() {
+  document.querySelectorAll('[data-target-group]').forEach(input => {
+    input.addEventListener('change', () => {
+      const group = input.dataset.targetGroup;
+      circuitTarget[group] = [...document.querySelectorAll(`[data-target-group="${group}"]:checked`)].map(el => el.value);
+      renderCircuitTarget();
+    });
+  });
+  document.getElementById('target-reset')?.addEventListener('click', resetCircuitTarget);
+  document.getElementById('target-apply')?.addEventListener('click', () => setCircuitTargetMode(false));
+}
+
 function refreshSelectedMapSource() {
   const src = map && map.getSource && map.getSource('locs');
   if (src) src.setData(locationsGeoJSON());
@@ -1046,11 +1248,14 @@ function updateCircuitSummary() {
   document.getElementById('circuit-sel-impr').textContent = formatImpr(impr);
   document.getElementById('circuit-sel-cpm').textContent = lo == null ? '—' : (lo === hi ? `€${lo}` : `€${lo}-${hi}`);
   const buy = document.getElementById('circuit-buy');
-  if (buy) buy.disabled = !locs.length;
+  const targetOk = targetIsComplete();
+  if (buy) buy.disabled = !locs.length || !targetOk;
   const note = document.getElementById('circuit-note');
-  if (note) note.innerHTML = locs.length
-    ? `Selección lista: <b>${locs.length}</b> puntos · <b>${formatImpr(impr)}</b> impresiones/día estimadas.`
-    : 'Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.';
+  if (note) {
+    if (!targetOk) note.innerHTML = 'Completa el <b>target</b> antes de preparar la compra.';
+    else if (locs.length) note.innerHTML = `Selección lista: <b>${locs.length}</b> puntos · <b>${formatImpr(impr)}</b> impr/día · target <b>${escHtml(circuitTargetSummary())}</b>.`;
+    else note.innerHTML = 'Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.';
+  }
 }
 
 function selectWholeCircuit() {
@@ -1083,12 +1288,18 @@ function zoomToSelectedCircuit() {
 function openCircuitPurchase() {
   const locs = selectedLocations();
   if (!locs.length) return;
+  if (!targetIsComplete()) {
+    setCircuitTargetMode(true);
+    setStatus('Completa el target de campaña');
+    return;
+  }
   try {
     sessionStorage.setItem('omnip-buy-selection', JSON.stringify({
       circuit: selectedCircuitId,
       ids: locs.map(l => l.id),
       names: locs.map(l => l.name),
       imprDay: locs.reduce((a, loc) => a + locationDailyImpr(loc), 0),
+      target: circuitTargetPayload(),
       createdAt: new Date().toISOString(),
     }));
   } catch (_) {}
@@ -1179,6 +1390,7 @@ function updateBuyQuote() {
   set('buy-impr', q.estimatedImpr ? formatInt(q.estimatedImpr) : '—');
   set('buy-cpm', `€${q.cpm.toFixed(2)}`);
   set('buy-demand', `x${q.demand.toFixed(2)}`);
+  set('buy-target', circuitTargetSummary());
   set('buy-total', q.price ? formatMoney(q.price) : '—');
   return q;
 }
@@ -1287,6 +1499,7 @@ function submitBuyCheckout() {
     estimatedImpr: res.q.estimatedImpr,
     cpm: Number(res.q.cpm.toFixed(2)),
     demand: Number(res.q.demand.toFixed(2)),
+    target: circuitTargetPayload(),
     price: res.q.price,
     brand: res.brand,
     email: res.email,
@@ -1335,9 +1548,27 @@ function bindBuyCheckout() {
 
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
 
+function circuitPanelUsesMobileLayout() {
+  return window.matchMedia && window.matchMedia('(max-width:720px)').matches;
+}
+
+function resetCircuitPanelInlinePosition() {
+  const panelEl = document.getElementById('circuit-panel');
+  if (!panelEl) return;
+  panelEl.style.left = '';
+  panelEl.style.top = '';
+  panelEl.style.right = '';
+  panelEl.style.bottom = '';
+  panelEl.style.transform = '';
+}
+
 function setCircuitPanelPosition(x, y, persist = true) {
   const panelEl = document.getElementById('circuit-panel');
   if (!panelEl) return;
+  if (circuitPanelUsesMobileLayout()) {
+    resetCircuitPanelInlinePosition();
+    return;
+  }
   const rect = panelEl.getBoundingClientRect();
   const margin = 12;
   const maxX = Math.max(margin, window.innerWidth - rect.width - margin);
@@ -1355,6 +1586,10 @@ function setCircuitPanelPosition(x, y, persist = true) {
 }
 
 function restoreCircuitPanelPosition() {
+  if (circuitPanelUsesMobileLayout()) {
+    resetCircuitPanelInlinePosition();
+    return;
+  }
   try {
     const pos = JSON.parse(localStorage.getItem('omnip-circuit-panel-pos') || 'null');
     if (pos && Number.isFinite(pos.x) && Number.isFinite(pos.y)) setCircuitPanelPosition(pos.x, pos.y, false);
@@ -1368,6 +1603,7 @@ function bindCircuitPanelDrag() {
   let dragging = false, dx = 0, dy = 0;
   head.addEventListener('pointerdown', e => {
     if (e.target.closest('button')) return;
+    if (circuitPanelUsesMobileLayout()) return;
     dragging = true;
     const rect = panelEl.getBoundingClientRect();
     dx = e.clientX - rect.left;
@@ -1382,6 +1618,10 @@ function bindCircuitPanelDrag() {
   head.addEventListener('pointerup', stopDrag);
   head.addEventListener('pointercancel', stopDrag);
   window.addEventListener('resize', () => {
+    if (circuitPanelUsesMobileLayout()) {
+      resetCircuitPanelInlinePosition();
+      return;
+    }
     const rect = panelEl.getBoundingClientRect();
     setCircuitPanelPosition(rect.left, rect.top);
   });
@@ -1401,6 +1641,7 @@ function bindCircuitSelector() {
       circuitMapFilterActive = !panelEl.hidden;
       if (!panelEl.hidden) {
         restoreCircuitPanelPosition();
+        setCircuitTargetMode(false);
         circuitAutoSelect = false;
         selectedLocationIds = new Set();
         renderCircuitSelector();
@@ -1420,6 +1661,7 @@ function bindCircuitSelector() {
     circuitAutoSelect = false;
     selectedLocationIds = new Set();
     circuitMapFilterActive = true;
+    setCircuitTargetMode(false);
     renderCircuitSelector();
   });
   if (subselect) {
@@ -1428,11 +1670,15 @@ function bindCircuitSelector() {
       circuitAutoSelect = false;
       selectedLocationIds = new Set();
       circuitMapFilterActive = true;
+      setCircuitTargetMode(false);
       renderCircuitSelector();
     });
   }
   document.getElementById('circuit-select-all').addEventListener('click', selectWholeCircuit);
-  document.getElementById('circuit-clear').addEventListener('click', clearCircuitSelection);
+  document.getElementById('circuit-target-btn')?.addEventListener('click', () => {
+    const target = document.getElementById('circuit-target-view');
+    setCircuitTargetMode(target ? target.hidden : true);
+  });
   document.getElementById('circuit-zoom').addEventListener('click', zoomToSelectedCircuit);
   document.getElementById('circuit-buy').addEventListener('click', openCircuitPurchase);
   list.addEventListener('change', e => {
@@ -1444,6 +1690,7 @@ function bindCircuitSelector() {
     updateCircuitSummary();
     refreshSelectedMapSource();
   });
+  bindCircuitTargetControls();
   bindCircuitPanelDrag();
   clearCircuitSelection();
 }

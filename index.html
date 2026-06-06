@@ -198,10 +198,17 @@
   .circuit-point{display:grid;grid-template-columns:18px 1fr auto;gap:8px;align-items:start;padding:8px 10px;border-bottom:1px solid rgba(120,243,255,.07);cursor:pointer}
   .circuit-point:last-child{border-bottom:0}
   .circuit-point:hover{background:rgba(120,243,255,.06)}
+  .circuit-point.demo-active{background:rgba(255,216,102,.12);box-shadow:inset 3px 0 0 var(--accent)}
+  .circuit-point.demo-active .cp-name{color:var(--accent)}
   .circuit-point input{margin:2px 0 0;accent-color:var(--brand)}
   .circuit-point .cp-name{display:block;font-size:12px;font-weight:700;color:var(--ink);line-height:1.2}
   .circuit-point .cp-addr{display:block;font-size:10.5px;color:var(--mut);line-height:1.3;margin-top:2px}
   .circuit-point .cp-meta{font-family:monospace;font-size:10px;color:var(--brand);white-space:nowrap}
+  .circuit-demo-row{display:flex;flex-direction:column;gap:6px}
+  .circuit-demo{height:36px;border-radius:7px;border:1px solid rgba(255,216,102,.52);background:rgba(255,216,102,.08);color:var(--accent);font-family:monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+  .circuit-demo:hover,.circuit-demo.active{background:var(--accent);border-color:var(--accent);color:#1a0e00}
+  .circuit-demo:disabled{opacity:.45;cursor:default;filter:saturate(.45)}
+  .circuit-demo-progress{min-height:15px;font-family:monospace;font-size:10px;letter-spacing:.04em;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .circuit-foot{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .circuit-note{color:var(--mut);font-size:11px;line-height:1.35}
   .circuit-note b{color:var(--accent);font-family:monospace}
@@ -538,6 +545,10 @@
         <summary id="circuit-list-title" data-i18n="circuit_points_title">Puntos del circuito</summary>
         <div class="circuit-list" id="circuit-list"></div>
       </details>
+      <div class="circuit-demo-row">
+        <button class="circuit-demo" type="button" id="circuit-demo" data-i18n="demo_circuit">Demo circuito</button>
+        <div class="circuit-demo-progress" id="circuit-demo-progress"></div>
+      </div>
       <div class="circuit-foot">
         <button class="circuit-secondary" type="button" id="circuit-zoom" data-i18n="view_map">Ver en mapa</button>
         <button class="circuit-buy" type="button" id="circuit-buy" disabled data-i18n="buy_selection">Comprar selección</button>
@@ -818,6 +829,9 @@ let selectedMetroLine = 'all';
 let selectedLocationIds = new Set();
 let circuitAutoSelect = true;
 let circuitMapFilterActive = false;
+const CIRCUIT_DEMO_STEP_MS = 5600;
+const CIRCUIT_DEMO_FLY_MS = 3600;
+let circuitDemo = { running:false, items:[], index:0, timer:null };
 const CIRCUIT_TARGET_OPTIONS = {
   placements: [
     {value:'exterior', labelKey:'target_exterior'},
@@ -883,6 +897,11 @@ const I18N = {
     all_lines:'Todas las líneas', whole_line:'Toda línea', whole_circuit:'Todo circuito',
     points_label:'puntos', point_label:'punto', impr_day_compact:'impr/día', cpm_label:'CPM',
     circuit_points_title:'Puntos del circuito', view_map:'Ver en mapa', buy_selection:'Comprar selección',
+    demo_circuit:'Demo circuito', demo_stop:'Parar demo',
+    demo_ready:'Modo demo listo: recorre <b>{points}</b> puntos del circuito completo.',
+    demo_empty:'No hay puntos en este circuito para demo.',
+    demo_progress:'Demo {current}/{total} · {name}',
+    demo_done:'Demo circuito completado · {points} puntos',
     select_circuit_note:'Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.',
     target_required_note:'Completa el <b>target</b> antes de preparar la compra.',
     selection_ready:'Selección lista: <b>{points}</b> puntos · <b>{impr}</b> impr/día · target <b>{target}</b>.',
@@ -981,6 +1000,11 @@ const I18N = {
     all_lines:'All lines', whole_line:'Whole line', whole_circuit:'Whole circuit',
     points_label:'points', point_label:'point', impr_day_compact:'impr/day', cpm_label:'CPM',
     circuit_points_title:'Circuit points', view_map:'View on map', buy_selection:'Buy selection',
+    demo_circuit:'Circuit demo', demo_stop:'Stop demo',
+    demo_ready:'Demo mode ready: touring <b>{points}</b> points across the full circuit.',
+    demo_empty:'There are no points in this circuit to demo.',
+    demo_progress:'Demo {current}/{total} · {name}',
+    demo_done:'Circuit demo completed · {points} points',
     select_circuit_note:'Select <b>the whole circuit</b> or individual points to prepare the purchase.',
     target_required_note:'Complete the <b>target</b> before preparing the purchase.',
     selection_ready:'Selection ready: <b>{points}</b> points · <b>{impr}</b> impr/day · target <b>{target}</b>.',
@@ -1226,6 +1250,10 @@ function selectedLocations() {
   return [...selectedLocationIds].map(id => byId.get(id)).filter(Boolean);
 }
 
+function circuitDemoItems() {
+  return currentCircuitItems().filter(loc => loc && Array.isArray(loc.coords) && Number.isFinite(loc.coords[0]) && Number.isFinite(loc.coords[1]));
+}
+
 function mapVisibleLocations() {
   if (!circuitMapFilterActive) return LOCATIONS;
   return currentCircuitItems();
@@ -1421,7 +1449,8 @@ function renderCircuitSelector() {
   list.innerHTML = items.map(loc => {
     const live = loc.surfaces.filter(s => s.status === 'live').length;
     const checked = selectedLocationIds.has(loc.id) ? ' checked' : '';
-    return `<label class="circuit-point">
+    const activeDemo = circuitDemo.running && circuitDemo.items[circuitDemo.index] && circuitDemo.items[circuitDemo.index].id === loc.id;
+    return `<label class="circuit-point${activeDemo ? ' demo-active' : ''}" data-loc-id="${escHtml(loc.id)}">
       <input type="checkbox" value="${escHtml(loc.id)}"${checked}>
       <span>
         <span class="cp-name">${escHtml(loc.name)}</span>
@@ -1432,6 +1461,7 @@ function renderCircuitSelector() {
   }).join('');
   title.textContent = `${currentCircuitLabel()} · ${items.length} ${items.length === 1 ? t('point_label') : t('points_label')}`;
   updateCircuitSummary();
+  updateCircuitDemoUi();
   refreshSelectedMapSource();
 }
 
@@ -1449,10 +1479,111 @@ function updateCircuitSummary() {
   if (buy) buy.disabled = !locs.length || !targetOk;
   const note = document.getElementById('circuit-note');
   if (note) {
-    if (!targetOk) note.innerHTML = t('target_required_note');
+    if (circuitDemo.running) note.innerHTML = tf('demo_ready', {points: circuitDemo.items.length});
+    else if (!targetOk) note.innerHTML = t('target_required_note');
     else if (locs.length) note.innerHTML = tf('selection_ready', {points: locs.length, impr: formatImpr(impr), target: escHtml(circuitTargetSummary())});
     else note.innerHTML = t('select_circuit_note');
   }
+}
+
+function updateCircuitDemoUi() {
+  const btn = document.getElementById('circuit-demo');
+  const progress = document.getElementById('circuit-demo-progress');
+  const count = circuitDemoItems().length;
+  if (btn) {
+    btn.disabled = !count;
+    btn.classList.toggle('active', circuitDemo.running);
+    btn.textContent = circuitDemo.running ? t('demo_stop') : t('demo_circuit');
+  }
+  if (progress) {
+    const loc = circuitDemo.running ? circuitDemo.items[circuitDemo.index] : null;
+    progress.textContent = loc ? tf('demo_progress', {
+      current: circuitDemo.index + 1,
+      total: circuitDemo.items.length,
+      name: loc.name,
+    }) : '';
+  }
+  const active = circuitDemo.running && circuitDemo.items[circuitDemo.index] ? circuitDemo.items[circuitDemo.index].id : null;
+  document.querySelectorAll('.circuit-point').forEach(row => {
+    const isActive = active && row.dataset.locId === active;
+    row.classList.toggle('demo-active', !!isActive);
+    if (isActive) row.scrollIntoView({block:'nearest'});
+  });
+}
+
+function stopCircuitDemo(done = false) {
+  if (circuitDemo.timer) clearTimeout(circuitDemo.timer);
+  const total = circuitDemo.items.length;
+  circuitDemo = { running:false, items:[], index:0, timer:null };
+  updateCircuitDemoUi();
+  updateCircuitSummary();
+  if (done && total) setStatus(tf('demo_done', {points: total}));
+}
+
+function showCircuitDemoPoint() {
+  if (!circuitDemo.running) return;
+  if (circuitDemo.index >= circuitDemo.items.length) {
+    stopCircuitDemo(true);
+    return;
+  }
+  const loc = circuitDemo.items[circuitDemo.index];
+  if (!loc) {
+    circuitDemo.index += 1;
+    showCircuitDemoPoint();
+    return;
+  }
+  splash.classList.add('hidden');
+  const ac = document.getElementById('addr-card'); if (ac) ac.hidden = true;
+  circuitMapFilterActive = true;
+  updateCircuitDemoUi();
+  setStatus(tf('demo_progress', {current: circuitDemo.index + 1, total: circuitDemo.items.length, name: loc.name}));
+  pushRecent(loc.id);
+  map.flyTo({
+    center: loc.coords,
+    zoom: 16.8,
+    pitch: currentView === '3d' ? 60 : 0,
+    bearing: (circuitDemo.index * 29) % 360,
+    duration: CIRCUIT_DEMO_FLY_MS,
+    essential: true,
+  });
+  setTimeout(() => {
+    if (!circuitDemo.running || !circuitDemo.items[circuitDemo.index] || circuitDemo.items[circuitDemo.index].id !== loc.id) return;
+    renderPanel(loc);
+    panel.classList.add('open');
+  }, Math.min(1200, CIRCUIT_DEMO_FLY_MS));
+  circuitDemo.timer = setTimeout(() => {
+    circuitDemo.index += 1;
+    showCircuitDemoPoint();
+  }, CIRCUIT_DEMO_STEP_MS);
+}
+
+function startCircuitDemo() {
+  const items = circuitDemoItems();
+  if (!items.length) {
+    setStatus(t('demo_empty'));
+    return;
+  }
+  if (circuitDemo.timer) clearTimeout(circuitDemo.timer);
+  const panelEl = document.getElementById('circuit-panel');
+  const headerBtn = document.getElementById('header-circuit-btn');
+  if (panelEl) {
+    panelEl.hidden = false;
+    panelEl.classList.remove('collapsed');
+    restoreCircuitPanelPosition();
+  }
+  if (headerBtn) headerBtn.classList.add('active');
+  const toggle = document.getElementById('circuit-toggle');
+  if (toggle) toggle.textContent = '−';
+  setCircuitTargetMode(false);
+  circuitMapFilterActive = true;
+  circuitDemo = { running:true, items, index:0, timer:null };
+  renderCircuitSelector();
+  showCircuitDemoPoint();
+}
+
+function toggleCircuitDemo() {
+  if (circuitDemo.running) stopCircuitDemo(false);
+  else startCircuitDemo();
 }
 
 function selectWholeCircuit() {
@@ -1844,6 +1975,7 @@ function bindCircuitSelector() {
         selectedLocationIds = new Set();
         renderCircuitSelector();
       } else {
+        stopCircuitDemo(false);
         refreshSelectedMapSource();
       }
       headerBtn.classList.toggle('active', !panelEl.hidden);
@@ -1854,6 +1986,7 @@ function bindCircuitSelector() {
     toggle.textContent = panelEl.classList.contains('collapsed') ? '+' : '−';
   });
   select.addEventListener('change', () => {
+    stopCircuitDemo(false);
     selectedCircuitId = select.value;
     selectedMetroLine = 'all';
     circuitAutoSelect = false;
@@ -1864,6 +1997,7 @@ function bindCircuitSelector() {
   });
   if (subselect) {
     subselect.addEventListener('change', () => {
+      stopCircuitDemo(false);
       selectedMetroLine = subselect.value || 'all';
       circuitAutoSelect = false;
       selectedLocationIds = new Set();
@@ -1878,6 +2012,7 @@ function bindCircuitSelector() {
     setCircuitTargetMode(target ? target.hidden : true);
   });
   document.getElementById('circuit-zoom').addEventListener('click', zoomToSelectedCircuit);
+  document.getElementById('circuit-demo')?.addEventListener('click', toggleCircuitDemo);
   document.getElementById('circuit-buy').addEventListener('click', openCircuitPurchase);
   list.addEventListener('change', e => {
     const box = e.target.closest('input[type="checkbox"]');

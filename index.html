@@ -18,18 +18,18 @@
   a{color:var(--brand);text-decoration:none}
   a:hover{text-decoration:underline}
 
-  header{position:fixed;top:0;left:0;right:0;z-index:10;padding:14px 22px;background:linear-gradient(to bottom,rgba(2,8,13,.92),rgba(2,8,13,.6) 70%,transparent);backdrop-filter:blur(8px);display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  header{position:fixed;top:0;left:0;right:0;z-index:10;padding:14px 22px;background:linear-gradient(to bottom,rgba(2,8,13,.92),rgba(2,8,13,.6) 70%,transparent);backdrop-filter:blur(8px);display:flex;align-items:center;gap:12px;flex-wrap:nowrap}
   .logo{font-family:monospace;font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:bold;white-space:nowrap}
   .logo .logo-home{cursor:pointer;border-radius:4px;outline:none;transition:opacity .15s,text-shadow .15s}
   .logo .logo-home:hover{text-shadow:0 0 12px rgba(255,216,102,.55)}
   .logo .logo-home:focus-visible{box-shadow:0 0 0 2px var(--brand)}
   .logo .dot{color:var(--brand)}
   .logo .ver{font-weight:normal;font-size:10px;letter-spacing:.08em;color:var(--mut);margin-left:10px}
-  .search-wrap{flex:0 1 520px;min-width:280px;max-width:520px;position:relative}
+  .search-wrap{flex:1 1 380px;min-width:210px;max-width:460px;position:relative}
   .search{display:flex;align-items:center;gap:8px;background:rgba(10,22,32,.85);border:1px solid var(--line);border-radius:10px;padding:8px 14px;transition:border-color .15s,box-shadow .15s}
   .search:focus-within{border-color:var(--brand);box-shadow:0 0 18px rgba(120,243,255,.25)}
   .search svg{width:16px;height:16px;color:var(--mut);flex-shrink:0}
-  .search input{flex:1;background:transparent;border:0;outline:0;color:var(--ink);font-size:14px;font-family:inherit}
+  .search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--ink);font-size:14px;font-family:inherit;text-overflow:ellipsis}
   .search input::placeholder{color:var(--mut)}
   .search .hint{font-family:monospace;font-size:11px;color:var(--mut);background:rgba(120,243,255,.08);border:1px solid var(--line);padding:2px 6px;border-radius:4px;flex-shrink:0}
   .header-circuit-btn{height:36px;border:1px solid rgba(255,216,102,.45);border-radius:8px;background:rgba(10,22,32,.78);color:var(--accent);font-family:monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:0 14px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
@@ -46,7 +46,7 @@
   .suggest .addr-item .kind{color:var(--brand)}
   .suggest .addr-loading{padding:10px 14px;color:var(--mut);font-family:monospace;font-size:11px;display:flex;align-items:center;gap:8px}
   .suggest .addr-loading::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand);box-shadow:0 0 8px var(--brand);animation:pulseDot 1s ease-in-out infinite}
-  header > nav{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:10px 14px;margin-left:auto;font-size:12px;font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
+  header > nav{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:10px 14px;margin-left:auto;font-size:12px;font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
   header > nav a{color:var(--mut);white-space:nowrap}
   header > nav a:hover{color:var(--ink)}
   header > nav a.nav-cta{color:var(--accent);border:1px solid rgba(255,216,102,.4);border-radius:6px;padding:4px 10px}
@@ -400,6 +400,11 @@
   .marker-pin.idle{animation:none;background:radial-gradient(circle at 30% 30%,#75aab9,#1a3340);border-color:var(--mut);box-shadow:0 0 0 4px rgba(117,170,185,.18);color:#000}
   @keyframes ping{0%,100%{box-shadow:0 0 18px rgba(255,216,102,.5),0 0 0 6px rgba(255,216,102,.18)}50%{box-shadow:0 0 22px rgba(255,216,102,.7),0 0 0 14px rgba(255,216,102,.06)}}
 
+  @media (max-width:1040px){
+    header{flex-wrap:wrap}
+    .search-wrap{max-width:none}
+    header > nav{margin-left:0}
+  }
   @media (max-width:720px){
     header{flex-direction:column;align-items:stretch;padding:12px}
     .search-wrap{flex:0 0 auto;max-width:none}
@@ -423,6 +428,7 @@
 
 <header>
   <span class="logo"><span class="logo-home" id="logo-home" role="button" tabindex="0" data-i18n-title="logo_home_title" title="Volver al inicio">OMNI<span class="dot">·</span>PUBLICITY</span></span>
+  <button class="header-circuit-btn" id="header-circuit-btn" type="button">Comprar circuito</button>
   <div class="search-wrap">
     <label class="search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -431,7 +437,6 @@
     </label>
     <div id="suggest" class="suggest" hidden></div>
   </div>
-  <button class="header-circuit-btn" id="header-circuit-btn" type="button">Comprar circuito</button>
   <nav>
     <a href="backoffice.html" data-i18n="login">Login</a>
     <div class="lang-switch" id="lang-switch" role="group" aria-label="Idioma / Language">
@@ -487,6 +492,7 @@
   <div class="circuit-body">
     <select class="circuit-select" id="circuit-select" aria-label="Circuito">
       <option value="metro_bcn">Circuito Metro Barcelona</option>
+      <option value="desigual">Circuito Desigual Global</option>
       <option value="kioskos">Circuito kioskos de prensa</option>
       <option value="all">Toda la red OmniPublicity</option>
       <option value="estancos">Circuito estancos</option>
@@ -882,6 +888,11 @@ function isMetroBarcelonaLocation(loc) {
   return hay.includes('metro-barcelona') || (hay.includes('metro') && hay.includes('barcelona'));
 }
 
+function isDesigualLocation(loc) {
+  const hay = normText([loc.id, loc.name, loc.kind, loc.addr].join(' '));
+  return hay.includes('desigual') || (loc.external && normText(loc.external.brand) === 'desigual');
+}
+
 function metroLinesForLocation(loc) {
   if (!isMetroBarcelonaLocation(loc)) return [];
   const text = String(loc.kind || loc.addr || '');
@@ -908,6 +919,10 @@ function circuitDefinitions() {
       label: 'Circuito Metro Barcelona',
       items: LOCATIONS.filter(isMetroBarcelonaLocation),
     },
+    desigual: {
+      label: 'Circuito Desigual Global',
+      items: LOCATIONS.filter(isDesigualLocation),
+    },
     kioskos: {
       label: 'Circuito kioskos de prensa',
       items: LOCATIONS.filter(isKioskoLocation),
@@ -922,7 +937,7 @@ function circuitDefinitions() {
     },
     retail: {
       label: 'Otros retail físicos',
-      items: LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l)),
+      items: LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l)),
     },
   };
 }

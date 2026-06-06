@@ -19,6 +19,16 @@
 window.OMNIP_API = 'https://omnipublicity-api.csilvasantin.workers.dev';
 window.OMNIP_STORE_KEY = 'omnip-locations';
 
+function desigualSurfaces(type) {
+  const outlet = type === 'outlet';
+  return [
+    { name: outlet ? 'Escaparate outlet' : 'Escaparate flagship', desc: 'Surface exterior para creatividades de moda, rebajas y lanzamientos por zona', status:'live', impr: outlet ? 520 : 720, cpm: outlet ? '€6' : '€9', surface:'escaparate' },
+    { name: 'Pantalla interior', desc: 'Digital signage en sala de venta · colecciones, looks y campañas contextuales', status:'live', impr: outlet ? 360 : 460, cpm: outlet ? '€5' : '€7', surface:'pantalla' },
+    { name: 'Caja y probadores', desc: 'Impacto de cierre de compra, cross-sell y registro en club', status:'live', impr: outlet ? 140 : 180, cpm: outlet ? '€4' : '€5', surface:'mostrador' },
+    { name: 'PWA Desigual Club', desc: 'Push de proximidad para socios, wishlist y promociones por tienda', status:'live', impr: outlet ? 180 : 260, cpm:'€3', surface:'pwa' },
+  ];
+}
+
 window.OMNIP_LOCATIONS_DEFAULT = [
   {
     id:'xtanco-bcn', name:'Xtanco Barcelona', kind:'Estanco · Retail físico · Gemelo digital',
@@ -105,16 +115,125 @@ window.OMNIP_LOCATIONS_DEFAULT = [
   },
 ];
 
+// Seed oficial del nuevo circuito Desigual. La cifra corporativa actual es
+// +215 stores y presencia en 107 paises; este bloque solo siembra puntos
+// reales del store locator hasta que el importador publique el catálogo
+// completo al KV.
+window.OMNIP_LOCATIONS_EXTRA = [
+  {
+    id:'desigual-r509', name:'Desigual Barcelona Plaza Catalunya', kind:'Desigual · Tienda oficial',
+    addr:'Plaça Catalunya, 9 · Barcelona · 08002 · Barcelona · Spain', coords:[2.168902, 41.3877],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R509', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r016', name:'Desigual Born', kind:'Desigual · Tienda oficial',
+    addr:'Calle Argenteria, 65 · Barcelona · 08003 · Barcelona · Spain', coords:[2.181271, 41.383613],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R016', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r380', name:'Desigual Barceloneta Beach', kind:'Desigual · Tienda oficial',
+    addr:'Passeig Mare Nostrum, 15 · Barcelona · 08039 · Barcelona · Spain', coords:[2.189, 41.369],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R380', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r033', name:'Desigual CC Maremagnum II', kind:'Desigual · Tienda oficial',
+    addr:'CC Maremagnum, Loc 104 · Barcelona · 08039 · Barcelona · Spain', coords:[2.182866, 41.375195],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R033', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r135', name:'Desigual CC Las Arenas', kind:'Desigual · Tienda oficial',
+    addr:'CC Las Arenas, Plaza de España S/N, Loc P14 · Barcelona · 08014 · Barcelona · Spain', coords:[2.149315, 41.376057],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R135', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r747', name:'Desigual CC La Maquinista', kind:'Desigual · Tienda oficial',
+    addr:'CC La Maquinista, Paseo de Potosi 2, Loc B-037 · Barcelona · 08030 · Barcelona · Spain', coords:[2.198741, 41.441097],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R747', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r133', name:'Desigual Aeropuerto El Prat T1', kind:'Desigual · Tienda oficial',
+    addr:'Aeropuerto El Prat, Terminal 1, Loc 67-68 · El Aeroport del Prat · 08820 · Barcelona · Spain', coords:[2.074927, 41.289802],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R133', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r420', name:'Desigual CC Tarragona Parc Central', kind:'Desigual · Tienda oficial',
+    addr:'CC Tarragona Parc Central, Avenida Vidal i Barraquer, 15-17 · Tarragona · 43005 · Tarragona · Spain', coords:[1.239, 41.117],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R420', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r064', name:'Desigual Preciados', kind:'Desigual · Outlet',
+    addr:'Calle Preciados, 25 · Madrid · 28013 · Madrid · Spain', coords:[-3.70574, 40.419481],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R064', type:'outlet', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('outlet'),
+  },
+  {
+    id:'desigual-r019', name:'Desigual Fuencarral', kind:'Desigual · Tienda oficial',
+    addr:'Calle Fuencarral, 36-38 · Madrid · 28004 · Madrid · Spain', coords:[-3.700674, 40.422684],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R019', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r751', name:'Desigual Aeropuerto Madrid-Barajas T4', kind:'Desigual · Tienda oficial',
+    addr:'Aeropuerto Adolfo Suarez Madrid-Barajas T4, Loc T4001DE41 · Madrid · 28042 · Madrid · Spain', coords:[-3.5909464194832768, 40.4911822780647],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R751', type:'official', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('official'),
+  },
+  {
+    id:'desigual-r018', name:'Desigual Outlet Factory Getafe', kind:'Desigual · Outlet',
+    addr:'CC Factory Getafe, Av. Río Guadalquivir 15, Loc 13 Bis · Getafe · 28906 · Madrid · Spain', coords:[-3.694165, 40.272652],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R018', type:'outlet', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('outlet'),
+  },
+  {
+    id:'desigual-r132', name:'Desigual Outlet CC Factory SSRR', kind:'Desigual · Outlet',
+    addr:'CC Factory San Sebastian de los Reyes, Salvador de Madariaga SN · San Sebastián de los Reyes · 28700 · Madrid · Spain', coords:[-3.608584, 40.567128],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R132', type:'outlet', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('outlet'),
+  },
+  {
+    id:'desigual-r136', name:'Desigual Outlet Factory Las Rozas', kind:'Desigual · Outlet',
+    addr:'CC Factory Las Rozas, Calle Pablo Neruda SN · Las Rozas de Madrid · 28232 · Madrid · Spain', coords:[-3.889741, 40.517467],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R136', type:'outlet', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('outlet'),
+  },
+  {
+    id:'desigual-r732', name:'Desigual Madrid Oasiz', kind:'Desigual · Outlet',
+    addr:'CC Madrid Oasiz, Avenida Premios Nobel, 3 · Torrejón de Ardoz · 28850 · Madrid · Spain', coords:[-3.44378471, 40.47230189],
+    music:'fashion', cameras:true, external:{brand:'Desigual', storeId:'R732', type:'outlet', source:'desigual-store-locator'},
+    surfaces:desigualSurfaces('outlet'),
+  },
+];
+
+window.mergeOmnipLocations = function(base, extra) {
+  const out = Array.isArray(base) ? base.slice() : [];
+  const seen = new Set(out.map(l => l && l.id).filter(Boolean));
+  const addon = Array.isArray(extra) ? extra : window.OMNIP_LOCATIONS_EXTRA;
+  (addon || []).forEach(loc => {
+    if (!loc || !loc.id || seen.has(loc.id)) return;
+    out.push(loc);
+    seen.add(loc.id);
+  });
+  return out;
+};
+
 // Sync: localStorage → bundled default. Sin red. Para arranque inmediato.
 window.loadOmnipLocations = function() {
   try {
     const raw = localStorage.getItem(window.OMNIP_STORE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed) && parsed.length) return parsed;
+      if (Array.isArray(parsed) && parsed.length) return window.mergeOmnipLocations(parsed);
     }
   } catch (e) {}
-  return window.OMNIP_LOCATIONS_DEFAULT;
+  return window.mergeOmnipLocations(window.OMNIP_LOCATIONS_DEFAULT);
 };
 
 // Async: worker KV → cachea en localStorage → fallback a sync. Devuelve
@@ -128,8 +247,9 @@ window.loadOmnipLocationsAsync = async function(timeoutMs = 4000) {
     if (!r.ok) throw new Error('http ' + r.status);
     const d = await r.json();
     if (d && Array.isArray(d.locations) && d.locations.length) {
-      try { localStorage.setItem(window.OMNIP_STORE_KEY, JSON.stringify(d.locations)); } catch {}
-      return { locations: d.locations, source: d.source || 'kv', updatedAt: d.updatedAt || null };
+      const merged = window.mergeOmnipLocations(d.locations);
+      try { localStorage.setItem(window.OMNIP_STORE_KEY, JSON.stringify(merged)); } catch {}
+      return { locations: merged, source: d.source || 'kv', updatedAt: d.updatedAt || null };
     }
   } catch (e) { /* offline / worker dormido / timeout */ }
   return { locations: window.loadOmnipLocations(), source: 'local', updatedAt: null };

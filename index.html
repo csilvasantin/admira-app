@@ -32,7 +32,7 @@
   .search input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--ink);font-size:14px;font-family:inherit;text-overflow:ellipsis}
   .search input::placeholder{color:var(--mut)}
   .search .hint{font-family:monospace;font-size:11px;color:var(--mut);background:rgba(120,243,255,.08);border:1px solid var(--line);padding:2px 6px;border-radius:4px;flex-shrink:0}
-  .header-circuit-btn{height:36px;border:1px solid rgba(255,216,102,.45);border-radius:8px;background:rgba(10,22,32,.78);color:var(--accent);font-family:monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:0 14px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+  .header-circuit-btn{height:36px;border:1px solid rgba(255,216,102,.45);border-radius:8px;background:rgba(10,22,32,.78);color:var(--accent);font-family:monospace;font-size:11px;letter-spacing:.07em;text-transform:uppercase;padding:0 12px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
   .header-circuit-btn:hover,.header-circuit-btn.active{background:var(--accent);color:#1a0e00;border-color:var(--accent)}
   .suggest{position:absolute;top:calc(100% + 6px);left:0;right:0;background:rgba(10,22,32,.98);border:1px solid var(--line);border-radius:10px;backdrop-filter:blur(12px);overflow:hidden;max-height:60vh;overflow-y:auto;box-shadow:0 12px 40px rgba(0,0,0,.45)}
   .suggest .group{font-family:monospace;font-size:10px;letter-spacing:.16em;color:var(--mut);padding:8px 14px 4px;text-transform:uppercase;border-bottom:1px solid var(--line)}
@@ -46,15 +46,14 @@
   .suggest .addr-item .kind{color:var(--brand)}
   .suggest .addr-loading{padding:10px 14px;color:var(--mut);font-family:monospace;font-size:11px;display:flex;align-items:center;gap:8px}
   .suggest .addr-loading::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand);box-shadow:0 0 8px var(--brand);animation:pulseDot 1s ease-in-out infinite}
-  header > nav{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:10px 14px;margin-left:auto;font-size:12px;font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
+  header > nav{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:10px 14px;margin-left:0;font-size:12px;font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
   header > nav a{color:var(--mut);white-space:nowrap}
   header > nav a:hover{color:var(--ink)}
   header > nav a.nav-cta{color:var(--accent);border:1px solid rgba(255,216,102,.4);border-radius:6px;padding:4px 10px}
   header > nav a.nav-cta:hover{background:var(--accent);color:#1a0e00}
-  .lang-switch{display:inline-flex;gap:2px;background:rgba(10,22,32,.6);border:1px solid var(--line);border-radius:8px;padding:2px}
-  .lang-switch .lang-btn{font-family:monospace;font-size:12px;letter-spacing:.06em;font-weight:700;color:var(--mut);background:transparent;border:0;border-radius:6px;padding:4px 9px;cursor:pointer;transition:background .15s,color .15s}
+  .lang-switch{display:inline-flex;align-items:center;background:rgba(10,22,32,.6);border:1px solid var(--line);border-radius:8px;padding:2px}
+  .lang-switch .lang-btn{font-family:monospace;font-size:12px;letter-spacing:.06em;font-weight:700;color:var(--brand);background:rgba(120,243,255,.08);border:0;border-radius:6px;padding:4px 9px;cursor:pointer;transition:background .15s,color .15s}
   .lang-switch .lang-btn:hover{color:var(--ink)}
-  .lang-switch .lang-btn.active{background:rgba(120,243,255,.14);color:var(--brand);box-shadow:inset 0 0 0 1px rgba(120,243,255,.4)}
 
   /* Espacio profundo con estrellas detrás del globo (vista Tierra) */
   .space{position:fixed;inset:0;z-index:0;background:
@@ -455,7 +454,6 @@
 
 <header>
   <span class="logo"><span class="logo-home" id="logo-home" role="button" tabindex="0" data-i18n-title="logo_home_title" title="Volver al inicio">OMNI<span class="dot">·</span>PUBLICITY</span></span>
-  <button class="header-circuit-btn" id="header-circuit-btn" type="button">Comprar circuito</button>
   <div class="search-wrap">
     <label class="search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -464,11 +462,11 @@
     </label>
     <div id="suggest" class="suggest" hidden></div>
   </div>
+  <button class="header-circuit-btn" id="header-circuit-btn" type="button" data-i18n="select_circuit">Seleccionar circuito</button>
   <nav>
     <a href="backoffice.html" data-i18n="login">Login</a>
     <div class="lang-switch" id="lang-switch" role="group" aria-label="Idioma / Language">
-      <button type="button" class="lang-btn" data-lang="en">EN</button>
-      <button type="button" class="lang-btn" data-lang="es">ES</button>
+      <button type="button" class="lang-btn" id="lang-toggle" data-lang-target="en" aria-label="Switch to English">ENG</button>
     </div>
     <a class="nav-cta" href="#contact" data-admira-contact data-i18n="contact">Contacto</a>
   </nav>
@@ -513,94 +511,94 @@
 
 <section class="circuit-panel" id="circuit-panel" aria-label="Selector de circuitos" hidden>
   <div class="circuit-head">
-    <h3>Comprar por circuito</h3>
+    <h3 data-i18n="circuit_panel_title">Comprar por circuito</h3>
     <button class="circuit-toggle" id="circuit-toggle" type="button" title="Ocultar / mostrar">−</button>
   </div>
   <div class="circuit-body">
     <select class="circuit-select" id="circuit-select" aria-label="Circuito">
-      <option value="metro_bcn">Circuito Metro Barcelona</option>
-      <option value="desigual">Circuito Desigual Global</option>
-      <option value="kioskos">Circuito kioskos de prensa</option>
-      <option value="all">Toda la red OmniPublicity</option>
-      <option value="estancos">Circuito estancos</option>
-      <option value="retail">Otros retail físicos</option>
+      <option value="metro_bcn" data-i18n="circuit_metro_bcn">Circuito Metro Barcelona</option>
+      <option value="desigual" data-i18n="circuit_desigual">Circuito Desigual Global</option>
+      <option value="kioskos" data-i18n="circuit_kioskos">Circuito kioskos de prensa</option>
+      <option value="all" data-i18n="circuit_all">Toda la red OmniPublicity</option>
+      <option value="estancos" data-i18n="circuit_estancos">Circuito estancos</option>
+      <option value="retail" data-i18n="circuit_retail">Otros retail físicos</option>
     </select>
     <select class="circuit-select" id="circuit-subselect" aria-label="Subcircuito" hidden></select>
     <div class="circuit-actions">
-      <button type="button" id="circuit-select-all">Todo circuito</button>
+      <button type="button" id="circuit-select-all" data-i18n="whole_circuit">Todo circuito</button>
       <button type="button" id="circuit-target-btn">Target</button>
     </div>
     <div class="circuit-main-view" id="circuit-main-view">
       <div class="circuit-stats">
-        <div class="circuit-stat"><b id="circuit-sel-count">0</b>puntos</div>
-        <div class="circuit-stat"><b id="circuit-sel-impr">0</b>impr/día</div>
-        <div class="circuit-stat"><b id="circuit-sel-cpm">—</b>CPM</div>
+        <div class="circuit-stat"><b id="circuit-sel-count">0</b><span data-i18n="points_label">puntos</span></div>
+        <div class="circuit-stat"><b id="circuit-sel-impr">0</b><span data-i18n="impr_day_compact">impr/día</span></div>
+        <div class="circuit-stat"><b id="circuit-sel-cpm">—</b><span data-i18n="cpm_label">CPM</span></div>
       </div>
       <details class="circuit-list-wrap" open>
-        <summary id="circuit-list-title">Puntos del circuito</summary>
+        <summary id="circuit-list-title" data-i18n="circuit_points_title">Puntos del circuito</summary>
         <div class="circuit-list" id="circuit-list"></div>
       </details>
       <div class="circuit-foot">
-        <button class="circuit-secondary" type="button" id="circuit-zoom">Ver en mapa</button>
-        <button class="circuit-buy" type="button" id="circuit-buy" disabled>Comprar selección</button>
+        <button class="circuit-secondary" type="button" id="circuit-zoom" data-i18n="view_map">Ver en mapa</button>
+        <button class="circuit-buy" type="button" id="circuit-buy" disabled data-i18n="buy_selection">Comprar selección</button>
       </div>
       <div class="circuit-note" id="circuit-note">Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.</div>
     </div>
     <div class="circuit-target-view" id="circuit-target-view" hidden>
       <div class="target-head">
-        <div class="target-kicker">Target de campaña</div>
-        <h4>A quién va dirigida la comunicación</h4>
-        <p>Define si la campaña impacta fuera o dentro del Xpacio y acota género, edad y franja horaria.</p>
+        <div class="target-kicker" data-i18n="target_kicker">Target de campaña</div>
+        <h4 data-i18n="target_title">A quién va dirigida la comunicación</h4>
+        <p data-i18n="target_intro">Define si la campaña impacta fuera o dentro del Xpacio y acota género, edad y franja horaria.</p>
       </div>
       <div class="target-group">
-        <div class="target-group-title">Tipo de publicidad</div>
+        <div class="target-group-title" data-i18n="target_placement">Tipo de publicidad</div>
         <div class="target-options two">
           <label class="target-option">
             <input type="checkbox" data-target-group="placements" value="exterior">
-            <span><b>Exterior</b><span>Fuera del Xpacio · puerta del Xtanco, escaparate o acceso</span></span>
+            <span><b data-i18n="target_exterior">Exterior</b><span data-i18n="target_exterior_desc">Fuera del Xpacio · puerta del Xtanco, escaparate o acceso</span></span>
           </label>
           <label class="target-option">
             <input type="checkbox" data-target-group="placements" value="interior">
-            <span><b>Interior</b><span>Dentro del Xpacio · pantalla del Metahuman o sala</span></span>
+            <span><b data-i18n="target_interior">Interior</b><span data-i18n="target_interior_desc">Dentro del Xpacio · pantalla del Metahuman o sala</span></span>
           </label>
         </div>
       </div>
       <div class="target-group">
-        <div class="target-group-title">Género</div>
+        <div class="target-group-title" data-i18n="target_gender">Género</div>
         <div class="target-options two">
           <label class="target-option">
             <input type="checkbox" data-target-group="genders" value="hombre">
-            <span><b>Hombre</b><span>Audiencia masculina</span></span>
+            <span><b data-i18n="target_male">Hombre</b><span data-i18n="target_male_desc">Audiencia masculina</span></span>
           </label>
           <label class="target-option">
             <input type="checkbox" data-target-group="genders" value="mujer">
-            <span><b>Mujer</b><span>Audiencia femenina</span></span>
+            <span><b data-i18n="target_female">Mujer</b><span data-i18n="target_female_desc">Audiencia femenina</span></span>
           </label>
         </div>
       </div>
       <div class="target-group">
-        <div class="target-group-title">Edad</div>
+        <div class="target-group-title" data-i18n="target_age">Edad</div>
         <div class="target-options">
-          <label class="target-option"><input type="checkbox" data-target-group="ages" value="nino"><span><b>Niño &lt;14</b><span>Familias, colegios y ocio infantil</span></span></label>
-          <label class="target-option"><input type="checkbox" data-target-group="ages" value="joven"><span><b>Joven 15-30</b><span>Moda, ocio, estudios y primeras compras</span></span></label>
-          <label class="target-option"><input type="checkbox" data-target-group="ages" value="adulto"><span><b>Adulto 30-50</b><span>Consumo urbano, retail y servicios</span></span></label>
-          <label class="target-option"><input type="checkbox" data-target-group="ages" value="senior"><span><b>Senior 50-65</b><span>Hogar, salud, viajes y fidelización</span></span></label>
-          <label class="target-option"><input type="checkbox" data-target-group="ages" value="vejez"><span><b>Vejez &gt;65</b><span>Proximidad, asistencia y compra recurrente</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="nino"><span><b data-i18n="age_child">Niño &lt;14</b><span data-i18n="age_child_desc">Familias, colegios y ocio infantil</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="joven"><span><b data-i18n="age_young">Joven 15-30</b><span data-i18n="age_young_desc">Moda, ocio, estudios y primeras compras</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="adulto"><span><b data-i18n="age_adult">Adulto 30-50</b><span data-i18n="age_adult_desc">Consumo urbano, retail y servicios</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="senior"><span><b data-i18n="age_senior">Senior 50-65</b><span data-i18n="age_senior_desc">Hogar, salud, viajes y fidelización</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="ages" value="vejez"><span><b data-i18n="age_elder">Vejez &gt;65</b><span data-i18n="age_elder_desc">Proximidad, asistencia y compra recurrente</span></span></label>
         </div>
       </div>
       <div class="target-group">
-        <div class="target-group-title">Franja horaria</div>
+        <div class="target-group-title" data-i18n="target_time">Franja horaria</div>
         <div class="target-options two">
-          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="manana"><span><b>Mañana</b><span>08:00 a 12:00</span></span></label>
-          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="mediodia"><span><b>Mediodía</b><span>12:00 a 16:00</span></span></label>
-          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="tarde"><span><b>Tarde</b><span>16:00 a 20:00</span></span></label>
-          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="noche"><span><b>Noche</b><span>20:00 a 00:00</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="manana"><span><b data-i18n="time_morning">Mañana</b><span>08:00-12:00</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="mediodia"><span><b data-i18n="time_midday">Mediodía</b><span>12:00-16:00</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="tarde"><span><b data-i18n="time_afternoon">Tarde</b><span>16:00-20:00</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="noche"><span><b data-i18n="time_night">Noche</b><span>20:00-00:00</span></span></label>
         </div>
       </div>
       <div class="target-summary-line" id="target-summary-line">Target: <b>amplio</b></div>
       <div class="target-actions">
-        <button type="button" id="target-reset">Limpiar target</button>
-        <button class="target-apply" type="button" id="target-apply">Aplicar target</button>
+        <button type="button" id="target-reset" data-i18n="target_reset">Limpiar target</button>
+        <button class="target-apply" type="button" id="target-apply" data-i18n="target_apply">Aplicar target</button>
       </div>
     </div>
   </div>
@@ -610,70 +608,70 @@
   <div class="buy-card" role="dialog" aria-modal="true" aria-labelledby="buy-title">
     <div class="buy-head">
       <div>
-        <div class="buy-kicker">Checkout programático</div>
+        <div class="buy-kicker" data-i18n="checkout_kicker">Checkout programático</div>
         <h3 id="buy-title">Comprar selección</h3>
       </div>
-      <button class="buy-close" id="buy-close" type="button" aria-label="Cerrar">×</button>
+      <button class="buy-close" id="buy-close" type="button" data-i18n-aria="close" aria-label="Cerrar">×</button>
     </div>
     <div class="buy-body">
       <div class="buy-main">
         <section class="buy-step">
-          <h4>Fechas y pases</h4>
+          <h4 data-i18n="buy_dates_passes">Fechas y pases</h4>
           <div class="buy-grid">
             <div class="buy-field">
-              <label for="buy-start">Inicio</label>
+              <label for="buy-start" data-i18n="buy_start">Inicio</label>
               <input id="buy-start" type="date">
             </div>
             <div class="buy-field">
-              <label for="buy-end">Fin</label>
+              <label for="buy-end" data-i18n="buy_end">Fin</label>
               <input id="buy-end" type="date">
             </div>
             <div class="buy-field">
-              <label for="buy-passes">Pases/día</label>
+              <label for="buy-passes" data-i18n="buy_passes_day">Pases/día</label>
               <select id="buy-passes">
-                <option value="250">250 pases/día</option>
-                <option value="500" selected>500 pases/día</option>
-                <option value="1000">1.000 pases/día</option>
-                <option value="2500">2.500 pases/día</option>
+                <option value="250" data-i18n="passes_250">250 pases/día</option>
+                <option value="500" selected data-i18n="passes_500">500 pases/día</option>
+                <option value="1000" data-i18n="passes_1000">1.000 pases/día</option>
+                <option value="2500" data-i18n="passes_2500">2.500 pases/día</option>
               </select>
             </div>
             <div class="buy-field">
-              <label for="buy-objective">Objetivo</label>
+              <label for="buy-objective" data-i18n="buy_objective">Objetivo</label>
               <select id="buy-objective">
-                <option value="reach">Cobertura</option>
-                <option value="traffic">Tráfico a tienda</option>
-                <option value="launch">Lanzamiento</option>
-                <option value="promo">Promoción</option>
+                <option value="reach" data-i18n="obj_reach">Cobertura</option>
+                <option value="traffic" data-i18n="obj_traffic">Tráfico a tienda</option>
+                <option value="launch" data-i18n="obj_launch">Lanzamiento</option>
+                <option value="promo" data-i18n="obj_promo">Promoción</option>
               </select>
             </div>
           </div>
         </section>
         <section class="buy-step">
-          <h4>Anunciante</h4>
+          <h4 data-i18n="buy_advertiser">Anunciante</h4>
           <div class="buy-grid">
             <div class="buy-field">
-              <label for="buy-brand">Marca</label>
-              <input id="buy-brand" type="text" autocomplete="organization" placeholder="Nombre de la marca">
+              <label for="buy-brand" data-i18n="buy_brand">Marca</label>
+              <input id="buy-brand" type="text" autocomplete="organization" data-i18n-ph="brand_ph" placeholder="Nombre de la marca">
             </div>
             <div class="buy-field">
               <label for="buy-email">Email</label>
               <input id="buy-email" type="email" autocomplete="email" placeholder="facturacion@empresa.com">
             </div>
             <div class="buy-field full">
-              <label for="buy-campaign">Campaña</label>
-              <input id="buy-campaign" type="text" placeholder="Nombre interno de campaña">
+              <label for="buy-campaign" data-i18n="buy_campaign">Campaña</label>
+              <input id="buy-campaign" type="text" data-i18n-ph="campaign_ph" placeholder="Nombre interno de campaña">
             </div>
           </div>
         </section>
         <section class="buy-step">
-          <h4>Tarjeta de crédito</h4>
+          <h4 data-i18n="buy_credit_card">Tarjeta de crédito</h4>
           <div class="buy-pay-grid">
             <div class="buy-field">
-              <label for="buy-card">Número</label>
+              <label for="buy-card" data-i18n="buy_card_number">Número</label>
               <input id="buy-card" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="4242 4242 4242 4242">
             </div>
             <div class="buy-field">
-              <label for="buy-exp">Caduca</label>
+              <label for="buy-exp" data-i18n="buy_exp">Caduca</label>
               <input id="buy-exp" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA">
             </div>
             <div class="buy-field">
@@ -684,17 +682,17 @@
         </section>
       </div>
       <aside class="buy-summary">
-        <h4>Resumen</h4>
-        <div class="buy-line"><span>Puntos</span><b id="buy-points">—</b></div>
-        <div class="buy-line"><span>Fechas</span><b id="buy-days">—</b></div>
-        <div class="buy-line"><span>Pases</span><b id="buy-passes-out">—</b></div>
-        <div class="buy-line"><span>Impresiones estimadas</span><b id="buy-impr">—</b></div>
-        <div class="buy-line"><span>CPM base</span><b id="buy-cpm">—</b></div>
-        <div class="buy-line"><span>Demanda fecha</span><b id="buy-demand">—</b></div>
+        <h4 data-i18n="buy_summary">Resumen</h4>
+        <div class="buy-line"><span data-i18n="buy_points">Puntos</span><b id="buy-points">—</b></div>
+        <div class="buy-line"><span data-i18n="buy_dates">Fechas</span><b id="buy-days">—</b></div>
+        <div class="buy-line"><span data-i18n="buy_passes">Pases</span><b id="buy-passes-out">—</b></div>
+        <div class="buy-line"><span data-i18n="buy_est_impr">Impresiones estimadas</span><b id="buy-impr">—</b></div>
+        <div class="buy-line"><span data-i18n="buy_base_cpm">CPM base</span><b id="buy-cpm">—</b></div>
+        <div class="buy-line"><span data-i18n="buy_date_demand">Demanda fecha</span><b id="buy-demand">—</b></div>
         <div class="buy-line"><span>Target</span><b id="buy-target">—</b></div>
-        <div class="buy-total"><span>Total</span><b id="buy-total">—</b></div>
-        <button class="buy-submit" id="buy-submit" type="button">Pagar y reservar</button>
-        <p class="buy-legal">La web valida la tarjeta y prepara la orden sin guardar el número completo. El cargo real queda listo para enlazar con la pasarela de pago de Admira.</p>
+        <div class="buy-total"><span data-i18n="buy_total">Total</span><b id="buy-total">—</b></div>
+        <button class="buy-submit" id="buy-submit" type="button" data-i18n="buy_submit">Pagar y reservar</button>
+        <p class="buy-legal" data-i18n="buy_legal">La web valida la tarjeta y prepara la orden sin guardar el número completo. El cargo real queda listo para enlazar con la pasarela de pago de Admira.</p>
         <div class="buy-error" id="buy-error" hidden></div>
         <div class="buy-ok" id="buy-ok" hidden></div>
       </aside>
@@ -822,25 +820,25 @@ let circuitAutoSelect = true;
 let circuitMapFilterActive = false;
 const CIRCUIT_TARGET_OPTIONS = {
   placements: [
-    {value:'exterior', label:'Exterior'},
-    {value:'interior', label:'Interior'},
+    {value:'exterior', labelKey:'target_exterior'},
+    {value:'interior', labelKey:'target_interior'},
   ],
   genders: [
-    {value:'hombre', label:'Hombre'},
-    {value:'mujer', label:'Mujer'},
+    {value:'hombre', labelKey:'target_male'},
+    {value:'mujer', labelKey:'target_female'},
   ],
   ages: [
-    {value:'nino', label:'Niño <14'},
-    {value:'joven', label:'Joven 15-30'},
-    {value:'adulto', label:'Adulto 30-50'},
-    {value:'senior', label:'Senior 50-65'},
-    {value:'vejez', label:'Vejez >65'},
+    {value:'nino', labelKey:'age_child'},
+    {value:'joven', labelKey:'age_young'},
+    {value:'adulto', labelKey:'age_adult'},
+    {value:'senior', labelKey:'age_senior'},
+    {value:'vejez', labelKey:'age_elder'},
   ],
   timeSlots: [
-    {value:'manana', label:'Mañana 08:00-12:00'},
-    {value:'mediodia', label:'Mediodía 12:00-16:00'},
-    {value:'tarde', label:'Tarde 16:00-20:00'},
-    {value:'noche', label:'Noche 20:00-00:00'},
+    {value:'manana', labelKey:'time_morning', hours:'08:00-12:00'},
+    {value:'mediodia', labelKey:'time_midday', hours:'12:00-16:00'},
+    {value:'tarde', labelKey:'time_afternoon', hours:'16:00-20:00'},
+    {value:'noche', labelKey:'time_night', hours:'20:00-00:00'},
   ],
 };
 
@@ -873,6 +871,58 @@ const I18N = {
     search_ph:'Buscar tienda · "Xtanco", "Loterías", "BCN" o cualquier dirección',
     login:'Login', contact:'Contacto',
     stores:'tiendas', screens:'pantallas',
+    select_circuit:'Seleccionar circuito',
+    lang_toggle:'ENG', lang_toggle_aria:'Cambiar a inglés',
+    circuit_panel_title:'Comprar por circuito',
+    circuit_metro_bcn:'Circuito Metro Barcelona', circuit_desigual:'Circuito Desigual Global',
+    circuit_kioskos:'Circuito kioskos de prensa', circuit_all:'Toda la red OmniPublicity',
+    circuit_estancos:'Circuito estancos', circuit_retail:'Otros retail físicos',
+    all_lines:'Todas las líneas', whole_line:'Toda línea', whole_circuit:'Todo circuito',
+    points_label:'puntos', point_label:'punto', impr_day_compact:'impr/día', cpm_label:'CPM',
+    circuit_points_title:'Puntos del circuito', view_map:'Ver en mapa', buy_selection:'Comprar selección',
+    select_circuit_note:'Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.',
+    target_required_note:'Completa el <b>target</b> antes de preparar la compra.',
+    selection_ready:'Selección lista: <b>{points}</b> puntos · <b>{impr}</b> impr/día · target <b>{target}</b>.',
+    target_kicker:'Target de campaña', target_title:'A quién va dirigida la comunicación',
+    target_intro:'Define si la campaña impacta fuera o dentro del Xpacio y acota género, edad y franja horaria.',
+    target_placement:'Tipo de publicidad', target_exterior:'Exterior',
+    target_exterior_desc:'Fuera del Xpacio · puerta del Xtanco, escaparate o acceso',
+    target_interior:'Interior', target_interior_desc:'Dentro del Xpacio · pantalla del Metahuman o sala',
+    target_gender:'Género', target_male:'Hombre', target_male_desc:'Audiencia masculina',
+    target_female:'Mujer', target_female_desc:'Audiencia femenina',
+    target_age:'Edad', age_child:'Niño <14', age_child_desc:'Familias, colegios y ocio infantil',
+    age_young:'Joven 15-30', age_young_desc:'Moda, ocio, estudios y primeras compras',
+    age_adult:'Adulto 30-50', age_adult_desc:'Consumo urbano, retail y servicios',
+    age_senior:'Senior 50-65', age_senior_desc:'Hogar, salud, viajes y fidelización',
+    age_elder:'Vejez >65', age_elder_desc:'Proximidad, asistencia y compra recurrente',
+    target_time:'Franja horaria', time_morning:'Mañana', time_midday:'Mediodía', time_afternoon:'Tarde', time_night:'Noche',
+    target_summary:'Target: <b>{target}</b>', target_incomplete:'Target incompleto: <b>elige al menos una opción por bloque</b>',
+    target_reset:'Limpiar target', target_apply:'Aplicar target',
+    summary_all_placements:'Exterior + interior', summary_all_genders:'Hombre + mujer',
+    summary_all_ages:'todas las edades', summary_all_day:'todo el día', summary_undefined:'sin definir',
+    status_selection:'Selección · {points} puntos', status_target_campaign:'Completa el target de campaña',
+    status_purchase_ready:'Compra preparada · {points} puntos seleccionados',
+    status_reserved:'Compra reservada · {orderId}',
+    checkout_kicker:'Checkout programático', buy_title_base:'Comprar selección',
+    buy_dates_passes:'Fechas y pases', buy_start:'Inicio', buy_end:'Fin',
+    buy_passes_day:'Pases/día', passes_250:'250 pases/día', passes_500:'500 pases/día',
+    passes_1000:'1.000 pases/día', passes_2500:'2.500 pases/día',
+    buy_objective:'Objetivo', obj_reach:'Cobertura', obj_traffic:'Tráfico a tienda',
+    obj_launch:'Lanzamiento', obj_promo:'Promoción', buy_advertiser:'Anunciante',
+    buy_brand:'Marca', brand_ph:'Nombre de la marca', buy_campaign:'Campaña',
+    campaign_ph:'Nombre interno de campaña', buy_credit_card:'Tarjeta de crédito',
+    buy_card_number:'Número', buy_exp:'Caduca', buy_summary:'Resumen',
+    buy_points:'Puntos', buy_dates:'Fechas', buy_passes:'Pases',
+    buy_est_impr:'Impresiones estimadas', buy_base_cpm:'CPM base',
+    buy_date_demand:'Demanda fecha', buy_total:'Total', buy_submit:'Pagar y reservar',
+    buy_legal:'La web valida la tarjeta y prepara la orden sin guardar el número completo. El cargo real queda listo para enlazar con la pasarela de pago de Admira.',
+    buy_points_line:'{points} puntos · {surfaces} surfaces', buy_days_line:'{days} días',
+    buy_select_dates:'Selecciona fechas', buy_per_day:'{passes} / día',
+    err_select_point:'Selecciona al menos un punto.', err_dates:'Elige un rango de fechas válido.',
+    err_brand:'Indica la marca anunciante.', err_email:'Indica un email de facturación válido.',
+    err_campaign:'Pon un nombre de campaña.', err_card:'El número de tarjeta no es válido.',
+    err_exp:'La fecha de caducidad no es válida.', err_cvc:'El CVC debe tener 3 o 4 dígitos.',
+    order_ok:'Reserva <b>{orderId}</b> creada por <b>{price}</b> con tarjeta terminada en <b>{cardLast4}</b>.',
     hero_eyebrow:'OmniPublicity · Programática en el mundo real',
     hero_h1a:'Retail Media,', hero_h1b:'potenciada con IA',
     hero_p:'Cada hueco visible — pantalla LED, escaparate, vending, panel del mostrador, push de la PWA — es <span class="tag">inventario subastable</span> en tiempo real. Busca una tienda y aterriza en su ficha de surfaces.',
@@ -919,6 +969,58 @@ const I18N = {
     search_ph:'Search store · "Xtanco", "Loterías", "BCN" or any address',
     login:'Login', contact:'Contact',
     stores:'stores', screens:'screens',
+    select_circuit:'Select circuit',
+    lang_toggle:'ESP', lang_toggle_aria:'Switch to Spanish',
+    circuit_panel_title:'Buy by circuit',
+    circuit_metro_bcn:'Barcelona Metro Circuit', circuit_desigual:'Global Desigual Circuit',
+    circuit_kioskos:'Press kiosk circuit', circuit_all:'Entire OmniPublicity network',
+    circuit_estancos:'Tobacco shop circuit', circuit_retail:'Other physical retail',
+    all_lines:'All lines', whole_line:'Whole line', whole_circuit:'Whole circuit',
+    points_label:'points', point_label:'point', impr_day_compact:'impr/day', cpm_label:'CPM',
+    circuit_points_title:'Circuit points', view_map:'View on map', buy_selection:'Buy selection',
+    select_circuit_note:'Select <b>the whole circuit</b> or individual points to prepare the purchase.',
+    target_required_note:'Complete the <b>target</b> before preparing the purchase.',
+    selection_ready:'Selection ready: <b>{points}</b> points · <b>{impr}</b> impr/day · target <b>{target}</b>.',
+    target_kicker:'Campaign target', target_title:'Who the communication is for',
+    target_intro:'Define whether the campaign impacts outside or inside the Xpace and narrow by gender, age, and time slot.',
+    target_placement:'Ad placement', target_exterior:'Exterior',
+    target_exterior_desc:'Outside the Xpace · Xtanco door, shop window, or entrance',
+    target_interior:'Interior', target_interior_desc:'Inside the Xpace · Metahuman screen or room',
+    target_gender:'Gender', target_male:'Male', target_male_desc:'Male audience',
+    target_female:'Female', target_female_desc:'Female audience',
+    target_age:'Age', age_child:'Child <14', age_child_desc:'Families, schools, and children’s leisure',
+    age_young:'Young 15-30', age_young_desc:'Fashion, leisure, education, and first purchases',
+    age_adult:'Adult 30-50', age_adult_desc:'Urban consumption, retail, and services',
+    age_senior:'Senior 50-65', age_senior_desc:'Home, health, travel, and loyalty',
+    age_elder:'Elder >65', age_elder_desc:'Proximity, assistance, and recurring purchases',
+    target_time:'Time slot', time_morning:'Morning', time_midday:'Midday', time_afternoon:'Afternoon', time_night:'Night',
+    target_summary:'Target: <b>{target}</b>', target_incomplete:'Incomplete target: <b>choose at least one option per block</b>',
+    target_reset:'Clear target', target_apply:'Apply target',
+    summary_all_placements:'Exterior + interior', summary_all_genders:'Male + female',
+    summary_all_ages:'all ages', summary_all_day:'all day', summary_undefined:'undefined',
+    status_selection:'Selection · {points} points', status_target_campaign:'Complete the campaign target',
+    status_purchase_ready:'Purchase prepared · {points} selected points',
+    status_reserved:'Purchase reserved · {orderId}',
+    checkout_kicker:'Programmatic checkout', buy_title_base:'Buy selection',
+    buy_dates_passes:'Dates and passes', buy_start:'Start', buy_end:'End',
+    buy_passes_day:'Passes/day', passes_250:'250 passes/day', passes_500:'500 passes/day',
+    passes_1000:'1,000 passes/day', passes_2500:'2,500 passes/day',
+    buy_objective:'Objective', obj_reach:'Reach', obj_traffic:'Store traffic',
+    obj_launch:'Launch', obj_promo:'Promotion', buy_advertiser:'Advertiser',
+    buy_brand:'Brand', brand_ph:'Brand name', buy_campaign:'Campaign',
+    campaign_ph:'Internal campaign name', buy_credit_card:'Credit card',
+    buy_card_number:'Number', buy_exp:'Expires', buy_summary:'Summary',
+    buy_points:'Points', buy_dates:'Dates', buy_passes:'Passes',
+    buy_est_impr:'Estimated impressions', buy_base_cpm:'Base CPM',
+    buy_date_demand:'Date demand', buy_total:'Total', buy_submit:'Pay and reserve',
+    buy_legal:'The website validates the card and prepares the order without storing the full number. The real charge is ready to be connected to Admira’s payment gateway.',
+    buy_points_line:'{points} points · {surfaces} surfaces', buy_days_line:'{days} days',
+    buy_select_dates:'Select dates', buy_per_day:'{passes} / day',
+    err_select_point:'Select at least one point.', err_dates:'Choose a valid date range.',
+    err_brand:'Enter the advertiser brand.', err_email:'Enter a valid billing email.',
+    err_campaign:'Add a campaign name.', err_card:'The card number is not valid.',
+    err_exp:'The expiration date is not valid.', err_cvc:'The CVC must have 3 or 4 digits.',
+    order_ok:'Reservation <b>{orderId}</b> created for <b>{price}</b> with card ending in <b>{cardLast4}</b>.',
     hero_eyebrow:'OmniPublicity · Programmatic in the real world',
     hero_h1a:'Retail Media,', hero_h1b:'powered by AI',
     hero_p:'Every visible spot — LED screen, shop window, vending, counter panel, PWA push — is <span class="tag">auctionable inventory</span> in real time. Search a store and land on its surfaces.',
@@ -963,6 +1065,9 @@ const I18N = {
 };
 let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'en' ? 'en' : 'es'; } catch(_) { return 'es'; } })();
 function t(key){ return (I18N[LANG] && I18N[LANG][key] != null) ? I18N[LANG][key] : (I18N.es[key] != null ? I18N.es[key] : key); }
+function tf(key, vars = {}) {
+  return t(key).replace(/\{(\w+)\}/g, (_, name) => vars[name] == null ? '' : String(vars[name]));
+}
 function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
   document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
@@ -972,14 +1077,24 @@ function applyI18n(){
   if (h1) h1.innerHTML = t('hero_h1a') + '<br><span class="grad">' + t('hero_h1b') + '</span>';
   const hp = document.getElementById('hero-p');
   if (hp) hp.innerHTML = t('hero_p');
+  const langToggle = document.getElementById('lang-toggle');
+  if (langToggle) {
+    const next = LANG === 'en' ? 'es' : 'en';
+    langToggle.dataset.langTarget = next;
+    langToggle.textContent = t('lang_toggle');
+    langToggle.setAttribute('aria-label', t('lang_toggle_aria'));
+  }
   document.documentElement.lang = LANG;
 }
 function setLang(lang){
   LANG = (lang === 'en') ? 'en' : 'es';
   try { localStorage.setItem('omnip-lang', LANG); } catch(_){}
-  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === LANG));
   applyI18n();
   // Refresca UI dinámica ya pintada
+  try { renderCircuitSelector(); } catch(_){}
+  try { renderCircuitTarget(); } catch(_){}
+  try { updateBuyQuote(); } catch(_){}
+  try { const title = document.getElementById('buy-title'); if (title && !document.getElementById('buy-modal')?.hidden) title.textContent = `${t('buy_title_base')} · ${currentCircuit().label}`; } catch(_){}
   try { if (typeof activeLocation !== 'undefined' && activeLocation) renderPanel(activeLocation); } catch(_){}
   try { if (typeof searchInput !== 'undefined' && searchInput && searchInput.value) renderSuggest(searchInput.value); } catch(_){}
 }
@@ -1048,27 +1163,27 @@ function metroLineOptions(items) {
 function circuitDefinitions() {
   return {
     metro_bcn: {
-      label: 'Circuito Metro Barcelona',
+      label: t('circuit_metro_bcn'),
       items: LOCATIONS.filter(isMetroBarcelonaLocation),
     },
     desigual: {
-      label: 'Circuito Desigual Global',
+      label: t('circuit_desigual'),
       items: LOCATIONS.filter(isDesigualLocation),
     },
     kioskos: {
-      label: 'Circuito kioskos de prensa',
+      label: t('circuit_kioskos'),
       items: LOCATIONS.filter(isKioskoLocation),
     },
     all: {
-      label: 'Toda la red OmniPublicity',
+      label: t('circuit_all'),
       items: LOCATIONS.slice(),
     },
     estancos: {
-      label: 'Circuito estancos',
+      label: t('circuit_estancos'),
       items: LOCATIONS.filter(isEstancoLocation),
     },
     retail: {
-      label: 'Otros retail físicos',
+      label: t('circuit_retail'),
       items: LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l)),
     },
   };
@@ -1133,7 +1248,7 @@ function targetIsComplete() {
 }
 
 function targetLabels(group) {
-  const lookup = new Map((CIRCUIT_TARGET_OPTIONS[group] || []).map(o => [o.value, o.label]));
+  const lookup = new Map((CIRCUIT_TARGET_OPTIONS[group] || []).map(o => [o.value, group === 'timeSlots' ? `${t(o.labelKey)} ${o.hours}` : t(o.labelKey)]));
   const values = Array.isArray(circuitTarget[group]) ? circuitTarget[group] : [];
   return values.map(v => lookup.get(v) || v);
 }
@@ -1141,12 +1256,12 @@ function targetLabels(group) {
 function targetGroupSummary(group) {
   const selected = targetLabels(group);
   const total = (CIRCUIT_TARGET_OPTIONS[group] || []).length;
-  if (!selected.length) return 'sin definir';
+  if (!selected.length) return t('summary_undefined');
   if (selected.length === total) {
-    if (group === 'placements') return 'Exterior + interior';
-    if (group === 'genders') return 'Hombre + mujer';
-    if (group === 'timeSlots') return 'todo el día';
-    return 'todas las edades';
+    if (group === 'placements') return t('summary_all_placements');
+    if (group === 'genders') return t('summary_all_genders');
+    if (group === 'timeSlots') return t('summary_all_day');
+    return t('summary_all_ages');
   }
   return selected.join(' + ');
 }
@@ -1164,8 +1279,8 @@ function renderCircuitTarget() {
   const summary = document.getElementById('target-summary-line');
   if (summary) {
     summary.innerHTML = targetIsComplete()
-      ? `Target: <b>${escHtml(circuitTargetSummary())}</b>`
-      : 'Target incompleto: <b>elige al menos una opción por bloque</b>';
+      ? tf('target_summary', {target: escHtml(circuitTargetSummary())})
+      : t('target_incomplete');
   }
   const apply = document.getElementById('target-apply');
   if (apply) apply.disabled = !targetIsComplete();
@@ -1225,13 +1340,13 @@ function renderCircuitSelector() {
     subselect.hidden = selectedCircuitId !== 'metro_bcn';
     if (!subselect.hidden) {
       if (selectedMetroLine !== 'all' && !lineOptions.includes(selectedMetroLine)) selectedMetroLine = 'all';
-      subselect.innerHTML = '<option value="all">Todas las líneas</option>' + lineOptions.map(line => `<option value="${escHtml(line)}">${escHtml(line)}</option>`).join('');
+      subselect.innerHTML = `<option value="all">${escHtml(t('all_lines'))}</option>` + lineOptions.map(line => `<option value="${escHtml(line)}">${escHtml(line)}</option>`).join('');
       subselect.value = selectedMetroLine;
     }
   }
   const items = currentCircuitItems();
   if (selectAllBtn) {
-    selectAllBtn.textContent = selectedCircuitId === 'metro_bcn' && selectedMetroLine !== 'all' ? 'Toda línea' : 'Todo circuito';
+    selectAllBtn.textContent = selectedCircuitId === 'metro_bcn' && selectedMetroLine !== 'all' ? t('whole_line') : t('whole_circuit');
   }
   const idsInCircuit = new Set(items.map(l => l.id));
   selectedLocationIds = circuitAutoSelect
@@ -1249,7 +1364,7 @@ function renderCircuitSelector() {
       <span class="cp-meta">${live}/${loc.surfaces.length}</span>
     </label>`;
   }).join('');
-  title.textContent = `${currentCircuitLabel()} · ${items.length} puntos`;
+  title.textContent = `${currentCircuitLabel()} · ${items.length} ${items.length === 1 ? t('point_label') : t('points_label')}`;
   updateCircuitSummary();
   refreshSelectedMapSource();
 }
@@ -1268,9 +1383,9 @@ function updateCircuitSummary() {
   if (buy) buy.disabled = !locs.length || !targetOk;
   const note = document.getElementById('circuit-note');
   if (note) {
-    if (!targetOk) note.innerHTML = 'Completa el <b>target</b> antes de preparar la compra.';
-    else if (locs.length) note.innerHTML = `Selección lista: <b>${locs.length}</b> puntos · <b>${formatImpr(impr)}</b> impr/día · target <b>${escHtml(circuitTargetSummary())}</b>.`;
-    else note.innerHTML = 'Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.';
+    if (!targetOk) note.innerHTML = t('target_required_note');
+    else if (locs.length) note.innerHTML = tf('selection_ready', {points: locs.length, impr: formatImpr(impr), target: escHtml(circuitTargetSummary())});
+    else note.innerHTML = t('select_circuit_note');
   }
 }
 
@@ -1298,7 +1413,7 @@ function zoomToSelectedCircuit() {
   const bounds = new maplibregl.LngLatBounds();
   locs.forEach(loc => bounds.extend(loc.coords));
   map.fitBounds(bounds, {padding:{top:120,bottom:90,left:380,right:420}, duration:1200, maxZoom:6});
-  setStatus('Selección · ' + locs.length + ' puntos');
+  setStatus(tf('status_selection', {points: locs.length}));
 }
 
 function openCircuitPurchase() {
@@ -1306,7 +1421,7 @@ function openCircuitPurchase() {
   if (!locs.length) return;
   if (!targetIsComplete()) {
     setCircuitTargetMode(true);
-    setStatus('Completa el target de campaña');
+    setStatus(t('status_target_campaign'));
     return;
   }
   try {
@@ -1320,7 +1435,7 @@ function openCircuitPurchase() {
     }));
   } catch (_) {}
   openBuyCheckout();
-  setStatus('Compra preparada · ' + locs.length + ' puntos seleccionados');
+  setStatus(tf('status_purchase_ready', {points: locs.length}));
 }
 
 function isoDateLocal(d) {
@@ -1390,19 +1505,19 @@ function calculateBuyQuote() {
 }
 
 function formatMoney(n) {
-  return new Intl.NumberFormat('es-ES', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(Math.round(n || 0));
+  return new Intl.NumberFormat(LANG === 'en' ? 'en-US' : 'es-ES', {style:'currency', currency:'EUR', maximumFractionDigits:0}).format(Math.round(n || 0));
 }
 
 function formatInt(n) {
-  return new Intl.NumberFormat('es-ES').format(Math.round(n || 0));
+  return new Intl.NumberFormat(LANG === 'en' ? 'en-US' : 'es-ES').format(Math.round(n || 0));
 }
 
 function updateBuyQuote() {
   const q = calculateBuyQuote();
   const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
-  set('buy-points', `${q.locs.length} puntos · ${q.surfaces} surfaces`);
-  set('buy-days', q.days ? `${q.days} días` : 'Selecciona fechas');
-  set('buy-passes-out', `${formatInt(q.passesDay)} / día`);
+  set('buy-points', tf('buy_points_line', {points: q.locs.length, surfaces: q.surfaces}));
+  set('buy-days', q.days ? tf('buy_days_line', {days: q.days}) : t('buy_select_dates'));
+  set('buy-passes-out', tf('buy_per_day', {passes: formatInt(q.passesDay)}));
   set('buy-impr', q.estimatedImpr ? formatInt(q.estimatedImpr) : '—');
   set('buy-cpm', `€${q.cpm.toFixed(2)}`);
   set('buy-demand', `x${q.demand.toFixed(2)}`);
@@ -1434,7 +1549,7 @@ function openBuyCheckout() {
   if (ok) ok.hidden = true;
   if (err) err.hidden = true;
   const circuit = currentCircuit();
-  if (title) title.textContent = `Comprar selección · ${circuit.label}`;
+  if (title) title.textContent = `${t('buy_title_base')} · ${circuit.label}`;
   if (modal) modal.hidden = false;
   updateBuyQuote();
 }
@@ -1478,14 +1593,14 @@ function validateBuyForm() {
   const exp = document.getElementById('buy-exp')?.value.trim();
   const cvc = normalizeCard(document.getElementById('buy-cvc')?.value);
   const errors = [];
-  if (!q.locs.length) errors.push('Selecciona al menos un punto.');
-  if (!q.days) errors.push('Elige un rango de fechas válido.');
-  if (!brand) errors.push('Indica la marca anunciante.');
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email || '')) errors.push('Indica un email de facturación válido.');
-  if (!campaign) errors.push('Pon un nombre de campaña.');
-  if (!luhnOk(card)) errors.push('El número de tarjeta no es válido.');
-  if (!expiryOk(exp)) errors.push('La fecha de caducidad no es válida.');
-  if (cvc.length < 3 || cvc.length > 4) errors.push('El CVC debe tener 3 o 4 dígitos.');
+  if (!q.locs.length) errors.push(t('err_select_point'));
+  if (!q.days) errors.push(t('err_dates'));
+  if (!brand) errors.push(t('err_brand'));
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email || '')) errors.push(t('err_email'));
+  if (!campaign) errors.push(t('err_campaign'));
+  if (!luhnOk(card)) errors.push(t('err_card'));
+  if (!expiryOk(exp)) errors.push(t('err_exp'));
+  if (cvc.length < 3 || cvc.length > 4) errors.push(t('err_cvc'));
   return {q, brand, email, campaign, cardLast4: card.slice(-4), exp, errors};
 }
 
@@ -1525,10 +1640,10 @@ function submitBuyCheckout() {
   };
   try { sessionStorage.setItem('omnip-last-order', JSON.stringify(order)); } catch (_) {}
   if (ok) {
-    ok.innerHTML = `Reserva <b>${escHtml(orderId)}</b> creada por <b>${formatMoney(order.price)}</b> con tarjeta terminada en <b>${escHtml(order.cardLast4)}</b>.`;
+    ok.innerHTML = tf('order_ok', {orderId: escHtml(orderId), price: formatMoney(order.price), cardLast4: escHtml(order.cardLast4)});
     ok.hidden = false;
   }
-  setStatus('Compra reservada · ' + orderId);
+  setStatus(tf('status_reserved', {orderId}));
 }
 
 function bindBuyCheckout() {
@@ -2917,8 +3032,8 @@ if (logoHome) {
 }
 
 // ─── Selector de idioma EN/ES ─────────────────────────────────────
-document.querySelectorAll('#lang-switch .lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => setLang(btn.dataset.lang));
+document.getElementById('lang-toggle')?.addEventListener('click', e => {
+  setLang(e.currentTarget.dataset.langTarget || (LANG === 'en' ? 'es' : 'en'));
 });
 setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
 </script>

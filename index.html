@@ -550,7 +550,7 @@
       <div class="target-head">
         <div class="target-kicker">Target de campaña</div>
         <h4>A quién va dirigida la comunicación</h4>
-        <p>Define si la campaña impacta fuera o dentro del Xpacio y acota género y edad.</p>
+        <p>Define si la campaña impacta fuera o dentro del Xpacio y acota género, edad y franja horaria.</p>
       </div>
       <div class="target-group">
         <div class="target-group-title">Tipo de publicidad</div>
@@ -586,6 +586,15 @@
           <label class="target-option"><input type="checkbox" data-target-group="ages" value="adulto"><span><b>Adulto 30-50</b><span>Consumo urbano, retail y servicios</span></span></label>
           <label class="target-option"><input type="checkbox" data-target-group="ages" value="senior"><span><b>Senior 50-65</b><span>Hogar, salud, viajes y fidelización</span></span></label>
           <label class="target-option"><input type="checkbox" data-target-group="ages" value="vejez"><span><b>Vejez &gt;65</b><span>Proximidad, asistencia y compra recurrente</span></span></label>
+        </div>
+      </div>
+      <div class="target-group">
+        <div class="target-group-title">Franja horaria</div>
+        <div class="target-options two">
+          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="manana"><span><b>Mañana</b><span>08:00 a 12:00</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="mediodia"><span><b>Mediodía</b><span>12:00 a 16:00</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="tarde"><span><b>Tarde</b><span>16:00 a 20:00</span></span></label>
+          <label class="target-option"><input type="checkbox" data-target-group="timeSlots" value="noche"><span><b>Noche</b><span>20:00 a 00:00</span></span></label>
         </div>
       </div>
       <div class="target-summary-line" id="target-summary-line">Target: <b>amplio</b></div>
@@ -826,6 +835,12 @@ const CIRCUIT_TARGET_OPTIONS = {
     {value:'adulto', label:'Adulto 30-50'},
     {value:'senior', label:'Senior 50-65'},
     {value:'vejez', label:'Vejez >65'},
+  ],
+  timeSlots: [
+    {value:'manana', label:'Mañana 08:00-12:00'},
+    {value:'mediodia', label:'Mediodía 12:00-16:00'},
+    {value:'tarde', label:'Tarde 16:00-20:00'},
+    {value:'noche', label:'Noche 20:00-00:00'},
   ],
 };
 
@@ -1130,13 +1145,14 @@ function targetGroupSummary(group) {
   if (selected.length === total) {
     if (group === 'placements') return 'Exterior + interior';
     if (group === 'genders') return 'Hombre + mujer';
+    if (group === 'timeSlots') return 'todo el día';
     return 'todas las edades';
   }
   return selected.join(' + ');
 }
 
 function circuitTargetSummary() {
-  return `${targetGroupSummary('placements')} · ${targetGroupSummary('genders')} · ${targetGroupSummary('ages')}`;
+  return `${targetGroupSummary('placements')} · ${targetGroupSummary('genders')} · ${targetGroupSummary('ages')} · ${targetGroupSummary('timeSlots')}`;
 }
 
 function renderCircuitTarget() {

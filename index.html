@@ -18,14 +18,15 @@
   a{color:var(--brand);text-decoration:none}
   a:hover{text-decoration:underline}
 
-  header{position:fixed;top:0;left:0;right:0;z-index:10;padding:14px 22px;background:linear-gradient(to bottom,rgba(2,8,13,.92),rgba(2,8,13,.6) 70%,transparent);backdrop-filter:blur(8px);display:flex;align-items:center;gap:12px;flex-wrap:nowrap}
+  header{position:fixed;top:0;left:0;right:0;z-index:10;padding:14px 22px;background:linear-gradient(to bottom,rgba(2,8,13,.92),rgba(2,8,13,.6) 70%,transparent);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:nowrap}
   .logo{font-family:monospace;font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:bold;white-space:nowrap}
   .logo .logo-home{cursor:pointer;border-radius:4px;outline:none;transition:opacity .15s,text-shadow .15s}
   .logo .logo-home:hover{text-shadow:0 0 12px rgba(255,216,102,.55)}
   .logo .logo-home:focus-visible{box-shadow:0 0 0 2px var(--brand)}
   .logo .dot{color:var(--brand)}
   .logo .ver{font-weight:normal;font-size:10px;letter-spacing:.08em;color:var(--mut);margin-left:10px}
-  .search-wrap{flex:1 1 380px;min-width:210px;max-width:460px;position:relative}
+  .header-controls{display:flex;align-items:center;justify-content:flex-end;gap:12px;flex:1 1 auto;min-width:0;margin-left:auto}
+  .search-wrap{flex:0 1 230px;min-width:180px;max-width:230px;position:relative}
   .search{display:flex;align-items:center;gap:8px;background:rgba(10,22,32,.85);border:1px solid var(--line);border-radius:10px;padding:8px 14px;transition:border-color .15s,box-shadow .15s}
   .search:focus-within{border-color:var(--brand);box-shadow:0 0 18px rgba(120,243,255,.25)}
   .search svg{width:16px;height:16px;color:var(--mut);flex-shrink:0}
@@ -46,11 +47,11 @@
   .suggest .addr-item .kind{color:var(--brand)}
   .suggest .addr-loading{padding:10px 14px;color:var(--mut);font-family:monospace;font-size:11px;display:flex;align-items:center;gap:8px}
   .suggest .addr-loading::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand);box-shadow:0 0 8px var(--brand);animation:pulseDot 1s ease-in-out infinite}
-  header > nav{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:10px 14px;margin-left:0;font-size:12px;font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
-  header > nav a{color:var(--mut);white-space:nowrap}
-  header > nav a:hover{color:var(--ink)}
-  header > nav a.nav-cta{color:var(--accent);border:1px solid rgba(255,216,102,.4);border-radius:6px;padding:4px 10px}
-  header > nav a.nav-cta:hover{background:var(--accent);color:#1a0e00}
+  .header-controls > nav{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:10px 14px;margin-left:0;font-size:12px;font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
+  .header-controls > nav a{color:var(--mut);white-space:nowrap}
+  .header-controls > nav a:hover{color:var(--ink)}
+  .header-controls > nav a.nav-cta{color:var(--accent);border:1px solid rgba(255,216,102,.4);border-radius:6px;padding:4px 10px}
+  .header-controls > nav a.nav-cta:hover{background:var(--accent);color:#1a0e00}
   .lang-switch{display:inline-flex;align-items:center;background:rgba(10,22,32,.6);border:1px solid var(--line);border-radius:8px;padding:2px}
   .lang-switch .lang-btn{font-family:monospace;font-size:12px;letter-spacing:.06em;font-weight:700;color:var(--brand);background:rgba(120,243,255,.08);border:0;border-radius:6px;padding:4px 9px;cursor:pointer;transition:background .15s,color .15s}
   .lang-switch .lang-btn:hover{color:var(--ink)}
@@ -437,14 +438,15 @@
 
   @media (max-width:1040px){
     header{flex-wrap:wrap}
-    .search-wrap{max-width:none}
-    header > nav{margin-left:0}
+    .header-controls{flex:1 1 100%;flex-wrap:wrap}
+    .search-wrap{flex:1 1 260px;max-width:none}
   }
   @media (max-width:720px){
     header{flex-direction:column;align-items:stretch;padding:12px}
+    .header-controls{flex:0 0 auto;width:100%;margin-left:0;flex-direction:column;align-items:stretch}
     .search-wrap{flex:0 0 auto;max-width:none}
     .header-circuit-btn{width:100%}
-    header > nav{margin-left:0;justify-content:center}
+    .header-controls > nav{margin-left:0;justify-content:center;flex-wrap:wrap}
     aside.panel{width:100%;top:auto;height:65vh;border-left:0;border-top:1px solid var(--line);transform:translateY(110%)}
     aside.panel.open{transform:translateY(0)}
     /* Hero compacto: ocupa menos del globo y deja respirar los controles */
@@ -464,23 +466,25 @@
 
 <header>
   <span class="logo"><span class="logo-home" id="logo-home" role="button" tabindex="0" data-i18n-title="logo_home_title" title="Volver al inicio">OMNI<span class="dot">·</span>PUBLICITY</span></span>
-  <div class="search-wrap">
-    <label class="search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-      <input id="search" type="text" data-i18n-ph="search_ph" placeholder='Buscar tienda · "Xtanco", "Loterías", "BCN" o cualquier dirección' autocomplete="off">
-      <span class="hint">⏎</span>
-    </label>
-    <div id="suggest" class="suggest" hidden></div>
-  </div>
-  <button class="header-circuit-btn" id="header-circuit-btn" type="button" data-i18n="select_circuit">Seleccionar circuito</button>
-  <nav>
-    <a href="backoffice.html" data-i18n="login">Login</a>
-    <a href="target/">Target Model</a>
-    <div class="lang-switch" id="lang-switch" role="group" aria-label="Idioma / Language">
-      <button type="button" class="lang-btn" id="lang-toggle" data-lang-target="en" aria-label="Switch to English">ENG</button>
+  <div class="header-controls">
+    <button class="header-circuit-btn" id="header-circuit-btn" type="button" data-i18n="select_circuit">Seleccionar circuito</button>
+    <div class="search-wrap">
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search" type="text" data-i18n-ph="search_ph" placeholder='Buscar tienda · "Xtanco", "Loterías", "BCN" o cualquier dirección' autocomplete="off">
+        <span class="hint">⏎</span>
+      </label>
+      <div id="suggest" class="suggest" hidden></div>
     </div>
-    <a class="nav-cta" href="#contact" data-admira-contact data-i18n="contact">Contacto</a>
-  </nav>
+    <nav>
+      <a href="backoffice.html" data-i18n="login">Login</a>
+      <a href="target/">Target Model</a>
+      <div class="lang-switch" id="lang-switch" role="group" aria-label="Idioma / Language">
+        <button type="button" class="lang-btn" id="lang-toggle" data-lang-target="en" aria-label="Switch to English">ENG</button>
+      </div>
+      <a class="nav-cta" href="#contact" data-admira-contact data-i18n="contact">Contacto</a>
+    </nav>
+  </div>
 </header>
 
 <div class="space" id="space" aria-hidden="true">

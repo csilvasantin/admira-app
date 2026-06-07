@@ -126,7 +126,17 @@
   footer .sig{margin-left:auto;font-family:monospace;font-size:11px;letter-spacing:.1em;color:var(--accent)}
 
   @media (max-width:760px){
+    .admira-nav.admira-nav-static{display:grid;grid-template-columns:1fr;gap:9px;padding:10px 14px}
+    .admira-nav .admira-nav-brand{justify-self:center}
+    .admira-nav .admira-nav-items{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+    .admira-nav .admira-nav-link{min-height:34px;justify-content:center;text-align:center}
+    .hero{padding:54px 0 46px}
+    .badge{font-size:9.5px;letter-spacing:.14em;line-height:1.35}
     .hero h1{font-size:36px}
+    .hero p.lede{font-size:17px}
+    .ctas{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .cta{justify-content:center;text-align:center;padding:12px 14px}
+    .cta.ghost{grid-column:1/-1}
     .market{grid-template-columns:1fr}
     .engine{order:-1}
     .engine-band .stack{grid-template-columns:1fr}

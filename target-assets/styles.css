@@ -173,6 +173,36 @@ select:focus {
   justify-content: flex-end;
 }
 
+.target-lang-switch {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: rgb(8 26 32 / 72%);
+}
+
+.target-lang-btn {
+  min-width: 34px;
+  min-height: 30px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 7px;
+  color: var(--muted);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: transparent;
+  cursor: pointer;
+}
+
+.target-lang-btn.is-active {
+  color: var(--cyan);
+  background: rgb(77 217 235 / 14%);
+}
+
 .icon-button,
 .primary-action,
 .ghost-action,

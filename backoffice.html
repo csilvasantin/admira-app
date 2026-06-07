@@ -442,7 +442,7 @@ const I18N = {
     reset_confirm_1:'Discard all local changes and restore the default catalog (', reset_confirm_2:' stores)?',
   },
 };
-let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'en' ? 'en' : 'es'; } catch(_) { return 'es'; } })();
+let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'es' ? 'es' : 'en'; } catch(_) { return 'en'; } })();
 function t(key){ return (I18N[LANG] && I18N[LANG][key] != null) ? I18N[LANG][key] : (I18N.es[key] != null ? I18N.es[key] : key); }
 function applyI18n(){
   document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });

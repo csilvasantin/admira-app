@@ -1126,7 +1126,7 @@ const I18N = {
     sub_neptune:'The priciest CPM in the galaxy: the signal takes 4 hours to arrive.',
   },
 };
-let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'en' ? 'en' : 'es'; } catch(_) { return 'es'; } })();
+let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'es' ? 'es' : 'en'; } catch(_) { return 'en'; } })();
 function t(key){ return (I18N[LANG] && I18N[LANG][key] != null) ? I18N[LANG][key] : (I18N.es[key] != null ? I18N.es[key] : key); }
 function tf(key, vars = {}) {
   return t(key).replace(/\{(\w+)\}/g, (_, name) => vars[name] == null ? '' : String(vars[name]));

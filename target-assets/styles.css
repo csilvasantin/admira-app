@@ -370,6 +370,13 @@ select:focus {
   gap: 8px;
 }
 
+.target-scope-block {
+  padding: 12px;
+  border: 1px solid rgb(250 204 21 / 34%);
+  border-radius: 12px;
+  background: rgb(250 204 21 / 7%);
+}
+
 .segmented-control {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

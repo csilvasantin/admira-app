@@ -178,6 +178,9 @@
   .circuit-head h3{margin:0;font-family:monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
   .circuit-toggle{width:28px;height:28px;border:1px solid var(--line);border-radius:7px;background:transparent;color:var(--brand);font-family:monospace;cursor:pointer}
   .circuit-body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:10px;max-height:calc(100vh - 134px);overflow-y:auto}
+  .circuit-scope-field{display:flex;flex-direction:column;gap:6px;padding:10px;border:1px solid rgba(255,216,102,.30);border-radius:9px;background:rgba(255,216,102,.055)}
+  .circuit-scope-label{font-family:monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+  .circuit-scope-field .circuit-select{height:38px;border-color:rgba(255,216,102,.32)}
   .circuit-select{width:100%;height:36px;background:rgba(2,8,13,.75);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:13px;padding:0 10px;outline:0}
   .circuit-select:focus{border-color:var(--brand)}
   .circuit-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -523,6 +526,15 @@
     <button class="circuit-toggle" id="circuit-toggle" type="button" title="Ocultar / mostrar">−</button>
   </div>
   <div class="circuit-body">
+    <div class="circuit-scope-field">
+      <label class="circuit-scope-label" for="circuit-scope-select" data-i18n="circuit_scope_label">Alcance del circuito</label>
+      <select class="circuit-select" id="circuit-scope-select" aria-label="Alcance del circuito">
+        <option value="global" data-i18n="scope_global">Global</option>
+        <option value="national" data-i18n="scope_national">Nacional</option>
+        <option value="city" data-i18n="scope_city">Ciudad</option>
+        <option value="local" selected data-i18n="scope_local">Local</option>
+      </select>
+    </div>
     <select class="circuit-select" id="circuit-select" aria-label="Circuito">
       <option value="metro_bcn" data-i18n="circuit_metro_bcn">Circuito Metro Barcelona</option>
       <option value="desigual" data-i18n="circuit_desigual">Circuito Desigual Global</option>
@@ -720,7 +732,8 @@
         <div class="buy-line"><span data-i18n="buy_est_impr">Impresiones estimadas</span><b id="buy-impr">—</b></div>
         <div class="buy-line"><span data-i18n="buy_base_cpm">CPM base</span><b id="buy-cpm">—</b></div>
         <div class="buy-line"><span data-i18n="buy_date_demand">Demanda fecha</span><b id="buy-demand">—</b></div>
-        <div class="buy-line"><span>Target</span><b id="buy-target">—</b></div>
+        <div class="buy-line"><span data-i18n="buy_scope">Ámbito</span><b id="buy-scope">Local</b></div>
+        <div class="buy-line"><span data-i18n="buy_target">Target</span><b id="buy-target">—</b></div>
         <div class="buy-total"><span data-i18n="buy_total">Total</span><b id="buy-total">—</b></div>
         <button class="buy-submit" id="buy-submit" type="button" data-i18n="buy_submit">Pagar y reservar</button>
         <p class="buy-legal" data-i18n="buy_legal">La web valida la tarjeta y prepara la orden sin guardar el número completo. El cargo real queda listo para enlazar con la pasarela de pago de Admira.</p>
@@ -852,6 +865,13 @@ let circuitMapFilterActive = false;
 const CIRCUIT_DEMO_STEP_MS = 5600;
 const CIRCUIT_DEMO_FLY_MS = 3600;
 let circuitDemo = { running:false, items:[], index:0, timer:null };
+const DEFAULT_CIRCUIT_SCOPE = 'local';
+const CIRCUIT_SCOPE_OPTIONS = [
+  {value:'global', labelKey:'scope_global'},
+  {value:'national', labelKey:'scope_national'},
+  {value:'city', labelKey:'scope_city'},
+  {value:'local', labelKey:'scope_local'},
+];
 const CIRCUIT_TARGET_OPTIONS = {
   placements: [
     {value:'exterior', labelKey:'target_exterior'},
@@ -875,6 +895,18 @@ const CIRCUIT_TARGET_OPTIONS = {
     {value:'noche', labelKey:'time_night', hours:'20:00-00:00'},
   ],
 };
+
+function sanitizeCircuitScope(value) {
+  const normalized = String(value || '').trim().toLowerCase();
+  return CIRCUIT_SCOPE_OPTIONS.some(option => option.value === normalized) ? normalized : DEFAULT_CIRCUIT_SCOPE;
+}
+
+function loadCircuitScope() {
+  try { return sanitizeCircuitScope(localStorage.getItem('omnip-circuit-scope')); }
+  catch (_) { return DEFAULT_CIRCUIT_SCOPE; }
+}
+
+let selectedCircuitScope = loadCircuitScope();
 
 function defaultCircuitTarget() {
   const defaults = Object.fromEntries(Object.entries(CIRCUIT_TARGET_OPTIONS).map(([group, options]) => [group, options.map(o => o.value)]));
@@ -910,6 +942,8 @@ const I18N = {
     stores:'tiendas', screens:'pantallas',
     select_circuit:'Seleccionar circuito',
     lang_toggle:'ENG', lang_toggle_aria:'Cambiar a inglés',
+    circuit_scope_label:'Alcance del circuito',
+    scope_global:'Global', scope_national:'Nacional', scope_city:'Ciudad', scope_local:'Local',
     circuit_panel_title:'Comprar por circuito',
     circuit_metro_bcn:'Circuito Metro Barcelona', circuit_desigual:'Circuito Desigual Global',
     circuit_kioskos:'Circuito kioskos de prensa', circuit_all:'Toda la red OmniPublicity',
@@ -924,7 +958,7 @@ const I18N = {
     demo_done:'Demo circuito completado · {points} puntos',
     select_circuit_note:'Selecciona <b>todo el circuito</b> o puntos sueltos para preparar la compra.',
     target_required_note:'Completa el <b>target</b> antes de preparar la compra.',
-    selection_ready:'Selección lista: <b>{points}</b> puntos · <b>{impr}</b> impr/día · target <b>{target}</b>.',
+    selection_ready:'Selección lista: <b>{points}</b> puntos · <b>{impr}</b> impr/día · alcance <b>{scope}</b> · target <b>{target}</b>.',
     target_kicker:'Target de campaña', target_title:'A quién va dirigida la comunicación',
     target_intro:'Define si la campaña impacta fuera o dentro del Xpacio y acota género, edad y franja horaria.',
     target_placement:'Tipo de publicidad', target_exterior:'Exterior',
@@ -960,7 +994,7 @@ const I18N = {
     buy_points:'Puntos', buy_dates:'Fechas', buy_moment:'Momento',
     buy_duration_summary:'Duración', buy_passes:'Pases',
     buy_est_impr:'Impresiones estimadas', buy_base_cpm:'CPM base',
-    buy_date_demand:'Demanda fecha', buy_total:'Total', buy_submit:'Pagar y reservar',
+    buy_date_demand:'Demanda fecha', buy_scope:'Ámbito', buy_target:'Target', buy_total:'Total', buy_submit:'Pagar y reservar',
     buy_legal:'La web valida la tarjeta y prepara la orden sin guardar el número completo. El cargo real queda listo para enlazar con la pasarela de pago de Admira.',
     buy_points_line:'{points} puntos · {surfaces} surfaces', buy_days_line:'{days} días',
     buy_select_dates:'Selecciona fechas', buy_per_day:'{passes} / día',
@@ -1021,6 +1055,8 @@ const I18N = {
     stores:'stores', screens:'screens',
     select_circuit:'Select circuit',
     lang_toggle:'ESP', lang_toggle_aria:'Switch to Spanish',
+    circuit_scope_label:'Circuit scope',
+    scope_global:'Global', scope_national:'National', scope_city:'City', scope_local:'Local',
     circuit_panel_title:'Buy by circuit',
     circuit_metro_bcn:'Barcelona Metro Circuit', circuit_desigual:'Global Desigual Circuit',
     circuit_kioskos:'Press kiosk circuit', circuit_all:'Entire OmniPublicity network',
@@ -1035,7 +1071,7 @@ const I18N = {
     demo_done:'Circuit demo completed · {points} points',
     select_circuit_note:'Select <b>the whole circuit</b> or individual points to prepare the purchase.',
     target_required_note:'Complete the <b>target</b> before preparing the purchase.',
-    selection_ready:'Selection ready: <b>{points}</b> points · <b>{impr}</b> impr/day · target <b>{target}</b>.',
+    selection_ready:'Selection ready: <b>{points}</b> points · <b>{impr}</b> impr/day · scope <b>{scope}</b> · target <b>{target}</b>.',
     target_kicker:'Campaign target', target_title:'Who the communication is for',
     target_intro:'Define whether the campaign impacts outside or inside the Xpace and narrow by gender, age, and time slot.',
     target_placement:'Ad placement', target_exterior:'Exterior',
@@ -1071,7 +1107,7 @@ const I18N = {
     buy_points:'Points', buy_dates:'Dates', buy_moment:'Moment',
     buy_duration_summary:'Duration', buy_passes:'Passes',
     buy_est_impr:'Estimated impressions', buy_base_cpm:'Base CPM',
-    buy_date_demand:'Date demand', buy_total:'Total', buy_submit:'Pay and reserve',
+    buy_date_demand:'Date demand', buy_scope:'Scope', buy_target:'Target', buy_total:'Total', buy_submit:'Pay and reserve',
     buy_legal:'The website validates the card and prepares the order without storing the full number. The real charge is ready to be connected to Admira’s payment gateway.',
     buy_points_line:'{points} points · {surfaces} surfaces', buy_days_line:'{days} days',
     buy_select_dates:'Select dates', buy_per_day:'{passes} / day',
@@ -1154,12 +1190,45 @@ function setLang(lang){
   try { localStorage.setItem('omnip-lang', LANG); } catch(_){}
   applyI18n();
   // Refresca UI dinámica ya pintada
+  try { renderCircuitScope(); } catch(_){}
   try { renderCircuitSelector(); } catch(_){}
   try { renderCircuitTarget(); } catch(_){}
   try { updateBuyQuote(); } catch(_){}
   try { const title = document.getElementById('buy-title'); if (title && !document.getElementById('buy-modal')?.hidden) title.textContent = `${t('buy_title_base')} · ${currentCircuit().label}`; } catch(_){}
   try { if (typeof activeLocation !== 'undefined' && activeLocation) renderPanel(activeLocation); } catch(_){}
   try { if (typeof searchInput !== 'undefined' && searchInput && searchInput.value) renderSuggest(searchInput.value); } catch(_){}
+}
+
+function saveCircuitScope() {
+  selectedCircuitScope = sanitizeCircuitScope(selectedCircuitScope);
+  try { localStorage.setItem('omnip-circuit-scope', selectedCircuitScope); } catch (_) {}
+  return selectedCircuitScope;
+}
+
+function circuitScopeLabel(value = selectedCircuitScope) {
+  const clean = sanitizeCircuitScope(value);
+  const option = CIRCUIT_SCOPE_OPTIONS.find(item => item.value === clean);
+  return t(option ? option.labelKey : 'scope_local');
+}
+
+function circuitScopePayload() {
+  const value = saveCircuitScope();
+  return {
+    required: true,
+    value,
+    label: circuitScopeLabel(value),
+    defaultValue: DEFAULT_CIRCUIT_SCOPE,
+  };
+}
+
+function renderCircuitScope() {
+  selectedCircuitScope = saveCircuitScope();
+  const select = document.getElementById('circuit-scope-select');
+  if (select) select.value = selectedCircuitScope;
+}
+
+function circuitScopeIsComplete() {
+  return CIRCUIT_SCOPE_OPTIONS.some(option => option.value === sanitizeCircuitScope(selectedCircuitScope));
 }
 
 // ─── Workers (mismos que xpace-os) ────────────────────────────────
@@ -1350,8 +1419,13 @@ function circuitSegmentationForItems(items) {
       out.metadata.push(m);
     });
   });
+  const scope = circuitScopePayload();
   return {
     required: true,
+    scope,
+    requiredConditions: {
+      circuitScope: scope,
+    },
     schedule: out.schedule,
     typologies: out.typologies.size ? [...out.typologies] : options.typologies.slice(),
     genders: out.genders.size ? [...out.genders] : options.genders.slice(),
@@ -1364,6 +1438,11 @@ function circuitSegmentationForItems(items) {
 function circuitTargetPayload() {
   const target = sanitizeCircuitTarget(circuitTarget);
   const defaults = window.OMNIP_SEGMENTATION_OPTIONS || { schedule:{start:'08:00', end:'20:00'} };
+  const scope = circuitScopePayload();
+  target.scope = scope;
+  target.requiredConditions = {
+    circuitScope: scope,
+  };
   target.schedule = Object.assign({}, defaults.schedule);
   return target;
 }
@@ -1374,7 +1453,7 @@ function saveCircuitTarget() {
 }
 
 function targetIsComplete() {
-  return Object.keys(CIRCUIT_TARGET_OPTIONS).every(group => Array.isArray(circuitTarget[group]) && circuitTarget[group].length);
+  return circuitScopeIsComplete() && Object.keys(CIRCUIT_TARGET_OPTIONS).every(group => Array.isArray(circuitTarget[group]) && circuitTarget[group].length);
 }
 
 function targetLabels(group) {
@@ -1401,6 +1480,7 @@ function circuitTargetSummary() {
 }
 
 function renderCircuitTarget() {
+  renderCircuitScope();
   saveCircuitTarget();
   document.querySelectorAll('[data-target-group]').forEach(input => {
     const group = input.dataset.targetGroup;
@@ -1463,6 +1543,7 @@ function renderCircuitSelector() {
   const title = document.getElementById('circuit-list-title');
   const selectAllBtn = document.getElementById('circuit-select-all');
   if (!select || !list || !title) return;
+  renderCircuitScope();
   const circuit = defs[selectedCircuitId] || defs.kioskos;
   select.value = selectedCircuitId;
   const lineOptions = selectedCircuitId === 'metro_bcn' ? metroLineOptions(circuit.items) : [];
@@ -1517,7 +1598,12 @@ function updateCircuitSummary() {
   if (note) {
     if (circuitDemo.running) note.innerHTML = tf('demo_ready', {points: circuitDemo.items.length});
     else if (!targetOk) note.innerHTML = t('target_required_note');
-    else if (locs.length) note.innerHTML = tf('selection_ready', {points: locs.length, impr: formatImpr(impr), target: escHtml(circuitTargetSummary())});
+    else if (locs.length) note.innerHTML = tf('selection_ready', {
+      points: locs.length,
+      impr: formatImpr(impr),
+      scope: escHtml(circuitScopeLabel()),
+      target: escHtml(circuitTargetSummary()),
+    });
     else note.innerHTML = t('select_circuit_note');
   }
 }
@@ -1657,9 +1743,14 @@ function openCircuitPurchase() {
     setStatus(t('status_target_campaign'));
     return;
   }
+  const scope = circuitScopePayload();
   try {
     sessionStorage.setItem('omnip-buy-selection', JSON.stringify({
       circuit: selectedCircuitId,
+      circuitScope: scope,
+      requiredConditions: {
+        circuitScope: scope,
+      },
       ids: locs.map(l => l.id),
       names: locs.map(l => l.name),
       imprDay: locs.reduce((a, loc) => a + locationDailyImpr(loc), 0),
@@ -1771,6 +1862,7 @@ function updateBuyQuote() {
   set('buy-impr', q.estimatedImpr ? formatInt(q.estimatedImpr) : '—');
   set('buy-cpm', `€${q.cpm.toFixed(2)}`);
   set('buy-demand', `x${q.demand.toFixed(2)}`);
+  set('buy-scope', circuitScopeLabel());
   set('buy-target', circuitTargetSummary());
   set('buy-total', q.price ? formatMoney(q.price) : '—');
   return q;
@@ -1882,9 +1974,14 @@ function submitBuyCheckout() {
     return;
   }
   const orderId = 'ADM-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+  const scope = circuitScopePayload();
   const order = {
     orderId,
     circuit: selectedCircuitId,
+    circuitScope: scope,
+    requiredConditions: {
+      circuitScope: scope,
+    },
     ids: res.q.locs.map(l => l.id),
     points: res.q.locs.length,
     start: document.getElementById('buy-start').value,
@@ -2038,6 +2135,7 @@ function bindCircuitSelector() {
   const panelEl = document.getElementById('circuit-panel');
   const toggle = document.getElementById('circuit-toggle');
   const headerBtn = document.getElementById('header-circuit-btn');
+  const scopeSelect = document.getElementById('circuit-scope-select');
   const select = document.getElementById('circuit-select');
   const subselect = document.getElementById('circuit-subselect');
   const list = document.getElementById('circuit-list');
@@ -2063,6 +2161,14 @@ function bindCircuitSelector() {
     panelEl.classList.toggle('collapsed');
     toggle.textContent = panelEl.classList.contains('collapsed') ? '+' : '−';
   });
+  if (scopeSelect) {
+    scopeSelect.addEventListener('change', () => {
+      selectedCircuitScope = sanitizeCircuitScope(scopeSelect.value);
+      renderCircuitScope();
+      updateCircuitSummary();
+      try { updateBuyQuote(); } catch (_) {}
+    });
+  }
   select.addEventListener('change', () => {
     stopCircuitDemo(false);
     selectedCircuitId = select.value;

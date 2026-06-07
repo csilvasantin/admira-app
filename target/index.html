@@ -354,7 +354,17 @@
             <span id="targetCoverageBadge">0%</span>
           </div>
 
-          <label class="field-block">
+          <label class="field-block target-scope-block">
+            Circuit scope
+            <select id="targetScope">
+              <option value="global">Global</option>
+              <option value="national">National</option>
+              <option value="city">City</option>
+              <option value="local" selected>Local</option>
+            </select>
+          </label>
+
+          <label class="field-block target-circuit-block">
             Circuito
             <select id="targetCircuit">
               <option>Press kiosk circuit</option>

@@ -102,6 +102,11 @@ const copy = {
     addRule: "Add rule",
     buyByCircuit: "Buy by circuit",
     campaignTarget: "Campaign target",
+    circuitScope: "Circuit scope",
+    scopeGlobal: "Global",
+    scopeNational: "National",
+    scopeCity: "City",
+    scopeLocal: "Local",
     wholeCircuit: "Whole circuit",
     target: "Target",
     adPlacement: "Ad placement",
@@ -271,6 +276,11 @@ const copy = {
     addRule: "Anadir regla",
     buyByCircuit: "Buy by circuit",
     campaignTarget: "Campaign target",
+    circuitScope: "Alcance del circuito",
+    scopeGlobal: "Global",
+    scopeNational: "Nacional",
+    scopeCity: "Ciudad",
+    scopeLocal: "Local",
     wholeCircuit: "Whole circuit",
     target: "Target",
     adPlacement: "Ad placement",
@@ -482,9 +492,23 @@ function setLang(lang, persist = true) {
 
 refreshFormatters();
 
+const DEFAULT_CIRCUIT_SCOPE = "local";
+const CIRCUIT_SCOPE_OPTIONS = [
+  { value: "global", labelKey: "scopeGlobal" },
+  { value: "national", labelKey: "scopeNational" },
+  { value: "city", labelKey: "scopeCity" },
+  { value: "local", labelKey: "scopeLocal" },
+];
+
+function sanitizeCircuitScope(value) {
+  const normalized = String(value || "").trim().toLowerCase();
+  return CIRCUIT_SCOPE_OPTIONS.some((option) => option.value === normalized) ? normalized : DEFAULT_CIRCUIT_SCOPE;
+}
+
 const state = {
   mode: "simulado",
   targetMode: "target",
+  scope: DEFAULT_CIRCUIT_SCOPE,
   filters: {
     placement: ["exterior", "interior"],
     gender: ["male", "female"],
@@ -541,6 +565,22 @@ function qs(selector, root = document) {
 
 function qsa(selector, root = document) {
   return [...root.querySelectorAll(selector)];
+}
+
+function circuitScopeLabel(value = state.scope) {
+  const clean = sanitizeCircuitScope(value);
+  const option = CIRCUIT_SCOPE_OPTIONS.find((item) => item.value === clean);
+  return t(option?.labelKey || "scopeLocal");
+}
+
+function circuitScopePayload() {
+  state.scope = sanitizeCircuitScope(state.scope);
+  return {
+    required: true,
+    value: state.scope,
+    label: circuitScopeLabel(state.scope),
+    defaultValue: DEFAULT_CIRCUIT_SCOPE,
+  };
 }
 
 function setText(selector, value, root = document) {
@@ -708,7 +748,17 @@ function applyBackofficeLanguage() {
 
   setText(".target-header .eyebrow", t("buyByCircuit"));
   setText(".target-header h2", t("campaignTarget"));
-  const targetCircuitLabel = qs(".target-panel > .field-block");
+  const targetScopeLabel = qs(".target-panel > .target-scope-block");
+  const targetScopeSelect = qs("#targetScope");
+  if (targetScopeLabel) {
+    targetScopeLabel.textContent = t("circuitScope");
+    if (targetScopeSelect) targetScopeLabel.append(targetScopeSelect);
+  }
+  CIRCUIT_SCOPE_OPTIONS.forEach((option) => {
+    const node = qs(`#targetScope option[value="${option.value}"]`);
+    if (node) node.textContent = t(option.labelKey);
+  });
+  const targetCircuitLabel = qs(".target-panel > .target-circuit-block");
   const targetCircuitSelect = qs("#targetCircuit");
   if (targetCircuitLabel) {
     targetCircuitLabel.textContent = t("circuit");
@@ -1080,6 +1130,12 @@ function renderRules() {
     .join("");
 }
 
+function renderTargetScope() {
+  state.scope = sanitizeCircuitScope(state.scope);
+  const select = qs("#targetScope");
+  if (select) select.value = state.scope;
+}
+
 function renderKpis() {
   const metrics = campaignMetrics();
   const total = peopleDay();
@@ -1135,6 +1191,11 @@ function wireGlobalControls() {
     });
   });
 
+  qs("#targetScope")?.addEventListener("change", (event) => {
+    state.scope = sanitizeCircuitScope(event.currentTarget.value);
+    renderAll();
+  });
+
   qsa('input[name="placement"], input[name="gender"]').forEach((control) => {
     control.addEventListener("change", () => {
       syncFilter(control.name);
@@ -1150,6 +1211,25 @@ function wireGlobalControls() {
   qsa("[data-action]").forEach((button) => {
     button.addEventListener("click", () => handleAction(button.dataset.action));
   });
+}
+
+function targetModelPayload() {
+  const scope = circuitScopePayload();
+  return {
+    xpacio: qs("#xpacioSearch")?.value,
+    circuit: qs("#targetCircuit")?.value,
+    targetScope: scope,
+    requiredConditions: {
+      circuitScope: scope,
+    },
+    targetMode: state.targetMode,
+    filters: state.filters,
+    peopleDay: peopleDay(),
+    coverage: coverage(),
+    metrics: campaignMetrics(),
+    segments: state.segments,
+    traffic: state.traffic,
+  };
 }
 
 function handleAction(action) {
@@ -1187,6 +1267,9 @@ function handleAction(action) {
   }
 
   if (action === "reserve") {
+    try {
+      sessionStorage.setItem("admira-target-proposal-draft", JSON.stringify(targetModelPayload()));
+    } catch (_) {}
     showToast(t("toastReserved"));
   }
 
@@ -1205,14 +1288,7 @@ function handleAction(action) {
   }
 
   if (action === "export") {
-    const payload = {
-      xpacio: qs("#xpacioSearch")?.value,
-      peopleDay: peopleDay(),
-      coverage: coverage(),
-      metrics: campaignMetrics(),
-      segments: state.segments,
-      traffic: state.traffic,
-    };
+    const payload = targetModelPayload();
     navigator.clipboard?.writeText(JSON.stringify(payload, null, 2));
     showToast(t("toastExported"));
   }
@@ -1235,6 +1311,7 @@ function showToast(message) {
 }
 
 function renderAll() {
+  renderTargetScope();
   renderTraffic();
   renderChart();
   renderSegments();

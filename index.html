@@ -1965,6 +1965,10 @@ function parsePixeriaDraftFromUrl() {
     assetType: params.get('assetType') || 'video',
     prompt: params.get('prompt') || '',
     target: parseTarget(),
+    locationId: params.get('locationId') || '',
+    screenId: params.get('screenId') || '',
+    pointName: params.get('pointName') || '',
+    screenName: params.get('screenName') || '',
     createdAt: new Date().toISOString(),
   };
   return draft.assetUrl || draft.campaign ? draft : null;
@@ -1988,24 +1992,38 @@ function pixeriaDraftCreativePayload() {
     assetUrl: pendingPixeriaDraft.assetUrl,
     assetType: pendingPixeriaDraft.assetType,
     prompt: pendingPixeriaDraft.prompt,
+    locationId: pendingPixeriaDraft.locationId,
+    screenId: pendingPixeriaDraft.screenId,
+    pointName: pendingPixeriaDraft.pointName,
+    screenName: pendingPixeriaDraft.screenName,
     importedAt: pendingPixeriaDraft.createdAt,
   };
 }
 
-function selectedPixerScreens(locs) {
+function pixeriaScreenSlug(value) {
+  return String(value || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+function selectedPixerScreens(locs, screenId) {
   const screens = [];
   (Array.isArray(locs) ? locs : []).forEach(loc => {
     (Array.isArray(loc && loc.surfaces) ? loc.surfaces : []).forEach(surface => {
+      if (screenId) {
+        const id = `${pixeriaScreenSlug(loc.id)}-${pixeriaScreenSlug(surface.name)}`;
+        if (id !== screenId) return;
+      }
       if (Array.isArray(surface.pixerScreens)) screens.push(...surface.pixerScreens);
     });
   });
-  return [...new Set(screens.filter(Boolean))];
+  const exact = [...new Set(screens.filter(Boolean))];
+  if (exact.length || !screenId) return exact;
+  return selectedPixerScreens(locs, '');
 }
 
 async function pushPixeriaDraftToXpace(order, okEl) {
   const creative = order && order.creative;
   if (!creative || !creative.assetUrl || /^(blob:|data:)/.test(creative.assetUrl)) return null;
-  const screens = selectedPixerScreens(order.ids.map(id => LOCATIONS.find(loc => loc.id === id)).filter(Boolean));
+  const screens = selectedPixerScreens(order.ids.map(id => LOCATIONS.find(loc => loc.id === id)).filter(Boolean), creative.screenId);
   if (!screens.length) return null;
   const kind = creative.assetType === 'image' ? 'image' : 'video';
   const title = `${order.brand} · ${order.campaign} · ${order.orderId}`;
@@ -2053,7 +2071,10 @@ function fillPixeriaDraftInCheckout(draft) {
   const duration = document.getElementById('buy-duration');
   const objective = document.getElementById('buy-objective');
   if (title) title.textContent = draft.campaign || 'Campaña PixerIA';
-  if (meta) meta.textContent = `${draft.assetType || 'asset'} · ${circuitTargetSummary()}`;
+  if (meta) {
+    const point = [draft.pointName, draft.screenName].filter(Boolean).join(' · ');
+    meta.textContent = `${draft.assetType || 'asset'} · ${point ? point + ' · ' : ''}${circuitTargetSummary()}`;
+  }
   if (asset) {
     asset.hidden = !draft.assetUrl;
     asset.href = draft.assetUrl || '#';
@@ -2062,6 +2083,19 @@ function fillPixeriaDraftInCheckout(draft) {
   if (campaign && !campaign.value) campaign.value = draft.campaign || 'Campaña PixerIA';
   if (duration && draft.assetType === 'video') duration.value = '15';
   if (objective) objective.value = 'launch';
+}
+
+function applyPixeriaDraftToSelection(draft) {
+  const loc = draft && draft.locationId ? LOCATIONS.find(item => item.id === draft.locationId) : null;
+  selectedCircuitScope = 'local';
+  selectedCircuitId = CIRCUIT_IDS_BY_SCOPE.local[0] || 'all';
+  selectedMetroLine = 'all';
+  if (loc) {
+    circuitAutoSelect = false;
+    selectedLocationIds = new Set([loc.id]);
+  } else {
+    circuitAutoSelect = true;
+  }
 }
 
 function openBuyCheckout() {
@@ -2232,10 +2266,7 @@ function consumePixeriaDraftFromUrl() {
   if (!draft) return;
   pendingPixeriaDraft = draft;
   applyPixeriaDraftToTarget(draft);
-  selectedCircuitScope = 'local';
-  selectedCircuitId = CIRCUIT_IDS_BY_SCOPE.local[0] || 'all';
-  selectedMetroLine = 'all';
-  circuitAutoSelect = true;
+  applyPixeriaDraftToSelection(draft);
   renderCircuitSelector();
   openBuyCheckout();
   try { sessionStorage.setItem('omnip-pixeria-draft', JSON.stringify(draft)); } catch (_) {}

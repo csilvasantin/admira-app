@@ -251,6 +251,13 @@
   .buy-close:hover{color:var(--ink);border-color:var(--brand)}
   .buy-body{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:18px;padding:18px 20px 20px}
   .buy-main{display:flex;flex-direction:column;gap:14px}
+  .pixeria-draft{border:1px solid rgba(255,216,102,.34);border-radius:10px;background:linear-gradient(135deg,rgba(255,216,102,.12),rgba(120,243,255,.06));padding:14px;display:grid;gap:8px}
+  .pixeria-draft[hidden]{display:none}
+  .pixeria-draft .pd-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .pixeria-draft .pd-kicker{font-family:monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .pixeria-draft h4{margin:3px 0 0;color:var(--ink);font-size:16px;letter-spacing:-.01em}
+  .pixeria-draft p{margin:0;color:var(--mut);font-size:12px;line-height:1.35}
+  .pixeria-draft a{font-family:monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);white-space:nowrap}
   .buy-step{border:1px solid var(--line);border-radius:10px;background:rgba(2,8,13,.45);padding:14px}
   .buy-step h4{margin:0 0 12px;font-family:monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
   .buy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
@@ -654,6 +661,16 @@
     </div>
     <div class="buy-body">
       <div class="buy-main">
+        <section class="pixeria-draft" id="pixeria-draft" hidden>
+          <div class="pd-top">
+            <div>
+              <div class="pd-kicker">Borrador importado desde Pixeria</div>
+              <h4 id="pixeria-draft-title">Campaña lista para comprar</h4>
+            </div>
+            <a id="pixeria-draft-asset" href="#" target="_blank" rel="noopener">Ver asset</a>
+          </div>
+          <p id="pixeria-draft-meta">Target y creatividad preparados para reservar inventario y emitir en XpaceOS.</p>
+        </section>
         <section class="buy-step">
           <h4 data-i18n="buy_dates_passes">Fechas y pases</h4>
           <div class="buy-grid">
@@ -875,6 +892,7 @@ let selectedMetroLine = 'all';
 let selectedLocationIds = new Set();
 let circuitAutoSelect = true;
 let circuitMapFilterActive = false;
+let pendingPixeriaDraft = null;
 const CIRCUIT_DEMO_STEP_MS = 5600;
 const CIRCUIT_DEMO_FLY_MS = 3600;
 let circuitDemo = { running:false, items:[], index:0, timer:null };
@@ -1931,6 +1949,121 @@ function seedBuyDates() {
   }
 }
 
+function parsePixeriaDraftFromUrl() {
+  const params = new URLSearchParams(window.location.search || '');
+  if (params.get('draft') !== 'pixeria') return null;
+  const parseTarget = () => {
+    try { return JSON.parse(params.get('target') || '{}'); }
+    catch (_) { return {}; }
+  };
+  const draft = {
+    id: params.get('campaignId') || `PX-${Date.now()}`,
+    source: 'pixeria',
+    brand: params.get('brand') || 'PixerIA',
+    campaign: params.get('campaign') || 'Campaña PixerIA',
+    assetUrl: params.get('assetUrl') || '',
+    assetType: params.get('assetType') || 'video',
+    prompt: params.get('prompt') || '',
+    target: parseTarget(),
+    createdAt: new Date().toISOString(),
+  };
+  return draft.assetUrl || draft.campaign ? draft : null;
+}
+
+function targetFromPixeriaDraft(draft) {
+  const raw = draft && draft.target && typeof draft.target === 'object' ? draft.target : {};
+  return sanitizeCircuitTarget({
+    placements: raw.placements || raw.ubicacion || raw.location,
+    genders: raw.genders || raw.genero || raw.gender,
+    ages: raw.ages || raw.edades || raw.age,
+    timeSlots: raw.timeSlots || raw.franjas || raw.slots || defaultCircuitTarget().timeSlots,
+  });
+}
+
+function pixeriaDraftCreativePayload() {
+  if (!pendingPixeriaDraft) return null;
+  return {
+    source: 'pixeria',
+    campaignId: pendingPixeriaDraft.id,
+    assetUrl: pendingPixeriaDraft.assetUrl,
+    assetType: pendingPixeriaDraft.assetType,
+    prompt: pendingPixeriaDraft.prompt,
+    importedAt: pendingPixeriaDraft.createdAt,
+  };
+}
+
+function selectedPixerScreens(locs) {
+  const screens = [];
+  (Array.isArray(locs) ? locs : []).forEach(loc => {
+    (Array.isArray(loc && loc.surfaces) ? loc.surfaces : []).forEach(surface => {
+      if (Array.isArray(surface.pixerScreens)) screens.push(...surface.pixerScreens);
+    });
+  });
+  return [...new Set(screens.filter(Boolean))];
+}
+
+async function pushPixeriaDraftToXpace(order, okEl) {
+  const creative = order && order.creative;
+  if (!creative || !creative.assetUrl || /^(blob:|data:)/.test(creative.assetUrl)) return null;
+  const screens = selectedPixerScreens(order.ids.map(id => LOCATIONS.find(loc => loc.id === id)).filter(Boolean));
+  if (!screens.length) return null;
+  const kind = creative.assetType === 'image' ? 'image' : 'video';
+  const title = `${order.brand} · ${order.campaign} · ${order.orderId}`;
+  if (okEl) okEl.innerHTML += '<br>Enviando creatividad comprada a XpaceOS...';
+  const results = await Promise.all(screens.map(screen =>
+    fetch(PIXER + '/signage/push', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ kind, src: creative.assetUrl, title, target: screen }),
+    })
+  ));
+  const failed = results.find(r => !r.ok);
+  if (failed) throw new Error('signage push ' + failed.status);
+  const emission = {
+    pushedAt: new Date().toISOString(),
+    screens,
+    feed: `${PIXER}/signage/feed?limit=20`,
+  };
+  order.emission = emission;
+  try { sessionStorage.setItem('omnip-last-order', JSON.stringify(order)); } catch (_) {}
+  if (okEl) okEl.innerHTML += `<br>Emitida en XpaceOS: ${screens.map(escHtml).join(', ')}`;
+  return emission;
+}
+
+function applyPixeriaDraftToTarget(draft) {
+  if (!draft) return;
+  circuitTarget = targetFromPixeriaDraft(draft);
+  saveCircuitTarget();
+  renderCircuitTarget();
+}
+
+function fillPixeriaDraftInCheckout(draft) {
+  const box = document.getElementById('pixeria-draft');
+  if (!box) return;
+  if (!draft) {
+    box.hidden = true;
+    return;
+  }
+  box.hidden = false;
+  const title = document.getElementById('pixeria-draft-title');
+  const meta = document.getElementById('pixeria-draft-meta');
+  const asset = document.getElementById('pixeria-draft-asset');
+  const brand = document.getElementById('buy-brand');
+  const campaign = document.getElementById('buy-campaign');
+  const duration = document.getElementById('buy-duration');
+  const objective = document.getElementById('buy-objective');
+  if (title) title.textContent = draft.campaign || 'Campaña PixerIA';
+  if (meta) meta.textContent = `${draft.assetType || 'asset'} · ${circuitTargetSummary()}`;
+  if (asset) {
+    asset.hidden = !draft.assetUrl;
+    asset.href = draft.assetUrl || '#';
+  }
+  if (brand && !brand.value) brand.value = draft.brand || 'PixerIA';
+  if (campaign && !campaign.value) campaign.value = draft.campaign || 'Campaña PixerIA';
+  if (duration && draft.assetType === 'video') duration.value = '15';
+  if (objective) objective.value = 'launch';
+}
+
 function openBuyCheckout() {
   seedBuyDates();
   const modal = document.getElementById('buy-modal');
@@ -1941,6 +2074,7 @@ function openBuyCheckout() {
   if (err) err.hidden = true;
   const circuit = currentCircuit();
   if (title) title.textContent = `${t('buy_title_base')} · ${circuit.label}`;
+  fillPixeriaDraftInCheckout(pendingPixeriaDraft);
   if (modal) modal.hidden = false;
   updateBuyQuote();
 }
@@ -1997,7 +2131,7 @@ function validateBuyForm() {
   return {q, brand, email, campaign, cardLast4: card.slice(-4), exp, errors};
 }
 
-function submitBuyCheckout() {
+async function submitBuyCheckout() {
   const err = document.getElementById('buy-error');
   const ok = document.getElementById('buy-ok');
   const res = validateBuyForm();
@@ -2033,6 +2167,7 @@ function submitBuyCheckout() {
     cpm: Number(res.q.cpm.toFixed(2)),
     demand: Number(res.q.demand.toFixed(2)),
     target: circuitTargetPayload(),
+    creative: pixeriaDraftCreativePayload(),
     price: res.q.price,
     brand: res.brand,
     email: res.email,
@@ -2044,6 +2179,11 @@ function submitBuyCheckout() {
   if (ok) {
     ok.innerHTML = tf('order_ok', {orderId: escHtml(orderId), price: formatMoney(order.price), cardLast4: escHtml(order.cardLast4)});
     ok.hidden = false;
+  }
+  try {
+    await pushPixeriaDraftToXpace(order, ok);
+  } catch (e) {
+    if (ok) ok.innerHTML += '<br>No se pudo emitir automaticamente en XpaceOS. La reserva queda guardada para reintento.';
   }
   setStatus(tf('status_reserved', {orderId}));
 }
@@ -2085,6 +2225,21 @@ function bindBuyCheckout() {
   document.getElementById('buy-submit')?.addEventListener('click', submitBuyCheckout);
   if (close) close.addEventListener('click', closeBuyCheckout);
   modal.addEventListener('click', e => { if (e.target === modal) closeBuyCheckout(); });
+}
+
+function consumePixeriaDraftFromUrl() {
+  const draft = parsePixeriaDraftFromUrl();
+  if (!draft) return;
+  pendingPixeriaDraft = draft;
+  applyPixeriaDraftToTarget(draft);
+  selectedCircuitScope = 'local';
+  selectedCircuitId = CIRCUIT_IDS_BY_SCOPE.local[0] || 'all';
+  selectedMetroLine = 'all';
+  circuitAutoSelect = true;
+  renderCircuitSelector();
+  openBuyCheckout();
+  try { sessionStorage.setItem('omnip-pixeria-draft', JSON.stringify(draft)); } catch (_) {}
+  setStatus(`Borrador Pixeria listo para comprar · ${draft.campaign}`);
 }
 
 function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
@@ -3234,6 +3389,7 @@ searchInput.addEventListener('keydown', async (e) => {
 document.getElementById('t-locs').textContent = LOCATIONS.length;
 bindCircuitSelector();
 bindBuyCheckout();
+consumePixeriaDraftFromUrl();
 
 // ─── Refresh asincrónico desde el worker (KV) ─────────────────────
 // El sync arrancó con localStorage/default. Si la KV trae algo nuevo,

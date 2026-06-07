@@ -26,7 +26,7 @@
   .logo .dot{color:var(--brand)}
   .logo .ver{font-weight:normal;font-size:10px;letter-spacing:.08em;color:var(--mut);margin-left:10px}
   .header-controls{display:flex;align-items:center;justify-content:flex-start;gap:12px;flex:1 1 auto;min-width:0;margin-left:0}
-  .search-wrap{flex:0 1 280px;min-width:190px;max-width:280px;position:relative}
+  .search-wrap{flex:0 1 280px;min-width:190px;max-width:280px;position:relative;margin-left:auto}
   .search{display:flex;align-items:center;gap:8px;background:rgba(10,22,32,.85);border:1px solid var(--line);border-radius:10px;padding:8px 14px;transition:border-color .15s,box-shadow .15s}
   .search:focus-within{border-color:var(--brand);box-shadow:0 0 18px rgba(120,243,255,.25)}
   .search svg{width:16px;height:16px;color:var(--mut);flex-shrink:0}
@@ -47,7 +47,7 @@
   .suggest .addr-item .kind{color:var(--brand)}
   .suggest .addr-loading{padding:10px 14px;color:var(--mut);font-family:monospace;font-size:11px;display:flex;align-items:center;gap:8px}
   .suggest .addr-loading::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--brand);box-shadow:0 0 8px var(--brand);animation:pulseDot 1s ease-in-out infinite}
-  .header-controls > nav{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:10px 14px;margin-left:auto;font-size:12px;font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
+  .header-controls > nav{display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-end;gap:10px 14px;margin-left:0;font-size:12px;font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
   .header-controls > nav a{color:var(--mut);white-space:nowrap}
   .header-controls > nav a:hover{color:var(--ink)}
   .header-controls > nav a.nav-cta{color:var(--accent);border:1px solid rgba(255,216,102,.4);border-radius:6px;padding:4px 10px}
@@ -437,13 +437,13 @@
     header{flex-wrap:wrap}
     .header-controls{flex:1 1 100%;flex-wrap:wrap}
     .search-wrap{flex:1 1 260px;max-width:none}
-    .header-controls > nav{margin-left:auto}
+    .header-controls > nav{margin-left:0}
   }
   @media (max-width:720px){
     header{flex-direction:column;align-items:stretch;padding:12px;background:linear-gradient(to bottom,rgba(2,8,13,.96),rgba(2,8,13,.82) 82%,rgba(2,8,13,.24));gap:10px}
     .logo{text-align:center;font-size:12px}
     .header-controls{flex:0 0 auto;width:100%;margin-left:0;flex-direction:column;align-items:stretch;gap:9px}
-    .search-wrap{flex:0 0 auto;max-width:none}
+    .search-wrap{flex:0 0 auto;max-width:none;margin-left:0}
     .search{padding:9px 12px}
     .search input{font-size:13px}
     #map{inset:0}

@@ -639,6 +639,14 @@
               <input id="buy-end" type="date">
             </div>
             <div class="buy-field">
+              <label for="buy-pass-date" data-i18n="buy_pass_date">Fecha del pase</label>
+              <input id="buy-pass-date" type="date">
+            </div>
+            <div class="buy-field">
+              <label for="buy-pass-time" data-i18n="buy_pass_time">Hora del pase</label>
+              <input id="buy-pass-time" type="time" step="900">
+            </div>
+            <div class="buy-field">
               <label for="buy-passes" data-i18n="buy_passes_day">Pases/día</label>
               <select id="buy-passes">
                 <option value="250" data-i18n="passes_250">250 pases/día</option>
@@ -654,6 +662,15 @@
                 <option value="traffic" data-i18n="obj_traffic">Tráfico a tienda</option>
                 <option value="launch" data-i18n="obj_launch">Lanzamiento</option>
                 <option value="promo" data-i18n="obj_promo">Promoción</option>
+              </select>
+            </div>
+            <div class="buy-field">
+              <label for="buy-duration" data-i18n="buy_duration">Duración contenido</label>
+              <select id="buy-duration">
+                <option value="15" selected data-i18n="duration_15">15 segundos</option>
+                <option value="30" data-i18n="duration_30">30 segundos</option>
+                <option value="45" data-i18n="duration_45">45 segundos</option>
+                <option value="60" data-i18n="duration_60">60 segundos</option>
               </select>
             </div>
           </div>
@@ -697,6 +714,8 @@
         <h4 data-i18n="buy_summary">Resumen</h4>
         <div class="buy-line"><span data-i18n="buy_points">Puntos</span><b id="buy-points">—</b></div>
         <div class="buy-line"><span data-i18n="buy_dates">Fechas</span><b id="buy-days">—</b></div>
+        <div class="buy-line"><span data-i18n="buy_moment">Momento</span><b id="buy-moment">—</b></div>
+        <div class="buy-line"><span data-i18n="buy_duration_summary">Duración</span><b id="buy-duration-out">15s</b></div>
         <div class="buy-line"><span data-i18n="buy_passes">Pases</span><b id="buy-passes-out">—</b></div>
         <div class="buy-line"><span data-i18n="buy_est_impr">Impresiones estimadas</span><b id="buy-impr">—</b></div>
         <div class="buy-line"><span data-i18n="buy_base_cpm">CPM base</span><b id="buy-cpm">—</b></div>
@@ -928,20 +947,28 @@ const I18N = {
     status_reserved:'Compra reservada · {orderId}',
     checkout_kicker:'Checkout programático', buy_title_base:'Comprar selección',
     buy_dates_passes:'Fechas y pases', buy_start:'Inicio', buy_end:'Fin',
+    buy_pass_date:'Fecha del pase', buy_pass_time:'Hora del pase',
     buy_passes_day:'Pases/día', passes_250:'250 pases/día', passes_500:'500 pases/día',
     passes_1000:'1.000 pases/día', passes_2500:'2.500 pases/día',
     buy_objective:'Objetivo', obj_reach:'Cobertura', obj_traffic:'Tráfico a tienda',
     obj_launch:'Lanzamiento', obj_promo:'Promoción', buy_advertiser:'Anunciante',
+    buy_duration:'Duración contenido', duration_15:'15 segundos', duration_30:'30 segundos',
+    duration_45:'45 segundos', duration_60:'60 segundos',
     buy_brand:'Marca', brand_ph:'Nombre de la marca', buy_campaign:'Campaña',
     campaign_ph:'Nombre interno de campaña', buy_credit_card:'Tarjeta de crédito',
     buy_card_number:'Número', buy_exp:'Caduca', buy_summary:'Resumen',
-    buy_points:'Puntos', buy_dates:'Fechas', buy_passes:'Pases',
+    buy_points:'Puntos', buy_dates:'Fechas', buy_moment:'Momento',
+    buy_duration_summary:'Duración', buy_passes:'Pases',
     buy_est_impr:'Impresiones estimadas', buy_base_cpm:'CPM base',
     buy_date_demand:'Demanda fecha', buy_total:'Total', buy_submit:'Pagar y reservar',
     buy_legal:'La web valida la tarjeta y prepara la orden sin guardar el número completo. El cargo real queda listo para enlazar con la pasarela de pago de Admira.',
     buy_points_line:'{points} puntos · {surfaces} surfaces', buy_days_line:'{days} días',
     buy_select_dates:'Selecciona fechas', buy_per_day:'{passes} / día',
+    buy_moment_line:'{date} · {time}', buy_select_moment:'Selecciona fecha y hora',
+    buy_seconds:'{seconds}s',
     err_select_point:'Selecciona al menos un punto.', err_dates:'Elige un rango de fechas válido.',
+    err_pass_moment:'Elige fecha y hora del pase dentro del rango de campaña.',
+    err_duration:'La duración del contenido debe ser de al menos 15 segundos.',
     err_brand:'Indica la marca anunciante.', err_email:'Indica un email de facturación válido.',
     err_campaign:'Pon un nombre de campaña.', err_card:'El número de tarjeta no es válido.',
     err_exp:'La fecha de caducidad no es válida.', err_cvc:'El CVC debe tener 3 o 4 dígitos.',
@@ -1031,20 +1058,28 @@ const I18N = {
     status_reserved:'Purchase reserved · {orderId}',
     checkout_kicker:'Programmatic checkout', buy_title_base:'Buy selection',
     buy_dates_passes:'Dates and passes', buy_start:'Start', buy_end:'End',
+    buy_pass_date:'Pass date', buy_pass_time:'Pass time',
     buy_passes_day:'Passes/day', passes_250:'250 passes/day', passes_500:'500 passes/day',
     passes_1000:'1,000 passes/day', passes_2500:'2,500 passes/day',
     buy_objective:'Objective', obj_reach:'Reach', obj_traffic:'Store traffic',
     obj_launch:'Launch', obj_promo:'Promotion', buy_advertiser:'Advertiser',
+    buy_duration:'Content duration', duration_15:'15 seconds', duration_30:'30 seconds',
+    duration_45:'45 seconds', duration_60:'60 seconds',
     buy_brand:'Brand', brand_ph:'Brand name', buy_campaign:'Campaign',
     campaign_ph:'Internal campaign name', buy_credit_card:'Credit card',
     buy_card_number:'Number', buy_exp:'Expires', buy_summary:'Summary',
-    buy_points:'Points', buy_dates:'Dates', buy_passes:'Passes',
+    buy_points:'Points', buy_dates:'Dates', buy_moment:'Moment',
+    buy_duration_summary:'Duration', buy_passes:'Passes',
     buy_est_impr:'Estimated impressions', buy_base_cpm:'Base CPM',
     buy_date_demand:'Date demand', buy_total:'Total', buy_submit:'Pay and reserve',
     buy_legal:'The website validates the card and prepares the order without storing the full number. The real charge is ready to be connected to Admira’s payment gateway.',
     buy_points_line:'{points} points · {surfaces} surfaces', buy_days_line:'{days} days',
     buy_select_dates:'Select dates', buy_per_day:'{passes} / day',
+    buy_moment_line:'{date} · {time}', buy_select_moment:'Select date and time',
+    buy_seconds:'{seconds}s',
     err_select_point:'Select at least one point.', err_dates:'Choose a valid date range.',
+    err_pass_moment:'Choose a pass date and time within the campaign range.',
+    err_duration:'Content duration must be at least 15 seconds.',
     err_brand:'Enter the advertiser brand.', err_email:'Enter a valid billing email.',
     err_campaign:'Add a campaign name.', err_card:'The card number is not valid.',
     err_exp:'The expiration date is not valid.', err_cvc:'The CVC must have 3 or 4 digits.',
@@ -1651,6 +1686,15 @@ function parseIsoDate(s) {
   return Number.isNaN(dt.getTime()) ? null : dt;
 }
 
+function validTimeValue(value) {
+  return /^\d{2}:\d{2}$/.test(String(value || ''));
+}
+
+function formatDateShort(dt) {
+  if (!dt) return '—';
+  return new Intl.DateTimeFormat(LANG === 'en' ? 'en-GB' : 'es-ES', {day:'2-digit', month:'2-digit', year:'numeric'}).format(dt);
+}
+
 function inclusiveDays(start, end) {
   if (!start || !end) return 0;
   return Math.max(0, Math.round((end - start) / 86400000) + 1);
@@ -1691,16 +1735,21 @@ function calculateBuyQuote() {
   const locs = selectedLocations();
   const start = parseIsoDate(document.getElementById('buy-start')?.value);
   const end = parseIsoDate(document.getElementById('buy-end')?.value);
+  const passDate = parseIsoDate(document.getElementById('buy-pass-date')?.value);
+  const passTime = document.getElementById('buy-pass-time')?.value || '';
   const days = inclusiveDays(start, end);
   const passesDay = Number(document.getElementById('buy-passes')?.value || 0);
+  const durationSec = Math.max(0, Number(document.getElementById('buy-duration')?.value || 15));
+  const durationFactor = Math.max(1, durationSec / 15);
   const dailyImpr = locs.reduce((a, loc) => a + locationDailyImpr(loc), 0);
   const surfaces = locs.reduce((a, loc) => a + locationSurfaceCount(loc), 0);
   const cpm = selectedWeightedCpm(locs);
   const demand = dateDemandMultiplier(start, end);
   const passFactor = Math.max(0.15, Math.min(1.5, passesDay / 1000));
   const estimatedImpr = Math.round(dailyImpr * days * passFactor);
-  const price = Math.max(0, Math.round((estimatedImpr / 1000) * cpm * demand));
-  return {locs, start, end, days, passesDay, dailyImpr, surfaces, cpm, demand, passFactor, estimatedImpr, price};
+  const price = Math.max(0, Math.round((estimatedImpr / 1000) * cpm * demand * durationFactor));
+  const passDateInRange = !!(start && end && passDate && passDate >= start && passDate <= end);
+  return {locs, start, end, passDate, passTime, passDateInRange, days, passesDay, durationSec, durationFactor, dailyImpr, surfaces, cpm, demand, passFactor, estimatedImpr, price};
 }
 
 function formatMoney(n) {
@@ -1716,6 +1765,8 @@ function updateBuyQuote() {
   const set = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
   set('buy-points', tf('buy_points_line', {points: q.locs.length, surfaces: q.surfaces}));
   set('buy-days', q.days ? tf('buy_days_line', {days: q.days}) : t('buy_select_dates'));
+  set('buy-moment', q.passDate && validTimeValue(q.passTime) ? tf('buy_moment_line', {date: formatDateShort(q.passDate), time: q.passTime}) : t('buy_select_moment'));
+  set('buy-duration-out', tf('buy_seconds', {seconds: q.durationSec || 15}));
   set('buy-passes-out', tf('buy_per_day', {passes: formatInt(q.passesDay)}));
   set('buy-impr', q.estimatedImpr ? formatInt(q.estimatedImpr) : '—');
   set('buy-cpm', `€${q.cpm.toFixed(2)}`);
@@ -1728,6 +1779,9 @@ function updateBuyQuote() {
 function seedBuyDates() {
   const startEl = document.getElementById('buy-start');
   const endEl = document.getElementById('buy-end');
+  const passDateEl = document.getElementById('buy-pass-date');
+  const passTimeEl = document.getElementById('buy-pass-time');
+  const durationEl = document.getElementById('buy-duration');
   if (!startEl || !endEl) return;
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -1735,8 +1789,17 @@ function seedBuyDates() {
   end.setDate(end.getDate() + 6);
   if (!startEl.value) startEl.value = isoDateLocal(tomorrow);
   if (!endEl.value) endEl.value = isoDateLocal(end);
+  if (passDateEl && !passDateEl.value) passDateEl.value = startEl.value;
+  if (passTimeEl && !passTimeEl.value) passTimeEl.value = '10:00';
+  if (durationEl && !durationEl.value) durationEl.value = '15';
   startEl.min = isoDateLocal(new Date());
   endEl.min = startEl.value;
+  if (passDateEl) {
+    passDateEl.min = startEl.value;
+    passDateEl.max = endEl.value;
+    if (passDateEl.value && startEl.value && passDateEl.value < startEl.value) passDateEl.value = startEl.value;
+    if (passDateEl.value && endEl.value && passDateEl.value > endEl.value) passDateEl.value = endEl.value;
+  }
 }
 
 function openBuyCheckout() {
@@ -1794,6 +1857,8 @@ function validateBuyForm() {
   const errors = [];
   if (!q.locs.length) errors.push(t('err_select_point'));
   if (!q.days) errors.push(t('err_dates'));
+  if (!q.passDateInRange || !validTimeValue(q.passTime)) errors.push(t('err_pass_moment'));
+  if (q.durationSec < 15) errors.push(t('err_duration'));
   if (!brand) errors.push(t('err_brand'));
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email || '')) errors.push(t('err_email'));
   if (!campaign) errors.push(t('err_campaign'));
@@ -1824,8 +1889,12 @@ function submitBuyCheckout() {
     points: res.q.locs.length,
     start: document.getElementById('buy-start').value,
     end: document.getElementById('buy-end').value,
+    passDate: document.getElementById('buy-pass-date').value,
+    passTime: document.getElementById('buy-pass-time').value,
     days: res.q.days,
     passesDay: res.q.passesDay,
+    durationSec: res.q.durationSec,
+    durationFactor: Number(res.q.durationFactor.toFixed(2)),
     estimatedImpr: res.q.estimatedImpr,
     cpm: Number(res.q.cpm.toFixed(2)),
     demand: Number(res.q.demand.toFixed(2)),
@@ -1849,14 +1918,22 @@ function bindBuyCheckout() {
   const modal = document.getElementById('buy-modal');
   const close = document.getElementById('buy-close');
   if (!modal) return;
-  ['buy-start','buy-end','buy-passes','buy-objective'].forEach(id => {
+  ['buy-start','buy-end','buy-pass-date','buy-pass-time','buy-passes','buy-objective','buy-duration'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.addEventListener('change', () => {
       const start = document.getElementById('buy-start');
       const end = document.getElementById('buy-end');
+      const passDate = document.getElementById('buy-pass-date');
       if (start && end) {
         end.min = start.value || '';
         if (start.value && end.value && end.value < start.value) end.value = start.value;
+      }
+      if (start && end && passDate) {
+        passDate.min = start.value || '';
+        passDate.max = end.value || '';
+        if (!passDate.value && start.value) passDate.value = start.value;
+        if (passDate.value && start.value && passDate.value < start.value) passDate.value = start.value;
+        if (passDate.value && end.value && passDate.value > end.value) passDate.value = end.value;
       }
       updateBuyQuote();
     });

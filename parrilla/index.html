@@ -7,92 +7,30 @@
 <meta name="description" content="Parrilla del día por pantalla del Xpacio: qué se emite a cada hora según target, qué está vendido y cuántos huecos quedan disponibles para la venta.">
 <meta name="robots" content="noindex">
 <script src="../locations.js"></script>
+<link rel="stylesheet" href="https://csilvasantin.github.io/admira-design/emission-calendar.css">
+<script defer src="https://csilvasantin.github.io/admira-design/emission-calendar.js"></script>
 <style>
-  :root{--bg:#02080d;--ink:#dff8ff;--mut:#75aab9;--brand:#78f3ff;--accent:#ffd866;--good:#88ffaa;--warn:#ff8866;--danger:#ff4f5e;--card:#0a1620;--card2:#0d1c28;--line:rgba(120,243,255,.18)}
+  :root{--bg:#02080d;--ink:#dff8ff;--mut:#75aab9;--brand:#78f3ff;--accent:#ffd866;--good:#88ffaa;--card2:#0d1c28;--line:rgba(120,243,255,.18)}
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;min-height:100%}
   a{color:var(--brand);text-decoration:none} a:hover{text-decoration:underline}
   button,select,input{font-family:inherit}
-
   header{padding:13px 22px;background:linear-gradient(to bottom,rgba(2,8,13,.95),rgba(2,8,13,.6));border-bottom:1px solid var(--line);display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
   .logo{font-family:monospace;font-size:13px;letter-spacing:.16em;color:var(--accent);font-weight:bold;white-space:nowrap}
   .logo .dot{color:var(--brand)}
   .logo .sub{color:var(--mut);margin-left:10px;font-weight:normal;letter-spacing:.1em;font-size:11px}
   header .sel{display:flex;align-items:center;gap:7px}
   header label{font-size:11px;color:var(--mut);font-family:monospace;letter-spacing:.06em;text-transform:uppercase}
-  select,input[type=date],input[type=text],input[type=number],input[type=url]{background:var(--card2);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 10px;font-size:13px;outline:0}
+  select,input[type=date]{background:var(--card2);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 10px;font-size:13px;outline:0}
   select:focus,input:focus{border-color:var(--brand)}
   .grow{flex:1}
   .btn{background:transparent;border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:8px 14px;font-size:13px;cursor:pointer;transition:border-color .12s,background .12s;white-space:nowrap}
   .btn:hover{border-color:var(--brand)}
   .btn.primary{background:var(--brand);color:#001620;border-color:var(--brand);font-weight:700}
-  .btn.accent{background:var(--accent);color:#1a1300;border-color:var(--accent);font-weight:700}
   .btn.ghost{color:var(--mut)}
-  .btn.live{border-color:var(--good);color:var(--good)}
-  .btn.live.on{background:rgba(136,255,170,.14)}
-
+  .btn.live{border-color:var(--good);color:var(--good)} .btn.live.on{background:rgba(136,255,170,.14)}
   .wrap{max-width:1180px;margin:0 auto;padding:20px 22px 60px}
-
-  /* KPIs */
-  .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin:4px 0 22px}
-  .kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px 16px}
-  .kpi .n{font-size:28px;font-weight:800;letter-spacing:-.02em}
-  .kpi .l{font-size:11px;color:var(--mut);font-family:monospace;letter-spacing:.08em;text-transform:uppercase;margin-top:3px}
-  .kpi.sold .n{color:var(--brand)} .kpi.free .n{color:var(--good)} .kpi.rev .n{color:var(--accent)}
-
-  /* Now playing */
-  .now{display:flex;align-items:center;gap:14px;background:linear-gradient(90deg,rgba(120,243,255,.10),transparent);border:1px solid var(--line);border-radius:13px;padding:14px 18px;margin-bottom:22px}
-  .now .pulse{width:10px;height:10px;border-radius:50%;background:var(--good);box-shadow:0 0 12px var(--good);animation:p 1.6s infinite;flex:none}
-  @keyframes p{0%,100%{opacity:1}50%{opacity:.25}}
-  .now .lab{font-family:monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut)}
-  .now b{font-size:16px}
-  .now .meta{color:var(--mut);font-size:13px}
-  .now.free .pulse{background:var(--accent);box-shadow:0 0 12px var(--accent)}
-
-  /* Bands */
-  .band{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:14px}
-  .band.cur{border-color:var(--good);box-shadow:0 0 0 1px rgba(136,255,170,.25)}
-  .band .bhead{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
-  .band .btitle{font-size:17px;font-weight:700}
-  .band .bhours{font-family:monospace;font-size:12px;color:var(--mut)}
-  .band .nowtag{font-family:monospace;font-size:10px;letter-spacing:.1em;color:#001620;background:var(--good);padding:2px 8px;border-radius:999px;font-weight:700}
-  .band .avail{margin-left:auto;font-size:12px;color:var(--mut)}
-  .band .avail b{color:var(--good)}
-  .band .sell{margin-left:8px}
-  .slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}
-  .slot{border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:64px;display:flex;flex-direction:column;justify-content:center;position:relative;font-size:13px}
-  .slot.free{border-style:dashed;color:var(--mut);cursor:pointer;align-items:center;text-align:center;transition:border-color .12s,color .12s}
-  .slot.free:hover{border-color:var(--accent);color:var(--accent)}
-  .slot.free .plus{font-size:18px;line-height:1}
-  .slot.sold{background:var(--card2)}
-  .slot.sold.playing{border-color:var(--good);box-shadow:0 0 0 1px rgba(136,255,170,.3)}
-  .slot .adv{font-weight:700;font-size:12px;color:var(--brand);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .slot .ttl{color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .slot .kind{font-family:monospace;font-size:10px;color:var(--mut);margin-top:3px}
-  .slot .x{position:absolute;top:5px;right:7px;color:var(--mut);cursor:pointer;font-size:13px;opacity:0;transition:opacity .12s}
-  .slot.sold:hover .x{opacity:1}
-  .slot .x:hover{color:var(--danger)}
-
-  .empty{color:var(--mut);text-align:center;padding:60px 20px;font-size:14px}
-  .foot{color:var(--mut);font-size:12px;margin-top:18px;text-align:center;font-family:monospace}
-
-  /* Modal */
-  .modal{position:fixed;inset:0;background:rgba(2,8,13,.78);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
-  .modal.open{display:flex}
-  .mbox{width:100%;max-width:440px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 24px 20px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-  .mbox h3{margin:0 0 4px;font-size:20px}
-  .mbox .msub{color:var(--mut);font-size:13px;margin:0 0 18px}
-  .mbox .f{margin-bottom:13px}
-  .mbox .f label{display:block;font-size:11px;color:var(--mut);font-family:monospace;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
-  .mbox .f input,.mbox .f select{width:100%}
-  .frow{display:flex;gap:10px} .frow .f{flex:1}
-  .mact{display:flex;gap:10px;margin-top:18px}
-  .mact .btn{flex:1;text-align:center}
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:12px 20px;font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:200}
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-  .toast.err{border-color:var(--danger);color:var(--warn)}
-
-  @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}}
+  .foot{color:var(--mut);font-size:12px;margin-top:6px;text-align:center;font-family:monospace}
 </style>
 </head>
 <body>
@@ -108,265 +46,67 @@
 </header>
 
 <div class="wrap">
-  <div class="now" id="nowBox" style="display:none"></div>
-
-  <div class="kpis" id="kpis"></div>
-
-  <div id="bands"></div>
-
+  <div id="cal"></div>
   <div class="foot" id="foot"></div>
 </div>
 
-<!-- Sell modal -->
-<div class="modal" id="modal">
-  <div class="mbox">
-    <h3>Vender hueco</h3>
-    <p class="msub" id="mSub"></p>
-    <div class="f"><label>Anunciante</label><input type="text" id="mAdv" placeholder="Ej. Coca-Cola"></div>
-    <div class="f"><label>Campaña / título</label><input type="text" id="mTtl" placeholder="Ej. Verano 2026"></div>
-    <div class="frow">
-      <div class="f"><label>Tipo</label><select id="mType"><option value="video">Vídeo</option><option value="image">Imagen</option></select></div>
-      <div class="f"><label>Huecos</label><input type="number" id="mSlots" value="1" min="1"></div>
-    </div>
-    <div class="f"><label>URL del creativo</label><input type="url" id="mUrl" placeholder="https://…/spot.mp4"></div>
-    <div class="frow">
-      <div class="f"><label>CPM (€)</label><input type="number" id="mCpm" value="8" min="0" step="0.5"></div>
-      <div class="f"><label>Precio (€)</label><input type="number" id="mPrice" value="0" min="0" step="1"></div>
-    </div>
-    <div class="mact">
-      <button class="btn ghost" id="mCancel">Cancelar</button>
-      <button class="btn accent" id="mSave">Vender</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
 <script>
-const WORKER = 'https://pixer-eleven.csilvasantin.workers.dev';
-const $ = (s)=>document.querySelector(s);
-const fmtEur = new Intl.NumberFormat('es-ES',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+const WORKER='https://pixer-eleven.csilvasantin.workers.dev';
+const $=(s)=>document.querySelector(s);
+const state={stores:[],store:null,screens:[],screen:null,date:'',cal:null,auto:false,autoTimer:null};
+function slug(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');}
+function todayMadrid(){const p={};new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).forEach(x=>p[x.type]=x.value);return `${p.year}-${p.month}-${p.day}`;}
+function isScreen(sf){return ['pantalla','escaparate','vending','mostrador'].includes(sf.surface);}
+function screensOf(store){return store.surfaces.filter(isScreen).map(sf=>({id:slug(store.id)+'-'+slug(sf.name),name:sf.name,surface:sf.surface,pixerScreens:Array.isArray(sf.pixerScreens)?sf.pixerScreens:[]}));}
 
-const state = { stores:[], store:null, screens:[], screen:null, date:'', day:null, auto:false, autoTimer:null, pollTimer:null };
+async function api(path,opts){const r=await fetch(WORKER+path,opts);let d=null;try{d=await r.json();}catch{}if(!r.ok||(d&&d.error))throw new Error((d&&d.error)||('HTTP '+r.status));return d;}
 
-function slug(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
-function todayMadrid(){
-  const p={}; new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).forEach(x=>p[x.type]=x.value);
-  return `${p.year}-${p.month}-${p.day}`;
-}
-function gridKey(){
-  let k = localStorage.getItem('grid_key') || '';
-  return k;
-}
-function ensureKey(){
-  let k = gridKey();
-  if(!k){ k = prompt('Clave de administración (GRID_KEY) para vender/emitir:') || ''; if(k) localStorage.setItem('grid_key', k); }
-  return k;
-}
-function toast(msg, err){ const t=$('#toast'); t.textContent=msg; t.className='toast show'+(err?' err':''); clearTimeout(toast._t); toast._t=setTimeout(()=>t.className='toast',2400); }
-
-async function api(path, opts){
-  const r = await fetch(WORKER+path, opts);
-  let d=null; try{ d=await r.json(); }catch{}
-  if(!r.ok || (d && d.error)) throw new Error((d&&d.error)||('HTTP '+r.status));
-  return d;
-}
-
-// ── Catálogo: stores con surfaces "de pantalla" ──
 async function loadStores(){
-  // locations.js: worker KV → localStorage → bundled default, ya normalizado.
-  let list = [];
-  try{ if(window.loadOmnipLocationsAsync){ const r=await window.loadOmnipLocationsAsync(); list = Array.isArray(r)?r:(r&&r.locations)||[]; } }catch{}
-  if(!list.length && window.loadOmnipLocations) { try{ list = window.loadOmnipLocations(); }catch{} }
-  if(!list.length) list = window.OMNIP_LOCATIONS_DEFAULT || [];
-  state.stores = list.filter(s=>Array.isArray(s.surfaces) && s.surfaces.some(isScreen));
-  const sel=$('#storeSel'); sel.innerHTML='';
-  state.stores.forEach(s=>{ const o=document.createElement('option'); o.value=s.id; o.textContent=s.name; sel.appendChild(o); });
+  let list=[];
+  try{if(window.loadOmnipLocationsAsync){const r=await window.loadOmnipLocationsAsync();list=Array.isArray(r)?r:(r&&r.locations)||[];}}catch{}
+  if(!list.length&&window.loadOmnipLocations){try{list=window.loadOmnipLocations();}catch{}}
+  if(!list.length)list=window.OMNIP_LOCATIONS_DEFAULT||[];
+  state.stores=list.filter(s=>Array.isArray(s.surfaces)&&s.surfaces.some(isScreen));
+  const sel=$('#storeSel');sel.innerHTML='';
+  state.stores.forEach(s=>{const o=document.createElement('option');o.value=s.id;o.textContent=s.name;sel.appendChild(o);});
 }
-// ¿Es una surface que emite contenido (parrilla)? pantalla/escaparate/vending
-function isScreen(sf){ return ['pantalla','escaparate','vending','mostrador'].includes(sf.surface); }
-
-function screensOf(store){
-  return store.surfaces.filter(isScreen).map(sf=>({
-    id: slug(store.id)+'-'+slug(sf.name),
-    name: sf.name,
-    desc: sf.desc||'',
-    surface: sf.surface,
-    cpm: parseFloat(String(sf.cpm||'').replace(/[^0-9.]/g,''))||8,
-    pixerScreens: Array.isArray(sf.pixerScreens)?sf.pixerScreens:[],
-  }));
-}
-
 function selectStore(id){
-  state.store = state.stores.find(s=>s.id===id) || state.stores[0];
-  state.screens = screensOf(state.store);
-  const sel=$('#screenSel'); sel.innerHTML='';
-  state.screens.forEach(sc=>{ const o=document.createElement('option'); o.value=sc.id; o.textContent=sc.name; sel.appendChild(o); });
+  state.store=state.stores.find(s=>s.id===id)||state.stores[0];
+  state.screens=screensOf(state.store);
+  const sel=$('#screenSel');sel.innerHTML='';
+  state.screens.forEach(sc=>{const o=document.createElement('option');o.value=sc.id;o.textContent=sc.name;sel.appendChild(o);});
   selectScreen(state.screens[0]?.id);
 }
-
-async function selectScreen(id){
-  state.screen = state.screens.find(s=>s.id===id) || state.screens[0];
-  if(!state.screen){ $('#bands').innerHTML='<div class="empty">Este Xpacio no tiene pantallas emisoras.</div>'; return; }
-  await ensureConfig();
-  await refresh();
-}
-
-// Siembra config si la pantalla no tiene una guardada (updatedAt 0)
-async function ensureConfig(){
-  const sc = state.screen;
+async function ensureConfig(sc){
   try{
-    const d = await api('/grid/config?screen='+encodeURIComponent(sc.id));
-    const needsSeed = !d.config.updatedAt || (sc.pixerScreens.length && (!d.config.pixerScreens || !d.config.pixerScreens.length));
-    if(needsSeed){
-      const k=gridKey();
-      await api('/grid/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-        key:k, screen:sc.id, name:sc.name, slotSeconds:10, pixerScreens:sc.pixerScreens
-      })}).catch(()=>{});
-    }
+    const d=await api('/grid/config?screen='+encodeURIComponent(sc.id));
+    const needsSeed=!d.config.updatedAt||(sc.pixerScreens.length&&(!d.config.pixerScreens||!d.config.pixerScreens.length));
+    if(needsSeed){const k=localStorage.getItem('grid_key')||'';await api('/grid/config',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k,screen:sc.id,name:sc.name,slotSeconds:10,pixerScreens:sc.pixerScreens})}).catch(()=>{});}
   }catch{}
 }
-
-async function refresh(){
-  const sc=state.screen; if(!sc) return;
-  try{
-    const d = await api(`/grid/day?screen=${encodeURIComponent(sc.id)}&date=${state.date}`);
-    state.day = d; render();
-  }catch(e){ $('#bands').innerHTML='<div class="empty">Error cargando parrilla: '+e.message+'</div>'; }
+async function selectScreen(id){
+  state.screen=state.screens.find(s=>s.id===id)||state.screens[0];
+  if(!state.screen){$('#cal').innerHTML='<div style="color:var(--mut);text-align:center;padding:40px">Este Xpacio no tiene pantallas emisoras.</div>';return;}
+  await ensureConfig(state.screen);
+  const opts={workerBase:WORKER,role:'sell',screen:state.screen.id,date:state.date,screenName:state.screen.name,storeName:state.store.name,getKey:()=>localStorage.getItem('grid_key')||'',onData:updateFoot};
+  if(!state.cal)state.cal=EmissionCalendar.mount($('#cal'),opts); else state.cal.setContext({screen:state.screen.id,date:state.date,screenName:state.screen.name,storeName:state.store.name});
 }
+function updateFoot(d){$('#foot').textContent=`${state.store.name} · ${state.screen.name} · ${d.date} · ${d.config.pixerScreens&&d.config.pixerScreens.length?('→ '+d.config.pixerScreens.join(', ')):'sin pixerScreen'} · slot ${d.config.slotSeconds}s`;}
 
-function render(){
-  const d=state.day; if(!d) return;
-  const t=d.totals;
-  $('#kpis').innerHTML = [
-    ['total', t.totalSlots, 'Huecos del día'],
-    ['sold',  t.soldSlots,  'Vendidos'],
-    ['free',  t.freeSlots,  'Disponibles'],
-    ['',      t.occupancy+'%', 'Ocupación'],
-    ['rev',   fmtEur.format(t.revenue), 'Ingresos'],
-  ].map(([cls,n,l])=>`<div class="kpi ${cls}"><div class="n">${n}</div><div class="l">${l}</div></div>`).join('');
+function emitNow(){if(state.cal)state.cal.emit();}
+function toggleAuto(){state.auto=!state.auto;const b=$('#autoBtn');b.classList.toggle('on',state.auto);b.textContent=state.auto?'■ Emitir auto':'▶ Emitir auto';if(state.auto){emitNow();state.autoTimer=setInterval(emitNow,30000);}else clearInterval(state.autoTimer);}
 
-  // Now playing
-  const nb=$('#nowBox'); const np=d.nowPlaying;
-  if(d.now.isToday && np){
-    if(np.free){
-      nb.style.display='flex'; nb.className='now free';
-      nb.innerHTML=`<div class="pulse"></div><div><div class="lab">Ahora · ${d.now.hhmm} · ${bandLabel(np.bandId)}</div><b>Hueco disponible</b> <span class="meta">— sin campaña vendida en esta franja</span></div>`;
-    }else{
-      nb.style.display='flex'; nb.className='now';
-      nb.innerHTML=`<div class="pulse"></div><div><div class="lab">Ahora emitiendo · ${d.now.hhmm} · ${bandLabel(np.bandId)}</div><b>${esc(np.advertiser||'—')}</b> <span class="meta">— ${esc(np.title||'')} · ${np.creative?np.creative.type:''}</span></div>`;
-    }
-  } else nb.style.display='none';
-
-  // Bands
-  $('#bands').innerHTML = d.bands.map(b=>{
-    const slots = b.slots.map((s,i)=>{
-      if(s.status==='free') return `<div class="slot free" data-band="${b.id}"><span class="plus">+</span><span>Vender hueco</span></div>`;
-      const playing = (d.now.isToday && np && !np.free && np.bookingId===s.bookingId && np.bandId===b.id);
-      return `<div class="slot sold${playing?' playing':''}">
-        <span class="x" data-unbook="${s.bookingId}" title="Anular">✕</span>
-        <span class="adv">${esc(s.advertiser||'—')}</span>
-        <span class="ttl">${esc(s.title||'')}</span>
-        <span class="kind">${s.creative?s.creative.type:'—'}${playing?' · ▶ on air':''}</span>
-      </div>`;
-    }).join('');
-    return `<div class="band${b.isNow?' cur':''}">
-      <div class="bhead">
-        <span class="btitle">${esc(b.label)}</span>
-        <span class="bhours">${b.from}–${b.to}</span>
-        ${b.isNow?'<span class="nowtag">AHORA</span>':''}
-        <span class="avail"><b>${b.free}</b> libres · ${b.sold}/${b.capacity} vendidos</span>
-        <button class="btn accent sell" data-band="${b.id}" ${b.free<=0?'disabled style=opacity:.4':''}>Vender</button>
-      </div>
-      <div class="slots">${slots||'<span class="meta">Sin huecos</span>'}</div>
-    </div>`;
-  }).join('');
-
-  $('#foot').textContent = `${state.store.name} · ${state.screen.name} · ${d.date} · ${d.config.pixerScreens&&d.config.pixerScreens.length?('→ '+d.config.pixerScreens.join(', ')):'sin pixerScreen asignado'} · slot ${d.config.slotSeconds}s`;
-
-  // wire
-  document.querySelectorAll('.slot.free,[data-band].sell, .sell').forEach(()=>{});
-  document.querySelectorAll('.slot.free').forEach(el=>el.onclick=()=>openSell(el.dataset.band));
-  document.querySelectorAll('.sell').forEach(el=>el.onclick=()=>{ if(!el.disabled) openSell(el.dataset.band); });
-  document.querySelectorAll('[data-unbook]').forEach(el=>el.onclick=(e)=>{ e.stopPropagation(); unbook(el.dataset.unbook); });
-}
-
-function bandLabel(id){ const b=(state.day?.bands||[]).find(x=>x.id===id); return b?b.label:id; }
-function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-// ── Vender ──
-let sellBand=null;
-function openSell(bandId){
-  sellBand=bandId;
-  const b=(state.day.bands||[]).find(x=>x.id===bandId);
-  $('#mSub').textContent = `${state.screen.name} · ${b.label} (${b.from}–${b.to}) · ${b.free} huecos libres`;
-  $('#mSlots').max=b.free; $('#mSlots').value=1;
-  $('#mCpm').value = state.screen.cpm||8;
-  $('#modal').classList.add('open');
-  $('#mAdv').focus();
-}
-function closeSell(){ $('#modal').classList.remove('open'); }
-async function doSell(){
-  const k=ensureKey(); if(!k){ toast('Necesitas la clave para vender',true); return; }
-  const body={
-    key:k, screen:state.screen.id, date:state.date, bandId:sellBand,
-    slots: Math.max(1, parseInt($('#mSlots').value,10)||1),
-    advertiser: $('#mAdv').value.trim(),
-    title: $('#mTtl').value.trim(),
-    creative: { type:$('#mType').value, url:$('#mUrl').value.trim(), name:$('#mTtl').value.trim() },
-    cpm: parseFloat($('#mCpm').value)||0,
-    price: parseFloat($('#mPrice').value)||0,
-  };
-  if(!body.advertiser){ toast('Pon un anunciante',true); return; }
-  try{
-    await api('/grid/book',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-    closeSell(); toast('Hueco vendido ✓'); refresh();
-  }catch(e){ toast(e.message==='no-space'?'No quedan huecos libres':('Error: '+e.message),true); }
-}
-async function unbook(id){
-  if(!confirm('¿Anular esta venta?')) return;
-  const k=ensureKey(); if(!k) return;
-  try{ await api('/grid/unbook',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k,screen:state.screen.id,date:state.date,id})}); toast('Venta anulada'); refresh(); }
-  catch(e){ toast('Error: '+e.message,true); }
-}
-
-async function emitNow(){
-  const k=ensureKey(); if(!k){ toast('Necesitas la clave para emitir',true); return; }
-  try{
-    const d=await api('/grid/emit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k,screen:state.screen.id})});
-    toast(d.pushed.length?('Emitido a: '+d.pushed.join(', ')):'Sin pixerScreen asignado');
-  }catch(e){ toast('Error: '+e.message,true); }
-}
-function toggleAuto(){
-  state.auto=!state.auto;
-  const btn=$('#autoBtn'); btn.classList.toggle('on',state.auto); btn.textContent= state.auto?'■ Emitir auto':'▶ Emitir auto';
-  if(state.auto){ emitNow(); state.autoTimer=setInterval(emitNow,30000); toast('Emisión automática activada (cada 30s)'); }
-  else { clearInterval(state.autoTimer); toast('Emisión automática parada'); }
-}
-
-// ── Init ──
 async function init(){
-  state.date = todayMadrid();
-  $('#dateInp').value = state.date;
+  state.date=todayMadrid();$('#dateInp').value=state.date;
   await loadStores();
-  // default: Xtanco (el Xpacio) si existe
-  const xt = state.stores.find(s=>s.id==='xtanco') || state.stores[0];
-  $('#storeSel').value = xt?.id || '';
-  selectStore(xt?.id);
-
-  $('#storeSel').onchange = e=>selectStore(e.target.value);
-  $('#screenSel').onchange = e=>selectScreen(e.target.value);
-  $('#dateInp').onchange = e=>{ state.date=e.target.value||todayMadrid(); refresh(); };
-  $('#emitBtn').onclick = emitNow;
-  $('#autoBtn').onclick = toggleAuto;
-  $('#mCancel').onclick = closeSell;
-  $('#mSave').onclick = doSell;
-  $('#modal').onclick = e=>{ if(e.target.id==='modal') closeSell(); };
-
-  // refresco de la parrilla cada 15s (para ver "ahora emitiendo" cambiar)
-  state.pollTimer = setInterval(()=>{ if(!$('#modal').classList.contains('open')) refresh(); }, 15000);
+  const xt=state.stores.find(s=>s.id==='xtanco')||state.stores[0];
+  $('#storeSel').value=xt?.id||'';selectStore(xt?.id);
+  $('#storeSel').onchange=e=>selectStore(e.target.value);
+  $('#screenSel').onchange=e=>selectScreen(e.target.value);
+  $('#dateInp').onchange=e=>{state.date=e.target.value||todayMadrid();if(state.cal)state.cal.setContext({date:state.date});};
+  $('#emitBtn').onclick=emitNow;$('#autoBtn').onclick=toggleAuto;
 }
-init();
+window.addEventListener('DOMContentLoaded',()=>{ if(window.EmissionCalendar) init(); else window.addEventListener('load',init); });
 </script>
 </body>
 </html>

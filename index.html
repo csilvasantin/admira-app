@@ -857,7 +857,7 @@
 // omnipublicity-api (KV) y, si trae algo distinto, re-renderizamos sources +
 // counters. Primer load = instantáneo; segundo paint = autoritativo.
 let LOCATIONS = window.loadOmnipLocations();
-let selectedCircuitId = 'kioskos';
+let selectedCircuitId = 'all';
 let selectedMetroLine = 'all';
 let selectedLocationIds = new Set();
 let circuitAutoSelect = true;
@@ -872,6 +872,12 @@ const CIRCUIT_SCOPE_OPTIONS = [
   {value:'city', labelKey:'scope_city'},
   {value:'local', labelKey:'scope_local'},
 ];
+const CIRCUIT_IDS_BY_SCOPE = {
+  global: ['desigual'],
+  national: ['estancos'],
+  city: ['metro_bcn'],
+  local: ['all'],
+};
 const CIRCUIT_TARGET_OPTIONS = {
   placements: [
     {value:'exterior', labelKey:'target_exterior'},
@@ -945,9 +951,9 @@ const I18N = {
     circuit_scope_label:'Alcance del circuito',
     scope_global:'Global', scope_national:'Nacional', scope_city:'Ciudad', scope_local:'Local',
     circuit_panel_title:'Comprar por circuito',
-    circuit_metro_bcn:'Circuito Metro Barcelona', circuit_desigual:'Circuito Desigual Global',
-    circuit_kioskos:'Circuito kioskos de prensa', circuit_all:'Toda la red OmniPublicity',
-    circuit_estancos:'Circuito estancos', circuit_retail:'Otros retail físicos',
+    circuit_metro_bcn:'Circuito Metro Barcelona Ciudad', circuit_desigual:'Circuito Desigual Global',
+    circuit_kioskos:'Circuito kioskos de prensa', circuit_all:'Todos los puntos locales',
+    circuit_estancos:'Circuito Xtanco Nacional', circuit_retail:'Otros retail físicos',
     all_lines:'Todas las líneas', whole_line:'Toda línea', whole_circuit:'Todo circuito',
     points_label:'puntos', point_label:'punto', impr_day_compact:'impr/día', cpm_label:'CPM',
     circuit_points_title:'Puntos del circuito', view_map:'Ver en mapa', buy_selection:'Comprar selección',
@@ -1058,9 +1064,9 @@ const I18N = {
     circuit_scope_label:'Circuit scope',
     scope_global:'Global', scope_national:'National', scope_city:'City', scope_local:'Local',
     circuit_panel_title:'Buy by circuit',
-    circuit_metro_bcn:'Barcelona Metro Circuit', circuit_desigual:'Global Desigual Circuit',
-    circuit_kioskos:'Press kiosk circuit', circuit_all:'Entire OmniPublicity network',
-    circuit_estancos:'Tobacco shop circuit', circuit_retail:'Other physical retail',
+    circuit_metro_bcn:'Barcelona Metro City Circuit', circuit_desigual:'Global Desigual Circuit',
+    circuit_kioskos:'Press kiosk circuit', circuit_all:'All local registered points',
+    circuit_estancos:'National Xtanco Circuit', circuit_retail:'Other physical retail',
     all_lines:'All lines', whole_line:'Whole line', whole_circuit:'Whole circuit',
     points_label:'points', point_label:'point', impr_day_compact:'impr/day', cpm_label:'CPM',
     circuit_points_title:'Circuit points', view_map:'View on map', buy_selection:'Buy selection',
@@ -1231,6 +1237,23 @@ function circuitScopeIsComplete() {
   return CIRCUIT_SCOPE_OPTIONS.some(option => option.value === sanitizeCircuitScope(selectedCircuitScope));
 }
 
+function circuitIdsForScope(scope = selectedCircuitScope) {
+  return CIRCUIT_IDS_BY_SCOPE[sanitizeCircuitScope(scope)] || CIRCUIT_IDS_BY_SCOPE[DEFAULT_CIRCUIT_SCOPE];
+}
+
+function defaultCircuitIdForScope(scope = selectedCircuitScope) {
+  return circuitIdsForScope(scope)[0] || 'all';
+}
+
+function ensureCircuitMatchesScope() {
+  const allowed = circuitIdsForScope();
+  if (!allowed.includes(selectedCircuitId)) {
+    selectedCircuitId = defaultCircuitIdForScope();
+    selectedMetroLine = 'all';
+  }
+  return allowed;
+}
+
 // ─── Workers (mismos que xpace-os) ────────────────────────────────
 const PIXER = 'https://pixer-eleven.csilvasantin.workers.dev';
 
@@ -1335,7 +1358,8 @@ function circuitDefinitions() {
 
 function currentCircuit() {
   const defs = circuitDefinitions();
-  return defs[selectedCircuitId] || defs.kioskos;
+  ensureCircuitMatchesScope();
+  return defs[selectedCircuitId] || defs[defaultCircuitIdForScope()] || defs.all;
 }
 
 function currentCircuitItems() {
@@ -1544,7 +1568,9 @@ function renderCircuitSelector() {
   const selectAllBtn = document.getElementById('circuit-select-all');
   if (!select || !list || !title) return;
   renderCircuitScope();
-  const circuit = defs[selectedCircuitId] || defs.kioskos;
+  const allowedCircuitIds = ensureCircuitMatchesScope().filter(id => defs[id]);
+  select.innerHTML = allowedCircuitIds.map(id => `<option value="${escHtml(id)}">${escHtml(defs[id].label)}</option>`).join('');
+  const circuit = defs[selectedCircuitId] || defs[allowedCircuitIds[0]] || defs.all;
   select.value = selectedCircuitId;
   const lineOptions = selectedCircuitId === 'metro_bcn' ? metroLineOptions(circuit.items) : [];
   if (subselect) {
@@ -2163,9 +2189,15 @@ function bindCircuitSelector() {
   });
   if (scopeSelect) {
     scopeSelect.addEventListener('change', () => {
+      stopCircuitDemo(false);
       selectedCircuitScope = sanitizeCircuitScope(scopeSelect.value);
-      renderCircuitScope();
-      updateCircuitSummary();
+      selectedCircuitId = defaultCircuitIdForScope();
+      selectedMetroLine = 'all';
+      circuitAutoSelect = false;
+      selectedLocationIds = new Set();
+      circuitMapFilterActive = true;
+      setCircuitTargetMode(false);
+      renderCircuitSelector();
       try { updateBuyQuote(); } catch (_) {}
     });
   }

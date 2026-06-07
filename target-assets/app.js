@@ -107,6 +107,10 @@ const copy = {
     scopeNational: "National",
     scopeCity: "City",
     scopeLocal: "Local",
+    circuitDesigual: "Global Desigual Circuit",
+    circuitXtanco: "National Xtanco Circuit",
+    circuitMetro: "Barcelona Metro City Circuit",
+    circuitLocalAll: "All local registered points",
     wholeCircuit: "Whole circuit",
     target: "Target",
     adPlacement: "Ad placement",
@@ -281,6 +285,10 @@ const copy = {
     scopeNational: "Nacional",
     scopeCity: "Ciudad",
     scopeLocal: "Local",
+    circuitDesigual: "Circuito Desigual Global",
+    circuitXtanco: "Circuito Xtanco Nacional",
+    circuitMetro: "Circuito Metro Barcelona Ciudad",
+    circuitLocalAll: "Todos los puntos locales",
     wholeCircuit: "Whole circuit",
     target: "Target",
     adPlacement: "Ad placement",
@@ -499,6 +507,12 @@ const CIRCUIT_SCOPE_OPTIONS = [
   { value: "city", labelKey: "scopeCity" },
   { value: "local", labelKey: "scopeLocal" },
 ];
+const TARGET_CIRCUITS_BY_SCOPE = {
+  global: [{ value: "desigual", labelKey: "circuitDesigual" }],
+  national: [{ value: "xtanco", labelKey: "circuitXtanco" }],
+  city: [{ value: "metro_bcn", labelKey: "circuitMetro" }],
+  local: [{ value: "local_all", labelKey: "circuitLocalAll" }],
+};
 
 function sanitizeCircuitScope(value) {
   const normalized = String(value || "").trim().toLowerCase();
@@ -581,6 +595,10 @@ function circuitScopePayload() {
     label: circuitScopeLabel(state.scope),
     defaultValue: DEFAULT_CIRCUIT_SCOPE,
   };
+}
+
+function targetCircuitsForScope() {
+  return TARGET_CIRCUITS_BY_SCOPE[sanitizeCircuitScope(state.scope)] || TARGET_CIRCUITS_BY_SCOPE[DEFAULT_CIRCUIT_SCOPE];
 }
 
 function setText(selector, value, root = document) {
@@ -1136,6 +1154,14 @@ function renderTargetScope() {
   if (select) select.value = state.scope;
 }
 
+function renderTargetCircuit() {
+  const select = qs("#targetCircuit");
+  if (!select) return;
+  const circuits = targetCircuitsForScope();
+  select.innerHTML = circuits.map((item) => `<option value="${item.value}">${t(item.labelKey)}</option>`).join("");
+  select.value = circuits[0]?.value || "";
+}
+
 function renderKpis() {
   const metrics = campaignMetrics();
   const total = peopleDay();
@@ -1215,9 +1241,11 @@ function wireGlobalControls() {
 
 function targetModelPayload() {
   const scope = circuitScopePayload();
+  const circuitSelect = qs("#targetCircuit");
   return {
     xpacio: qs("#xpacioSearch")?.value,
-    circuit: qs("#targetCircuit")?.value,
+    circuit: circuitSelect?.value,
+    circuitLabel: circuitSelect?.options[circuitSelect.selectedIndex]?.textContent || "",
     targetScope: scope,
     requiredConditions: {
       circuitScope: scope,
@@ -1312,6 +1340,7 @@ function showToast(message) {
 
 function renderAll() {
   renderTargetScope();
+  renderTargetCircuit();
   renderTraffic();
   renderChart();
   renderSegments();

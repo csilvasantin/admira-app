@@ -932,6 +932,12 @@ const CIRCUIT_TARGET_OPTIONS = {
     {value:'noche', labelKey:'time_night', hours:'20:00-00:00'},
   ],
 };
+const CIRCUIT_TARGET_SEGMENT_FIELDS = {
+  placements: 'typologies',
+  genders: 'genders',
+  ages: 'ages',
+  timeSlots: 'timeSlots',
+};
 
 function sanitizeCircuitScope(value) {
   const normalized = String(value || '').trim().toLowerCase();
@@ -1393,8 +1399,10 @@ function currentCircuit() {
 
 function currentCircuitItems() {
   const circuit = currentCircuit();
-  if (selectedCircuitId !== 'metro_bcn' || selectedMetroLine === 'all') return circuit.items;
-  return circuit.items.filter(loc => metroLinesForLocation(loc).includes(selectedMetroLine));
+  const items = selectedCircuitId !== 'metro_bcn' || selectedMetroLine === 'all'
+    ? circuit.items
+    : circuit.items.filter(loc => metroLinesForLocation(loc).includes(selectedMetroLine));
+  return items.filter(locationMatchesCircuitTarget);
 }
 
 function currentCircuitLabel() {
@@ -1415,6 +1423,22 @@ function circuitDemoItems() {
 function mapVisibleLocations() {
   if (!circuitMapFilterActive) return LOCATIONS;
   return currentCircuitItems();
+}
+
+function hasTargetIntersection(selected, available) {
+  if (!Array.isArray(selected) || !selected.length) return false;
+  if (!Array.isArray(available) || !available.length) return false;
+  const allowed = new Set(available);
+  return selected.some(value => allowed.has(value));
+}
+
+function locationMatchesCircuitTarget(loc) {
+  const seg = locationSegmentation(loc);
+  return Object.entries(CIRCUIT_TARGET_SEGMENT_FIELDS).every(([targetGroup, segField]) => {
+    const selected = Array.isArray(circuitTarget[targetGroup]) ? circuitTarget[targetGroup] : [];
+    const available = Array.isArray(seg[segField]) ? seg[segField] : [];
+    return hasTargetIntersection(selected, available);
+  });
 }
 
 function formatImpr(n) {
@@ -1569,6 +1593,7 @@ function setCircuitTargetMode(open) {
 function resetCircuitTarget() {
   circuitTarget = defaultCircuitTarget();
   renderCircuitTarget();
+  renderCircuitSelector();
 }
 
 function bindCircuitTargetControls() {
@@ -1577,6 +1602,7 @@ function bindCircuitTargetControls() {
       const group = input.dataset.targetGroup;
       circuitTarget[group] = [...document.querySelectorAll(`[data-target-group="${group}"]:checked`)].map(el => el.value);
       renderCircuitTarget();
+      renderCircuitSelector();
     });
   });
   document.getElementById('target-reset')?.addEventListener('click', resetCircuitTarget);

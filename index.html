@@ -1520,6 +1520,25 @@ function mapVisibleLocations() {
   return currentCircuitItems();
 }
 
+function screensForXpace(loc) {
+  const key = String((loc && loc.id) || (loc && loc.name) || '');
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) hash = ((hash << 5) - hash + key.charCodeAt(i)) | 0;
+  return 1 + (Math.abs(hash) % 9);
+}
+
+function screenCountForLocations(locs) {
+  return (locs || []).reduce((total, loc) => total + screensForXpace(loc), 0);
+}
+
+function updateBiddingLiveCounters(locs = mapVisibleLocations()) {
+  const visible = Array.isArray(locs) ? locs : [];
+  const tLocs = document.getElementById('t-locs');
+  const tScreens = document.getElementById('t-screens');
+  if (tLocs) tLocs.textContent = visible.length.toLocaleString('es');
+  if (tScreens) tScreens.textContent = screenCountForLocations(visible).toLocaleString('es');
+}
+
 function hasTargetIntersection(selected, available) {
   if (!Array.isArray(selected) || !selected.length) return false;
   if (!Array.isArray(available) || !available.length) return false;
@@ -1707,10 +1726,9 @@ function bindCircuitTargetControls() {
 function refreshSelectedMapSource() {
   const src = map && map.getSource && map.getSource('locs');
   if (src) src.setData(locationsGeoJSON());
-  // El contador "Xpaces" del panel BIDDING LIVE refleja el subconjunto filtrado
-  // (alcance/circuito), no el total — así segmentar se ve reflejado al instante.
-  const tLocs = document.getElementById('t-locs');
-  if (tLocs) tLocs.textContent = mapVisibleLocations().length;
+  // BIDDING LIVE refleja el subconjunto filtrado (alcance/circuito). Cada
+  // Xpace aporta 1-9 pantallas, de forma estable por ID.
+  updateBiddingLiveCounters();
 }
 
 function renderCircuitSelector() {
@@ -3252,13 +3270,7 @@ setInterval(backgroundTick, 1500);
 
 // ─── Métricas reales del worker pixer-eleven ──────────────────────
 async function loadRealMetrics() {
-  try {
-    const sc = await fetch(PIXER + '/signage/screens', {cache:'no-cache'}).then(r => r.json());
-    if (sc && Array.isArray(sc.screens)) {
-      const online = sc.screens.filter(s => s.status === 'online' || (Date.now() - (s.last_heartbeat || 0) < 60000)).length;
-      document.getElementById('t-screens').textContent = online || sc.screens.length;
-    }
-  } catch { /* worker dormido — dejar el "—" */ }
+  updateBiddingLiveCounters();
   try {
     const f = await fetch(PIXER + '/signage/feed?limit=50', {cache:'no-cache'}).then(r => r.json());
     if (f && Array.isArray(f.items) && f.items.length) {
@@ -3570,7 +3582,7 @@ searchInput.addEventListener('keydown', async (e) => {
 });
 
 // ─── Counters iniciales ───────────────────────────────────────────
-document.getElementById('t-locs').textContent = LOCATIONS.length;
+updateBiddingLiveCounters(LOCATIONS);
 bindCircuitSelector();
 bindBuyCheckout();
 consumePixeriaDraftFromUrl();
@@ -3584,7 +3596,7 @@ consumePixeriaDraftFromUrl();
     if (!res || !Array.isArray(res.locations) || !res.locations.length) return;
     if (JSON.stringify(res.locations) === JSON.stringify(LOCATIONS)) return;
     LOCATIONS = res.locations;
-    document.getElementById('t-locs').textContent = LOCATIONS.length;
+    updateBiddingLiveCounters();
     const cpms = LOCATIONS.flatMap(l => l.surfaces.map(s => parseFloat(String(s.cpm).replace(/[^\d.]/g,'')))).filter(Boolean);
     if (cpms.length) {
       const lo = Math.min(...cpms), hi = Math.max(...cpms);

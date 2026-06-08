@@ -494,7 +494,7 @@
     <div class="search-wrap">
       <label class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input id="search" type="text" data-i18n-ph="search_ph" placeholder='Buscar tienda · "Xtanco", "Loterías", "BCN" o cualquier dirección' autocomplete="off">
+        <input id="search" type="text" data-i18n-ph="search_ph" placeholder='Buscar Xpace · "Xtanco", "Loterías", "BCN" o cualquier dirección' autocomplete="off">
         <span class="hint">⏎</span>
       </label>
       <div id="suggest" class="suggest" hidden></div>
@@ -542,7 +542,7 @@
 <div class="live-ticker" id="ticker">
   <div class="lt-head"><span class="pulse"></span>BIDDING LIVE</div>
   <div class="lt-row up"><span>impr/min</span><b id="t-impr">0</b></div>
-  <div class="lt-row"><span data-i18n="stores">tiendas</span><b id="t-locs">5</b></div>
+  <div class="lt-row"><span data-i18n="stores">Xpaces</span><b id="t-locs">5</b></div>
   <div class="lt-row"><span data-i18n="screens">pantallas</span><b id="t-screens">—</b></div>
 </div>
 
@@ -707,7 +707,7 @@
               <label for="buy-objective" data-i18n="buy_objective">Objetivo</label>
               <select id="buy-objective">
                 <option value="reach" data-i18n="obj_reach">Cobertura</option>
-                <option value="traffic" data-i18n="obj_traffic">Tráfico a tienda</option>
+                <option value="traffic" data-i18n="obj_traffic">Tráfico a Xpace</option>
                 <option value="launch" data-i18n="obj_launch">Lanzamiento</option>
                 <option value="promo" data-i18n="obj_promo">Promoción</option>
               </select>
@@ -984,9 +984,9 @@ let circuitTarget = loadCircuitTarget();
 const I18N = {
   es: {
     logo_home_title:'Volver al inicio',
-    search_ph:'Buscar tienda · "Xtanco", "Loterías", "BCN" o cualquier dirección',
+    search_ph:'Buscar Xpace · "Xtanco", "Loterías", "BCN" o cualquier dirección',
     login:'Login', contact:'Contacto',
-    stores:'tiendas', screens:'pantallas',
+    stores:'Xpaces', screens:'pantallas',
     select_circuit:'Seleccionar circuito',
     lang_toggle:'ENG', lang_toggle_aria:'Cambiar a inglés',
     circuit_scope_label:'Alcance del circuito',
@@ -1031,7 +1031,7 @@ const I18N = {
     buy_pass_date:'Fecha del pase', buy_pass_time:'Hora del pase',
     buy_passes_day:'Pases/día', passes_250:'250 pases/día', passes_500:'500 pases/día',
     passes_1000:'1.000 pases/día', passes_2500:'2.500 pases/día',
-    buy_objective:'Objetivo', obj_reach:'Cobertura', obj_traffic:'Tráfico a tienda',
+    buy_objective:'Objetivo', obj_reach:'Cobertura', obj_traffic:'Tráfico a Xpace',
     obj_launch:'Lanzamiento', obj_promo:'Promoción', buy_advertiser:'Anunciante',
     buy_duration:'Duración contenido', duration_15:'15 segundos', duration_30:'30 segundos',
     duration_45:'45 segundos', duration_60:'60 segundos',
@@ -1056,7 +1056,7 @@ const I18N = {
     order_ok:'Reserva <b>{orderId}</b> creada por <b>{price}</b> con tarjeta terminada en <b>{cardLast4}</b>.',
     hero_eyebrow:'OmniPublicity · Programática en el mundo real',
     hero_h1a:'Retail Media,', hero_h1b:'potenciada con IA',
-    hero_p:'Cada hueco visible — pantalla LED, escaparate, vending, panel del mostrador, push de la PWA — es <span class="tag">inventario subastable</span> en tiempo real. Busca una tienda y aterriza en su ficha de surfaces.',
+    hero_p:'Cada hueco visible — pantalla LED, escaparate, vending, panel del mostrador, push de la PWA — es <span class="tag">inventario subastable</span> en tiempo real. Busca un Xpace y aterriza en su ficha de surfaces.',
     hero_arrow:'↑ buscar arriba o pinchar un punto del mapa',
     close:'Cerrar',
     toggle_2d3d:'Alternar 2D / 3D', my_location:'Mi ubicación', locate:'Localizar',
@@ -1077,7 +1077,7 @@ const I18N = {
     meta_surfaces:'surfaces', meta_imprday:'impr/día', meta_cpm:'CPM rango',
     waiting_bid:'// esperando primera puja…',
     recent:'Recientes', addresses:'Direcciones', searching_addr:'buscando direcciones…', no_addr:'sin direcciones',
-    stores_bidding_1:'tienda en bidding', stores_bidding_n:'tiendas en bidding',
+    stores_bidding_1:'Xpace en bidding', stores_bidding_n:'Xpaces en bidding',
     status_landing:'Aterrizando en ', status_locating:'Localizando…',
     status_geo_unavail:'Geolocalización no disponible', status_geo_fail:'No se pudo localizar',
     status_searching:'Buscando', status_no_results:'Sin resultados · prueba "Xtanco", "BCN" o una dirección completa',
@@ -1097,9 +1097,9 @@ const I18N = {
   },
   en: {
     logo_home_title:'Back to start',
-    search_ph:'Search store · "Xtanco", "Loterías", "BCN" or any address',
+    search_ph:'Search Xpace · "Xtanco", "Loterías", "BCN" or any address',
     login:'Login', contact:'Contact',
-    stores:'stores', screens:'screens',
+    stores:'Xpaces', screens:'screens',
     select_circuit:'Select circuit',
     lang_toggle:'ESP', lang_toggle_aria:'Switch to Spanish',
     circuit_scope_label:'Circuit scope',
@@ -1144,7 +1144,7 @@ const I18N = {
     buy_pass_date:'Pass date', buy_pass_time:'Pass time',
     buy_passes_day:'Passes/day', passes_250:'250 passes/day', passes_500:'500 passes/day',
     passes_1000:'1,000 passes/day', passes_2500:'2,500 passes/day',
-    buy_objective:'Objective', obj_reach:'Reach', obj_traffic:'Store traffic',
+    buy_objective:'Objective', obj_reach:'Reach', obj_traffic:'Xpace traffic',
     obj_launch:'Launch', obj_promo:'Promotion', buy_advertiser:'Advertiser',
     buy_duration:'Content duration', duration_15:'15 seconds', duration_30:'30 seconds',
     duration_45:'45 seconds', duration_60:'60 seconds',
@@ -1169,7 +1169,7 @@ const I18N = {
     order_ok:'Reservation <b>{orderId}</b> created for <b>{price}</b> with card ending in <b>{cardLast4}</b>.',
     hero_eyebrow:'OmniPublicity · Programmatic in the real world',
     hero_h1a:'Retail Media,', hero_h1b:'powered by AI',
-    hero_p:'Every visible spot — LED screen, shop window, vending, counter panel, PWA push — is <span class="tag">auctionable inventory</span> in real time. Search a store and land on its surfaces.',
+    hero_p:'Every visible spot — LED screen, shop window, vending, counter panel, PWA push — is <span class="tag">auctionable inventory</span> in real time. Search an Xpace and land on its surfaces.',
     hero_arrow:'↑ search above or click a point on the map',
     close:'Close',
     toggle_2d3d:'Toggle 2D / 3D', my_location:'My location', locate:'Locate',
@@ -1190,7 +1190,7 @@ const I18N = {
     meta_surfaces:'surfaces', meta_imprday:'impr/day', meta_cpm:'CPM range',
     waiting_bid:'// waiting for first bid…',
     recent:'Recent', addresses:'Addresses', searching_addr:'searching addresses…', no_addr:'no addresses',
-    stores_bidding_1:'store bidding', stores_bidding_n:'stores bidding',
+    stores_bidding_1:'Xpace bidding', stores_bidding_n:'Xpaces bidding',
     status_landing:'Landing on ', status_locating:'Locating…',
     status_geo_unavail:'Geolocation unavailable', status_geo_fail:'Couldn’t locate',
     status_searching:'Searching', status_no_results:'No results · try "Xtanco", "BCN" or a full address',

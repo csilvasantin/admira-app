@@ -555,6 +555,7 @@
     <div class="circuit-scope-field">
       <label class="circuit-scope-label" for="circuit-scope-select" data-i18n="circuit_scope_label">Alcance del circuito</label>
       <select class="circuit-select" id="circuit-scope-select" aria-label="Alcance del circuito">
+        <option value="all" data-i18n="scope_all">Todos</option>
         <option value="global" data-i18n="scope_global">Global</option>
         <option value="national" data-i18n="scope_national">Nacional</option>
         <option value="city" data-i18n="scope_city">Ciudad</option>
@@ -902,12 +903,14 @@ const CIRCUIT_DEMO_FLY_MS = 3600;
 let circuitDemo = { running:false, items:[], index:0, timer:null };
 const DEFAULT_CIRCUIT_SCOPE = 'local';
 const CIRCUIT_SCOPE_OPTIONS = [
+  {value:'all', labelKey:'scope_all'},
   {value:'global', labelKey:'scope_global'},
   {value:'national', labelKey:'scope_national'},
   {value:'city', labelKey:'scope_city'},
   {value:'local', labelKey:'scope_local'},
 ];
 const CIRCUIT_IDS_BY_SCOPE = {
+  all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'desigual', 'retail'],
   global: ['desigual'],
   national: ['estancos'],
   city: ['metro_bcn', 'kioskos'],
@@ -990,7 +993,7 @@ const I18N = {
     select_circuit:'Seleccionar circuito',
     lang_toggle:'ENG', lang_toggle_aria:'Cambiar a inglés',
     circuit_scope_label:'Alcance del circuito',
-    scope_global:'Global', scope_national:'Nacional', scope_city:'Ciudad', scope_local:'Local',
+    scope_all:'Todos', scope_global:'Global', scope_national:'Nacional', scope_city:'Ciudad', scope_local:'Local',
     circuit_panel_title:'Comprar por circuito',
     circuit_metro_bcn:'Circuito Metro Barcelona Ciudad', circuit_desigual:'Circuito Desigual Global',
     circuit_kioskos:'Circuito kioskos de prensa', circuit_all:'Todos los puntos locales',
@@ -1103,7 +1106,7 @@ const I18N = {
     select_circuit:'Select circuit',
     lang_toggle:'ESP', lang_toggle_aria:'Switch to Spanish',
     circuit_scope_label:'Circuit scope',
-    scope_global:'Global', scope_national:'National', scope_city:'City', scope_local:'Local',
+    scope_all:'All', scope_global:'Global', scope_national:'National', scope_city:'City', scope_local:'Local',
     circuit_panel_title:'Buy by circuit',
     circuit_metro_bcn:'Barcelona Metro City Circuit', circuit_desigual:'Global Desigual Circuit',
     circuit_kioskos:'Press kiosk circuit', circuit_all:'All local registered points',

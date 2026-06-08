@@ -4,8 +4,12 @@
 # Lee el ADMIN_TOKEN del Llavero (ítem omnipublicity-admin-token), no lo imprime.
 set -euo pipefail
 export PATH="/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
-export ADMIN_TOKEN="$(security find-generic-password -s omnipublicity-admin-token -w 2>/dev/null)"
-[ -n "$ADMIN_TOKEN" ] || { echo "✗ no pude leer omnipublicity-admin-token del Llavero"; exit 1; }
+# ADMIN_TOKEN desde la bóveda admira-vault (fuente de verdad común a los agentes);
+# fallback al Llavero local si la bóveda no responde.
+GRID="$(cat "$HOME/.agents-comms/.synckey" 2>/dev/null || true)"
+export ADMIN_TOKEN="$(curl -fsS -m 12 "https://admira-vault.csilvasantin.workers.dev/secret/ADMIN_TOKEN?key=$GRID" -H 'User-Agent: Mozilla/5.0' 2>/dev/null | python3 -c 'import sys,json;print(json.load(sys.stdin)["value"])' 2>/dev/null || true)"
+[ -n "$ADMIN_TOKEN" ] || export ADMIN_TOKEN="$(security find-generic-password -s omnipublicity-admin-token -w 2>/dev/null)"
+[ -n "$ADMIN_TOKEN" ] || { echo "✗ no pude obtener ADMIN_TOKEN (ni bóveda ni Llavero)"; exit 1; }
 SEED="$(cd "$(dirname "$0")/.." && pwd)/palacio-de-hierro.json"
 [ -f "$SEED" ] || { echo "✗ no encuentro la semilla: $SEED"; exit 1; }
 

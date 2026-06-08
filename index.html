@@ -584,6 +584,7 @@
       <option value="decathlon" data-i18n="circuit_decathlon">Decathlon España</option>
       <option value="palacio" data-i18n="circuit_palacio">El Palacio de Hierro · México</option>
       <option value="bbva" data-i18n="circuit_bbva">BBVA · España</option>
+      <option value="caixabank" data-i18n="circuit_caixabank">La Caixa / CaixaBank · Barcelona</option>
       <option value="retail" data-i18n="circuit_retail">Otros retail físicos</option>
     </select>
     <select class="circuit-select" id="circuit-subselect" aria-label="Subcircuito" hidden></select>
@@ -928,7 +929,7 @@ const CIRCUIT_SCOPE_OPTIONS = [
 const CIRCUIT_IDS_BY_SCOPE = {
   all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'decathlon', 'bbva', 'palacio', 'desigual', 'mango', 'retail'],
   global: ['desigual', 'mango'],
-  national: ['estancos', 'decathlon', 'bbva', 'palacio'],
+  national: ['estancos', 'decathlon', 'bbva', 'caixabank', 'palacio'],
   city: ['metro_bcn', 'kioskos'],
   local: ['all'],
 };
@@ -1013,7 +1014,7 @@ const I18N = {
     circuit_panel_title:'Comprar por circuito',
     circuit_metro_bcn:'Metro Barcelona Ciudad', circuit_desigual:'Desigual Global', circuit_mango:'Mango Global',
     circuit_kioskos:'Kioskos de prensa', circuit_all:'Todos los puntos locales',
-    circuit_estancos:'Xtanco Nacional', circuit_decathlon:'Decathlon España', circuit_palacio:'El Palacio de Hierro · México', circuit_bbva:'BBVA · España', circuit_retail:'Otros retail físicos',
+    circuit_estancos:'Xtanco Nacional', circuit_decathlon:'Decathlon España', circuit_palacio:'El Palacio de Hierro · México', circuit_bbva:'BBVA · España', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_retail:'Otros retail físicos',
     all_lines:'Todas las líneas', whole_line:'Toda línea', whole_circuit:'Todo circuito',
     points_label:'puntos', point_label:'punto', impr_day_compact:'impr/día', cpm_label:'CPM',
     circuit_points_title:'Puntos del circuito', view_map:'Ver en mapa', buy_selection:'Comprar selección',
@@ -1126,7 +1127,7 @@ const I18N = {
     circuit_panel_title:'Buy by circuit',
     circuit_metro_bcn:'Barcelona Metro City', circuit_desigual:'Global Desigual', circuit_mango:'Mango Global',
     circuit_kioskos:'Press kiosk', circuit_all:'All local registered points',
-    circuit_estancos:'National Xtanco', circuit_decathlon:'Decathlon Spain', circuit_palacio:'El Palacio de Hierro · Mexico', circuit_bbva:'BBVA · Spain', circuit_retail:'Other physical retail',
+    circuit_estancos:'National Xtanco', circuit_decathlon:'Decathlon Spain', circuit_palacio:'El Palacio de Hierro · Mexico', circuit_bbva:'BBVA · Spain', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_retail:'Other physical retail',
     all_lines:'All lines', whole_line:'Whole line', whole_circuit:'Whole circuit',
     points_label:'points', point_label:'point', impr_day_compact:'impr/day', cpm_label:'CPM',
     circuit_points_title:'Circuit points', view_map:'View on map', buy_selection:'Buy selection',
@@ -1368,6 +1369,12 @@ function isBBVALocation(loc) {
   const hay = normText([loc.id, loc.name, loc.kind].join(' '));
   return (loc.osm && normText(loc.osm.brand) === 'bbva') || /\bbbva\b/.test(hay);
 }
+function isCaixaBankLocation(loc) {
+  const hay = normText([loc.id, loc.name, loc.kind].join(' '));
+  const brand = loc.osm && normText(loc.osm.brand);
+  const extBrand = loc.external && normText(loc.external.brand);
+  return brand === 'caixabank' || extBrand === 'caixabank' || hay.includes('caixabank') || hay.includes('la caixa');
+}
 
 // Etiqueta de circuito de un Xpacio (para el tooltip del globo y filtros).
 function circuitLabel(loc) {
@@ -1382,6 +1389,7 @@ function circuitLabel(loc) {
   if (isDecathlonLocation(loc)) return 'Decathlon';
   if (isPalacioLocation(loc)) return 'El Palacio de Hierro';
   if (isBBVALocation(loc)) return 'BBVA';
+  if (isCaixaBankLocation(loc)) return 'La Caixa / CaixaBank';
   if (loc.external && loc.external.brand) return loc.external.brand;
   if (loc.osm && loc.osm.brand) return loc.osm.brand;
   return loc.network || loc.circuit || loc.brand || 'Retail';
@@ -1417,7 +1425,8 @@ function circuitDefinitions() {
   const decathlonItems = LOCATIONS.filter(isDecathlonLocation);
   const palacioItems = LOCATIONS.filter(isPalacioLocation);
   const bbvaItems = LOCATIONS.filter(isBBVALocation);
-  const retailItems = LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l) && !isMangoLocation(l) && !isDecathlonLocation(l) && !isPalacioLocation(l) && !isBBVALocation(l));
+  const caixabankItems = LOCATIONS.filter(isCaixaBankLocation);
+  const retailItems = LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l) && !isMangoLocation(l) && !isDecathlonLocation(l) && !isPalacioLocation(l) && !isBBVALocation(l) && !isCaixaBankLocation(l));
   return {
     metro_bcn: {
       label: t('circuit_metro_bcn'),
@@ -1448,6 +1457,11 @@ function circuitDefinitions() {
       label: t('circuit_bbva'),
       items: bbvaItems,
       segmentation: circuitSegmentationForItems(bbvaItems),
+    },
+    caixabank: {
+      label: t('circuit_caixabank'),
+      items: caixabankItems,
+      segmentation: circuitSegmentationForItems(caixabankItems),
     },
     kioskos: {
       label: t('circuit_kioskos'),
@@ -1693,6 +1707,10 @@ function bindCircuitTargetControls() {
 function refreshSelectedMapSource() {
   const src = map && map.getSource && map.getSource('locs');
   if (src) src.setData(locationsGeoJSON());
+  // El contador "Xpaces" del panel BIDDING LIVE refleja el subconjunto filtrado
+  // (alcance/circuito), no el total — así segmentar se ve reflejado al instante.
+  const tLocs = document.getElementById('t-locs');
+  if (tLocs) tLocs.textContent = mapVisibleLocations().length;
 }
 
 function renderCircuitSelector() {

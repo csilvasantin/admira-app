@@ -483,6 +483,18 @@
     .circuit-body{max-height:calc(100vh - 256px)}
     .circuit-list{max-height:160px}
   }
+  /* Tooltip de Xpacio al pasar el ratón sobre el globo */
+  .maplibregl-popup.xp-tooltip{max-width:260px}
+  .xp-tooltip .maplibregl-popup-content{background:rgba(8,14,20,.96);border:1px solid rgba(120,243,255,.35);border-radius:10px;padding:9px 11px;box-shadow:0 8px 30px rgba(0,0,0,.55);color:#e7f6fb;font-family:inherit}
+  .xp-tooltip .maplibregl-popup-tip{display:none}
+  .xp-tooltip.maplibregl-popup-anchor-top .maplibregl-popup-content,
+  .xp-tooltip.maplibregl-popup-anchor-bottom .maplibregl-popup-content{margin-top:0}
+  .xp-tooltip .xp-name{font-weight:800;font-size:13px;letter-spacing:-.01em;color:#fff;line-height:1.2}
+  .xp-tooltip .xp-circuit{display:inline-block;margin-top:6px;font-size:9.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#1a0e00;background:#ffd866;border-radius:20px;padding:2px 9px}
+  .xp-tooltip .xp-addr{margin-top:6px;font-size:10.5px;color:#9bc3cf;line-height:1.35}
+  .xp-tooltip .xp-meta{margin-top:6px;font-size:10px;color:#7fa6b3;letter-spacing:.02em}
+  .xp-tooltip .xp-live{color:#88ffaa;font-weight:700}
+  .xp-tooltip .xp-idle{color:#9bc3cf}
 </style>
 </head>
 <body>
@@ -1345,6 +1357,19 @@ function isMangoLocation(loc) {
 function isDecathlonLocation(loc) {
   const hay = normText([loc.id, loc.name, loc.kind].join(' '));
   return hay.includes('decathlon') || (loc.osm && normText(loc.osm.brand) === 'decathlon');
+}
+
+// Etiqueta de circuito de un Xpacio (para el tooltip del globo y filtros).
+function circuitLabel(loc) {
+  if (isDesigualLocation(loc)) return 'Desigual';
+  if (isMetroBarcelonaLocation(loc)) {
+    const lines = metroLinesForLocation(loc);
+    return lines.length ? 'Metro Barcelona · ' + lines.join(' ') : 'Metro Barcelona';
+  }
+  if (isEstancoLocation(loc)) return 'Estancos';
+  if (isKioskoLocation(loc)) return 'Kioscos';
+  if (loc.external && loc.external.brand) return loc.external.brand;
+  return loc.network || loc.circuit || loc.brand || 'Retail';
 }
 
 function metroLinesForLocation(loc) {
@@ -2655,6 +2680,7 @@ function locationsGeoJSON() {
       geometry:{type:'Point', coordinates: l.coords},
       properties:{
         id: l.id, name: l.name, kind: l.kind, addr: l.addr,
+        circuit: circuitLabel(l),
         selected: selectedLocationIds && selectedLocationIds.has(l.id) ? 1 : 0,
         live: l.surfaces.filter(s=>s.status==='live').length,
         total: l.surfaces.length,
@@ -2761,6 +2787,33 @@ function addLocationsLayer() {
     map.on('mouseenter', lyr, () => map.getCanvas().style.cursor = 'pointer');
     map.on('mouseleave', lyr, () => map.getCanvas().style.cursor = '');
   }
+  // Tooltip al pasar el ratón: identifica el Xpacio (nombre + circuito) o la zona (cluster)
+  const xpPopup = new maplibregl.Popup({closeButton:false, closeOnClick:false, offset:14, className:'xp-tooltip'});
+  function showXpacioTip(e){
+    const f = e.features && e.features[0]; if (!f) return;
+    const p = f.properties || {};
+    const live = +p.live || 0, total = +p.total || 0;
+    const estado = live > 0 ? '<span class="xp-live">● LIVE</span>' : '<span class="xp-idle">○ idle</span>';
+    const html = '<div class="xp-name">' + escHtml(p.name || 'Xpacio') + '</div>'
+      + '<div class="xp-circuit">' + escHtml(p.circuit || 'Retail') + '</div>'
+      + (p.addr ? '<div class="xp-addr">' + escHtml(p.addr) + '</div>' : '')
+      + '<div class="xp-meta">' + estado + ' · ' + total + ' ' + (total === 1 ? 'superficie' : 'superficies') + '</div>';
+    xpPopup.setLngLat(f.geometry.coordinates).setHTML(html).addTo(map);
+  }
+  map.on('mouseenter', 'unclustered-point', showXpacioTip);
+  map.on('mousemove', 'unclustered-point', showXpacioTip);
+  map.on('mouseleave', 'unclustered-point', () => xpPopup.remove());
+  // Tooltip de cluster: cuántos Xpacios agrupa esa zona
+  function showClusterTip(e){
+    const f = e.features && e.features[0]; if (!f) return;
+    const n = f.properties.point_count || 0;
+    xpPopup.setLngLat(f.geometry.coordinates)
+      .setHTML('<div class="xp-name">' + n + ' Xpacios</div><div class="xp-circuit">zona · acerca para ver</div>')
+      .addTo(map);
+  }
+  map.on('mouseenter', 'clusters', showClusterTip);
+  map.on('mousemove', 'clusters', showClusterTip);
+  map.on('mouseleave', 'clusters', () => xpPopup.remove());
 }
 
 function setLayer(name) {

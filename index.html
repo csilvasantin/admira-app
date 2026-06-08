@@ -567,11 +567,11 @@
     <div class="circuit-scope-field">
       <label class="circuit-scope-label" for="circuit-scope-select" data-i18n="circuit_scope_label">Alcance del circuito</label>
       <select class="circuit-select" id="circuit-scope-select" aria-label="Alcance del circuito">
-        <option value="all" data-i18n="scope_all">Todos</option>
+        <option value="all" selected data-i18n="scope_all">Todos</option>
         <option value="global" data-i18n="scope_global">Global</option>
         <option value="national" data-i18n="scope_national">Nacional</option>
         <option value="city" data-i18n="scope_city">Ciudad</option>
-        <option value="local" selected data-i18n="scope_local">Local</option>
+        <option value="local" data-i18n="scope_local">Local</option>
       </select>
     </div>
     <select class="circuit-select" id="circuit-select" aria-label="Circuito">
@@ -918,7 +918,7 @@ let pendingPixeriaDraft = null;
 const CIRCUIT_DEMO_STEP_MS = 5600;
 const CIRCUIT_DEMO_FLY_MS = 3600;
 let circuitDemo = { running:false, items:[], index:0, timer:null };
-const DEFAULT_CIRCUIT_SCOPE = 'local';
+const DEFAULT_CIRCUIT_SCOPE = 'all';
 const CIRCUIT_SCOPE_OPTIONS = [
   {value:'all', labelKey:'scope_all'},
   {value:'global', labelKey:'scope_global'},
@@ -927,7 +927,7 @@ const CIRCUIT_SCOPE_OPTIONS = [
   {value:'local', labelKey:'scope_local'},
 ];
 const CIRCUIT_IDS_BY_SCOPE = {
-  all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'decathlon', 'bbva', 'palacio', 'desigual', 'mango', 'retail'],
+  all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'decathlon', 'bbva', 'caixabank', 'palacio', 'desigual', 'mango', 'retail'],
   global: ['desigual', 'mango'],
   national: ['estancos', 'decathlon', 'bbva', 'caixabank', 'palacio'],
   city: ['metro_bcn', 'kioskos'],

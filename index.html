@@ -565,6 +565,7 @@
     <select class="circuit-select" id="circuit-select" aria-label="Circuito">
       <option value="metro_bcn" data-i18n="circuit_metro_bcn">Metro Barcelona</option>
       <option value="desigual" data-i18n="circuit_desigual">Desigual Global</option>
+      <option value="mango" data-i18n="circuit_mango">Mango Global</option>
       <option value="kioskos" data-i18n="circuit_kioskos">Kioskos de prensa</option>
       <option value="all" data-i18n="circuit_all">Toda la red OmniPublicity</option>
       <option value="estancos" data-i18n="circuit_estancos">Estancos</option>
@@ -910,8 +911,8 @@ const CIRCUIT_SCOPE_OPTIONS = [
   {value:'local', labelKey:'scope_local'},
 ];
 const CIRCUIT_IDS_BY_SCOPE = {
-  all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'desigual', 'retail'],
-  global: ['desigual'],
+  all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'desigual', 'mango', 'retail'],
+  global: ['desigual', 'mango'],
   national: ['estancos'],
   city: ['metro_bcn', 'kioskos'],
   local: ['all'],
@@ -995,7 +996,7 @@ const I18N = {
     circuit_scope_label:'Alcance del circuito',
     scope_all:'Todos', scope_global:'Global', scope_national:'Nacional', scope_city:'Ciudad', scope_local:'Local',
     circuit_panel_title:'Comprar por circuito',
-    circuit_metro_bcn:'Metro Barcelona Ciudad', circuit_desigual:'Desigual Global',
+    circuit_metro_bcn:'Metro Barcelona Ciudad', circuit_desigual:'Desigual Global', circuit_mango:'Mango Global',
     circuit_kioskos:'Kioskos de prensa', circuit_all:'Todos los puntos locales',
     circuit_estancos:'Xtanco Nacional', circuit_retail:'Otros retail físicos',
     all_lines:'Todas las líneas', whole_line:'Toda línea', whole_circuit:'Todo circuito',
@@ -1108,7 +1109,7 @@ const I18N = {
     circuit_scope_label:'Circuit scope',
     scope_all:'All', scope_global:'Global', scope_national:'National', scope_city:'City', scope_local:'Local',
     circuit_panel_title:'Buy by circuit',
-    circuit_metro_bcn:'Barcelona Metro City', circuit_desigual:'Global Desigual',
+    circuit_metro_bcn:'Barcelona Metro City', circuit_desigual:'Global Desigual', circuit_mango:'Mango Global',
     circuit_kioskos:'Press kiosk', circuit_all:'All local registered points',
     circuit_estancos:'National Xtanco', circuit_retail:'Other physical retail',
     all_lines:'All lines', whole_line:'Whole line', whole_circuit:'Whole circuit',
@@ -1336,6 +1337,10 @@ function isDesigualLocation(loc) {
   const hay = normText([loc.id, loc.name, loc.kind, loc.addr].join(' '));
   return hay.includes('desigual') || (loc.external && normText(loc.external.brand) === 'desigual');
 }
+function isMangoLocation(loc) {
+  const hay = normText([loc.id, loc.name, loc.kind].join(' '));
+  return hay.includes('mango') || (loc.osm && normText(loc.osm.brand) === 'mango');
+}
 
 function metroLinesForLocation(loc) {
   if (!isMetroBarcelonaLocation(loc)) return [];
@@ -1363,7 +1368,8 @@ function circuitDefinitions() {
   const kioskoItems = LOCATIONS.filter(isKioskoLocation);
   const allItems = LOCATIONS.slice();
   const estancoItems = LOCATIONS.filter(isEstancoLocation);
-  const retailItems = LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l));
+  const mangoItems = LOCATIONS.filter(isMangoLocation);
+  const retailItems = LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l) && !isMangoLocation(l));
   return {
     metro_bcn: {
       label: t('circuit_metro_bcn'),
@@ -1374,6 +1380,11 @@ function circuitDefinitions() {
       label: t('circuit_desigual'),
       items: desigualItems,
       segmentation: circuitSegmentationForItems(desigualItems),
+    },
+    mango: {
+      label: t('circuit_mango'),
+      items: mangoItems,
+      segmentation: circuitSegmentationForItems(mangoItems),
     },
     kioskos: {
       label: t('circuit_kioskos'),

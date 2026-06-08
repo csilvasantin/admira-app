@@ -586,6 +586,7 @@
       <option value="bbva" data-i18n="circuit_bbva">BBVA · España</option>
       <option value="caixabank" data-i18n="circuit_caixabank">La Caixa / CaixaBank · Barcelona</option>
       <option value="elcorteingles" data-i18n="circuit_elcorteingles">El Corte Inglés · España</option>
+      <option value="correos" data-i18n="circuit_correos">Correos · España</option>
       <option value="multiopticas" data-i18n="circuit_multiopticas">MultiÓpticas · España</option>
       <option value="retail" data-i18n="circuit_retail">Otros retail físicos</option>
     </select>
@@ -803,7 +804,7 @@
 <div class="splash" id="splash">
   <button class="splash-close" id="splash-close" type="button" data-i18n-aria="close" aria-label="Cerrar">×</button>
   <div class="eyebrow" data-i18n="hero_eyebrow">OmniPublicity · Programática en el mundo real</div>
-  <h1 id="hero-h1">Retail Media,<br><span class="grad">potenciada con IA</span></h1>
+  <h1 id="hero-h1">RetailMedia,<br><span class="grad">powered by Admira AI</span></h1>
 </div>
 
 <div class="map-ctrls" id="ctrls">
@@ -929,9 +930,9 @@ const CIRCUIT_SCOPE_OPTIONS = [
   {value:'local', labelKey:'scope_local'},
 ];
 const CIRCUIT_IDS_BY_SCOPE = {
-  all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'decathlon', 'bbva', 'caixabank', 'elcorteingles', 'multiopticas', 'palacio', 'desigual', 'mango', 'retail'],
+  all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'decathlon', 'bbva', 'caixabank', 'elcorteingles', 'correos', 'multiopticas', 'palacio', 'desigual', 'mango', 'retail'],
   global: ['desigual', 'mango'],
-  national: ['estancos', 'decathlon', 'bbva', 'caixabank', 'elcorteingles', 'multiopticas', 'palacio'],
+  national: ['estancos', 'decathlon', 'bbva', 'caixabank', 'elcorteingles', 'correos', 'multiopticas', 'palacio'],
   city: ['metro_bcn', 'kioskos'],
   local: ['all'],
 };
@@ -1016,7 +1017,7 @@ const I18N = {
     circuit_panel_title:'Comprar por circuito',
     circuit_metro_bcn:'Metro Barcelona Ciudad', circuit_desigual:'Desigual Global', circuit_mango:'Mango Global',
     circuit_kioskos:'Kioskos de prensa', circuit_all:'Todos los puntos locales',
-    circuit_estancos:'Xtanco Nacional', circuit_decathlon:'Decathlon España', circuit_palacio:'El Palacio de Hierro · México', circuit_bbva:'BBVA · España', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · España', circuit_multiopticas:'MultiÓpticas · España', circuit_retail:'Otros retail físicos',
+    circuit_estancos:'Xtanco Nacional', circuit_decathlon:'Decathlon España', circuit_palacio:'El Palacio de Hierro · México', circuit_bbva:'BBVA · España', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · España', circuit_correos:'Correos · España', circuit_multiopticas:'MultiÓpticas · España', circuit_retail:'Otros retail físicos',
     all_lines:'Todas las líneas', whole_line:'Toda línea', whole_circuit:'Todo circuito',
     points_label:'puntos', point_label:'punto', impr_day_compact:'impr/día', cpm_label:'CPM',
     circuit_points_title:'Puntos del circuito', view_map:'Ver en mapa', buy_selection:'Comprar selección',
@@ -1077,7 +1078,7 @@ const I18N = {
     err_exp:'La fecha de caducidad no es válida.', err_cvc:'El CVC debe tener 3 o 4 dígitos.',
     order_ok:'Reserva <b>{orderId}</b> creada por <b>{price}</b> con tarjeta terminada en <b>{cardLast4}</b>.',
     hero_eyebrow:'OmniPublicity · Programática en el mundo real',
-    hero_h1a:'Retail Media,', hero_h1b:'potenciada con IA',
+    hero_h1a:'RetailMedia,', hero_h1b:'powered by Admira AI',
     hero_p:'Cada hueco visible — pantalla LED, escaparate, vending, panel del mostrador, push de la PWA — es <span class="tag">inventario subastable</span> en tiempo real. Busca un Xpace y aterriza en su ficha de surfaces.',
     hero_arrow:'↑ buscar arriba o pinchar un punto del mapa',
     close:'Cerrar',
@@ -1129,7 +1130,7 @@ const I18N = {
     circuit_panel_title:'Buy by circuit',
     circuit_metro_bcn:'Barcelona Metro City', circuit_desigual:'Global Desigual', circuit_mango:'Mango Global',
     circuit_kioskos:'Press kiosk', circuit_all:'All local registered points',
-    circuit_estancos:'National Xtanco', circuit_decathlon:'Decathlon Spain', circuit_palacio:'El Palacio de Hierro · Mexico', circuit_bbva:'BBVA · Spain', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · Spain', circuit_multiopticas:'MultiÓpticas · Spain', circuit_retail:'Other physical retail',
+    circuit_estancos:'National Xtanco', circuit_decathlon:'Decathlon Spain', circuit_palacio:'El Palacio de Hierro · Mexico', circuit_bbva:'BBVA · Spain', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · Spain', circuit_correos:'Correos · Spain', circuit_multiopticas:'MultiÓpticas · Spain', circuit_retail:'Other physical retail',
     all_lines:'All lines', whole_line:'Whole line', whole_circuit:'Whole circuit',
     points_label:'points', point_label:'point', impr_day_compact:'impr/day', cpm_label:'CPM',
     circuit_points_title:'Circuit points', view_map:'View on map', buy_selection:'Buy selection',
@@ -1190,7 +1191,7 @@ const I18N = {
     err_exp:'The expiration date is not valid.', err_cvc:'The CVC must have 3 or 4 digits.',
     order_ok:'Reservation <b>{orderId}</b> created for <b>{price}</b> with card ending in <b>{cardLast4}</b>.',
     hero_eyebrow:'OmniPublicity · Programmatic in the real world',
-    hero_h1a:'Retail Media,', hero_h1b:'powered by AI',
+    hero_h1a:'RetailMedia,', hero_h1b:'powered by Admira AI',
     hero_p:'Every visible spot — LED screen, shop window, vending, counter panel, PWA push — is <span class="tag">auctionable inventory</span> in real time. Search an Xpace and land on its surfaces.',
     hero_arrow:'↑ search above or click a point on the map',
     close:'Close',
@@ -1383,6 +1384,13 @@ function isElCorteInglesLocation(loc) {
   const extBrand = loc.external && normText(loc.external.brand);
   return brand === 'el corte ingles' || extBrand === 'el corte ingles' || hay.includes('el corte ingles');
 }
+function isCorreosLocation(loc) {
+  const hay = normText([loc.id, loc.name, loc.kind].join(' '));
+  const brand = loc.osm && normText(loc.osm.brand);
+  const extBrand = loc.external && normText(loc.external.brand);
+  const network = loc.external && normText(loc.external.network);
+  return brand === 'correos' || extBrand === 'correos' || network === 'correos espana' || hay.includes('correos');
+}
 function isMultiopticasLocation(loc) {
   const hay = normText([loc.id, loc.name, loc.kind].join(' '));
   const brand = loc.osm && normText(loc.osm.brand);
@@ -1405,6 +1413,7 @@ function circuitLabel(loc) {
   if (isBBVALocation(loc)) return 'BBVA';
   if (isCaixaBankLocation(loc)) return 'La Caixa / CaixaBank';
   if (isElCorteInglesLocation(loc)) return 'El Corte Inglés';
+  if (isCorreosLocation(loc)) return 'Correos';
   if (isMultiopticasLocation(loc)) return 'MultiÓpticas';
   if (loc.external && loc.external.brand) return loc.external.brand;
   if (loc.osm && loc.osm.brand) return loc.osm.brand;
@@ -1443,8 +1452,9 @@ function circuitDefinitions() {
   const bbvaItems = LOCATIONS.filter(isBBVALocation);
   const caixabankItems = LOCATIONS.filter(isCaixaBankLocation);
   const elcorteinglesItems = LOCATIONS.filter(isElCorteInglesLocation);
+  const correosItems = LOCATIONS.filter(isCorreosLocation);
   const multiopticasItems = LOCATIONS.filter(isMultiopticasLocation);
-  const retailItems = LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l) && !isMangoLocation(l) && !isDecathlonLocation(l) && !isPalacioLocation(l) && !isBBVALocation(l) && !isCaixaBankLocation(l) && !isElCorteInglesLocation(l) && !isMultiopticasLocation(l));
+  const retailItems = LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l) && !isMangoLocation(l) && !isDecathlonLocation(l) && !isPalacioLocation(l) && !isBBVALocation(l) && !isCaixaBankLocation(l) && !isElCorteInglesLocation(l) && !isCorreosLocation(l) && !isMultiopticasLocation(l));
   return {
     metro_bcn: {
       label: t('circuit_metro_bcn'),
@@ -1485,6 +1495,11 @@ function circuitDefinitions() {
       label: t('circuit_elcorteingles'),
       items: elcorteinglesItems,
       segmentation: circuitSegmentationForItems(elcorteinglesItems),
+    },
+    correos: {
+      label: t('circuit_correos'),
+      items: correosItems,
+      segmentation: circuitSegmentationForItems(correosItems),
     },
     multiopticas: {
       label: t('circuit_multiopticas'),

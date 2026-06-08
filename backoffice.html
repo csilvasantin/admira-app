@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OmniPublicity — Backoffice</title>
-<meta name="description" content="Backoffice para dar de alta gemelos digitales (tiendas + surfaces) en el mapa de OmniPublicity.">
+<meta name="description" content="Backoffice para dar de alta gemelos digitales (Xpaces + surfaces) en el mapa de OmniPublicity.">
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="locations.js?v=kioskos-20260608"></script>
@@ -205,10 +205,10 @@
   <!-- ── Lista de tiendas ── -->
   <aside class="bo-list">
     <div class="lh">
-      <h3 data-i18n="stores">Tiendas</h3>
+      <h3 data-i18n="stores">Xpaces</h3>
       <span class="count" id="lh-count">0</span>
     </div>
-    <button class="new" id="btn-new" data-i18n="new_store">+ Nueva tienda</button>
+    <button class="new" id="btn-new" data-i18n="new_store">+ Nuevo Xpace</button>
     <ul id="bo-list-ul"></ul>
     <div class="tools">
       <button id="btn-publish" style="border-color:rgba(120,243,255,.5);color:var(--brand)" data-i18n="publish">☁ Publicar al sitio</button>
@@ -223,11 +223,11 @@
   <section class="bo-form" id="bo-form">
     <div class="empty" id="bo-empty">
       <span class="big">🏪</span>
-      <span data-i18n-html="empty_msg">Selecciona una tienda de la lista o pulsa <b style="color:var(--brand)">+ Nueva tienda</b> para empezar.<br><br>Los cambios se guardan en <b>localStorage</b> mientras editas. Cuando termines, pulsa <b style="color:var(--brand)">☁ Publicar al sitio</b> para subirlos al worker (KV) y que se vean en el mapa público.</span>
+      <span data-i18n-html="empty_msg">Selecciona un Xpace de la lista o pulsa <b style="color:var(--brand)">+ Nuevo Xpace</b> para empezar.<br><br>Los cambios se guardan en <b>localStorage</b> mientras editas. Cuando termines, pulsa <b style="color:var(--brand)">☁ Publicar al sitio</b> para subirlos al worker (KV) y que se vean en el mapa público.</span>
     </div>
     <div id="bo-editor" hidden>
       <div class="formhead">
-        <h2><span id="f-title">Nueva tienda</span><span class="sub" id="f-sub"></span></h2>
+        <h2><span id="f-title">Nuevo Xpace</span><span class="sub" id="f-sub"></span></h2>
         <div class="actions">
           <button class="save" id="btn-save" data-i18n="save">💾 Guardar</button>
           <button class="cancel" id="btn-cancel" data-i18n="cancel">Cancelar</button>
@@ -363,10 +363,10 @@ const I18N = {
     remember:'Recordar en este navegador', enter:'Entrar',
     gate_foot:'¿Vienes a mirar el mapa? <a href="index.html">Ir al mapa público →</a>',
     nav_target:'Target Model', nav_public_map:'Mapa público', nav_rtb:'Concepto RTB', logout:'Logout',
-    stores:'Tiendas', new_store:'+ Nueva tienda',
+    stores:'Xpaces', new_store:'+ Nuevo Xpace',
     publish:'☁ Publicar al sitio', import_json:'📥 Importar JSON', export_json:'📤 Exportar JSON',
     change_token:'🔑 Cambiar API token', reset_default:'↺ Reset al catálogo por defecto',
-    empty_msg:'Selecciona una tienda de la lista o pulsa <b style="color:var(--brand)">+ Nueva tienda</b> para empezar.<br><br>Los cambios se guardan en <b>localStorage</b> mientras editas. Cuando termines, pulsa <b style="color:var(--brand)">☁ Publicar al sitio</b> para subirlos al worker (KV) y que se vean en el mapa público.',
+    empty_msg:'Selecciona un Xpace de la lista o pulsa <b style="color:var(--brand)">+ Nuevo Xpace</b> para empezar.<br><br>Los cambios se guardan en <b>localStorage</b> mientras editas. Cuando termines, pulsa <b style="color:var(--brand)">☁ Publicar al sitio</b> para subirlos al worker (KV) y que se vean en el mapa público.',
     save:'💾 Guardar', cancel:'Cancelar', del:'🗑 Eliminar',
     legend_identity:'Identidad', label_name:'Nombre', label_kind:'Tipo', label_addr:'Dirección',
     legend_coords:'Coordenadas', geocode:'🔍 Geocodificar dirección', pin_from_map:'📍 Pin desde mapa →',
@@ -393,11 +393,11 @@ const I18N = {
     badge_unpublished:'CAMBIOS SIN PUBLICAR', badge_local:'LOCAL · localStorage',
     wrong_pass:'✕ Password incorrecto', logout_confirm:'¿Cerrar sesión del backoffice?',
     publishing:'⏳ Publicando…', err_prefix:'Error: ',
-    noname:'(sin nombre)', editing:'· editando', new_store_title:'Nueva tienda', unsaved:'· sin guardar',
+    noname:'(sin nombre)', editing:'· editando', new_store_title:'Nuevo Xpace', unsaved:'· sin guardar',
     saved:'Guardado · ', no_geo:'Sin resultados — escribe la dirección completa', cant_copy:'No se pudo copiar',
-    invalid_store:'Tienda inválida: ',
-    delete_confirm_1:'¿Eliminar la tienda "', delete_confirm_2:'"? Esta acción solo afecta a este navegador (localStorage).',
-    reset_confirm_1:'¿Borrar todos los cambios locales y restaurar el catálogo por defecto (', reset_confirm_2:' tiendas)?',
+    invalid_store:'Xpace inválido: ',
+    delete_confirm_1:'¿Eliminar el Xpace "', delete_confirm_2:'"? Esta acción solo afecta a este navegador (localStorage).',
+    reset_confirm_1:'¿Borrar todos los cambios locales y restaurar el catálogo por defecto (', reset_confirm_2:' Xpaces)?',
   },
   en: {
     bo_sub:'/ backoffice',
@@ -406,10 +406,10 @@ const I18N = {
     remember:'Remember on this browser', enter:'Sign in',
     gate_foot:'Here to see the map? <a href="index.html">Go to the public map →</a>',
     nav_target:'Target Model', nav_public_map:'Public map', nav_rtb:'RTB concept', logout:'Logout',
-    stores:'Stores', new_store:'+ New store',
+    stores:'Xpaces', new_store:'+ New Xpace',
     publish:'☁ Publish to site', import_json:'📥 Import JSON', export_json:'📤 Export JSON',
     change_token:'🔑 Change API token', reset_default:'↺ Reset to default catalog',
-    empty_msg:'Select a store from the list or click <b style="color:var(--brand)">+ New store</b> to begin.<br><br>Changes are saved to <b>localStorage</b> while you edit. When you’re done, click <b style="color:var(--brand)">☁ Publish to site</b> to push them to the worker (KV) so they show on the public map.',
+    empty_msg:'Select an Xpace from the list or click <b style="color:var(--brand)">+ New Xpace</b> to begin.<br><br>Changes are saved to <b>localStorage</b> while you edit. When you’re done, click <b style="color:var(--brand)">☁ Publish to site</b> to push them to the worker (KV) so they show on the public map.',
     save:'💾 Save', cancel:'Cancel', del:'🗑 Delete',
     legend_identity:'Identity', label_name:'Name', label_kind:'Type', label_addr:'Address',
     legend_coords:'Coordinates', geocode:'🔍 Geocode address', pin_from_map:'📍 Pin from map →',
@@ -436,11 +436,11 @@ const I18N = {
     badge_unpublished:'UNPUBLISHED CHANGES', badge_local:'LOCAL · localStorage',
     wrong_pass:'✕ Wrong password', logout_confirm:'Log out of the backoffice?',
     publishing:'⏳ Publishing…', err_prefix:'Error: ',
-    noname:'(no name)', editing:'· editing', new_store_title:'New store', unsaved:'· unsaved',
+    noname:'(no name)', editing:'· editing', new_store_title:'New Xpace', unsaved:'· unsaved',
     saved:'Saved · ', no_geo:'No results — type the full address', cant_copy:'Couldn’t copy',
-    invalid_store:'Invalid store: ',
-    delete_confirm_1:'Delete store "', delete_confirm_2:'"? This only affects this browser (localStorage).',
-    reset_confirm_1:'Discard all local changes and restore the default catalog (', reset_confirm_2:' stores)?',
+    invalid_store:'Invalid Xpace: ',
+    delete_confirm_1:'Delete Xpace "', delete_confirm_2:'"? This only affects this browser (localStorage).',
+    reset_confirm_1:'Discard all local changes and restore the default catalog (', reset_confirm_2:' Xpaces)?',
   },
 };
 let LANG = (function(){ try { return localStorage.getItem('omnip-lang') === 'es' ? 'es' : 'en'; } catch(_) { return 'en'; } })();
@@ -627,7 +627,7 @@ async function publishToWorker() {
   try {
     const res = await window.publishOmnipLocations(locations, token);
     setBadge('kv', res.updatedAt);
-    showToast('Publicadas ' + res.count + ' tiendas al worker');
+    showToast('Publicadas ' + res.count + ' Xpaces al worker');
   } catch (e) {
     const msg = String(e.message || e);
     if (msg === 'invalid_token') {
@@ -965,7 +965,7 @@ function validateLocation(loc, isNew) {
   if (!loc.name) return 'El nombre es obligatorio.';
   if (!Number.isFinite(loc.coords[0]) || !Number.isFinite(loc.coords[1])) return 'Coordenadas inválidas.';
   if (Math.abs(loc.coords[1]) > 90 || Math.abs(loc.coords[0]) > 180) return 'Coordenadas fuera de rango.';
-  if (isNew && locations.some(l => l.id === loc.id)) return 'Ya existe una tienda con ese id.';
+  if (isNew && locations.some(l => l.id === loc.id)) return 'Ya existe un Xpace con ese id.';
   const seg = loc.segmentation || {};
   if (!seg.schedule || !seg.schedule.start || !seg.schedule.end) return 'El horario de segmentación es obligatorio.';
   if (!Array.isArray(seg.typologies) || !seg.typologies.length) return 'La tipología de segmentación es obligatoria.';
@@ -1212,7 +1212,7 @@ $('mo-cancel').addEventListener('click', () => $('modal').classList.remove('show
 function exportJSON() {
   const json = JSON.stringify(locations, null, 2);
   openModal({
-    title: 'Exportar · ' + locations.length + ' tiendas · ' + new Blob([json]).size + ' bytes',
+    title: 'Exportar · ' + locations.length + ' Xpaces · ' + new Blob([json]).size + ' bytes',
     value: json,
     allowEdit: false,
     showCopy: true,
@@ -1222,7 +1222,7 @@ function exportJSON() {
 
 function importJSON() {
   openModal({
-    title: 'Importar JSON · pega aquí el array de tiendas',
+    title: 'Importar JSON · pega aquí el array de Xpaces',
     value: '',
     allowEdit: true,
     confirmLabel: 'Reemplazar catálogo',
@@ -1237,7 +1237,7 @@ function importJSON() {
       locations = parsed.map(normalizeLocation);
       closeEditor();
       persistAndRefresh();
-      showToast('Importadas ' + parsed.length + ' tiendas');
+      showToast('Importadas ' + parsed.length + ' Xpaces');
     },
   });
 }

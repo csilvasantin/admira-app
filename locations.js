@@ -120,6 +120,907 @@ function desigualSurfaces(type) {
 }
 
 window.OMNIP_LOCATIONS_DEFAULT = [
+  // ── Circuito kioskos de prensa · Barcelona (100 puntos, fuente OpenStreetMap) ──
+  {
+    id:'bcn-kiosk-001', name:'Quiosc · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.208566, 41.456931],
+    osm:{ id:1295287995, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1315, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-002', name:'Quiosc · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.204685, 41.454113],
+    osm:{ id:1295287999, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1319, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-003', name:'Quiosc · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.206464, 41.455401],
+    osm:{ id:1295288018, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:838, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-004', name:'Oliva Negra · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sarrià-Sant Gervasi · Barcelona', coords:[2.140973, 41.419423],
+    osm:{ id:1337087573, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:893, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-005', name:'Quiosc Albert Collado · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Gràcia · Barcelona', coords:[2.163030, 41.405239],
+    osm:{ id:1340330367, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1187, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-006', name:'Quiosc Revolució · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Gràcia · Barcelona', coords:[2.158286, 41.402464],
+    osm:{ id:1377259231, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1051, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-007', name:'ONCE · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sants-Montjuïc · Barcelona', coords:[2.149624, 41.375841],
+    osm:{ id:1719727427, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1247, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-008', name:'ONCE · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.170465, 41.375047],
+    osm:{ id:1720689749, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1069, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-009', name:'El Periódico · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.145932, 41.389913],
+    osm:{ id:1982848387, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1207, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-010', name:'Lizarran · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.176668, 41.376813],
+    osm:{ id:2971983669, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:989, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-011', name:'Lizarran · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.174706, 41.379447],
+    osm:{ id:2971984400, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1220, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-012', name:'El periodico · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.189196, 41.418784],
+    osm:{ id:3023471034, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:854, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-013', name:'Quiosc de Clot · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.188411, 41.407888],
+    osm:{ id:3049368238, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1058, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-014', name:'Estanco · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Avinguda de Sant Ildefons · Les Corts · Barcelona', coords:[2.083256, 41.363556],
+    osm:{ id:3101140800, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1120, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-015', name:'El Periódico · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.099244, 41.359443],
+    osm:{ id:3189340717, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1037, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-016', name:'News & Coffee · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Gràcia · Barcelona', coords:[2.157333, 41.400264],
+    osm:{ id:3350101407, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1227, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-017', name:'El Teu Estanc · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.203572, 41.424503],
+    osm:{ id:3551790521, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:841, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-018', name:'GoodNews · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.180810, 41.399180],
+    osm:{ id:3677285556, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:876, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-019', name:'kiosco · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Horta-Guinardó · Barcelona', coords:[2.174718, 41.416074],
+    osm:{ id:3740059069, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:889, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-020', name:'Quiosc · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Plaça del setge de 1714 · Ciutat Vella · Barcelona', coords:[2.161032, 41.374154],
+    osm:{ id:3989751803, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1123, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-021', name:'Quiosc Jordi · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sarrià-Sant Gervasi · Barcelona', coords:[2.140098, 41.412223],
+    osm:{ id:4461836384, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1204, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-022', name:'Divers · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sants-Montjuïc · Barcelona', coords:[2.140593, 41.379565],
+    osm:{ id:4551545577, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:897, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-023', name:'Zurich · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sarrià-Sant Gervasi · Barcelona', coords:[2.126879, 41.403131],
+    osm:{ id:4677239988, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1308, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-024', name:'Quiosc · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Pujades 269 · Sant Martí · Barcelona', coords:[2.205227, 41.405265],
+    osm:{ id:4754484240, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1060, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-025', name:'GoodNews · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.189001, 41.403381],
+    osm:{ id:4878130692, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1012, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-026', name:'The Rocks · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Gràcia · Barcelona', coords:[2.153561, 41.398602],
+    osm:{ id:5485537044, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:864, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-027', name:'Maite · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Gràcia · Barcelona', coords:[2.151949, 41.399940],
+    osm:{ id:5485540752, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1072, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-028', name:'Good News · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.159736, 41.396025],
+    osm:{ id:5505229612, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:932, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-029', name:'La Vanguardia · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.173744, 41.385200],
+    osm:{ id:5505293929, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1249, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-030', name:'¡HOLA! · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.176370, 41.385311],
+    osm:{ id:5505299158, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:978, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-031', name:'el Periódico · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.178045, 41.386601],
+    osm:{ id:5505302033, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:853, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-032', name:'Kiosc · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.165392, 41.389231],
+    osm:{ id:5552089185, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1005, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-033', name:'La vanguardia · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.188142, 41.416145],
+    osm:{ id:5958829085, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:905, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-034', name:'La Vanguardia · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.172777, 41.388721],
+    osm:{ id:6328115051, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:871, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-035', name:'News & Coffee · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.163162, 41.385822],
+    osm:{ id:6341102086, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:906, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-036', name:'Quiosc Kennedy · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sarrià-Sant Gervasi · Barcelona', coords:[2.136863, 41.410023],
+    osm:{ id:6356110688, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1008, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-037', name:'La Vanguardia · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.168938, 41.389152],
+    osm:{ id:6959731085, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:905, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-038', name:'La Vanguardia · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sarrià-Sant Gervasi · Barcelona', coords:[2.144323, 41.392122],
+    osm:{ id:7084932623, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:943, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-039', name:'¡Hola! · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.183467, 41.385347],
+    osm:{ id:7091071324, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1144, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-040', name:'Quiosc Miquel · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.189879, 41.435310],
+    osm:{ id:7098029585, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:905, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-041', name:'Quiosco · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.125464, 41.391871],
+    osm:{ id:7108869688, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1008, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-042', name:'GoodNews · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.163264, 41.378668],
+    osm:{ id:7194929487, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1307, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-043', name:'La Vanguardia · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.162244, 41.377736],
+    osm:{ id:7194932086, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:906, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-044', name:'News & Coffee · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.178030, 41.392786],
+    osm:{ id:8173270417, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1237, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-045', name:'Raconet · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.155121, 41.376418],
+    osm:{ id:8263633617, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:937, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-046', name:'Fleuriste · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.117604, 41.392213],
+    osm:{ id:9778880561, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:881, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-047', name:'News&cofee · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sarrià-Sant Gervasi · Barcelona', coords:[2.145521, 41.393324],
+    osm:{ id:9806608517, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:837, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-048', name:'La Vanguardia · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.160981, 41.378503],
+    osm:{ id:9981208118, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:938, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-049', name:'Quiosco · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.170220, 41.385492],
+    osm:{ id:10202363728, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1048, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-050', name:'El Periódico · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sants-Montjuïc · Barcelona', coords:[2.133378, 41.375505],
+    osm:{ id:10766532335, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1155, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-051', name:'El Kiosko Argento · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.154180, 41.382476],
+    osm:{ id:11045933505, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:825, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-052', name:'elPeriódico · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.167121, 41.390079],
+    osm:{ id:11296034089, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:909, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-053', name:'Quiosc Collblanc · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.118656, 41.375824],
+    osm:{ id:11414863520, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:840, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-054', name:'Cerruma · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Gràcia · Barcelona', coords:[2.149606, 41.406309],
+    osm:{ id:12326979648, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:968, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-055', name:'Quiosco · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.193681, 41.413566],
+    osm:{ id:12460699933, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1253, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-056', name:'Estanco núm.8 · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Avinguda de la República Argentina · Les Corts · Barcelona', coords:[2.086479, 41.364497],
+    osm:{ id:13110380701, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1021, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-057', name:'El Periódico · premsa', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.205828, 41.402698],
+    osm:{ id:13175009107, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:927, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-058', name:'Quiosc de premsa 058', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.221894, 41.440535],
+    osm:{ id:627476105, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:925, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-059', name:'Quiosc de premsa 059', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.216798, 41.433622],
+    osm:{ id:643022130, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:950, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-060', name:'Quiosc de premsa 060', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.170386, 41.385195],
+    osm:{ id:691591931, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1251, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-061', name:'Quiosc de premsa 061', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.144106, 41.386330],
+    osm:{ id:1036551336, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1156, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-062', name:'Quiosc de premsa 062', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.164123, 41.376051],
+    osm:{ id:1349448889, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1209, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-063', name:'Quiosc de premsa 063', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.151706, 41.390926],
+    osm:{ id:1357512176, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:996, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-064', name:'Quiosc de premsa 064', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Gràcia · Barcelona', coords:[2.173636, 41.403950],
+    osm:{ id:1359971665, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:985, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-065', name:'Quiosc de premsa 065', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Carrer de Cartagena 230 · Sant Martí · Barcelona', coords:[2.179960, 41.407043],
+    osm:{ id:1359971799, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1119, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-066', name:'Quiosc de premsa 066', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.126069, 41.390095],
+    osm:{ id:1375281458, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1278, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-067', name:'Quiosc de premsa 067', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.120560, 41.389870],
+    osm:{ id:1375281459, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1279, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-068', name:'Quiosc de premsa 068', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Gràcia · Barcelona', coords:[2.155255, 41.409729],
+    osm:{ id:1483279773, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1093, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-069', name:'Quiosc de premsa 069', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.189162, 41.379779],
+    osm:{ id:1597906325, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1145, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-070', name:'Quiosc de premsa 070', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.212283, 41.450618],
+    osm:{ id:1653460474, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1294, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-071', name:'Quiosc de premsa 071', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.210585, 41.452590],
+    osm:{ id:1653635646, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:966, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-072', name:'Quiosc de premsa 072', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.118556, 41.375702],
+    osm:{ id:1669520648, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:968, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-073', name:'Quiosc de premsa 073', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sants-Montjuïc · Barcelona', coords:[2.146677, 41.377253],
+    osm:{ id:1719727385, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1205, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-074', name:'Quiosc de premsa 074', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.205840, 41.423366],
+    osm:{ id:1744470937, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1257, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-075', name:'Quiosc de premsa 075', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sants-Montjuïc · Barcelona', coords:[2.152080, 41.366090],
+    osm:{ id:1750949537, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:857, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-076', name:'Quiosc de premsa 076', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sants-Montjuïc · Barcelona', coords:[2.142064, 41.381099],
+    osm:{ id:1789072031, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:851, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-077', name:'Quiosc de premsa 077', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.187927, 41.385781],
+    osm:{ id:1792094615, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:935, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-078', name:'Quiosc de premsa 078', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.156547, 41.392594],
+    osm:{ id:1891535388, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1208, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-079', name:'Quiosc de premsa 079', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Eixample · Barcelona', coords:[2.151684, 41.383788],
+    osm:{ id:2120121053, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:873, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-080', name:'Quiosc de premsa 080', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.194922, 41.405568],
+    osm:{ id:2193095358, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1178, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-081', name:'Quiosc de premsa 081', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.119672, 41.374381],
+    osm:{ id:2195526819, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1139, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-082', name:'Quiosc de premsa 082', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.119406, 41.374725],
+    osm:{ id:2195526822, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1142, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-083', name:'Quiosc de premsa 083', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.191553, 41.386431],
+    osm:{ id:2502069938, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1258, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-084', name:'Quiosc de premsa 084', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.183425, 41.399448],
+    osm:{ id:2576974233, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1053, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-085', name:'Quiosc de premsa 085', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.082709, 41.360252],
+    osm:{ id:2693808394, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1214, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-086', name:'Quiosc de premsa 086', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Les Corts · Barcelona', coords:[2.083411, 41.374209],
+    osm:{ id:2850584260, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1080, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-087', name:'Quiosc de premsa 087', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Ciutat Vella · Barcelona', coords:[2.173815, 41.380534],
+    osm:{ id:2971983665, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:985, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-088', name:'Quiosc de premsa 088', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.197467, 41.415428],
+    osm:{ id:3005490282, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1102, cpm:'€8', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-089', name:'Quiosc de premsa 089', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.196679, 41.414779],
+    osm:{ id:3005490283, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1103, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-090', name:'Quiosc de premsa 090', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.184950, 41.422006],
+    osm:{ id:3009202716, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1036, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-091', name:'Quiosc de premsa 091', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Horta-Guinardó · Barcelona', coords:[2.180910, 41.420548],
+    osm:{ id:3010453265, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1085, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-092', name:'Quiosc de premsa 092', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.198701, 41.411635],
+    osm:{ id:3032894933, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1253, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-093', name:'Quiosc de premsa 093', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.197200, 41.412832],
+    osm:{ id:3032894935, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1255, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-094', name:'Quiosc de premsa 094', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.202620, 41.399786],
+    osm:{ id:3048076134, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:954, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-095', name:'Quiosc de premsa 095', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.199062, 41.404574],
+    osm:{ id:3048076838, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1158, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-096', name:'Quiosc de premsa 096', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.203768, 41.398914],
+    osm:{ id:3048077144, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:964, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-097', name:'Quiosc de premsa 097', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Martí · Barcelona', coords:[2.200600, 41.401390],
+    osm:{ id:3048078236, shop:'newsagent' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1056, cpm:'€7', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-098', name:'Quiosc de premsa 098', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.216890, 41.437688],
+    osm:{ id:3159283750, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1070, cpm:'€6', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-099', name:'Quiosc de premsa 099', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sant Andreu · Barcelona', coords:[2.225574, 41.438806],
+    osm:{ id:3192186799, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1119, cpm:'€10', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
+  {
+    id:'bcn-kiosk-100', name:'Quiosc de premsa 100', kind:'Quiosco de prensa · DOOH exterior',
+    addr:'Sants-Montjuïc · Barcelona', coords:[2.135954, 41.375593],
+    osm:{ id:3240091263, shop:'kiosk' },
+    surfaces:[
+      { name:'Pantalla exterior vertical', desc:'DOOH exterior lateral · 1080×1920 · prensa + publicidad programática', status:'live', impr:1083, cpm:'€9', surface:'pantalla' },
+    ],
+    segmentation:{ required:false, schedule:{ start:'08:00', end:'22:00' }, typologies:['exterior'], genders:['hombre','mujer'], ages:['joven','adulto','senior'], timeSlots:['manana','mediodia','tarde','noche'] },
+  },
   {
     id:'xtanco-bcn', name:'Xtanco Barcelona', kind:'Estanco · Retail físico · Gemelo digital',
     addr:'Portal de l\'Àngel 20 · Barcelona 08002', coords:[2.1730, 41.3863],

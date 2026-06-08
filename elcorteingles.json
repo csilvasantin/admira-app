@@ -1,0 +1,4002 @@
+[
+  {
+    "id": "elcorteingles-0001-lizarra-kalea",
+    "name": "El Corte Inglés Lizarra kalea",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 9 · Lizarra kalea · Zitadela / Ciudadela · Zabalguneak · Segundo Ensanche · Pamplona / Iruña · Iruñerria",
+    "coords": [
+      -1.6453014,
+      42.8136883
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/28499176"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0002-on-diego-lopez-haroko-kale-nagusia",
+    "name": "El Corte Inglés On Diego Lopez Haroko kale nagusia",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 7 · On Diego Lopez Haroko kale nagusia · Abando · Bilbao · Bizkaia · Euskadi · 48001",
+    "coords": [
+      -2.9291017,
+      43.2612081
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/44016098"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0003-babesgabetuen-andre-mariaren-plaza",
+    "name": "El Corte Inglés Babesgabetuen Andre Mariaren plaza",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 3 · Babesgabetuen Andre Mariaren plaza · Desamparados · Vitoria-Gasteiz · Gasteizko kuadrilla · Araba / Álava · Euskadi",
+    "coords": [
+      -2.6678936,
+      42.8448616
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/23714696"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0004-explanada-de-el-corte-ingles",
+    "name": "El Corte Inglés Explanada de El Corte Inglés",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Explanada de El Corte Inglés · Las Protegidas · Jaén · Andalucía · 23008 · España",
+    "coords": [
+      -3.7861574,
+      37.7760155
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/156615374"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0005-camino-cerro-de-los-gamos",
+    "name": "El Corte Inglés Camino Cerro de los Gamos",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Camino Cerro de los Gamos · Distrito Municipal II (sin urbanizaciones) · Pozuelo Estación · Pozuelo de Alarcón · Comunidad de Madrid · 28224 · España",
+    "coords": [
+      -3.8074895,
+      40.4626625
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/24378364"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0006-calle-sandalo",
+    "name": "El Corte Inglés Calle Sándalo",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle Sándalo · Palomas · Hortaleza · Madrid · Comunidad de Madrid · 29043 · España",
+    "coords": [
+      -3.617251,
+      40.4559977
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/23589899"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0007-calle-preciados",
+    "name": "El Corte Inglés Calle Preciados",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 3 · Calle Preciados · Barrio de los Austrias · Sol · Centro · Madrid · Comunidad de Madrid",
+    "coords": [
+      -3.7050277,
+      40.417698
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/470067965"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0008-calle-de-raimundo-fernandez-villaverde",
+    "name": "El Corte Inglés Calle de Raimundo Fernández Villaverde",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 65 · Calle de Raimundo Fernández Villaverde · Complejo AZCA · Cuatro Caminos · Tetuán · Madrid · Comunidad de Madrid",
+    "coords": [
+      -3.6935867,
+      40.4470002
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/30764289"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0009-calle-de-la-princesa",
+    "name": "El Corte Inglés Calle de la Princesa",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 56 · Calle de la Princesa · Argüelles · Moncloa-Aravaca · Madrid · Comunidad de Madrid · 28008",
+    "coords": [
+      -3.715314,
+      40.4299933
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/30763730"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0010-calle-de-fernando-el-catolico",
+    "name": "El Corte Inglés Calle de Fernando el Católico",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle de Fernando el Católico · Arapiles · Chamberí · Madrid · Comunidad de Madrid · 28015 · España",
+    "coords": [
+      -3.707011,
+      40.4334164
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/161638120"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0011-plaza-de-callao",
+    "name": "El Corte Inglés Plaza de Callao",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 2 · Plaza de Callao · Sol · Centro · Madrid · Comunidad de Madrid · 28013",
+    "coords": [
+      -3.7051128,
+      40.4195965
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/112316375"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0012-calle-de-goya",
+    "name": "El Corte Inglés Calle de Goya",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 76 · Calle de Goya · Goya · Salamanca · Madrid · Comunidad de Madrid · 28009",
+    "coords": [
+      -3.6747566,
+      40.4243347
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/264533053"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0013-calle-de-serrano",
+    "name": "El Corte Inglés Calle de Serrano",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 47 · Calle de Serrano · Castellana · Salamanca · Madrid · Comunidad de Madrid · 28001",
+    "coords": [
+      -3.687507,
+      40.4301637
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/118512979"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0014-calle-de-goya",
+    "name": "El Corte Inglés Calle de Goya",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 87 · Calle de Goya · Goya · Salamanca · Madrid · Comunidad de Madrid · 28001",
+    "coords": [
+      -3.6767522,
+      40.4250961
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/320367215"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0015-puerta-del-sol",
+    "name": "El Corte Inglés Puerta del Sol",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 10 · Puerta del Sol · Barrio de los Austrias · Sol · Centro · Madrid · Comunidad de Madrid",
+    "coords": [
+      -3.7042368,
+      40.4171168
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "relation/18282021"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0016-calle-de-arapiles",
+    "name": "El Corte Inglés Calle de Arapiles",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle de Arapiles · Arapiles · Chamberí · Madrid · Comunidad de Madrid · 28015 · España",
+    "coords": [
+      -3.7060218,
+      40.4329373
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/2072718756"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0017-calle-de-la-princesa",
+    "name": "El Corte Inglés Calle de la Princesa",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle de la Princesa · Argüelles · Moncloa-Aravaca · Madrid · Comunidad de Madrid · 28008 · España",
+    "coords": [
+      -3.7161053,
+      40.430077
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/11711279741"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0018-calle-de-serrano",
+    "name": "El Corte Inglés Calle de Serrano",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 70 · Calle de Serrano · Castellana · Salamanca · Madrid · Comunidad de Madrid · 28001",
+    "coords": [
+      -3.6867911,
+      40.4300013
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/4461053490"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0019-calle-de-alberto-aguilera",
+    "name": "El Corte Inglés Calle de Alberto Aguilera",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle de Alberto Aguilera · Universidad · Chamberí · Centro · Madrid · Comunidad de Madrid · 28015",
+    "coords": [
+      -3.7146864,
+      40.4302749
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/1179021817"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0020-gran-via-de-carles-iii",
+    "name": "El Corte Inglés Gran Via de Carles III",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 100 · Gran Via de Carles III · les Corts · Barcelona · Barcelonès · Barcelona · Catalunya",
+    "coords": [
+      2.1281369,
+      41.3872798
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "relation/9081595"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0021-carrer-de-fontanella",
+    "name": "El Corte Inglés Carrer de Fontanella",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Carrer de Fontanella · Santa Anna · la Dreta de l'Eixample · l'Eixample · Barcelona · Barcelonès · Barcelona",
+    "coords": [
+      2.171158,
+      41.3878605
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/338512116"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0022-passatge-dels-tallers-del-ferrocarril-del-nord",
+    "name": "El Corte Inglés Passatge dels Tallers del Ferrocarril del Nord",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés (Can Dragó) · Passatge dels Tallers del Ferrocarril del Nord · Porta · Nou Barris · Barcelona · Barcelonès · Barcelona · Catalunya",
+    "coords": [
+      2.1814509,
+      41.4362303
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/82608130"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0023-carrer-de-fluvia",
+    "name": "El Corte Inglés Carrer de Fluvià",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés (oficinas) · Carrer de Fluvià · Provençals del Poblenou · Sant Martí · Barcelona · Barcelonès · Barcelona · Catalunya",
+    "coords": [
+      2.2016179,
+      41.4104538
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/480382311"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0024-carrer-del-pintor-maella",
+    "name": "El Corte Inglés Carrer del Pintor Maella",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 37 · Carrer del Pintor Maella · Penya-roja · Camins al Grau · València · Comarca de València · València / Valencia",
+    "coords": [
+      -0.3469227,
+      39.4572961
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/158684012"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0025-avinguda-de-pius-xii",
+    "name": "El Corte Inglés Avinguda de Pius XII",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Avinguda de Pius XII · Campanar · València · Comarca de València · València / Valencia · Comunitat Valenciana · 46008",
+    "coords": [
+      -0.3914623,
+      39.4806472
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/1279206343"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0026-avinguda-de-menendez-pidal",
+    "name": "El Corte Inglés Avinguda de Menéndez Pidal",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Avinguda de Menéndez Pidal · Campanar · València · Comarca de València · València / Valencia · Comunitat Valenciana · 46008",
+    "coords": [
+      -0.3896887,
+      39.4797496
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/1279206347"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0027-carrer-del-pintor-sorolla",
+    "name": "El Corte Inglés Carrer del Pintor Sorolla",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 26 · Carrer del Pintor Sorolla · Ciutat Vella · València · Comarca de València · València / Valencia · Comunitat Valenciana",
+    "coords": [
+      -0.3713408,
+      39.4706479
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/118397988"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0028-carrer-de-colon",
+    "name": "El Corte Inglés Carrer de Colón",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 27 · Carrer de Colón · Sant Francesc · Ciutat Vella · València · Comarca de València · València / Valencia",
+    "coords": [
+      -0.3721986,
+      39.4694655
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/118397987"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0029-circunvalacion-de-sevilla",
+    "name": "El Corte Inglés Circunvalación de Sevilla",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Circunvalación de Sevilla · Sevilla Este · Distrito Este-Alcosa-Torreblanca · Sevilla · Andalucía · 41016 · España",
+    "coords": [
+      -5.9399329,
+      37.3879581
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/219492365"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0030-calle-luis-montoto",
+    "name": "El Corte Inglés Calle Luis Montoto",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 122 · Calle Luis Montoto · La Buhaira · Nervión · Sevilla · Andalucía · 41018",
+    "coords": [
+      -5.9716537,
+      37.3866448
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/45110577"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0031-calle-teniente-borges",
+    "name": "El Corte Inglés Calle Teniente Borges",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle Teniente Borges · Encarnación-Regina · Casco Antiguo · Sevilla · Andalucía · 41002 · España",
+    "coords": [
+      -5.9965204,
+      37.393216
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/31292884"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0032-calle-san-pablo",
+    "name": "El Corte Inglés Calle San Pablo",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 1 · Calle San Pablo · Alfalfa · Casco Antiguo · Sevilla · Andalucía · 41001",
+    "coords": [
+      -5.9971823,
+      37.3903077
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/256169163"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0033-calle-san-eloy",
+    "name": "El Corte Inglés Calle San Eloy",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle San Eloy · Alfalfa · Casco Antiguo · Sevilla · Andalucía · 41001 · España",
+    "coords": [
+      -5.9962723,
+      37.3924816
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/31292886"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0034-calle-moratin",
+    "name": "El Corte Inglés Calle Moratín",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle Moratín · Alfalfa · Casco Antiguo · Sevilla · Andalucía · 41001 · España",
+    "coords": [
+      -5.9970744,
+      37.3902983
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/10296851911"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0035-travesia-jardines-reales",
+    "name": "El Corte Inglés Travesía Jardines Reales",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Travesía Jardines Reales · Parque Venecia · Torrero-La Paz · Zaragoza · Aragón · 50021 · España",
+    "coords": [
+      -0.8876517,
+      41.6092957
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/184156001"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0036-paseo-de-las-damas",
+    "name": "El Corte Inglés Paseo de las Damas",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Paseo de las Damas · Centro · Zaragoza · Aragón · 50008 · España",
+    "coords": [
+      -0.8849994,
+      41.6453048
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/743749099"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0037-paseo-de-la-independencia",
+    "name": "El Corte Inglés Paseo de la Independencia",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Paseo de la Independencia · Centro · Zaragoza · Aragón · 50001 · España",
+    "coords": [
+      -0.8815557,
+      41.6508972
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/184188457"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0038-camino-de-la-casilla-del-ferrocarril",
+    "name": "El Corte Inglés Camino de la casilla del ferrocarril",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "Outlet El Corte Inglés · Camino de la casilla del ferrocarril · La Torre Outlet · Venta del Olivar · Distrito Rural · Zaragoza · Aragón · 50011",
+    "coords": [
+      -0.9532376,
+      41.6779992
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/10301146884"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0039-on-diego-lopez-haroko-kale-nagusia",
+    "name": "El Corte Inglés On Diego Lopez Haroko kale nagusia",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 7 · On Diego Lopez Haroko kale nagusia · Abando · Bilbao · Bizkaia · Euskadi · 48001",
+    "coords": [
+      -2.9292631,
+      43.2609987
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/1582403600"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0040-calle-huerta-del-rasillo",
+    "name": "El Corte Inglés Calle Huerta del Rasillo",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés Arabial · Calle Huerta del Rasillo · Ronda · Granada · Comarca de la Vega de Granada · Granada · Andalucía · 18004",
+    "coords": [
+      -3.6132119,
+      37.1780983
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "relation/14035688"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0041-calle-carrera-de-la-virgen",
+    "name": "El Corte Inglés Calle Carrera de la Virgen",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 20 · Calle Carrera de la Virgen · Barrio de la Virgen · San Matías - Realejo · Centro · Granada · Comarca de la Vega de Granada",
+    "coords": [
+      -3.5976631,
+      37.1705734
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/151734104"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0042-4-6",
+    "name": "El Corte Inglés 4-6",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 4-6 · Avenida Andalucía · Polígono Alameda · Cruz de Humilladero · Málaga · Málaga-Costa del Sol · Málaga",
+    "coords": [
+      -4.4282833,
+      36.7174847
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "relation/10628189"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0043-calle-obispo-ramon-buxarrais",
+    "name": "El Corte Inglés Calle Obispo Ramón Buxarrais",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle Obispo Ramón Buxarrais · Cortijo Alto · Teatinos-Universidad · Málaga · Málaga-Costa del Sol · Málaga · Andalucía",
+    "coords": [
+      -4.4601827,
+      36.7087661
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/11780187569"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0044-calle-compania",
+    "name": "El Corte Inglés Calle Compañía",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle Compañía · Centro Histórico · Centro · Málaga · Málaga-Costa del Sol · Málaga · Andalucía",
+    "coords": [
+      -4.4223763,
+      36.7212032
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/5630602185"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0045-nafarroa-beherea-plaza",
+    "name": "El Corte Inglés Nafarroa Beherea plaza",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Nafarroa Beherea plaza · Gros · Ipar-Ekialdea · Donostia / San Sebastián · Gipuzkoa · Euskadi · 20001",
+    "coords": [
+      -1.9723568,
+      43.3235964
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/2167480038"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0046-paseo-de-zorrilla",
+    "name": "El Corte Inglés Paseo de Zorrilla",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Paseo de Zorrilla · Plaza de Toros · Valladolid · Castilla y León · 47006 · España",
+    "coords": [
+      -4.7400941,
+      41.6373086
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/26947567"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0047-calle-de-maria-auxiliadora",
+    "name": "El Corte Inglés Calle de María Auxiliadora",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · 71 · 85 · Calle de María Auxiliadora · Salesas · Salamanca · Castilla y León · 37005",
+    "coords": [
+      -5.6573919,
+      40.9737204
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "way/42893733"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0048-calle-vitoria",
+    "name": "El Corte Inglés Calle Vitoria",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Calle Vitoria · Villa Pilar · Distrito Centro Norte · Burgos · Castilla y León · 09004 · España",
+    "coords": [
+      -3.6939177,
+      42.3421446
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/13615753590"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0049-avenida-ronda-de-los-tejares",
+    "name": "El Corte Inglés Avenida Ronda de los Tejares",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Avenida Ronda de los Tejares · Centro Comercial · Santiago · Distrito Centro · Córdoba · Andalucía · 14008",
+    "coords": [
+      -4.7828984,
+      37.8876936
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/13099130976"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  },
+  {
+    "id": "elcorteingles-0050-avenida-ronda-de-los-tejares",
+    "name": "El Corte Inglés Avenida Ronda de los Tejares",
+    "kind": "El Corte Inglés · Gran almacén · Retail media premium",
+    "addr": "El Corte Inglés · Avenida Ronda de los Tejares · Centro Comercial · Santiago · Distrito Centro · Córdoba · Andalucía · 14008",
+    "coords": [
+      -4.7831053,
+      37.8876957
+    ],
+    "osm": {
+      "brand": "El Corte Inglés",
+      "brand:wikidata": "Q623586",
+      "id": "node/12564017826"
+    },
+    "external": {
+      "brand": "El Corte Inglés",
+      "network": "El Corte Inglés",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Red DOOH centro comercial",
+        "desc": "Mall media premium · pantallas por planta, accesos, moda, hogar y supermercado",
+        "status": "live",
+        "impr": 5200,
+        "cpm": "€13",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Fachada y escaparates",
+        "desc": "Gran formato exterior y escaparates del centro · alto tráfico urbano",
+        "status": "live",
+        "impr": 3600,
+        "cpm": "€16",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Ascensores, cajas y restauración",
+        "desc": "Circuito interior de alta frecuencia · food court, caja, ascensores y atención",
+        "status": "live",
+        "impr": 1800,
+        "cpm": "€9",
+        "surface": "mostrador"
+      },
+      {
+        "name": "App / CRM retail media",
+        "desc": "Extensión phygital del centro · promociones, club y cupones de proximidad",
+        "status": "live",
+        "impr": 2400,
+        "cpm": "€7",
+        "surface": "pwa"
+      }
+    ]
+  }
+]

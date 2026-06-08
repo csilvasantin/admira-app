@@ -1,0 +1,3602 @@
+[
+  {
+    "id": "multiopticas-0001-calle-de-fuencarral",
+    "name": "Multiópticas Calle de Fuencarral",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 154 · Calle de Fuencarral · Trafalgar · Chamberí · Madrid · Comunidad de Madrid · 28010",
+    "coords": [
+      -3.7038247,
+      40.4328318
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/5559088984"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0002-calle-del-principe-de-vergara",
+    "name": "Multiópticas Calle del Príncipe de Vergara",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 259 · Calle del Príncipe de Vergara · Hispanoamérica · Chamartín · Madrid · Comunidad de Madrid · 28016",
+    "coords": [
+      -3.6772844,
+      40.4564865
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4443481615"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0003-calle-de-ayacucho",
+    "name": "Multiópticas Calle de Ayacucho",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle de Ayacucho · Pinar del Rey · Hortaleza · Madrid · Comunidad de Madrid · 28043 · España",
+    "coords": [
+      -3.6408172,
+      40.469714
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/10606501239"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0004-calle-del-meson-de-paredes",
+    "name": "Multiópticas Calle del Mesón de Paredes",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle del Mesón de Paredes · Lavapiés · Embajadores · Arganzuela · Centro · Madrid · Comunidad de Madrid",
+    "coords": [
+      -3.7011936,
+      40.4055843
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4676173892"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0005-calle-de-illescas",
+    "name": "Multiópticas Calle de Illescas",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle de Illescas · Aluche · Latina · Madrid · Comunidad de Madrid · 28047 · España",
+    "coords": [
+      -3.7575309,
+      40.3921703
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/9491817903"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0006-avenida-de-la-albufera",
+    "name": "Multiópticas Avenida de la Albufera",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Avenida de la Albufera · Portazgo · Puente de Vallecas · Madrid · Comunidad de Madrid · 28038 · España",
+    "coords": [
+      -3.6463026,
+      40.3899159
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/13064063658"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0007-calle-real-de-arganda",
+    "name": "Multiópticas Calle Real de Arganda",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle Real de Arganda · Casco Histórico de Vallecas · Villa de Vallecas · Madrid · Comunidad de Madrid · 28031 · España",
+    "coords": [
+      -3.6202616,
+      40.3796891
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/5209232672"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0008-calle-de-alcala",
+    "name": "Multiópticas Calle de Alcalá",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle de Alcalá · Goya · Salamanca · Madrid · Comunidad de Madrid · 28009 · España",
+    "coords": [
+      -3.669609,
+      40.427834
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/3736431766"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0009-paseo-de-las-delicias",
+    "name": "Multiópticas Paseo de las Delicias",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Paseo de las Delicias · Delicias · Arganzuela · Madrid · Comunidad de Madrid · 28045 · España",
+    "coords": [
+      -3.6941459,
+      40.3975868
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4957310423"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0010-calle-de-adolfo-bioy-casares",
+    "name": "Multiópticas Calle de Adolfo Bioy Casares",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle de Adolfo Bioy Casares · Ensanche de Vallecas · Villa de Vallecas · Madrid · Comunidad de Madrid · 28051 · España",
+    "coords": [
+      -3.5968848,
+      40.368871
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/13717953783"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0011-calle-manuel-aleixandre",
+    "name": "Multiópticas Calle Manuel Aleixandre",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle Manuel Aleixandre · Legazpi · Arganzuela · Madrid · Comunidad de Madrid · 28045 · España",
+    "coords": [
+      -3.6932937,
+      40.3914654
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/12459033741"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0012-paseo-de-las-delicias",
+    "name": "Multiópticas Paseo de las Delicias",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 22 · Paseo de las Delicias · Palos de la Frontera · Arganzuela · Madrid · Comunidad de Madrid · 28045",
+    "coords": [
+      -3.6935961,
+      40.4056151
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4479474293"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0013-avenida-de-badajoz",
+    "name": "Multiópticas Avenida de Badajoz",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 50 · Avenida de Badajoz · San Pascual · Ciudad Lineal · Madrid · Comunidad de Madrid · 28027",
+    "coords": [
+      -3.6544366,
+      40.4415165
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4592749494"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0014-avenida-de-moratalaz",
+    "name": "Multiópticas Avenida de Moratalaz",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 92 · Avenida de Moratalaz · Vinateros · Moratalaz · Madrid · Comunidad de Madrid · 28030",
+    "coords": [
+      -3.6486542,
+      40.4065628
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/2943968578"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0015-avenida-de-monforte-de-lemos",
+    "name": "Multiópticas Avenida de Monforte de Lemos",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Avenida de Monforte de Lemos · Ciudad de los Periodistas · Pilar · Fuencarral · Fuencarral-El Pardo · Madrid · Comunidad de Madrid",
+    "coords": [
+      -3.7058773,
+      40.479931
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/6239852769"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0016-anillo-distribuidor-cuatro-torres",
+    "name": "Multiópticas Anillo Distribuidor Cuatro Torres",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Anillo Distribuidor Cuatro Torres · Parque Empresarial Cuatro Torres Business Area · La Paz · Fuencarral · Fuencarral-El Pardo · Madrid · Comunidad de Madrid",
+    "coords": [
+      -3.6882399,
+      40.4788936
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/10826347195"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0017-calle-de-castilla",
+    "name": "Multiópticas Calle de Castilla",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle de Castilla · Bellas Vistas · Tetuán · Madrid · Comunidad de Madrid · 28039 · España",
+    "coords": [
+      -3.7033051,
+      40.4527973
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/2891477452"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0018-carrer-de-muntaner",
+    "name": "Multiópticas Carrer de Muntaner",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "multiópticas · Carrer de Muntaner · Galvany · Sant Gervasi - Galvany · Sarrià - Sant Gervasi · Barcelona · Barcelonès · Barcelona",
+    "coords": [
+      2.1480911,
+      41.3950036
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/9235066007"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0019-carrer-d-esparreguera",
+    "name": "Multiópticas Carrer d'Esparreguera",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Carrer d'Esparreguera · la Vila de Gràcia · Gràcia · Barcelona · Barcelonès · Barcelona · Catalunya",
+    "coords": [
+      2.1568946,
+      41.3985178
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/11150234050"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0020-carrer-de-francesc-layret",
+    "name": "Multiópticas Carrer de Francesc Layret",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Carrer de Francesc Layret · Collblanc · Districte II · l'Hospitalet de Llobregat · Barcelonès · Barcelona · Catalunya",
+    "coords": [
+      2.1205829,
+      41.376011
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/12278969203"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0021-rambla-de-guipuscoa",
+    "name": "Multiópticas Rambla de Guipúscoa",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Rambla de Guipúscoa · la Pau · la Verneda i la Pau · Sant Martí · Barcelona · Barcelonès · Barcelona",
+    "coords": [
+      2.2031067,
+      41.4205767
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4434448603"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0022-ronda-de-sant-pere",
+    "name": "Multiópticas Ronda de Sant Pere",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "multiópticas · Ronda de Sant Pere · la Dreta de l'Eixample · l'Eixample · Barcelona · Barcelonès · Barcelona · Catalunya",
+    "coords": [
+      2.1717832,
+      41.3884161
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/11930171478"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0023-rambla-del-poblenou",
+    "name": "Multiópticas Rambla del Poblenou",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Rambla del Poblenou · el Poblenou · Sant Martí · Barcelona · Barcelonès · Barcelona · Catalunya",
+    "coords": [
+      2.1966556,
+      41.404356
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/7556638385"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0024-galeria-comercial-calle-san-jacinto",
+    "name": "Multiópticas Galeria Comercial Calle San Jacinto",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Galeria Comercial Calle San Jacinto · Nucleo Residencial La Pastora · Triana · Sevilla · Andalucía · 41010 · España",
+    "coords": [
+      -6.0080552,
+      37.381914
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/6621484986"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0025-avenida-jose-laguillo",
+    "name": "Multiópticas Avenida José Laguillo",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "multiópticas · Avenida José Laguillo · El Fontanal-María Auxiliadora-Carretera de Carmona · San Pablo-Santa Justa · Distrito San Pablo-Santa Justa · Sevilla · Andalucía · 41003",
+    "coords": [
+      -5.9823755,
+      37.3938178
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/6017509385"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0026-calle-asuncion",
+    "name": "Multiópticas Calle Asunción",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle Asunción · Los Remedios · Sevilla · Andalucía · 41011 · España",
+    "coords": [
+      -5.9976683,
+      37.3760595
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/3869658079"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0027-calle-de-las-delicias",
+    "name": "Multiópticas Calle de las Delicias",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas Bergua · 1 · Calle de las Delicias · Delicias · Zaragoza · Aragón · 50017 · España",
+    "coords": [
+      -0.9059288,
+      41.6529758
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4502317863"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0028-calle-de-concepcion-saiz-de-otero",
+    "name": "Multiópticas Calle de Concepción Saiz de Otero",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle de Concepción Saiz de Otero · Parque Goya · Actur-Rey Fernando · Zaragoza · Aragón · 50018 · España",
+    "coords": [
+      -0.8913797,
+      41.6705381
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/11987831932"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0029-calle-de-antonio-leyva",
+    "name": "Multiópticas Calle de Antonio Leyva",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 18 · Calle de Antonio Leyva · Oliver · Oliver-Valdefierro · Zaragoza · Aragón · 50011",
+    "coords": [
+      -0.9237179,
+      41.6518307
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/5796084063"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0030-calle-del-coso",
+    "name": "Multiópticas Calle del Coso",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle del Coso · El Tubo · El Gancho · Casco Antiguo · Casco Histórico · Zaragoza · Aragón",
+    "coords": [
+      -0.88397,
+      41.653807
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4341621890"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0031-calle-de-don-jaime-i",
+    "name": "Multiópticas Calle de Don Jaime I",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas Cadarso · Calle de Don Jaime I · El Tubo · El Gancho · Casco Antiguo · Casco Histórico · Zaragoza · Aragón",
+    "coords": [
+      -0.8798506,
+      41.6520271
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4332189491"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0032-avenida-america",
+    "name": "Multiópticas Avenida América",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Avenida América · Torrero · Torrero-La Paz · Zaragoza · Aragón · 50007 · España",
+    "coords": [
+      -0.8852565,
+      41.6315508
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/11947048852"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0033-calle-jose-luis-albareda",
+    "name": "Multiópticas Calle José Luis Albareda",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle José Luis Albareda · Centro · Zaragoza · Aragón · 50004 · España",
+    "coords": [
+      -0.8850877,
+      41.6493659
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/12366004104"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0034-calle-de-san-vicente-martir",
+    "name": "Multiópticas Calle de San Vicente Mártir",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas Cadarso · 11 · Calle de San Vicente Mártir · Centro · Zaragoza · Aragón · 50008 · España",
+    "coords": [
+      -0.8814986,
+      41.6447547
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/5107932032"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0035-ercilla-kalea",
+    "name": "Multiópticas Ercilla kalea",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 31 · Ercilla kalea · Indautxu · Abando · Bilbao · Bizkaia · Euskadi",
+    "coords": [
+      -2.9375901,
+      43.2616652
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/2326534649"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0036-calle-alhamar",
+    "name": "Multiópticas Calle Alhamar",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle Alhamar · Barrio de San Antón · Fígares · Ronda · Granada · Comarca de la Vega de Granada · Granada",
+    "coords": [
+      -3.6020924,
+      37.1691108
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/9710883025"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0037-calle-acera-del-casino",
+    "name": "Multiópticas Calle Acera del Casino",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle Acera del Casino · La Manigua · San Matías - Realejo · Centro · Granada · Comarca de la Vega de Granada · Granada",
+    "coords": [
+      -3.5986519,
+      37.172394
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/10252474031"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0038-calle-carril-del-picon",
+    "name": "Multiópticas Calle Carril del Picón",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle Carril del Picón · Barrio de la Duquesa · Centro - Sagrario · Centro · Granada · Comarca de la Vega de Granada · Granada",
+    "coords": [
+      -3.605032,
+      37.176655
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/5308254821"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0039-calle-cristo-de-la-epidemia",
+    "name": "Multiópticas Calle Cristo de la Epidemia",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 54 · Calle Cristo de la Epidemia · Cristo de la Epidemia · Centro · Málaga · Málaga-Costa del Sol · Málaga",
+    "coords": [
+      -4.4148175,
+      36.7300964
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4863095079"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0040-trueba-kalea",
+    "name": "Multiópticas Trueba kalea",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Trueba kalea · Gros · Ipar-Ekialdea · Donostia / San Sebastián · Gipuzkoa · Euskadi · 20001",
+    "coords": [
+      -1.9747397,
+      43.322843
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/7139015885"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0041-paseo-de-zorrilla",
+    "name": "Multiópticas Paseo de Zorrilla",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 14 · Paseo de Zorrilla · Campo Grande · Valladolid · Castilla y León · 47006 · España",
+    "coords": [
+      -4.7319499,
+      41.6468385
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/6853698038"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0042-calle-cerrada",
+    "name": "Multiópticas Calle Cerrada",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle Cerrada · Santa Clara · Rondilla · Valladolid · Castilla y León · 47010 · España",
+    "coords": [
+      -4.7202959,
+      41.6599998
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/5508967353"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0043-calle-de-la-manteria",
+    "name": "Multiópticas Calle de la Mantería",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle de la Mantería · Caño Argales · Valladolid · Castilla y León · 47004 · España",
+    "coords": [
+      -4.7229506,
+      41.6486756
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4839697408"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0044-calle-de-teresa-gil",
+    "name": "Multiópticas Calle de Teresa Gil",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle de Teresa Gil · Plaza Mayor · Valladolid · Castilla y León · 47004 · España",
+    "coords": [
+      -4.7264274,
+      41.6517117
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/5514838061"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0045-calle-vitoria",
+    "name": "Multiópticas Calle Vitoria",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle Vitoria · Bernardillas · Barriada Juan XXIII · Gamonal · Distrito Este · Burgos · Castilla y León",
+    "coords": [
+      -3.6726649,
+      42.3511405
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/4450173975"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0046-calle-san-juan",
+    "name": "Multiópticas Calle San Juan",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Calle San Juan · Vadillos · Distrito Centro Norte · Burgos · Castilla y León · 09003 · España",
+    "coords": [
+      -3.6997634,
+      42.342882
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/954547851"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0047-rua-da-republica-de-el-salvador",
+    "name": "Multiópticas Rúa da República de El Salvador",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · 12 · Rúa da República de El Salvador · A Rosaleda · O Ensanche · Santiago de Compostela · Santiago · A Coruña",
+    "coords": [
+      -8.5462824,
+      42.8747214
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/8892668002"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0048-avinguda-alfons-el-savi",
+    "name": "Multiópticas Avinguda Alfons el Savi",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Avinguda Alfons el Savi · Centro · Alacant / Alicante · l'Alacantí · Alacant / Alicante · Comunitat Valenciana · 03001",
+    "coords": [
+      -0.4888788,
+      38.3464843
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/13033744549"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0049-carrer-de-girona",
+    "name": "Multiópticas Carrer de Girona",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Carrer de Girona · Centro · Alacant / Alicante · l'Alacantí · Alacant / Alicante · Comunitat Valenciana · 03001",
+    "coords": [
+      -0.486706,
+      38.3440733
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/13033861144"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  },
+  {
+    "id": "multiopticas-0050-carrer-de-santa-clara",
+    "name": "Multiópticas Carrer de Santa Clara",
+    "kind": "MultiÓpticas · Óptica · Retail físico",
+    "addr": "Multiópticas · Carrer de Santa Clara · el Mercadal · Girona · Gironès · Girona · Catalunya · 17001",
+    "coords": [
+      2.8232622,
+      41.9838748
+    ],
+    "osm": {
+      "brand": "Multiópticas",
+      "brand:wikidata": "Q12395446",
+      "id": "node/3388071579"
+    },
+    "external": {
+      "brand": "Multiópticas",
+      "network": "MultiÓpticas",
+      "source": "nominatim-osm"
+    },
+    "segmentation": {
+      "required": false,
+      "schedule": {
+        "start": "09:00",
+        "end": "21:30"
+      },
+      "typologies": [
+        "exterior",
+        "interior"
+      ],
+      "genders": [
+        "hombre",
+        "mujer"
+      ],
+      "ages": [
+        "joven",
+        "adulto",
+        "senior"
+      ],
+      "timeSlots": [
+        "manana",
+        "mediodia",
+        "tarde",
+        "noche"
+      ]
+    },
+    "surfaces": [
+      {
+        "name": "Escaparate óptica",
+        "desc": "Pantalla exterior de proximidad · gafas, lentes, salud visual y campañas locales",
+        "status": "live",
+        "impr": 620,
+        "cpm": "€7",
+        "surface": "escaparate"
+      },
+      {
+        "name": "Interior punto de venta",
+        "desc": "Pantalla en tienda · producto, financiación, revisiones y servicios ópticos",
+        "status": "live",
+        "impr": 260,
+        "cpm": "€5",
+        "surface": "pantalla"
+      },
+      {
+        "name": "Mostrador / espera",
+        "desc": "Microimpactos durante espera y recogida · cross-sell y recordatorios",
+        "status": "live",
+        "impr": 120,
+        "cpm": "€4",
+        "surface": "mostrador"
+      }
+    ]
+  }
+]

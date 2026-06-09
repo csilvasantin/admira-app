@@ -134,7 +134,7 @@
   .planet-modal .pm-ok{font-family:monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;padding:11px 22px;border:0;border-radius:9px;background:var(--brand);color:#001620;font-weight:700;cursor:pointer;transition:filter .15s}
   .planet-modal .pm-ok:hover{filter:brightness(1.08)}
   /* Estrellas que titilan (generadas en JS) */
-  .space .twinkle-layer{position:absolute;inset:0;pointer-events:none}
+  .space .twinkle-layer{position:absolute;inset:0;pointer-events:none;transition:opacity .7s ease}
   .space .twinkle{position:absolute;border-radius:50%;background:#fff;box-shadow:0 0 5px 1px rgba(255,255,255,.45);animation:twinkle var(--dur,3.5s) ease-in-out infinite;animation-delay:var(--delay,0s);will-change:opacity,transform}
   @keyframes twinkle{0%,100%{opacity:.18;transform:scale(.75)}50%{opacity:1;transform:scale(1.2)}}
   /* Estrella fugaz ocasional */
@@ -2812,6 +2812,8 @@ function updateGalaxy(){
   const op = Math.max(0, Math.min(1, (2.15 - z) / 0.6));
   if (galaxyEl) galaxyEl.style.opacity = op.toFixed(2);
   if (planetsEl) planetsEl.style.opacity = op.toFixed(2);
+  // Las estrellas titilantes sólo se ven con el globo entero (no sobre ciudades al hacer zoom).
+  const twLayer = document.querySelector('.twinkle-layer'); if (twLayer) twLayer.style.opacity = op.toFixed(2);
   // El guiño de Marte aparece cuando casi se ve toda la galaxia.
   if (marsHint) marsHint.classList.toggle('show', op > 0.7);
   // Los planetas sólo son clicables cuando se ven bien.
@@ -3006,11 +3008,14 @@ function addLocationsLayer() {
       map.easeTo({center: f.geometry.coordinates, zoom: z, duration: 800});
     });
   });
-  // Click en punto → flyToLocation
+  // Click en punto → flyToLocation. Si el punto define twinOnClick, además abre
+  // su gemelo (p.ej. tour Matterport) en una pestaña nueva.
   map.on('click', 'unclustered-point', (e) => {
     const id = e.features[0].properties.id;
     const loc = LOC_BY_ID.get(id);
-    if (loc) flyToLocation(loc);
+    if (!loc) return;
+    if (loc.twinOnClick && loc.twin) { window.open(loc.twin, '_blank', 'noopener'); }
+    flyToLocation(loc);
   });
   // Cursor
   for (const lyr of ['clusters','unclustered-point']) {
@@ -3955,7 +3960,9 @@ function resetToHome() {
   if (wishModal) wishModal.addEventListener('click', (e) => { if (e.target === wishModal) closeWish(); });
 
   function loop(){
-    setTimeout(() => { if (!document.hidden) spawnShootingStar(); loop(); }, 5000 + Math.random()*11000); // cada 5–16 s
+    // La estrella fugaz (lucero parpadeante para pedir deseo) sólo aparece con el
+    // globo entero a la vista; nunca sobre las ciudades al hacer zoom.
+    setTimeout(() => { if (!document.hidden && map.getZoom() < 2.1) spawnShootingStar(); loop(); }, 5000 + Math.random()*11000); // cada 5–16 s
   }
   loop();
 })();

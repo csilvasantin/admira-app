@@ -1112,12 +1112,13 @@ window.OMNIP_LOCATIONS_DEFAULT = [
 // completo al KV.
 window.OMNIP_LOCATIONS_EXTRA = [
   {
-    // Gemelo digital Desigual Ginza (Tokio) — abre el tour Matterport como twin.
+    // Gemelo digital Desigual Ginza (Tokio) — al pulsar el punto abre el tour Matterport.
     id:'desigual-ginza-tokyo', name:'Desigual Ginza', kind:'Desigual · Tienda oficial',
-    addr:'Ginza · Chūō, Tokio · Japón', coords:[139.76490, 35.67160],
+    addr:'Chūō-dōri, 銀座七丁目 · Ginza · Chūō, Tokio · 104-0061 · Japón', coords:[139.7627166, 35.6692638],
     music:'fashion', cameras:true,
     external:{brand:'Desigual', storeId:'GINZA', type:'official', source:'manual'},
     twin:'https://my.matterport.com/show/?m=PW85KvR2coC',
+    twinOnClick:true,
     surfaces:desigualSurfaces('official'),
   },
   {

@@ -1620,7 +1620,7 @@ function mapVisibleLocations() {
 
 function mapScopeForLocation(loc) {
   if (isDesigualLocation(loc) || isMangoLocation(loc)) return 'global';
-  if (isMetroBarcelonaLocation(loc) || isKioskoLocation(loc)) return 'city';
+  if (isMetroBarcelonaLocation(loc) || isKioskoLocation(loc)) return 'local';
   return 'national';
 }
 
@@ -2880,17 +2880,17 @@ function locationsGeoJSON() {
 function mapScopeColorExpression() {
   return ['match', ['get', 'scope'],
     'global', '#ff4fd8',
-    'city', '#78f3ff',
     'national', '#88ffaa',
-    '#88ffaa'
+    'local', '#78f3ff',
+    '#78f3ff'
   ];
 }
 
 function mapClusterColorExpression() {
   return ['case',
     ['>', ['get', 'global_count'], 0], '#ff4fd8',
-    ['>', ['get', 'city_count'], 0], '#78f3ff',
-    '#88ffaa'
+    ['>', ['get', 'national_count'], 0], '#88ffaa',
+    '#78f3ff'
   ];
 }
 
@@ -2922,7 +2922,7 @@ function addLocationsLayer() {
     clusterProperties: {
       global_count: ['+', ['case', ['==', ['get', 'scope'], 'global'], 1, 0]],
       national_count: ['+', ['case', ['==', ['get', 'scope'], 'national'], 1, 0]],
-      city_count: ['+', ['case', ['==', ['get', 'scope'], 'city'], 1, 0]],
+      local_count: ['+', ['case', ['==', ['get', 'scope'], 'local'], 1, 0]],
     },
   });
   // Cluster circle

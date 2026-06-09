@@ -585,6 +585,7 @@
       <option value="palacio" data-i18n="circuit_palacio">El Palacio de Hierro · México</option>
       <option value="liverpool_mx" data-i18n="circuit_liverpool_mx">Liverpool · México</option>
       <option value="bbva" data-i18n="circuit_bbva">BBVA · España</option>
+      <option value="banorte_mx" data-i18n="circuit_banorte_mx">Banorte · México</option>
       <option value="caixabank" data-i18n="circuit_caixabank">La Caixa / CaixaBank · Barcelona</option>
       <option value="elcorteingles" data-i18n="circuit_elcorteingles">El Corte Inglés · España</option>
       <option value="correos" data-i18n="circuit_correos">Correos · España</option>
@@ -913,6 +914,9 @@
 // omnipublicity-api (KV) y, si trae algo distinto, re-renderizamos sources +
 // counters. Primer load = instantáneo; segundo paint = autoritativo.
 let LOCATIONS = window.loadOmnipLocations();
+let LOC_BY_ID = new Map(LOCATIONS.map(l => [l.id, l]));
+let locationsGeoJSONCache = null;
+let locationsGeoJSONCacheKey = '';
 let selectedCircuitId = 'all';
 let selectedMetroLine = 'all';
 let selectedLocationIds = new Set();
@@ -921,6 +925,7 @@ let circuitMapFilterActive = false;
 let pendingPixeriaDraft = null;
 const CIRCUIT_DEMO_STEP_MS = 5600;
 const CIRCUIT_DEMO_FLY_MS = 3600;
+const MAX_CIRCUIT_LIST_RENDER = 350;
 let circuitDemo = { running:false, items:[], index:0, timer:null };
 const DEFAULT_CIRCUIT_SCOPE = 'all';
 const CIRCUIT_SCOPE_OPTIONS = [
@@ -931,9 +936,9 @@ const CIRCUIT_SCOPE_OPTIONS = [
   {value:'local', labelKey:'scope_local'},
 ];
 const CIRCUIT_IDS_BY_SCOPE = {
-  all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'decathlon', 'bbva', 'caixabank', 'elcorteingles', 'correos', 'multiopticas', 'palacio', 'liverpool_mx', 'desigual', 'mango', 'retail'],
+  all: ['all', 'metro_bcn', 'kioskos', 'estancos', 'decathlon', 'bbva', 'caixabank', 'banorte_mx', 'elcorteingles', 'correos', 'multiopticas', 'palacio', 'liverpool_mx', 'desigual', 'mango', 'retail'],
   global: ['desigual', 'mango'],
-  national: ['estancos', 'decathlon', 'bbva', 'caixabank', 'elcorteingles', 'correos', 'multiopticas', 'palacio', 'liverpool_mx'],
+  national: ['estancos', 'decathlon', 'bbva', 'caixabank', 'banorte_mx', 'elcorteingles', 'correos', 'multiopticas', 'palacio', 'liverpool_mx'],
   city: ['metro_bcn', 'kioskos'],
   local: ['all'],
 };
@@ -1018,7 +1023,7 @@ const I18N = {
     circuit_panel_title:'Comprar por circuito',
     circuit_metro_bcn:'Metro Barcelona Ciudad', circuit_desigual:'Desigual Global', circuit_mango:'Mango Global',
     circuit_kioskos:'Kioskos de prensa', circuit_all:'Todos los puntos locales',
-    circuit_estancos:'Xtanco Nacional', circuit_decathlon:'Decathlon España', circuit_palacio:'El Palacio de Hierro · México', circuit_liverpool_mx:'Liverpool · México', circuit_bbva:'BBVA · España', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · España', circuit_correos:'Correos · España', circuit_multiopticas:'MultiÓpticas · España', circuit_retail:'Otros retail físicos',
+    circuit_estancos:'Xtanco Nacional', circuit_decathlon:'Decathlon España', circuit_palacio:'El Palacio de Hierro · México', circuit_liverpool_mx:'Liverpool · México', circuit_bbva:'BBVA · España', circuit_banorte_mx:'Banorte · México', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · España', circuit_correos:'Correos · España', circuit_multiopticas:'MultiÓpticas · España', circuit_retail:'Otros retail físicos',
     all_lines:'Todas las líneas', whole_line:'Toda línea', whole_circuit:'Todo circuito',
     points_label:'puntos', point_label:'punto', impr_day_compact:'impr/día', cpm_label:'CPM',
     circuit_points_title:'Puntos del circuito', view_map:'Ver en mapa', buy_selection:'Comprar selección',
@@ -1131,7 +1136,7 @@ const I18N = {
     circuit_panel_title:'Buy by circuit',
     circuit_metro_bcn:'Barcelona Metro City', circuit_desigual:'Global Desigual', circuit_mango:'Mango Global',
     circuit_kioskos:'Press kiosk', circuit_all:'All local registered points',
-    circuit_estancos:'National Xtanco', circuit_decathlon:'Decathlon Spain', circuit_palacio:'El Palacio de Hierro · Mexico', circuit_liverpool_mx:'Liverpool · Mexico', circuit_bbva:'BBVA · Spain', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · Spain', circuit_correos:'Correos · Spain', circuit_multiopticas:'MultiÓpticas · Spain', circuit_retail:'Other physical retail',
+    circuit_estancos:'National Xtanco', circuit_decathlon:'Decathlon Spain', circuit_palacio:'El Palacio de Hierro · Mexico', circuit_liverpool_mx:'Liverpool · Mexico', circuit_bbva:'BBVA · Spain', circuit_banorte_mx:'Banorte · Mexico', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · Spain', circuit_correos:'Correos · Spain', circuit_multiopticas:'MultiÓpticas · Spain', circuit_retail:'Other physical retail',
     all_lines:'All lines', whole_line:'Whole line', whole_circuit:'Whole circuit',
     points_label:'points', point_label:'point', impr_day_compact:'impr/day', cpm_label:'CPM',
     circuit_points_title:'Circuit points', view_map:'View on map', buy_selection:'Buy selection',
@@ -1338,6 +1343,28 @@ function normText(s) {
   return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
 
+function setLocations(nextLocations) {
+  LOCATIONS = Array.isArray(nextLocations) ? nextLocations : [];
+  LOC_BY_ID = new Map(LOCATIONS.map(l => [l.id, l]));
+  invalidateLocationsGeoJSON();
+}
+
+function invalidateLocationsGeoJSON() {
+  locationsGeoJSONCache = null;
+  locationsGeoJSONCacheKey = '';
+}
+
+function updateLocationsSource() {
+  invalidateLocationsGeoJSON();
+  const src = map && map.getSource && map.getSource('locs');
+  if (src) src.setData(locationsGeoJSON());
+}
+
+function locationsSignature(list, updatedAt = '') {
+  const items = Array.isArray(list) ? list : [];
+  return [updatedAt || '', items.length, items[0] && items[0].id, items[items.length - 1] && items[items.length - 1].id].join('|');
+}
+
 function isKioskoLocation(loc) {
   const hay = normText([loc.id, loc.name, loc.kind, loc.addr].join(' '));
   return hay.includes('kiosko') || hay.includes('quiosco') || hay.includes('prensa');
@@ -1380,6 +1407,13 @@ function isBBVALocation(loc) {
   const hay = normText([loc.id, loc.name, loc.kind].join(' '));
   return (loc.osm && normText(loc.osm.brand) === 'bbva') || /\bbbva\b/.test(hay);
 }
+function isBanorteLocation(loc) {
+  const hay = normText([loc.id, loc.name, loc.kind].join(' '));
+  const brand = loc.osm && normText(loc.osm.brand);
+  const extBrand = loc.external && normText(loc.external.brand);
+  const network = loc.external && normText(loc.external.network);
+  return brand === 'banorte' || extBrand === 'banorte' || network === 'banorte mexico' || hay.includes('banorte') || hay.includes('bannorte');
+}
 function isCaixaBankLocation(loc) {
   const hay = normText([loc.id, loc.name, loc.kind].join(' '));
   const brand = loc.osm && normText(loc.osm.brand);
@@ -1420,6 +1454,7 @@ function circuitLabel(loc) {
   if (isPalacioLocation(loc)) return 'El Palacio de Hierro';
   if (isLiverpoolLocation(loc)) return 'Liverpool';
   if (isBBVALocation(loc)) return 'BBVA';
+  if (isBanorteLocation(loc)) return 'Banorte';
   if (isCaixaBankLocation(loc)) return 'La Caixa / CaixaBank';
   if (isElCorteInglesLocation(loc)) return 'El Corte Inglés';
   if (isCorreosLocation(loc)) return 'Correos';
@@ -1460,11 +1495,12 @@ function circuitDefinitions() {
   const palacioItems = LOCATIONS.filter(isPalacioLocation);
   const liverpoolItems = LOCATIONS.filter(isLiverpoolLocation);
   const bbvaItems = LOCATIONS.filter(isBBVALocation);
+  const banorteItems = LOCATIONS.filter(isBanorteLocation);
   const caixabankItems = LOCATIONS.filter(isCaixaBankLocation);
   const elcorteinglesItems = LOCATIONS.filter(isElCorteInglesLocation);
   const correosItems = LOCATIONS.filter(isCorreosLocation);
   const multiopticasItems = LOCATIONS.filter(isMultiopticasLocation);
-  const retailItems = LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l) && !isMangoLocation(l) && !isDecathlonLocation(l) && !isPalacioLocation(l) && !isLiverpoolLocation(l) && !isBBVALocation(l) && !isCaixaBankLocation(l) && !isElCorteInglesLocation(l) && !isCorreosLocation(l) && !isMultiopticasLocation(l));
+  const retailItems = LOCATIONS.filter(l => !isKioskoLocation(l) && !isEstancoLocation(l) && !isMetroBarcelonaLocation(l) && !isDesigualLocation(l) && !isMangoLocation(l) && !isDecathlonLocation(l) && !isPalacioLocation(l) && !isLiverpoolLocation(l) && !isBBVALocation(l) && !isBanorteLocation(l) && !isCaixaBankLocation(l) && !isElCorteInglesLocation(l) && !isCorreosLocation(l) && !isMultiopticasLocation(l));
   return {
     metro_bcn: {
       label: t('circuit_metro_bcn'),
@@ -1500,6 +1536,11 @@ function circuitDefinitions() {
       label: t('circuit_bbva'),
       items: bbvaItems,
       segmentation: circuitSegmentationForItems(bbvaItems),
+    },
+    banorte_mx: {
+      label: t('circuit_banorte_mx'),
+      items: banorteItems,
+      segmentation: circuitSegmentationForItems(banorteItems),
     },
     caixabank: {
       label: t('circuit_caixabank'),
@@ -1565,8 +1606,7 @@ function currentCircuitLabel() {
 }
 
 function selectedLocations() {
-  const byId = new Map(LOCATIONS.map(l => [l.id, l]));
-  return [...selectedLocationIds].map(id => byId.get(id)).filter(Boolean);
+  return [...selectedLocationIds].map(id => LOC_BY_ID.get(id)).filter(Boolean);
 }
 
 function circuitDemoItems() {
@@ -1576,6 +1616,12 @@ function circuitDemoItems() {
 function mapVisibleLocations() {
   if (!circuitMapFilterActive) return LOCATIONS;
   return currentCircuitItems();
+}
+
+function mapScopeForLocation(loc) {
+  if (isDesigualLocation(loc) || isMangoLocation(loc)) return 'global';
+  if (isMetroBarcelonaLocation(loc) || isKioskoLocation(loc)) return 'city';
+  return 'national';
 }
 
 function screensForXpace(loc) {
@@ -1784,8 +1830,7 @@ function bindCircuitTargetControls() {
 }
 
 function refreshSelectedMapSource() {
-  const src = map && map.getSource && map.getSource('locs');
-  if (src) src.setData(locationsGeoJSON());
+  updateLocationsSource();
   // BIDDING LIVE refleja el subconjunto filtrado (alcance/circuito). Cada
   // Xpace aporta 1-9 pantallas, de forma estable por ID.
   updateBiddingLiveCounters();
@@ -1821,8 +1866,10 @@ function renderCircuitSelector() {
   selectedLocationIds = circuitAutoSelect
     ? new Set(items.map(l => l.id))
     : new Set([...selectedLocationIds].filter(id => idsInCircuit.has(id)));
-  list.innerHTML = items.map(loc => {
-    const live = loc.surfaces.filter(s => s.status === 'live').length;
+  const renderedItems = items.slice(0, MAX_CIRCUIT_LIST_RENDER);
+  list.innerHTML = renderedItems.map(loc => {
+    const surfaces = Array.isArray(loc.surfaces) ? loc.surfaces : [];
+    const live = surfaces.filter(s => s.status === 'live').length;
     const checked = selectedLocationIds.has(loc.id) ? ' checked' : '';
     const activeDemo = circuitDemo.running && circuitDemo.items[circuitDemo.index] && circuitDemo.items[circuitDemo.index].id === loc.id;
     return `<label class="circuit-point${activeDemo ? ' demo-active' : ''}" data-loc-id="${escHtml(loc.id)}">
@@ -1831,9 +1878,11 @@ function renderCircuitSelector() {
         <span class="cp-name">${escHtml(loc.name)}</span>
         <span class="cp-addr">${escHtml(loc.addr)}</span>
       </span>
-      <span class="cp-meta">${live}/${loc.surfaces.length}</span>
+      <span class="cp-meta">${live}/${surfaces.length}</span>
     </label>`;
-  }).join('');
+  }).join('') + (items.length > MAX_CIRCUIT_LIST_RENDER
+    ? `<div class="circuit-point" aria-hidden="true"><span><span class="cp-name">+${items.length - MAX_CIRCUIT_LIST_RENDER} Xpaces</span><span class="cp-addr">Usa el mapa, la búsqueda o compra todo el circuito para operar la red completa.</span></span><span class="cp-meta">${MAX_CIRCUIT_LIST_RENDER}/${items.length}</span></div>`
+    : '');
   title.textContent = `${currentCircuitLabel()} · ${items.length} ${items.length === 1 ? t('point_label') : t('points_label')}`;
   updateCircuitSummary();
   updateCircuitDemoUi();
@@ -2796,6 +2845,58 @@ if (planetModal) planetModal.addEventListener('click', e => { if (e.target === p
 // ─── Cluster source con todas las tiendas ──────────────────────────
 function locationsGeoJSON() {
   const visible = mapVisibleLocations();
+  const selectionKey = selectedLocationIds && selectedLocationIds.size ? [...selectedLocationIds].sort().join(',') : '';
+  const cacheKey = [
+    visible.length,
+    visible[0] && visible[0].id,
+    visible[visible.length - 1] && visible[visible.length - 1].id,
+    circuitMapFilterActive ? selectedCircuitId + ':' + selectedMetroLine : 'all',
+    selectionKey,
+  ].join('|');
+  if (locationsGeoJSONCache && locationsGeoJSONCacheKey === cacheKey) return locationsGeoJSONCache;
+  locationsGeoJSONCacheKey = cacheKey;
+  locationsGeoJSONCache = {
+    type:'FeatureCollection',
+    features: visible.map(l => {
+      const surfaces = Array.isArray(l.surfaces) ? l.surfaces : [];
+      const scope = mapScopeForLocation(l);
+      return {
+        type:'Feature',
+        geometry:{type:'Point', coordinates: l.coords},
+        properties:{
+          id: l.id, name: l.name, kind: l.kind, addr: l.addr,
+          circuit: circuitLabel(l),
+          scope,
+          selected: selectedLocationIds && selectedLocationIds.has(l.id) ? 1 : 0,
+          live: surfaces.filter(s=>s.status==='live').length,
+          total: surfaces.length,
+        },
+      };
+    }),
+  };
+  return locationsGeoJSONCache;
+}
+
+function mapScopeColorExpression() {
+  return ['match', ['get', 'scope'],
+    'global', '#ff4fd8',
+    'city', '#78f3ff',
+    'national', '#88ffaa',
+    '#88ffaa'
+  ];
+}
+
+function mapClusterColorExpression() {
+  return ['case',
+    ['>', ['get', 'global_count'], 0], '#ff4fd8',
+    ['>', ['get', 'city_count'], 0], '#78f3ff',
+    '#88ffaa'
+  ];
+}
+
+/*
+function locationsGeoJSON_old() {
+  const visible = mapVisibleLocations();
   return {
     type:'FeatureCollection',
     features: visible.map(l => ({
@@ -2811,22 +2912,28 @@ function locationsGeoJSON() {
     })),
   };
 }
+*/
 
 function addLocationsLayer() {
   if (map.getSource('locs')) return;
   map.addSource('locs', {
     type:'geojson', data: locationsGeoJSON(),
     cluster: true, clusterMaxZoom: 6, clusterRadius: 60,
+    clusterProperties: {
+      global_count: ['+', ['case', ['==', ['get', 'scope'], 'global'], 1, 0]],
+      national_count: ['+', ['case', ['==', ['get', 'scope'], 'national'], 1, 0]],
+      city_count: ['+', ['case', ['==', ['get', 'scope'], 'city'], 1, 0]],
+    },
   });
   // Cluster circle
   map.addLayer({
     id:'clusters', type:'circle', source:'locs',
     filter:['has','point_count'],
     paint:{
-      'circle-color':'#78f3ff',
+      'circle-color': mapClusterColorExpression(),
       'circle-radius':['step',['get','point_count'], 18, 5, 24, 10, 30],
       'circle-stroke-width':2,
-      'circle-stroke-color':'rgba(120,243,255,.5)',
+      'circle-stroke-color':'rgba(255,255,255,.55)',
       'circle-opacity':.85,
     },
   });
@@ -2848,7 +2955,7 @@ function addLocationsLayer() {
     id:'locs-glow', type:'circle', source:'locs',
     filter:['!',['has','point_count']],
     paint:{
-      'circle-color':'#ffd866',
+      'circle-color': mapScopeColorExpression(),
       'circle-radius':['interpolate',['linear'],['zoom'], 2,11, 6,16, 12,26],
       'circle-blur':1,
       'circle-opacity':0.4,
@@ -2861,7 +2968,7 @@ function addLocationsLayer() {
     paint:{
       'circle-color':'rgba(136,255,170,0)',
       'circle-radius':12,
-      'circle-stroke-color':'#88ffaa',
+      'circle-stroke-color': mapScopeColorExpression(),
       'circle-stroke-width':2,
       'circle-stroke-opacity':0.6,
       'circle-blur':0.25,
@@ -2883,7 +2990,7 @@ function addLocationsLayer() {
     id:'unclustered-point', type:'circle', source:'locs',
     filter:['!',['has','point_count']],
     paint:{
-      'circle-color':'#ffd866',
+      'circle-color': mapScopeColorExpression(),
       'circle-radius':['interpolate',['linear'],['zoom'], 2,5, 6,7, 12,9],
       'circle-stroke-color':'#fff',
       'circle-stroke-width':2,
@@ -2902,7 +3009,7 @@ function addLocationsLayer() {
   // Click en punto → flyToLocation
   map.on('click', 'unclustered-point', (e) => {
     const id = e.features[0].properties.id;
-    const loc = LOCATIONS.find(l => l.id === id);
+    const loc = LOC_BY_ID.get(id);
     if (loc) flyToLocation(loc);
   });
   // Cursor
@@ -3654,17 +3761,16 @@ consumePixeriaDraftFromUrl();
   try {
     const res = await window.loadOmnipLocationsAsync(4500);
     if (!res || !Array.isArray(res.locations) || !res.locations.length) return;
-    if (JSON.stringify(res.locations) === JSON.stringify(LOCATIONS)) return;
-    LOCATIONS = res.locations;
+    if (locationsSignature(res.locations, res.updatedAt) === locationsSignature(LOCATIONS, res.updatedAt)) return;
+    setLocations(res.locations);
     updateBiddingLiveCounters();
-    const cpms = LOCATIONS.flatMap(l => l.surfaces.map(s => parseFloat(String(s.cpm).replace(/[^\d.]/g,'')))).filter(Boolean);
+    const cpms = LOCATIONS.flatMap(l => (Array.isArray(l.surfaces) ? l.surfaces : []).map(s => parseFloat(String(s.cpm).replace(/[^\d.]/g,'')))).filter(Boolean);
     if (cpms.length) {
       const lo = Math.min(...cpms), hi = Math.max(...cpms);
       const el = document.getElementById('p-cpm'); if (el) el.textContent = lo === hi ? `€${lo}` : `€${lo}-€${hi}`;
     }
     renderCircuitSelector();
-    const src = map && map.getSource && map.getSource('locs');
-    if (src) src.setData(locationsGeoJSON());
+    updateLocationsSource();
   } catch {}
 })();
 

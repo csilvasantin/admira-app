@@ -495,6 +495,15 @@
   .xp-tooltip .xp-meta{margin-top:6px;font-size:10px;color:#7fa6b3;letter-spacing:.02em}
   .xp-tooltip .xp-live{color:#88ffaa;font-weight:700}
   .xp-tooltip .xp-idle{color:#9bc3cf}
+  /* Leyenda de circuitos (color → circuito) */
+  #circuit-legend{position:fixed;left:18px;top:96px;z-index:11;background:rgba(10,22,32,.92);border:1px solid var(--line);border-radius:10px;backdrop-filter:blur(10px);font-family:monospace;font-size:11px;color:var(--ink);max-width:210px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  #circuit-legend .cl-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 10px;border-bottom:1px solid var(--line);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-size:10px}
+  #circuit-legend.collapsed .cl-body{display:none}
+  #circuit-legend .cl-x{cursor:pointer;color:var(--mut);font-size:16px;line-height:1}
+  #circuit-legend .cl-x:hover{color:var(--ink)}
+  #circuit-legend .cl-body{padding:8px 10px;display:flex;flex-direction:column;gap:6px;max-height:42vh;overflow-y:auto}
+  #circuit-legend .cl-row{display:flex;align-items:center;gap:8px;white-space:nowrap}
+  #circuit-legend .cl-dot{width:11px;height:11px;border-radius:50%;flex:0 0 auto;border:1px solid rgba(255,255,255,.4)}
   /* Scrollbars al tema oscuro (no el pegote blanco por defecto) */
   *{scrollbar-width:thin;scrollbar-color:rgba(120,243,255,.30) transparent}
   ::-webkit-scrollbar{width:10px;height:10px}
@@ -4161,6 +4170,42 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
 </script>
 
 <script>
+// ── Leyenda de circuitos (color → circuito) en el mapa ──────────────────
+(function(){
+  let el;
+  function uniqueCircuits(){
+    try{
+      const locs = (typeof mapVisibleLocations==='function') ? mapVisibleLocations() : [];
+      const seen = new Map();
+      locs.forEach(l=>{ const base=circuitBaseName(circuitLabel(l)); if(base && !seen.has(base)) seen.set(base, circuitColorHex(base)); });
+      return [...seen.entries()].sort((a,b)=>a[0].localeCompare(b[0]));
+    }catch(_){ return []; }
+  }
+  function render(){
+    if(!el) return;
+    const items = uniqueCircuits();
+    if(!items.length){ el.style.display='none'; return; }
+    el.style.display='';
+    el.querySelector('.cl-body').innerHTML = items.map(([name,color])=>
+      `<div class="cl-row"><span class="cl-dot" style="background:${color}"></span>${name}</div>`).join('');
+  }
+  function init(){
+    if(el) return;
+    el = document.createElement('div'); el.id='circuit-legend';
+    el.innerHTML = '<div class="cl-head"><b>Circuitos</b><span class="cl-x" title="Cerrar">&times;</span></div><div class="cl-body"></div>';
+    document.body.appendChild(el);
+    el.querySelector('.cl-x').addEventListener('click', e=>{ e.stopPropagation(); el.style.display='none'; });
+    el.querySelector('.cl-head').addEventListener('click', e=>{ if(e.target.classList.contains('cl-x')) return; el.classList.toggle('collapsed'); });
+    render();
+  }
+  function whenMapReady(){
+    if(typeof map==='undefined' || !map){ setTimeout(whenMapReady, 400); return; }
+    init();
+    map.on('moveend', render);
+    map.on('sourcedata', e=>{ if(e.sourceId==='locs') render(); });
+  }
+  if(document.readyState!=='loading') whenMapReady(); else document.addEventListener('DOMContentLoaded', whenMapReady);
+})();
 // ── Ventanas flotantes: cerrar + plegar + arrastrar (Carlos 2026-06-11) ──
 (function(){
   function makeDraggable(el, handle, key){

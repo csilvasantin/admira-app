@@ -537,6 +537,14 @@
   .circuit-head h3,#circuit-legend .cl-head b{font-family:monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0;line-height:1}
   .circuit-toggle{width:24px;height:24px}
   #circuit-legend .cl-head .cl-x,.circuit-head .win-x{font-size:16px;line-height:1}
+  /* Panel de TARGET (criterios de contenido) */
+  .tg-group{display:flex;flex-direction:column;gap:6px}
+  .tg-glabel{font-family:monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+  .tg-pills{display:flex;flex-wrap:wrap;gap:5px}
+  .tg-pill{font-size:11px;padding:4px 9px;border-radius:14px;border:1px solid var(--line);background:rgba(2,8,13,.5);color:var(--mut);cursor:pointer;font-family:inherit}
+  .tg-pill.on{background:var(--brand);border-color:var(--brand);color:#001620;font-weight:700}
+  .tg-extras{display:flex;gap:12px;flex-wrap:wrap;font-size:10.5px;color:var(--mut);align-items:center}
+  .tg-extras input{background:rgba(2,8,13,.6);border:1px solid var(--line);border-radius:6px;color:var(--ink);padding:3px 6px;font-family:inherit;font-size:11px;margin-left:4px}
 </style>
 </head>
 <body>
@@ -545,6 +553,7 @@
   <span class="logo"><span class="logo-home" id="logo-home" role="button" tabindex="0" data-i18n-title="logo_home_title" title="Volver al inicio">OMNI<span class="dot">·</span>PUBLICITY</span></span>
   <div class="header-controls">
     <button class="header-circuit-btn" id="header-circuit-btn" type="button" data-i18n="select_circuit">Seleccionar circuito</button>
+    <button class="header-circuit-btn" id="header-target-btn" type="button" data-i18n="select_target">Seleccionar target</button>
     <div class="search-wrap">
       <label class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -1144,7 +1153,7 @@ const I18N = {
     search_ph:'Buscar Xpace · "Xtanco", "Loterías", "BCN" o cualquier dirección',
     login:'Login', contact:'Contacto',
     stores:'Xpaces', screens:'pantallas',
-    select_circuit:'Seleccionar circuito',
+    select_circuit:'Seleccionar circuito', select_target:'Seleccionar target',
     lang_toggle:'ENG', lang_toggle_aria:'Cambiar a inglés',
     circuit_scope_label:'Alcance del circuito',
     scope_all:'Todos', scope_global:'Global', scope_national:'Nacional', scope_city:'Ciudad', scope_local:'Local',
@@ -1257,7 +1266,7 @@ const I18N = {
     search_ph:'Search Xpace · "Xtanco", "Loterías", "BCN" or any address',
     login:'Login', contact:'Contact',
     stores:'Xpaces', screens:'screens',
-    select_circuit:'Select circuit',
+    select_circuit:'Select circuit', select_target:'Select target',
     lang_toggle:'ESP', lang_toggle_aria:'Switch to Spanish',
     circuit_scope_label:'Circuit scope',
     scope_all:'All', scope_global:'Global', scope_national:'National', scope_city:'City', scope_local:'Local',
@@ -4218,6 +4227,58 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
 </script>
 
 <script>
+// ── Selector de TARGET (criterios de contenido) — pastilla gemela del circuito ──
+// 4 categorías: Temporales · Contextuales · Tipología · Data-Driven. Lo elegido
+// se guarda en window.CONTENT_TARGET y segmenta la CREACIÓN DE CONTENIDOS.
+(function(){
+  const GROUPS = [
+    { key:'temporales', label:'Temporales', items:[['manana','Mañana'],['tarde','Tarde'],['noche','Noche']], extras:true },
+    { key:'contextuales', label:'Contextuales', items:[['exterior','Exterior'],['interior','Interior']] },
+    { key:'tipologia', label:'Tipología', items:[['supermercados','Supermercados'],['estancos','Estancos'],['bancos','Bancos'],['gimnasios','Gimnasios'],['mupi','MUPI'],['correos','Correos'],['transporte','Transporte'],['retail','Retail'],['moda','Moda']] },
+    { key:'datadriven', label:'Data-Driven', items:[['clima','Clima'],['trafico','Tráfico'],['moviles','Móviles'],['inventario','Inventario de tienda']] },
+  ];
+  const CT = window.CONTENT_TARGET = { temporales:[], hora:'', pases:'', contextuales:[], tipologia:[], datadriven:[] };
+  try{ const s=JSON.parse(localStorage.getItem('omnip-content-target')||'null'); if(s) Object.assign(CT, s); }catch(_){}
+  function persist(){ try{ localStorage.setItem('omnip-content-target', JSON.stringify(CT)); }catch(_){} }
+  let panel;
+  function buildBody(){
+    return GROUPS.map(g=>{
+      const pills = g.items.map(([v,l])=>`<button type="button" class="tg-pill" data-g="${g.key}" data-v="${v}">${l}</button>`).join('');
+      const extras = g.extras ? `<div class="tg-extras"><label>Hora<input type="time" class="tg-hora" value="${CT.hora||''}"></label><label>Nº pases<input type="number" min="0" class="tg-pases" placeholder="0" value="${CT.pases||''}" style="width:58px"></label></div>` : '';
+      return `<div class="tg-group"><div class="tg-glabel">${g.label}</div><div class="tg-pills">${pills}</div>${extras}</div>`;
+    }).join('');
+  }
+  function syncPills(){ panel.querySelectorAll('.tg-pill').forEach(b=>{ b.classList.toggle('on', (CT[b.dataset.g]||[]).includes(b.dataset.v)); }); }
+  function init(){
+    if(panel) return;
+    panel = document.createElement('section');
+    panel.id='target-panel'; panel.className='circuit-panel collapsed'; panel.setAttribute('aria-label','Selector de target');
+    panel.innerHTML = '<div class="circuit-head"><h3>Target</h3><button class="circuit-toggle" id="target-panel-toggle" type="button" title="Desplegar / replegar">+</button></div>'
+      + '<div class="circuit-body" style="gap:12px">' + buildBody()
+      + '<div style="font-size:10.5px;color:var(--mut);line-height:1.3">Estos criterios segmentan la <b>creación de contenidos</b>.</div></div>';
+    document.body.appendChild(panel);
+    panel.style.left='258px'; panel.style.top='82px'; panel.style.right='auto';   // a la derecha del panel de circuito
+    try{ const p=JSON.parse(localStorage.getItem('omnip-target-panel-pos')||'null'); if(p&&Number.isFinite(p.x)){ panel.style.left=p.x+'px'; panel.style.top=p.y+'px'; } }catch(_){}
+    const head=panel.querySelector('.circuit-head');
+    const x=document.createElement('button'); x.className='win-x'; x.type='button'; x.innerHTML='&times;'; x.title='Cerrar'; x.style.cssText='font-size:17px;margin-left:2px';
+    x.addEventListener('click',e=>{ e.stopPropagation(); panel.hidden=true; document.getElementById('header-target-btn')?.classList.remove('active'); });
+    head.appendChild(x);
+    const tg=panel.querySelector('#target-panel-toggle');
+    tg.addEventListener('click',()=>{ panel.classList.toggle('collapsed'); tg.textContent = panel.classList.contains('collapsed')?'+':'−'; });
+    panel.addEventListener('click',e=>{ const b=e.target.closest('.tg-pill'); if(!b)return; const arr=CT[b.dataset.g]; const i=arr.indexOf(b.dataset.v); if(i>=0)arr.splice(i,1); else arr.push(b.dataset.v); syncPills(); persist(); });
+    panel.querySelector('.tg-hora')?.addEventListener('change',e=>{ CT.hora=e.target.value; persist(); });
+    panel.querySelector('.tg-pases')?.addEventListener('change',e=>{ CT.pases=e.target.value; persist(); });
+    // arrastre por la cabecera (clic limpio = plegar)
+    let drag=false,sx=0,sy=0,ox=0,oy=0,moved=false;
+    head.addEventListener('pointerdown',e=>{ if(e.target.closest('button'))return; drag=true;moved=false;sx=e.clientX;sy=e.clientY; const r=panel.getBoundingClientRect(); panel.style.left=r.left+'px';panel.style.top=r.top+'px';panel.style.right='auto'; ox=e.clientX-r.left;oy=e.clientY-r.top; try{head.setPointerCapture(e.pointerId);}catch(_){} });
+    head.addEventListener('pointermove',e=>{ if(!drag)return; if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>4)moved=true; if(moved){ const nx=Math.max(0,Math.min(e.clientX-ox,innerWidth-panel.offsetWidth)),ny=Math.max(0,Math.min(e.clientY-oy,innerHeight-panel.offsetHeight)); panel.style.left=nx+'px';panel.style.top=ny+'px'; } });
+    head.addEventListener('pointerup',e=>{ if(!drag)return; drag=false; try{head.releasePointerCapture(e.pointerId);}catch(_){} if(moved){ try{localStorage.setItem('omnip-target-panel-pos',JSON.stringify({x:panel.offsetLeft,y:panel.offsetTop}));}catch(_){} } });
+    syncPills();
+    const hb=document.getElementById('header-target-btn');
+    if(hb){ hb.addEventListener('click',()=>{ panel.hidden=!panel.hidden; hb.classList.toggle('active',!panel.hidden); }); hb.classList.add('active'); }
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
 // ── Leyenda de circuitos (color → circuito) en el mapa ──────────────────
 (function(){
   let el;

@@ -1100,13 +1100,48 @@ let circuitTarget = loadCircuitTarget();
 // genera cada creativo etiquetado por su segmento.
 const PIXERIA_AD_BASE = 'https://www.pixeria.com/publicidad.html';
 const CAMPAIGN_DIM_LABELS = {
-  genders:   { hombre:'Hombre', mujer:'Mujer' },
-  ages:      { nino:'Niño', joven:'Joven', adulto:'Adulto', senior:'Senior', vejez:'Vejez' },
-  timeSlots: { manana:'Mañana', mediodia:'Mediodía', tarde:'Tarde', noche:'Noche' },
-  placements:{ exterior:'Exterior', interior:'Interior' },
+  genders:    { hombre:'Hombre', mujer:'Mujer' },
+  ages:       { nino:'Niño', joven:'Joven', adulto:'Adulto', senior:'Senior', vejez:'Vejez' },
+  temporales: { manana:'Mañana', tarde:'Tarde', noche:'Noche' },
+  contextuales:{ exterior:'Exterior', interior:'Interior' },
 };
-const CAMPAIGN_DIM_ORDER = ['genders','ages','timeSlots','placements'];
-// Producto cartesiano de las dimensiones activas (con ≥1 valor) del target del circuito.
+// Versiones = género × edad (target del circuito) × franja × contexto (panel Target).
+// Tipología y Data-Driven NO multiplican: van como CONTEXTO compartido (prompt + tags).
+const CAMPAIGN_DIM_ORDER = ['genders','ages','temporales','contextuales'];
+const CONTENT_CTX_LABELS = {
+  tipologia: { supermercados:'Supermercados', estancos:'Estancos', bancos:'Bancos', gimnasios:'Gimnasios', mupi:'MUPI', correos:'Correos', transporte:'Transporte', retail:'Retail', moda:'Moda' },
+  datadriven:{ clima:'Clima', trafico:'Tráfico', moviles:'Móviles', inventario:'Inventario de tienda' },
+};
+// Lee el panel Target nuevo (window.CONTENT_TARGET) de forma segura.
+function contentTargetSafe() {
+  const c = (typeof window !== 'undefined' && window.CONTENT_TARGET) || {};
+  const arr = k => Array.isArray(c[k]) ? c[k] : [];
+  return { temporales:arr('temporales'), contextuales:arr('contextuales'), tipologia:arr('tipologia'), datadriven:arr('datadriven'), hora:c.hora||'', pases:c.pases||'' };
+}
+// Target combinado para las versiones: género/edad del circuito + franja/contexto del panel Target.
+function mergedCampaignTarget() {
+  const ct = contentTargetSafe();
+  return { genders: Array.isArray(circuitTarget.genders)?circuitTarget.genders:[], ages: Array.isArray(circuitTarget.ages)?circuitTarget.ages:[], temporales: ct.temporales, contextuales: ct.contextuales };
+}
+// Contexto compartido (no genera versiones): tipología, data-driven, hora, nº pases.
+function campaignContext() {
+  const ct = contentTargetSafe();
+  return {
+    tipologia: ct.tipologia, datadriven: ct.datadriven, hora: ct.hora, pases: ct.pases,
+    tipologiaLabels: ct.tipologia.map(v => CONTENT_CTX_LABELS.tipologia[v] || v),
+    datadrivenLabels: ct.datadriven.map(v => CONTENT_CTX_LABELS.datadriven[v] || v),
+  };
+}
+function campaignContextSummary() {
+  const c = campaignContext();
+  const parts = [];
+  if (c.tipologiaLabels.length) parts.push(c.tipologiaLabels.join(', '));
+  if (c.datadrivenLabels.length) parts.push(c.datadrivenLabels.join(', '));
+  if (c.hora) parts.push('hora ' + c.hora);
+  if (c.pases) parts.push(c.pases + ' pases');
+  return parts.join(' · ');
+}
+// Producto cartesiano de las dimensiones activas (con ≥1 valor).
 function campaignCombos(target) {
   const dims = CAMPAIGN_DIM_ORDER
     .map(k => [k, Array.isArray(target && target[k]) ? target[k] : []])
@@ -1151,19 +1186,21 @@ function openCampaignModal() {
   ov.querySelector('#campaign-close').addEventListener('click', close);
   const matrix = ov.querySelector('#campaign-matrix');
   function refresh() {
-    const { combos, dims } = campaignCombos(circuitTarget);
-    const dimNames = dims.map(k => ({genders:isEs?'género':'gender',ages:isEs?'edad':'age',timeSlots:isEs?'franja':'daypart',placements:isEs?'emplazamiento':'placement'}[k])).join(' × ');
+    const { combos, dims } = campaignCombos(mergedCampaignTarget());
+    const dimNames = dims.map(k => ({genders:isEs?'género':'gender',ages:isEs?'edad':'age',temporales:isEs?'franja':'daypart',contextuales:isEs?'contexto':'context'}[k])).join(' × ');
     const sample = combos.slice(0, 8).map(c => `<div style="font-size:11.5px;color:#9effa0;padding:1px 0">• ${comboLabel(c)||'(sin segmentar)'}</div>`).join('');
+    const ctx = campaignContextSummary();
     matrix.innerHTML = `<div style="font-size:26px;font-weight:800;color:#ffd866">${combos.length} ${isEs?'versiones':'versions'}</div>`
       + `<div style="font-size:12px;color:#75aab9;margin:2px 0 8px">${dims.length?dimNames:(isEs?'sin criterios activos en Target':'no active criteria in Target')}</div>`
-      + sample + (combos.length > 8 ? `<div style="font-size:11px;color:#5e8595;margin-top:3px">…+${combos.length-8} ${isEs?'más':'more'}</div>` : '');
+      + sample + (combos.length > 8 ? `<div style="font-size:11px;color:#5e8595;margin-top:3px">…+${combos.length-8} ${isEs?'más':'more'}</div>` : '')
+      + (ctx ? `<div style="margin-top:9px;padding-top:8px;border-top:1px solid rgba(120,243,255,.14);font-size:11.5px;color:#9ad8ff">${isEs?'Contexto en todas':'Context on all'}: <span style="color:#ffd866">${ctx}</span></div>` : '');
     return combos;
   }
   let combos = refresh();
   ov.querySelector('#campaign-go').addEventListener('click', () => {
     const product = (ov.querySelector('#campaign-product').value || '').trim();
     if (!product) { ov.querySelector('#campaign-product').focus(); return; }
-    combos = campaignCombos(circuitTarget).combos;
+    combos = campaignCombos(mergedCampaignTarget()).combos;
     const campaignName = `${product} · ${combos.length}v`;
     const url = PIXERIA_AD_BASE + '?' + new URLSearchParams({
       from: 'admira',
@@ -1171,7 +1208,8 @@ function openCampaignModal() {
       product,
       circuit: selectedCircuitScope || 'all',
       combos: String(combos.length),
-      segmentation: JSON.stringify(circuitTarget),
+      segmentation: JSON.stringify(mergedCampaignTarget()),
+      content: JSON.stringify(contentTargetSafe()),
     }).toString();
     window.open(url, '_blank', 'noopener');
     close();

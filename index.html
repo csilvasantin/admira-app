@@ -177,8 +177,14 @@
   /* Selector de circuitos para compra de inventario */
   .circuit-panel{position:fixed;top:82px;left:18px;z-index:12;width:360px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
   .circuit-panel[hidden]{display:none}
-  .circuit-panel.collapsed{width:auto;min-width:210px}   /* replegado: compacto, solo la cabecera */
+  .circuit-panel.collapsed{width:230px;min-width:0}   /* replegado: compacto, alineado con la leyenda */
   .circuit-panel.collapsed .circuit-body{display:none}
+  /* Cajas de selección arriba: MISMO meta-estilo, tamaño y altura (Carlos 2026-06-11) */
+  #circuit-legend{width:230px;max-width:230px}
+  .circuit-head,#circuit-legend .cl-head{padding:9px 12px;min-height:42px;box-sizing:border-box;border-bottom:1px solid var(--line)}
+  .circuit-head h3,#circuit-legend .cl-head b{font-family:monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0}
+  .circuit-toggle{width:24px;height:24px}
+  #circuit-legend .cl-head .cl-x,.circuit-head .win-x{font-size:16px}
   .circuit-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);cursor:grab;user-select:none}
   .circuit-head:active{cursor:grabbing}
   .circuit-head h3{margin:0;font-family:monospace;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
@@ -523,6 +529,14 @@
   .sec-toggle{cursor:pointer;user-select:none;display:flex;align-items:center;gap:7px}
   .sec-toggle::before{content:'▾';font-size:10px;color:var(--mut);transition:transform .15s}
   .sec-toggle.sec-collapsed::before{transform:rotate(-90deg)}
+  /* ── Alinear las DOS cajas de selección (selector + leyenda): mismo meta-estilo,
+       tamaño y altura. Autoritativo (al final, gana en cascada). Carlos 2026-06-11 ── */
+  .circuit-panel.collapsed{width:230px !important;min-width:0 !important}
+  #circuit-legend{width:230px !important;max-width:230px !important;background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 46px rgba(0,0,0,.42)}
+  .circuit-head,#circuit-legend .cl-head{height:44px;min-height:44px;padding:0 12px !important;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line)}
+  .circuit-head h3,#circuit-legend .cl-head b{font-family:monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0;line-height:1}
+  .circuit-toggle{width:24px;height:24px}
+  #circuit-legend .cl-head .cl-x,.circuit-head .win-x{font-size:16px;line-height:1}
 </style>
 </head>
 <body>
@@ -588,7 +602,7 @@
 
 <section class="circuit-panel collapsed" id="circuit-panel" aria-label="Selector de circuitos">
   <div class="circuit-head">
-    <h3 data-i18n="circuit_panel_title">Comprar por circuito</h3>
+    <h3 data-i18n="circuit_panel_title">Circuito</h3>
     <button class="circuit-toggle" id="circuit-toggle" type="button" title="Desplegar / replegar">+</button>
   </div>
   <div class="circuit-body">
@@ -1134,7 +1148,7 @@ const I18N = {
     lang_toggle:'ENG', lang_toggle_aria:'Cambiar a inglés',
     circuit_scope_label:'Alcance del circuito',
     scope_all:'Todos', scope_global:'Global', scope_national:'Nacional', scope_city:'Ciudad', scope_local:'Local',
-    circuit_panel_title:'Comprar por circuito',
+    circuit_panel_title:'Circuito',
     circuit_metro_bcn:'Metro Barcelona Ciudad', circuit_desigual:'Desigual Global', circuit_mango:'Mango Global',
     circuit_kioskos:'Kioskos de prensa', circuit_all:'Todos los puntos locales',
     circuit_estancos:'Xtanco Nacional', circuit_decathlon:'Decathlon España', circuit_palacio:'El Palacio de Hierro · México', circuit_liverpool_mx:'Liverpool · México', circuit_bbva:'BBVA · España', circuit_banorte_mx:'Banorte · México', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · España', circuit_correos:'Correos · España', circuit_multiopticas:'MultiÓpticas · España', circuit_retail:'Otros retail físicos',
@@ -1247,7 +1261,7 @@ const I18N = {
     lang_toggle:'ESP', lang_toggle_aria:'Switch to Spanish',
     circuit_scope_label:'Circuit scope',
     scope_all:'All', scope_global:'Global', scope_national:'National', scope_city:'City', scope_local:'Local',
-    circuit_panel_title:'Buy by circuit',
+    circuit_panel_title:'Circuit',
     circuit_metro_bcn:'Barcelona Metro City', circuit_desigual:'Global Desigual', circuit_mango:'Mango Global',
     circuit_kioskos:'Press kiosk', circuit_all:'All local registered points',
     circuit_estancos:'National Xtanco', circuit_decathlon:'Decathlon Spain', circuit_palacio:'El Palacio de Hierro · Mexico', circuit_liverpool_mx:'Liverpool · Mexico', circuit_bbva:'BBVA · Spain', circuit_banorte_mx:'Banorte · Mexico', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · Spain', circuit_correos:'Correos · Spain', circuit_multiopticas:'MultiÓpticas · Spain', circuit_retail:'Other physical retail',

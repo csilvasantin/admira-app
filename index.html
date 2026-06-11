@@ -1758,7 +1758,29 @@ function circuitDemoItems() {
 
 function mapVisibleLocations() {
   if (!circuitMapFilterActive) return LOCATIONS;
-  return currentCircuitItems();
+  let items = currentCircuitItems();
+  // Filtrar también por los CRITERIOS (target) si el usuario ha restringido algún eje
+  // → el mapa refleja la segmentación (género/edad/franja/emplazamiento).
+  if (circuitTargetIsActive()) items = items.filter(locationMatchesTargetSoft);
+  return items;
+}
+// ¿Hay algún eje del target RESTRINGIDO (un subconjunto, ni vacío ni todos)?
+function circuitTargetIsActive() {
+  return Object.entries(CIRCUIT_TARGET_OPTIONS).some(([group, opts]) => {
+    const sel = Array.isArray(circuitTarget[group]) ? circuitTarget[group] : [];
+    return sel.length > 0 && sel.length < opts.length;
+  });
+}
+// Match "blando": un eje sin restricción (vacío o todos) no constriñe.
+function locationMatchesTargetSoft(loc) {
+  const seg = locationSegmentation(loc);
+  return Object.entries(CIRCUIT_TARGET_SEGMENT_FIELDS).every(([group, segField]) => {
+    const sel = Array.isArray(circuitTarget[group]) ? circuitTarget[group] : [];
+    const opts = CIRCUIT_TARGET_OPTIONS[group] || [];
+    if (!sel.length || sel.length >= opts.length) return true;
+    const available = Array.isArray(seg[segField]) ? seg[segField] : [];
+    return hasTargetIntersection(sel, available);
+  });
 }
 
 function mapScopeForLocation(loc) {
@@ -1968,8 +1990,18 @@ function bindCircuitTargetControls() {
       renderCircuitSelector();
     });
   });
-  document.getElementById('target-reset')?.addEventListener('click', resetCircuitTarget);
-  document.getElementById('target-apply')?.addEventListener('click', () => setCircuitTargetMode(false));
+  document.getElementById('target-reset')?.addEventListener('click', () => {
+    resetCircuitTarget();
+    circuitMapFilterActive = true;
+    refreshSelectedMapSource();
+    updateBiddingLiveCounters();
+  });
+  document.getElementById('target-apply')?.addEventListener('click', () => {
+    setCircuitTargetMode(false);
+    circuitMapFilterActive = true;        // el target filtra el mapa al aplicarlo
+    refreshSelectedMapSource();
+    updateBiddingLiveCounters();
+  });
 }
 
 function refreshSelectedMapSource() {
@@ -2998,6 +3030,7 @@ function locationsGeoJSON() {
     visible[0] && visible[0].id,
     visible[visible.length - 1] && visible[visible.length - 1].id,
     circuitMapFilterActive ? selectedCircuitId + ':' + selectedMetroLine : 'all',
+    circuitTargetIsActive() ? JSON.stringify(circuitTarget) : 'noTarget',
     selectionKey,
   ].join('|');
   if (locationsGeoJSONCache && locationsGeoJSONCacheKey === cacheKey) return locationsGeoJSONCache;
@@ -4195,8 +4228,20 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     el = document.createElement('div'); el.id='circuit-legend';
     el.innerHTML = '<div class="cl-head"><b>Circuitos</b><span class="cl-x" title="Cerrar">&times;</span></div><div class="cl-body"></div>';
     document.body.appendChild(el);
+    el.classList.add('collapsed');   // replegada inicialmente
+    try{ const p=JSON.parse(localStorage.getItem('omnip-legend-pos')||'null');
+      if(p&&Number.isFinite(p.left)&&Number.isFinite(p.top)){ el.style.left=p.left+'px'; el.style.top=p.top+'px'; el.style.right='auto'; } }catch(_){}
+    const head=el.querySelector('.cl-head');
+    head.style.cursor='move'; head.style.touchAction='none'; head.style.userSelect='none';
     el.querySelector('.cl-x').addEventListener('click', e=>{ e.stopPropagation(); el.style.display='none'; });
-    el.querySelector('.cl-head').addEventListener('click', e=>{ if(e.target.classList.contains('cl-x')) return; el.classList.toggle('collapsed'); });
+    // arrastrar por la cabecera; clic limpio (sin mover) = desplegar/replegar
+    let drag=false, sx=0, sy=0, ox=0, oy=0, moved=false;
+    head.addEventListener('pointerdown', e=>{ if(e.target.classList.contains('cl-x'))return; drag=true; moved=false; sx=e.clientX; sy=e.clientY;
+      const r=el.getBoundingClientRect(); el.style.left=r.left+'px'; el.style.top=r.top+'px'; el.style.right='auto'; ox=e.clientX-r.left; oy=e.clientY-r.top; try{head.setPointerCapture(e.pointerId);}catch(_){} });
+    head.addEventListener('pointermove', e=>{ if(!drag)return; if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>4) moved=true;
+      if(moved){ const nx=Math.max(0,Math.min(e.clientX-ox,innerWidth-el.offsetWidth)), ny=Math.max(0,Math.min(e.clientY-oy,innerHeight-el.offsetHeight)); el.style.left=nx+'px'; el.style.top=ny+'px'; } });
+    head.addEventListener('pointerup', e=>{ if(!drag)return; drag=false; try{head.releasePointerCapture(e.pointerId);}catch(_){}
+      if(moved){ try{localStorage.setItem('omnip-legend-pos',JSON.stringify({left:el.offsetLeft,top:el.offsetTop}));}catch(_){} } else { el.classList.toggle('collapsed'); } });
     render();
   }
   function whenMapReady(){

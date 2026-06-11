@@ -1325,6 +1325,35 @@ function ensureCircuitMatchesScope() {
 // ─── Workers (mismos que xpace-os) ────────────────────────────────
 const PIXER = 'https://pixer-eleven.csilvasantin.workers.dev';
 
+// ── PANTALLAS VIVAS (cierra el loop crear→distribuir→VENDER) ──────────────
+// Un gemelo online manda heartbeat a /signage/heartbeat con su screenId y su
+// `loc` (Xpacio). Aquí descubrimos esas pantallas vivas y las enlazamos a la
+// surface de su Xpacio → cualquier gemelo encendido pasa a ser VENDIBLE/targetable,
+// sin tener que hardcodear su screenId en locations.js (campo pixerScreens).
+window.LIVE_SCREENS = { byLoc: Object.create(null), online: 0, fetchedAt: 0 };
+async function loadLiveScreens() {
+  try {
+    const r = await fetch(PIXER + '/signage/screens', { cache: 'no-store' });
+    const d = await r.json();
+    const byLoc = Object.create(null); let online = 0;
+    (d.screens || []).forEach(s => {
+      if (!s || !s.online || !s.loc) return;            // solo pantallas online con Xpacio conocido
+      (byLoc[s.loc] = byLoc[s.loc] || []).push(s.screen);
+      online++;
+    });
+    window.LIVE_SCREENS = { byLoc, online, fetchedAt: Date.now() };
+  } catch (e) { /* red/CORS: el loop sigue con los pixerScreens hardcodeados */ }
+}
+function liveScreensForLoc(locId) {
+  const m = window.LIVE_SCREENS && window.LIVE_SCREENS.byLoc;
+  return (m && locId && m[locId]) ? m[locId] : [];
+}
+// Pantallas targetables de una surface = pixerScreens fijas ∪ pantallas vivas del Xpacio.
+function screensForSurface(loc, surf) {
+  const fixed = Array.isArray(surf && surf.pixerScreens) ? surf.pixerScreens : [];
+  return [...new Set([...fixed, ...liveScreensForLoc(loc && loc.id)].filter(Boolean))];
+}
+
 // Gemelo digital genérico (público). Las tiendas con campo `twin` propio
 // (p.ej. Xtanco Barcelona → su juego con modelo Barcelona) lo sobrescriben.
 // Bump del ?v= al subir build nueva del gemelo (xtanco-version.js del 01).
@@ -2266,6 +2295,7 @@ function selectedPixerScreens(locs, screenId) {
       }
       if (Array.isArray(surface.pixerScreens)) screens.push(...surface.pixerScreens);
     });
+    if (loc && loc.id) screens.push(...liveScreensForLoc(loc.id));   // gemelos vivos del Xpacio
   });
   const exact = [...new Set(screens.filter(Boolean))];
   if (exact.length || !screenId) return exact;
@@ -3263,7 +3293,7 @@ function renderPanel(loc) {
   }
   const list = document.getElementById('surfaces');
   list.innerHTML = loc.surfaces.map((s, i) => {
-    const hasTwin = Array.isArray(s.pixerScreens) && s.pixerScreens.length;
+    const hasTwin = screensForSurface(loc, s).length;   // pantalla fija o gemelo vivo del Xpacio
     return `
     <div class="surface" data-surface="${s.surface}">
       <div class="thumb ${s.status==='live'?'live':''}">${thumbFor(s.surface, s.status)}</div>
@@ -3380,7 +3410,9 @@ async function launchWinnerToTwin(surfIdx, btn) {
   const loc = activeLocation;
   if (!loc) return;
   const surf = loc.surfaces[surfIdx];
-  if (!surf || !(Array.isArray(surf.pixerScreens) && surf.pixerScreens.length)) return;
+  if (!surf) return;
+  const targetScreens = screensForSurface(loc, surf);   // fijas ∪ vivas del Xpacio
+  if (!targetScreens.length) return;
 
   const reset = (cls, label, ms) => {
     btn.classList.remove('ok','err'); if (cls) btn.classList.add(cls);
@@ -3403,7 +3435,7 @@ async function launchWinnerToTwin(surfIdx, btn) {
     // Targeting por pantalla: un push por cada screenId real de la surface, con
     // `target` → el creativo ganador cae SOLO en esas pantallas (el gemelo las
     // filtra vía /signage/feed?screen=), no en broadcast a todo el gemelo.
-    const results = await Promise.all(surf.pixerScreens.map(screen =>
+    const results = await Promise.all(targetScreens.map(screen =>
       fetch(PIXER + '/signage/push', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -3777,6 +3809,20 @@ consumePixeriaDraftFromUrl();
     renderCircuitSelector();
     updateLocationsSource();
   } catch {}
+})();
+
+// Descubrir gemelos ONLINE (pantallas vivas) y refrescar cada 60s → el inventario
+// vendible se mantiene al día sin hardcodear screenIds. Cierra el loop hacia "vender".
+(async () => {
+  await loadLiveScreens();
+  try { if (typeof activeLocation !== 'undefined' && activeLocation) renderPanel(activeLocation); } catch {}
+  setInterval(async () => {
+    const before = JSON.stringify(window.LIVE_SCREENS.byLoc);
+    await loadLiveScreens();
+    if (JSON.stringify(window.LIVE_SCREENS.byLoc) !== before) {
+      try { if (typeof activeLocation !== 'undefined' && activeLocation) renderPanel(activeLocation); } catch {}
+    }
+  }, 60000);
 })();
 
 // ─── Auto-rotación lenta del globo ────────────────────────────────

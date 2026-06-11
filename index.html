@@ -384,6 +384,23 @@
   .zoom-grp .ctrl-btn{border:0;border-radius:0;background:transparent;width:46px;height:46px}
   .zoom-grp .ctrl-btn.ztop{border-bottom:1px solid var(--line)}
 
+  /* Vista isométrica — overlay que embebe el Gemelo Digital en su perspectiva real */
+  #iso-overlay{position:fixed;inset:0;z-index:40;display:flex;flex-direction:column;background:#04101a;animation:isoIn .25s ease}
+  #iso-overlay[hidden]{display:none}
+  @keyframes isoIn{from{opacity:0}to{opacity:1}}
+  .iso-bar{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;height:46px;padding:0 14px;background:rgba(10,22,32,.96);border-bottom:1px solid var(--line);backdrop-filter:blur(8px)}
+  .iso-title{font-family:monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .iso-title b{color:var(--brand);margin-right:8px}
+  .iso-actions{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+  .iso-link{font-family:monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+  .iso-link:hover{color:var(--brand)}
+  .iso-x{width:30px;height:30px;border-radius:8px;background:transparent;border:1px solid var(--line);color:var(--ink);font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .15s,color .15s}
+  .iso-x:hover{border-color:var(--brand);color:var(--brand)}
+  .iso-stage{position:relative;flex:1 1 auto;min-height:0}
+  #iso-frame{width:100%;height:100%;border:0;display:block;background:#04101a}
+  .iso-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);pointer-events:none;transition:opacity .3s}
+  .iso-loading.hide{opacity:0}
+
   /* Selector de capas — grupo vertical cuadrado (proporción del zoom), bajo +/− */
   .layer-chooser{display:flex;flex-direction:column;background:rgba(10,22,32,.92);border:1px solid var(--line);border-radius:12px;overflow:hidden;backdrop-filter:blur(8px)}
   .layer-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;width:46px;height:46px;padding:0;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--mut);cursor:pointer;transition:background .15s,color .15s}
@@ -583,6 +600,22 @@
   </div>
 </div>
 <div id="map"></div>
+
+<!-- Vista isométrica: embebe el Gemelo Digital (game.html) en su perspectiva real.
+     Sin punto seleccionado → red isométrica (view=red). Con punto → ?loc=<id>. -->
+<div id="iso-overlay" hidden aria-hidden="true">
+  <div class="iso-bar">
+    <span class="iso-title"><b>ISO</b> <span id="iso-where" data-i18n="iso_network">Red de Xpacios · Gemelo Digital</span></span>
+    <span class="iso-actions">
+      <a id="iso-open" href="#" target="_blank" rel="noopener" class="iso-link" data-i18n="iso_fullscreen">Abrir a pantalla completa ↗</a>
+      <button id="iso-close" type="button" class="iso-x" title="Volver al mapa" aria-label="Cerrar">&times;</button>
+    </span>
+  </div>
+  <div class="iso-stage">
+    <div class="iso-loading" id="iso-loading" data-i18n="iso_loading">Cargando el Gemelo Digital…</div>
+    <iframe id="iso-frame" title="Gemelo Digital — vista isométrica" allow="fullscreen; autoplay" loading="lazy"></iframe>
+  </div>
+</div>
 <!-- Guiño techie: aparece al alejar el zoom hasta ver toda la galaxia -->
 <div class="mars-hint" id="mars-hint" aria-hidden="true"><span data-i18n="mars_hint">Todavía no vendemos publi en Marte 🔴</span></div>
 <!-- Hotspots clicables sobre cada planeta (generados en JS) -->
@@ -864,6 +897,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v18M5 8a7 7 0 0 1 14 0M19 16a7 7 0 0 1-14 0"/><polygon points="12,3 9,10 12,8 15,10" fill="#ff5e3a" stroke="none"/></svg>
   </button>
   <button class="ctrl-btn" id="btn-3d" data-i18n-title="toggle_2d3d" title="Alternar 2D / 3D">3D</button>
+  <button class="ctrl-btn" id="btn-iso" data-i18n-title="toggle_iso" title="Vista isométrica (como el Gemelo Digital)">ISO</button>
   <button class="ctrl-btn" id="btn-loc" data-i18n-title="my_location" title="Mi ubicación" data-i18n-aria="locate" aria-label="Localizar">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
   </button>
@@ -1224,6 +1258,7 @@ const I18N = {
     hero_arrow:'↑ buscar arriba o pinchar un punto del mapa',
     close:'Cerrar',
     toggle_2d3d:'Alternar 2D / 3D', my_location:'Mi ubicación', locate:'Localizar',
+    toggle_iso:'Vista isométrica (como el Gemelo Digital)', iso_network:'Red de Xpacios · Gemelo Digital', iso_fullscreen:'Abrir a pantalla completa ↗', iso_loading:'Cargando el Gemelo Digital…',
     pegman_title:'Arrastra el muñeco a una calle para ver Street View', streetview:'Street View',
     layer_earth_title:'Vista satélite (globo)', layer_earth:'Tierra',
     layer_map_title:'Vista de mapa oscuro', layer_map:'Mapa',
@@ -1337,6 +1372,7 @@ const I18N = {
     hero_arrow:'↑ search above or click a point on the map',
     close:'Close',
     toggle_2d3d:'Toggle 2D / 3D', my_location:'My location', locate:'Locate',
+    toggle_iso:'Isometric view (like the Digital Twin)', iso_network:'Xpacio network · Digital Twin', iso_fullscreen:'Open fullscreen ↗', iso_loading:'Loading the Digital Twin…',
     pegman_title:'Drag the pegman onto a street to see Street View', streetview:'Street View',
     layer_earth_title:'Satellite view (globe)', layer_earth:'Earth',
     layer_map_title:'Dark map view', layer_map:'Map',
@@ -3294,6 +3330,53 @@ function setView(mode) {
     map.easeTo({pitch: 0, bearing: 0, duration: 600});
   }
 }
+
+// ─── Vista isométrica: embebe el Gemelo Digital en su perspectiva real ──
+// Sin punto activo → red de Xpacios (view=red). Con punto → ?loc=<id>,
+// de forma que se ve EXACTAMENTE como en el gemelo si se aplica la campaña.
+function isoUrlFor(loc) {
+  let url = TWIN_BASE;
+  if (loc && loc.id) url += '&loc=' + encodeURIComponent(loc.id);
+  else url += '&view=red';
+  return url + '&embed=1';
+}
+function openIsoView() {
+  const ov = document.getElementById('iso-overlay');
+  const fr = document.getElementById('iso-frame');
+  const loading = document.getElementById('iso-loading');
+  const where = document.getElementById('iso-where');
+  const openLink = document.getElementById('iso-open');
+  const btn = document.getElementById('btn-iso');
+  if (!ov || !fr) return;
+  const loc = (typeof activeLocation !== 'undefined') ? activeLocation : null;
+  const url = isoUrlFor(loc);
+  where.textContent = loc && loc.name
+    ? loc.name + ' · ' + t('iso_network').split('·').slice(-1)[0].trim()
+    : t('iso_network');
+  openLink.href = url;
+  if (loading) loading.classList.remove('hide');
+  fr.onload = () => { if (loading) loading.classList.add('hide'); };
+  fr.src = url;
+  ov.hidden = false; ov.setAttribute('aria-hidden', 'false');
+  if (btn) btn.classList.add('active');
+  document.addEventListener('keydown', isoEsc);
+}
+function closeIsoView() {
+  const ov = document.getElementById('iso-overlay');
+  const fr = document.getElementById('iso-frame');
+  const btn = document.getElementById('btn-iso');
+  if (!ov) return;
+  ov.hidden = true; ov.setAttribute('aria-hidden', 'true');
+  if (fr) fr.src = 'about:blank';            // libera el canvas del gemelo
+  if (btn) btn.classList.remove('active');
+  document.removeEventListener('keydown', isoEsc);
+}
+function isoEsc(e) { if (e.key === 'Escape') closeIsoView(); }
+document.getElementById('btn-iso').addEventListener('click', () => {
+  const ov = document.getElementById('iso-overlay');
+  if (ov && ov.hidden) openIsoView(); else closeIsoView();
+});
+document.getElementById('iso-close').addEventListener('click', closeIsoView);
 
 // ─── UI helpers ────────────────────────────────────────────────────
 const splash  = document.getElementById('splash');

@@ -495,6 +495,13 @@
   .xp-tooltip .xp-meta{margin-top:6px;font-size:10px;color:#7fa6b3;letter-spacing:.02em}
   .xp-tooltip .xp-live{color:#88ffaa;font-weight:700}
   .xp-tooltip .xp-idle{color:#9bc3cf}
+  /* Scrollbars al tema oscuro (no el pegote blanco por defecto) */
+  *{scrollbar-width:thin;scrollbar-color:rgba(120,243,255,.30) transparent}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(120,243,255,.26);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(120,243,255,.46);background-clip:padding-box}
+  ::-webkit-scrollbar-corner{background:transparent}
   /* Ventanas flotantes: cerrar + plegar + arrastrar (Carlos 2026-06-11) */
   .win-drag{cursor:move;user-select:none;touch-action:none}
   .win-x{background:transparent;border:0;color:var(--mut);font-size:19px;line-height:1;cursor:pointer;padding:0 2px}

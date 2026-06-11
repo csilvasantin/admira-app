@@ -177,7 +177,7 @@
   /* Selector de circuitos para compra de inventario */
   .circuit-panel{position:fixed;top:8px;left:230px;z-index:12;width:380px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
   .circuit-panel[hidden]{display:none}
-  .circuit-panel.collapsed{width:230px;min-width:0}   /* replegado: compacto, alineado con la leyenda */
+  .circuit-panel.collapsed{min-width:0}   /* replegado: MISMO ancho que desplegado (solo oculta el cuerpo) */
   .circuit-panel.collapsed .circuit-body{display:none}
   /* Cajas de selección arriba: MISMO meta-estilo, tamaño y altura (Carlos 2026-06-11) */
   #circuit-legend{width:230px;max-width:230px}
@@ -548,7 +548,7 @@
   .sec-toggle.sec-collapsed::before{transform:rotate(-90deg)}
   /* ── Alinear las DOS cajas de selección (selector + leyenda): mismo meta-estilo,
        tamaño y altura. Autoritativo (al final, gana en cascada). Carlos 2026-06-11 ── */
-  .circuit-panel.collapsed{width:280px !important;min-width:0 !important}
+  .circuit-panel.collapsed{min-width:0 !important}   /* mismo ancho plegado que desplegado */
   #circuit-legend{width:230px !important;max-width:230px !important;background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 46px rgba(0,0,0,.42)}
   .circuit-head,#circuit-legend .cl-head{height:44px;min-height:44px;padding:0 12px !important;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line)}
   .circuit-head h3,#circuit-legend .cl-head b{font-family:monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0;line-height:1}

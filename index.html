@@ -495,6 +495,17 @@
   .xp-tooltip .xp-meta{margin-top:6px;font-size:10px;color:#7fa6b3;letter-spacing:.02em}
   .xp-tooltip .xp-live{color:#88ffaa;font-weight:700}
   .xp-tooltip .xp-idle{color:#9bc3cf}
+  /* Ventanas flotantes: cerrar + plegar + arrastrar (Carlos 2026-06-11) */
+  .win-drag{cursor:move;user-select:none;touch-action:none}
+  .win-x{background:transparent;border:0;color:var(--mut);font-size:19px;line-height:1;cursor:pointer;padding:0 2px}
+  .win-x:hover{color:var(--ink)}
+  #ticker.win-collapsed .lt-row{display:none}
+  .lt-head{display:flex;align-items:center;gap:7px}
+  .lt-head .win-x{margin-left:auto}
+  .lt-collapse{background:transparent;border:0;color:var(--mut);font-size:13px;line-height:1;cursor:pointer;padding:0 2px}
+  .sec-toggle{cursor:pointer;user-select:none;display:flex;align-items:center;gap:7px}
+  .sec-toggle::before{content:'▾';font-size:10px;color:var(--mut);transition:transform .15s}
+  .sec-toggle.sec-collapsed::before{transform:rotate(-90deg)}
 </style>
 </head>
 <body>
@@ -1187,7 +1198,7 @@ const I18N = {
     sv_enter:'Entrar a Street View ↗',
     wish_title:'¡Has atrapado una estrella fugaz!', wish_sub:'Cierra los ojos y pide un deseo…',
     wish_ok:'Pedido ✨', make_wish:'Pide un deseo',
-    surfaces_available:'Surfaces disponibles', live_bids:'Pujas en vivo',
+    surfaces_available:'Surfaces disponibles', live_bids:'Pujas en vivo', create_campaign:'➕ Crear campaña',
     how_auction:'Cómo funciona la subasta', view_twin:'Ver Gemelo Digital ↗', twin_hd:'🎥 Gemelo Hiperrealista ↗',
     meta_surfaces:'surfaces', meta_imprday:'impr/día', meta_cpm:'CPM rango',
     waiting_bid:'// esperando primera puja…',
@@ -1300,7 +1311,7 @@ const I18N = {
     sv_enter:'Enter Street View ↗',
     wish_title:'You caught a shooting star!', wish_sub:'Close your eyes and make a wish…',
     wish_ok:'Wished ✨', make_wish:'Make a wish',
-    surfaces_available:'Available surfaces', live_bids:'Live bids',
+    surfaces_available:'Available surfaces', live_bids:'Live bids', create_campaign:'➕ Create campaign',
     how_auction:'How the auction works', view_twin:'View Digital Twin ↗', twin_hd:'🎥 Hyperrealistic Twin ↗',
     meta_surfaces:'surfaces', meta_imprday:'impr/day', meta_cpm:'CPM range',
     waiting_bid:'// waiting for first bid…',
@@ -4125,5 +4136,78 @@ document.getElementById('lang-toggle')?.addEventListener('click', e => {
 setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
 </script>
 
+<script>
+// ── Ventanas flotantes: cerrar + plegar + arrastrar (Carlos 2026-06-11) ──
+(function(){
+  function makeDraggable(el, handle, key){
+    if(!el || !handle) return;
+    handle.classList.add('win-drag');
+    try{ const p=JSON.parse(localStorage.getItem(key)||'null');
+      if(p&&Number.isFinite(p.left)&&Number.isFinite(p.top)){
+        el.style.left=Math.max(0,Math.min(p.left,innerWidth-60))+'px';
+        el.style.top=Math.max(0,Math.min(p.top,innerHeight-40))+'px';
+        el.style.right='auto'; el.style.bottom='auto';
+      } }catch(_){}
+    let drag=false,ox=0,oy=0;
+    handle.addEventListener('pointerdown',e=>{
+      if(e.target.closest('button, select, input, a')) return;   // no arrastrar al pulsar controles
+      drag=true; const r=el.getBoundingClientRect();
+      el.style.left=r.left+'px'; el.style.top=r.top+'px'; el.style.right='auto'; el.style.bottom='auto';
+      ox=e.clientX-r.left; oy=e.clientY-r.top;
+      try{ handle.setPointerCapture(e.pointerId); }catch(_){}
+    });
+    handle.addEventListener('pointermove',e=>{
+      if(!drag) return;
+      const nx=Math.max(0,Math.min(e.clientX-ox,innerWidth-el.offsetWidth));
+      const ny=Math.max(0,Math.min(e.clientY-oy,innerHeight-el.offsetHeight));
+      el.style.left=nx+'px'; el.style.top=ny+'px';
+    });
+    const end=e=>{ if(!drag)return; drag=false; try{handle.releasePointerCapture(e.pointerId);}catch(_){}
+      try{ localStorage.setItem(key, JSON.stringify({left:el.offsetLeft, top:el.offsetTop})); }catch(_){} };
+    handle.addEventListener('pointerup',end); handle.addEventListener('pointercancel',end);
+  }
+  function makeCollapsibleSection(header, body, key){
+    if(!header || !body) return;
+    header.classList.add('sec-toggle'); header.setAttribute('role','button'); header.setAttribute('tabindex','0');
+    let collapsed=false; try{ collapsed = localStorage.getItem(key)==='1'; }catch(_){}
+    const apply=()=>{ body.style.display=collapsed?'none':''; header.classList.toggle('sec-collapsed',collapsed); };
+    apply();
+    header.addEventListener('click',()=>{ collapsed=!collapsed; apply(); try{localStorage.setItem(key,collapsed?'1':'0');}catch(_){} });
+  }
+  function addCloseBtn(host, target){
+    if(!host || host.querySelector('.win-x')) return;
+    const b=document.createElement('button'); b.className='win-x'; b.type='button'; b.innerHTML='&times;'; b.title='Cerrar';
+    b.addEventListener('click',ev=>{ ev.stopPropagation(); (target||host).style.display='none'; (target||host).hidden=true; });
+    host.appendChild(b);
+  }
+  function init(){
+    // 1) Circuit panel: arrastrable por su cabecera + cerrar (ya tiene plegar)
+    const cp=document.getElementById('circuit-panel');
+    if(cp){ const head=cp.querySelector('.circuit-head');
+      makeDraggable(cp, head, 'omnip-pos-circuit'); addCloseBtn(head, cp); }
+    // 2) Ticker BIDDING LIVE: arrastrable + plegable + cerrar
+    const tk=document.getElementById('ticker');
+    if(tk){ const head=tk.querySelector('.lt-head');
+      makeDraggable(tk, head, 'omnip-pos-ticker');
+      if(head && !head.querySelector('.lt-collapse')){
+        const c=document.createElement('button'); c.className='lt-collapse'; c.type='button'; c.title='Plegar'; c.innerHTML='−';
+        c.addEventListener('click',ev=>{ ev.stopPropagation(); const col=tk.classList.toggle('win-collapsed'); c.innerHTML=col?'+':'−'; });
+        head.appendChild(c);
+      }
+      addCloseBtn(head, tk);
+    }
+    // 3) Panel de detalle: secciones plegables (Surfaces disponibles + Pujas en vivo) + arrastrable (ya tiene cerrar)
+    const pn=document.getElementById('panel');
+    if(pn){
+      makeDraggable(pn, pn.querySelector('.ph'), 'omnip-pos-panel');
+      const h3s=pn.querySelectorAll('.body > h3');
+      const surfH=[...h3s].find(h=>h.getAttribute('data-i18n')==='surfaces_available');
+      makeCollapsibleSection(surfH, document.getElementById('surfaces'), 'omnip-sec-surfaces');
+      makeCollapsibleSection(pn.querySelector('.bf-head'), document.getElementById('bidfeed'), 'omnip-sec-bidfeed');
+    }
+  }
+  if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
 </body>
 </html>

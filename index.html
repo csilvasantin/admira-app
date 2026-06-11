@@ -175,7 +175,7 @@
   @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
 
   /* Selector de circuitos para compra de inventario */
-  .circuit-panel{position:fixed;top:8px;left:230px;z-index:12;width:380px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
+  .circuit-panel{position:fixed;top:8px;left:165px;z-index:12;width:330px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
   .circuit-panel[hidden]{display:none}
   .circuit-panel.collapsed{min-width:0}   /* replegado: MISMO ancho que desplegado (solo oculta el cuerpo) */
   .circuit-panel.collapsed .circuit-body{display:none}
@@ -2793,7 +2793,7 @@ function setCircuitPanelPosition(x, y, persist = true) {
   panelEl.style.bottom = 'auto';
   panelEl.style.transform = 'none';
   if (persist) {
-    try { localStorage.setItem('omnip-circuit-panel-pos', JSON.stringify({x:nx, y:ny})); } catch (_) {}
+    try { localStorage.setItem('omnip-circuit-panel-pos2', JSON.stringify({x:nx, y:ny})); } catch (_) {}
   }
 }
 
@@ -2803,7 +2803,7 @@ function restoreCircuitPanelPosition() {
     return;
   }
   try {
-    const pos = JSON.parse(localStorage.getItem('omnip-circuit-panel-pos') || 'null');
+    const pos = JSON.parse(localStorage.getItem('omnip-circuit-panel-pos2') || 'null');
     if (pos && Number.isFinite(pos.x) && Number.isFinite(pos.y)) setCircuitPanelPosition(pos.x, pos.y, false);
   } catch (_) {}
 }
@@ -4338,8 +4338,8 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
       + '<div class="circuit-body" style="gap:12px">' + buildBody()
       + '<div style="font-size:10.5px;color:var(--mut);line-height:1.3" data-i18n="target_panel_hint">'+t('target_panel_hint')+'</div></div>';
     document.body.appendChild(panel);
-    panel.style.left='620px'; panel.style.top='8px'; panel.style.right='auto';   // arriba, a la derecha del de circuito
-    try{ const p=JSON.parse(localStorage.getItem('omnip-target-panel-pos')||'null'); if(p&&Number.isFinite(p.x)){ panel.style.left=p.x+'px'; panel.style.top=p.y+'px'; } }catch(_){}
+    panel.style.left='505px'; panel.style.top='8px'; panel.style.right='auto';   // arriba, pegado al de circuito
+    try{ const p=JSON.parse(localStorage.getItem('omnip-target-panel-pos2')||'null'); if(p&&Number.isFinite(p.x)){ panel.style.left=p.x+'px'; panel.style.top=p.y+'px'; } }catch(_){}
     const head=panel.querySelector('.circuit-head');
     const x=document.createElement('button'); x.className='win-x'; x.type='button'; x.innerHTML='&times;'; x.title='Cerrar'; x.style.cssText='font-size:17px;margin-left:2px';
     x.addEventListener('click',e=>{ e.stopPropagation(); panel.hidden=true; document.getElementById('header-target-btn')?.classList.remove('active'); });
@@ -4353,7 +4353,7 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     let drag=false,sx=0,sy=0,ox=0,oy=0,moved=false;
     head.addEventListener('pointerdown',e=>{ if(e.target.closest('button'))return; drag=true;moved=false;sx=e.clientX;sy=e.clientY; const r=panel.getBoundingClientRect(); panel.style.left=r.left+'px';panel.style.top=r.top+'px';panel.style.right='auto'; ox=e.clientX-r.left;oy=e.clientY-r.top; try{head.setPointerCapture(e.pointerId);}catch(_){} });
     head.addEventListener('pointermove',e=>{ if(!drag)return; if(Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy)>4)moved=true; if(moved){ const nx=Math.max(0,Math.min(e.clientX-ox,innerWidth-panel.offsetWidth)),ny=Math.max(0,Math.min(e.clientY-oy,innerHeight-panel.offsetHeight)); panel.style.left=nx+'px';panel.style.top=ny+'px'; } });
-    head.addEventListener('pointerup',e=>{ if(!drag)return; drag=false; try{head.releasePointerCapture(e.pointerId);}catch(_){} if(moved){ try{localStorage.setItem('omnip-target-panel-pos',JSON.stringify({x:panel.offsetLeft,y:panel.offsetTop}));}catch(_){} } });
+    head.addEventListener('pointerup',e=>{ if(!drag)return; drag=false; try{head.releasePointerCapture(e.pointerId);}catch(_){} if(moved){ try{localStorage.setItem('omnip-target-panel-pos2',JSON.stringify({x:panel.offsetLeft,y:panel.offsetTop}));}catch(_){} } });
     syncPills();
     const hb=document.getElementById('header-target-btn');
     if(hb){ hb.addEventListener('click',()=>{ panel.hidden=!panel.hidden; hb.classList.toggle('active',!panel.hidden); }); hb.classList.add('active'); }

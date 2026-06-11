@@ -175,8 +175,9 @@
   @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
 
   /* Selector de circuitos para compra de inventario */
-  .circuit-panel{position:fixed;top:82px;right:18px;z-index:12;width:360px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
+  .circuit-panel{position:fixed;top:82px;left:18px;z-index:12;width:360px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
   .circuit-panel[hidden]{display:none}
+  .circuit-panel.collapsed{width:auto;min-width:210px}   /* replegado: compacto, solo la cabecera */
   .circuit-panel.collapsed .circuit-body{display:none}
   .circuit-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);cursor:grab;user-select:none}
   .circuit-head:active{cursor:grabbing}
@@ -496,7 +497,7 @@
   .xp-tooltip .xp-live{color:#88ffaa;font-weight:700}
   .xp-tooltip .xp-idle{color:#9bc3cf}
   /* Leyenda de circuitos (color → circuito) */
-  #circuit-legend{position:fixed;left:18px;top:96px;z-index:11;background:rgba(10,22,32,.92);border:1px solid var(--line);border-radius:10px;backdrop-filter:blur(10px);font-family:monospace;font-size:11px;color:var(--ink);max-width:210px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+  #circuit-legend{position:fixed;right:18px;top:82px;z-index:11;background:rgba(10,22,32,.92);border:1px solid var(--line);border-radius:10px;backdrop-filter:blur(10px);font-family:monospace;font-size:11px;color:var(--ink);max-width:210px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4)}
   #circuit-legend .cl-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:7px 10px;border-bottom:1px solid var(--line);cursor:pointer;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-size:10px}
   #circuit-legend.collapsed .cl-body{display:none}
   #circuit-legend .cl-x{cursor:pointer;color:var(--mut);font-size:16px;line-height:1}
@@ -585,10 +586,10 @@
   <div class="lt-row"><span data-i18n="screens">pantallas</span><b id="t-screens">—</b></div>
 </div>
 
-<section class="circuit-panel" id="circuit-panel" aria-label="Selector de circuitos" hidden>
+<section class="circuit-panel collapsed" id="circuit-panel" aria-label="Selector de circuitos">
   <div class="circuit-head">
     <h3 data-i18n="circuit_panel_title">Comprar por circuito</h3>
-    <button class="circuit-toggle" id="circuit-toggle" type="button" title="Ocultar / mostrar">−</button>
+    <button class="circuit-toggle" id="circuit-toggle" type="button" title="Desplegar / replegar">+</button>
   </div>
   <div class="circuit-body">
     <div class="circuit-scope-field">
@@ -4250,10 +4251,18 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     host.appendChild(b);
   }
   function init(){
-    // 1) Circuit panel: arrastrable por su cabecera + cerrar (ya tiene plegar)
+    // 1) Circuit panel: el arrastre y el plegado ya los gestiona su sistema nativo
+    //    (bindCircuitPanelDrag / circuit-toggle). Solo añadimos un × que lo OCULTA
+    //    de forma nativa (hidden), reabrible con el botón "Seleccionar circuito".
     const cp=document.getElementById('circuit-panel');
     if(cp){ const head=cp.querySelector('.circuit-head');
-      makeDraggable(cp, head, 'omnip-pos-circuit'); addCloseBtn(head, cp); }
+      if(head && !head.querySelector('.win-x')){
+        const b=document.createElement('button'); b.className='win-x'; b.type='button'; b.innerHTML='&times;'; b.title='Cerrar';
+        b.style.cssText='font-size:17px;margin-left:2px';
+        b.addEventListener('click', e=>{ e.stopPropagation(); cp.hidden=true; const hb=document.getElementById('header-circuit-btn'); if(hb) hb.classList.remove('active'); });
+        head.appendChild(b);
+      }
+    }
     // 2) Ticker BIDDING LIVE: arrastrable + plegable + cerrar
     const tk=document.getElementById('ticker');
     if(tk){ const head=tk.querySelector('.lt-head');

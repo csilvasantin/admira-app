@@ -175,7 +175,7 @@
   @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
 
   /* Selector de circuitos para compra de inventario */
-  .circuit-panel{position:fixed;top:82px;left:18px;z-index:12;width:360px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
+  .circuit-panel{position:fixed;top:8px;left:230px;z-index:12;width:380px;max-width:calc(100vw - 36px);background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;backdrop-filter:blur(12px);box-shadow:0 16px 46px rgba(0,0,0,.42);overflow:hidden}
   .circuit-panel[hidden]{display:none}
   .circuit-panel.collapsed{width:230px;min-width:0}   /* replegado: compacto, alineado con la leyenda */
   .circuit-panel.collapsed .circuit-body{display:none}
@@ -531,7 +531,7 @@
   .sec-toggle.sec-collapsed::before{transform:rotate(-90deg)}
   /* ── Alinear las DOS cajas de selección (selector + leyenda): mismo meta-estilo,
        tamaño y altura. Autoritativo (al final, gana en cascada). Carlos 2026-06-11 ── */
-  .circuit-panel.collapsed{width:230px !important;min-width:0 !important}
+  .circuit-panel.collapsed{width:280px !important;min-width:0 !important}
   #circuit-legend{width:230px !important;max-width:230px !important;background:rgba(10,22,32,.96);border:1px solid var(--line);border-radius:12px;box-shadow:0 16px 46px rgba(0,0,0,.42)}
   .circuit-head,#circuit-legend .cl-head{height:44px;min-height:44px;padding:0 12px !important;box-sizing:border-box;display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line)}
   .circuit-head h3,#circuit-legend .cl-head b{font-family:monospace;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0;line-height:1}
@@ -552,8 +552,6 @@
 <header>
   <span class="logo"><span class="logo-home" id="logo-home" role="button" tabindex="0" data-i18n-title="logo_home_title" title="Volver al inicio">OMNI<span class="dot">·</span>PUBLICITY</span></span>
   <div class="header-controls">
-    <button class="header-circuit-btn" id="header-circuit-btn" type="button" data-i18n="select_circuit">Seleccionar circuito</button>
-    <button class="header-circuit-btn" id="header-target-btn" type="button" data-i18n="select_target">Seleccionar target</button>
     <div class="search-wrap">
       <label class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -611,7 +609,7 @@
 
 <section class="circuit-panel collapsed" id="circuit-panel" aria-label="Selector de circuitos">
   <div class="circuit-head">
-    <h3 data-i18n="circuit_panel_title">Circuito</h3>
+    <h3 data-i18n="circuit_panel_title">Seleccionar circuito</h3>
     <button class="circuit-toggle" id="circuit-toggle" type="button" title="Desplegar / replegar">+</button>
   </div>
   <div class="circuit-body">
@@ -1157,7 +1155,7 @@ const I18N = {
     lang_toggle:'ENG', lang_toggle_aria:'Cambiar a inglés',
     circuit_scope_label:'Alcance del circuito',
     scope_all:'Todos', scope_global:'Global', scope_national:'Nacional', scope_city:'Ciudad', scope_local:'Local',
-    circuit_panel_title:'Circuito',
+    circuit_panel_title:'Seleccionar circuito',
     circuit_metro_bcn:'Metro Barcelona Ciudad', circuit_desigual:'Desigual Global', circuit_mango:'Mango Global',
     circuit_kioskos:'Kioskos de prensa', circuit_all:'Todos los puntos locales',
     circuit_estancos:'Xtanco Nacional', circuit_decathlon:'Decathlon España', circuit_palacio:'El Palacio de Hierro · México', circuit_liverpool_mx:'Liverpool · México', circuit_bbva:'BBVA · España', circuit_banorte_mx:'Banorte · México', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · España', circuit_correos:'Correos · España', circuit_multiopticas:'MultiÓpticas · España', circuit_retail:'Otros retail físicos',
@@ -1270,7 +1268,7 @@ const I18N = {
     lang_toggle:'ESP', lang_toggle_aria:'Switch to Spanish',
     circuit_scope_label:'Circuit scope',
     scope_all:'All', scope_global:'Global', scope_national:'National', scope_city:'City', scope_local:'Local',
-    circuit_panel_title:'Circuit',
+    circuit_panel_title:'Select circuit',
     circuit_metro_bcn:'Barcelona Metro City', circuit_desigual:'Global Desigual', circuit_mango:'Mango Global',
     circuit_kioskos:'Press kiosk', circuit_all:'All local registered points',
     circuit_estancos:'National Xtanco', circuit_decathlon:'Decathlon Spain', circuit_palacio:'El Palacio de Hierro · Mexico', circuit_liverpool_mx:'Liverpool · Mexico', circuit_bbva:'BBVA · Spain', circuit_banorte_mx:'Banorte · Mexico', circuit_caixabank:'La Caixa / CaixaBank · Barcelona', circuit_elcorteingles:'El Corte Inglés · Spain', circuit_correos:'Correos · Spain', circuit_multiopticas:'MultiÓpticas · Spain', circuit_retail:'Other physical retail',
@@ -4253,11 +4251,11 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     if(panel) return;
     panel = document.createElement('section');
     panel.id='target-panel'; panel.className='circuit-panel collapsed'; panel.setAttribute('aria-label','Selector de target');
-    panel.innerHTML = '<div class="circuit-head"><h3>Target</h3><button class="circuit-toggle" id="target-panel-toggle" type="button" title="Desplegar / replegar">+</button></div>'
+    panel.innerHTML = '<div class="circuit-head"><h3>Seleccionar target</h3><button class="circuit-toggle" id="target-panel-toggle" type="button" title="Desplegar / replegar">+</button></div>'
       + '<div class="circuit-body" style="gap:12px">' + buildBody()
       + '<div style="font-size:10.5px;color:var(--mut);line-height:1.3">Estos criterios segmentan la <b>creación de contenidos</b>.</div></div>';
     document.body.appendChild(panel);
-    panel.style.left='258px'; panel.style.top='82px'; panel.style.right='auto';   // a la derecha del panel de circuito
+    panel.style.left='620px'; panel.style.top='8px'; panel.style.right='auto';   // arriba, a la derecha del de circuito
     try{ const p=JSON.parse(localStorage.getItem('omnip-target-panel-pos')||'null'); if(p&&Number.isFinite(p.x)){ panel.style.left=p.x+'px'; panel.style.top=p.y+'px'; } }catch(_){}
     const head=panel.querySelector('.circuit-head');
     const x=document.createElement('button'); x.className='win-x'; x.type='button'; x.innerHTML='&times;'; x.title='Cerrar'; x.style.cssText='font-size:17px;margin-left:2px';

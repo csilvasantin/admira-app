@@ -596,6 +596,7 @@
     <div class="circuit-actions">
       <button type="button" id="circuit-select-all" data-i18n="whole_circuit">Todo circuito</button>
       <button type="button" id="circuit-target-btn">Target</button>
+      <button type="button" id="circuit-campaign-btn" data-i18n="create_campaign">➕ Crear campaña</button>
     </div>
     <div class="circuit-main-view" id="circuit-main-view">
       <div class="circuit-stats">
@@ -1008,6 +1009,91 @@ function loadCircuitTarget() {
 }
 
 let circuitTarget = loadCircuitTarget();
+
+// ─── CREAR CAMPAÑA (admira.app inicia → pixeria.com genera multi-versión) ───
+// El anunciante dice el producto; generamos UNA versión por cada combinación de
+// los criterios que el dueño del circuito haya activado (género×edad×franja×
+// emplazamiento). Aquí calculamos la matriz y hacemos el handoff a PixerIA, que
+// genera cada creativo etiquetado por su segmento.
+const PIXERIA_AD_BASE = 'https://www.pixeria.com/publicidad.html';
+const CAMPAIGN_DIM_LABELS = {
+  genders:   { hombre:'Hombre', mujer:'Mujer' },
+  ages:      { nino:'Niño', joven:'Joven', adulto:'Adulto', senior:'Senior', vejez:'Vejez' },
+  timeSlots: { manana:'Mañana', mediodia:'Mediodía', tarde:'Tarde', noche:'Noche' },
+  placements:{ exterior:'Exterior', interior:'Interior' },
+};
+const CAMPAIGN_DIM_ORDER = ['genders','ages','timeSlots','placements'];
+// Producto cartesiano de las dimensiones activas (con ≥1 valor) del target del circuito.
+function campaignCombos(target) {
+  const dims = CAMPAIGN_DIM_ORDER
+    .map(k => [k, Array.isArray(target && target[k]) ? target[k] : []])
+    .filter(([, vals]) => vals.length);
+  let combos = [{}];
+  dims.forEach(([k, vals]) => {
+    const next = [];
+    combos.forEach(c => vals.forEach(v => next.push({ ...c, [k]: v })));
+    combos = next;
+  });
+  return { combos, dims: dims.map(([k]) => k) };
+}
+function comboLabel(combo) {
+  return CAMPAIGN_DIM_ORDER.filter(k => combo[k])
+    .map(k => (CAMPAIGN_DIM_LABELS[k] && CAMPAIGN_DIM_LABELS[k][combo[k]]) || combo[k]).join(' · ');
+}
+function openCampaignModal() {
+  const isEs = (typeof lang === 'undefined') || lang !== 'en';
+  document.getElementById('campaign-modal')?.remove();
+  const ov = document.createElement('div');
+  ov.id = 'campaign-modal';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:60;background:rgba(2,8,13,.72);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px';
+  ov.innerHTML = `
+    <div style="width:520px;max-width:100%;max-height:90vh;overflow:auto;background:#0a1620;border:1px solid rgba(120,243,255,.28);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.5);font-family:-apple-system,Segoe UI,Roboto,sans-serif;color:#dff8ff">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid rgba(120,243,255,.18)">
+        <b style="font-size:16px">➕ ${isEs?'Crear campaña':'Create campaign'}</b>
+        <span id="campaign-close" style="cursor:pointer;color:#75aab9;font-size:22px;line-height:1">×</span>
+      </div>
+      <div style="padding:18px;display:flex;flex-direction:column;gap:14px">
+        <label style="font-size:13px;color:#9ad8ff">${isEs?'Producto a anunciar':'Product to advertise'}
+          <input id="campaign-product" type="text" placeholder="${isEs?'p.ej. perfume, zapatillas, relojes':'e.g. perfume, sneakers, watches'}" style="width:100%;margin-top:6px;padding:10px;border-radius:8px;border:1px solid rgba(120,243,255,.3);background:#02080d;color:#dff8ff;font-size:15px">
+        </label>
+        <div style="font-size:12.5px;color:#75aab9">${isEs?'Se generará UNA versión por cada combinación de los criterios del circuito (los que el dueño haya activado en Target):':'One version per combination of the circuit criteria (those the owner enabled in Target):'}</div>
+        <div id="campaign-matrix" style="background:#02080d;border:1px solid rgba(120,243,255,.18);border-radius:9px;padding:12px"></div>
+        <button id="campaign-go" style="padding:12px;border:0;border-radius:9px;background:linear-gradient(90deg,#78f3ff,#ffd866);color:#02141c;font-weight:800;font-size:15px;cursor:pointer">${isEs?'Generar en PixerIA →':'Generate in PixerIA →'}</button>
+        <div style="font-size:11px;color:#5e8595">${isEs?'PixerIA crea cada versión etiquetada por segmento y vuelve a admira.app para venderse a su público.':'PixerIA creates each segment-tagged version and returns to admira.app to be sold to its audience.'}</div>
+      </div>
+    </div>`;
+  document.body.appendChild(ov);
+  const close = () => ov.remove();
+  ov.addEventListener('click', e => { if (e.target === ov) close(); });
+  ov.querySelector('#campaign-close').addEventListener('click', close);
+  const matrix = ov.querySelector('#campaign-matrix');
+  function refresh() {
+    const { combos, dims } = campaignCombos(circuitTarget);
+    const dimNames = dims.map(k => ({genders:isEs?'género':'gender',ages:isEs?'edad':'age',timeSlots:isEs?'franja':'daypart',placements:isEs?'emplazamiento':'placement'}[k])).join(' × ');
+    const sample = combos.slice(0, 8).map(c => `<div style="font-size:11.5px;color:#9effa0;padding:1px 0">• ${comboLabel(c)||'(sin segmentar)'}</div>`).join('');
+    matrix.innerHTML = `<div style="font-size:26px;font-weight:800;color:#ffd866">${combos.length} ${isEs?'versiones':'versions'}</div>`
+      + `<div style="font-size:12px;color:#75aab9;margin:2px 0 8px">${dims.length?dimNames:(isEs?'sin criterios activos en Target':'no active criteria in Target')}</div>`
+      + sample + (combos.length > 8 ? `<div style="font-size:11px;color:#5e8595;margin-top:3px">…+${combos.length-8} ${isEs?'más':'more'}</div>` : '');
+    return combos;
+  }
+  let combos = refresh();
+  ov.querySelector('#campaign-go').addEventListener('click', () => {
+    const product = (ov.querySelector('#campaign-product').value || '').trim();
+    if (!product) { ov.querySelector('#campaign-product').focus(); return; }
+    combos = campaignCombos(circuitTarget).combos;
+    const campaignName = `${product} · ${combos.length}v`;
+    const url = PIXERIA_AD_BASE + '?' + new URLSearchParams({
+      from: 'admira',
+      campaign: campaignName,
+      product,
+      circuit: selectedCircuitScope || 'all',
+      combos: String(combos.length),
+      segmentation: JSON.stringify(circuitTarget),
+    }).toString();
+    window.open(url, '_blank', 'noopener');
+    close();
+  });
+}
 
 // ─── i18n: español / inglés ───────────────────────────────────────
 const I18N = {
@@ -2706,6 +2792,7 @@ function bindCircuitSelector() {
     const target = document.getElementById('circuit-target-view');
     setCircuitTargetMode(target ? target.hidden : true);
   });
+  document.getElementById('circuit-campaign-btn')?.addEventListener('click', openCampaignModal);
   document.getElementById('circuit-zoom').addEventListener('click', zoomToSelectedCircuit);
   document.getElementById('circuit-demo')?.addEventListener('click', toggleCircuitDemo);
   document.getElementById('circuit-buy').addEventListener('click', openCircuitPurchase);

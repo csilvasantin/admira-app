@@ -3003,6 +3003,8 @@ function locationsGeoJSON() {
         properties:{
           id: l.id, name: l.name, kind: l.kind, addr: l.addr,
           circuit: circuitLabel(l),
+          circuitIdx: circuitColorIdx(circuitLabel(l)),
+          color: circuitColorHex(circuitLabel(l)),
           scope,
           selected: selectedLocationIds && selectedLocationIds.has(l.id) ? 1 : 0,
           live: surfaces.filter(s=>s.status==='live').length,
@@ -3014,21 +3016,35 @@ function locationsGeoJSON() {
   return locationsGeoJSONCache;
 }
 
+// ── COLOR POR CIRCUITO (Carlos 2026-06-11) ──────────────────────────────
+// Cada circuito (Desigual, Mango, Estancos, Metro BCN…) con su propio color en
+// las burbujas del mapa, para distinguirlos al segmentar. Antes todo era rosa.
+const CIRCUIT_PALETTE = ['#ff4fd8','#ffb030','#88ffaa','#78f3ff','#3a86ff','#c9a8ff','#ff6b6b','#06d6a0','#ffd23f','#9b5de5','#00f5d4','#f72585','#4cc9f0','#fee440'];
+const CIRCUIT_COLOR_IDX = {
+  'Desigual':0, 'Mango':1, 'Estancos':2, 'Kioscos':3, 'Decathlon':4, 'El Palacio de Hierro':5,
+  'Liverpool':6, 'El Corte Inglés':7, 'Correos':8, 'MultiÓpticas':9, 'Metro Barcelona':10,
+  'Banorte':11, 'BBVA':12, 'La Caixa / CaixaBank':13,
+};
+function circuitBaseName(label) { return String(label || '').split(' · ')[0]; }  // sin las líneas de metro
+function circuitColorIdx(label) {
+  const base = circuitBaseName(label);
+  if (base in CIRCUIT_COLOR_IDX) return CIRCUIT_COLOR_IDX[base];
+  let h = 0; for (let i = 0; i < base.length; i++) h = (h * 31 + base.charCodeAt(i)) >>> 0;  // hash estable para marcas sueltas
+  return h % CIRCUIT_PALETTE.length;
+}
+function circuitColorHex(label) { return CIRCUIT_PALETTE[circuitColorIdx(label)]; }
+
 function mapScopeColorExpression() {
-  return ['match', ['get', 'scope'],
-    'global', '#ff4fd8',
-    'national', '#88ffaa',
-    'local', '#78f3ff',
-    '#78f3ff'
-  ];
+  // Punto individual: su propio color de circuito (precalculado en el feature).
+  return ['coalesce', ['get', 'color'], '#78f3ff'];
 }
 
 function mapClusterColorExpression() {
-  return ['case',
-    ['>', ['get', 'global_count'], 0], '#ff4fd8',
-    ['>', ['get', 'national_count'], 0], '#88ffaa',
-    '#78f3ff'
-  ];
+  // Cluster: color del circuito representativo (índice mínimo presente en el grupo).
+  const m = ['match', ['get', 'circIdx']];
+  CIRCUIT_PALETTE.forEach((c, i) => { m.push(i, c); });
+  m.push('#78f3ff');   // default
+  return m;
 }
 
 /*
@@ -3060,6 +3076,7 @@ function addLocationsLayer() {
       global_count: ['+', ['case', ['==', ['get', 'scope'], 'global'], 1, 0]],
       national_count: ['+', ['case', ['==', ['get', 'scope'], 'national'], 1, 0]],
       local_count: ['+', ['case', ['==', ['get', 'scope'], 'local'], 1, 0]],
+      circIdx: ['min', ['get', 'circuitIdx']],   // circuito representativo del cluster (color)
     },
   });
   // Cluster circle

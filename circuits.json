@@ -1,0 +1,592 @@
+{
+  "version": 1,
+  "source": "admira.app circuitDefinitions()",
+  "circuitCount": 16,
+  "circuits": [
+    {
+      "id": "estancos",
+      "client": "xtanco",
+      "scope": "national",
+      "label": {
+        "es": "Xtanco Nacional",
+        "en": "National Xtanco"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "nino",
+          "joven",
+          "adulto",
+          "senior",
+          "vejez"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde",
+          "noche"
+        ]
+      },
+      "pointCount": 5,
+      "screens": [
+        "xtore-lg8qao",
+        "xtore-07313n"
+      ]
+    },
+    {
+      "id": "desigual",
+      "client": "desigual",
+      "scope": "global",
+      "label": {
+        "es": "Desigual Global",
+        "en": "Global Desigual"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "nino",
+          "joven",
+          "adulto",
+          "senior",
+          "vejez"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde"
+        ]
+      },
+      "pointCount": 56,
+      "screens": []
+    },
+    {
+      "id": "mango",
+      "client": "mango",
+      "scope": "global",
+      "label": {
+        "es": "Mango Global",
+        "en": "Mango Global"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "mediodia",
+          "tarde",
+          "noche"
+        ]
+      },
+      "pointCount": 959,
+      "screens": []
+    },
+    {
+      "id": "decathlon",
+      "client": "decathlon",
+      "scope": "national",
+      "label": {
+        "es": "Decathlon España",
+        "en": "Decathlon Spain"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "nino",
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde",
+          "noche"
+        ]
+      },
+      "pointCount": 169,
+      "screens": []
+    },
+    {
+      "id": "correos",
+      "client": "correos",
+      "scope": "national",
+      "label": {
+        "es": "Correos · España",
+        "en": "Correos · Spain"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde"
+        ]
+      },
+      "pointCount": 5425,
+      "screens": []
+    },
+    {
+      "id": "multiopticas",
+      "client": "multiopticas",
+      "scope": "national",
+      "label": {
+        "es": "MultiÓpticas · España",
+        "en": "MultiÓpticas · Spain"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde",
+          "noche"
+        ]
+      },
+      "pointCount": 50,
+      "screens": []
+    },
+    {
+      "id": "elcorteingles",
+      "client": "elcorteingles",
+      "scope": "national",
+      "label": {
+        "es": "El Corte Inglés · España",
+        "en": "El Corte Inglés · Spain"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde",
+          "noche"
+        ]
+      },
+      "pointCount": 50,
+      "screens": []
+    },
+    {
+      "id": "bbva",
+      "client": "bbva",
+      "scope": "national",
+      "label": {
+        "es": "BBVA · España",
+        "en": "BBVA · Spain"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde"
+        ]
+      },
+      "pointCount": 1563,
+      "screens": []
+    },
+    {
+      "id": "caixabank",
+      "client": "caixabank",
+      "scope": "national",
+      "label": {
+        "es": "La Caixa / CaixaBank · Barcelona",
+        "en": "La Caixa / CaixaBank · Barcelona"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde"
+        ]
+      },
+      "pointCount": 50,
+      "screens": []
+    },
+    {
+      "id": "kioskos",
+      "client": "kioskos",
+      "scope": "city",
+      "label": {
+        "es": "Kioskos de prensa",
+        "en": "Press kiosk"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "nino",
+          "joven",
+          "adulto",
+          "senior",
+          "vejez"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde",
+          "noche"
+        ]
+      },
+      "pointCount": 152,
+      "screens": []
+    },
+    {
+      "id": "metro_bcn",
+      "client": "metro-bcn",
+      "scope": "city",
+      "label": {
+        "es": "Metro Barcelona Ciudad",
+        "en": "Barcelona Metro City"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "nino",
+          "joven",
+          "adulto",
+          "senior",
+          "vejez"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde"
+        ]
+      },
+      "pointCount": 159,
+      "screens": []
+    },
+    {
+      "id": "palacio",
+      "client": "palacio-de-hierro",
+      "scope": "national",
+      "label": {
+        "es": "El Palacio de Hierro · México",
+        "en": "El Palacio de Hierro · Mexico"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "mediodia",
+          "tarde",
+          "noche"
+        ]
+      },
+      "pointCount": 14,
+      "screens": []
+    },
+    {
+      "id": "liverpool_mx",
+      "client": "liverpool",
+      "scope": "national",
+      "label": {
+        "es": "Liverpool · México",
+        "en": "Liverpool · Mexico"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde",
+          "noche"
+        ]
+      },
+      "pointCount": 43,
+      "screens": []
+    },
+    {
+      "id": "banorte_mx",
+      "client": "banorte",
+      "scope": "national",
+      "label": {
+        "es": "Banorte · México",
+        "en": "Banorte · Mexico"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "joven",
+          "adulto",
+          "senior"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde"
+        ]
+      },
+      "pointCount": 64,
+      "screens": []
+    },
+    {
+      "id": "retail",
+      "client": "retail",
+      "scope": "all",
+      "label": {
+        "es": "Otros retail físicos",
+        "en": "Other physical retail"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "nino",
+          "joven",
+          "adulto",
+          "senior",
+          "vejez"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde"
+        ]
+      },
+      "pointCount": 3,
+      "screens": []
+    },
+    {
+      "id": "all",
+      "client": "all",
+      "scope": "all",
+      "label": {
+        "es": "Todos los puntos locales",
+        "en": "All local registered points"
+      },
+      "segmentation": {
+        "schedule": {
+          "start": "08:00",
+          "end": "20:00"
+        },
+        "typologies": [
+          "exterior",
+          "interior"
+        ],
+        "genders": [
+          "hombre",
+          "mujer"
+        ],
+        "ages": [
+          "nino",
+          "joven",
+          "adulto",
+          "senior",
+          "vejez"
+        ],
+        "timeSlots": [
+          "manana",
+          "mediodia",
+          "tarde",
+          "noche"
+        ]
+      },
+      "pointCount": 8760,
+      "screens": [
+        "xtore-lg8qao",
+        "xtore-07313n"
+      ]
+    }
+  ]
+}

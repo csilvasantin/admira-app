@@ -692,6 +692,15 @@
         <div id="extad-live-rows"></div>
         <div style="display:flex;justify-content:space-between;color:#9effa0;border-top:1px dashed rgba(120,210,255,.25);margin-top:5px;padding-top:5px"><span>Ingreso publi exterior hoy</span><b id="extad-live-total">0,00 €</b></div>
       </div>
+      <!-- Editor de CPM por segmento (la pauta RTB se fija aquí, en admira.app) -->
+      <details id="segcpm-editor" style="margin-top:8px;border:1px solid rgba(255,216,102,.3);border-radius:10px;background:rgba(20,16,6,.4);padding:7px 10px">
+        <summary style="cursor:pointer;color:#ffd866;font-size:11px;letter-spacing:.05em">✎ CPM por segmento (RTB) — fijar precios</summary>
+        <div id="segcpm-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:5px 10px;margin-top:8px;font-size:12px"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+          <span id="segcpm-status" style="font-size:10px;opacity:.7"></span>
+          <button type="button" id="segcpm-save" style="cursor:pointer;background:#0e2a22;border:1px solid #2f8d8d;color:#7dffd0;border-radius:7px;padding:5px 12px;font-size:11px;font-weight:bold">Guardar precios</button>
+        </div>
+      </details>
       <details class="circuit-list-wrap" open>
         <summary id="circuit-list-title" data-i18n="circuit_points_title">Puntos del circuito</summary>
         <div class="circuit-list" id="circuit-list"></div>
@@ -1572,7 +1581,7 @@ function screensForSurface(loc, surf) {
 // Gemelo digital genérico (público). Las tiendas con campo `twin` propio
 // (p.ej. Xtanco Barcelona → su juego con modelo Barcelona) lo sobrescriben.
 // Bump del ?v= al subir build nueva del gemelo (xtanco-version.js del 01).
-const TWIN_BASE = 'https://www.carlossilva.info/01.-AdmiraXperience-Game/game.html?v=20260614-0035';
+const TWIN_BASE = 'https://www.carlossilva.info/01.-AdmiraXperience-Game/game.html?v=20260614-0036';
 // Gemelo Hiperrealista (Unreal Engine 5 + Pixel Streaming). Base del player de
 // Pixel Streaming (lo sirve el signalling server en la workstation del stand,
 // expuesto p.ej. por Tailscale Funnel). VACÍO = botón oculto hasta que esté
@@ -4561,7 +4570,32 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
       box.style.display='block';
     }catch(e){ /* silencioso */ }
   }
-  function start(){ render(); setInterval(render, 20000); }
+  // ── Editor de CPM por segmento (POST /segcpm) ──
+  const SEGS=[['nino_m','♂ Niño'],['nino_f','♀ Niña'],['joven_m','♂ Joven'],['joven_f','♀ Joven'],['adulto_m','♂ Adulto'],['adulto_f','♀ Adulta'],['senior_m','♂ Senior'],['senior_f','♀ Senior']];
+  function buildEditor(cur){
+    const grid=document.getElementById('segcpm-grid'); if(!grid) return;
+    grid.innerHTML=SEGS.map(([k,lbl])=>{ const v=(cur&&cur[k]!=null)?cur[k]:SEG_CPM[k]; return '<label style="display:flex;justify-content:space-between;align-items:center;gap:6px"><span>'+lbl+'</span><span><input data-seg="'+k+'" type="number" min="0" max="200" step="0.5" value="'+v+'" style="width:58px;background:#0a1118;border:1px solid #2f6a8a;color:#dbeaff;border-radius:5px;padding:3px 5px;font:inherit;text-align:right">€</span></label>'; }).join('');
+  }
+  async function loadEditor(){
+    const loc=pickLoc();
+    try{ const r=await fetch(PIXER+'/segcpm?loc='+encodeURIComponent(loc),{cache:'no-store'}); const d=await r.json(); buildEditor((d&&d.cpm&&Object.keys(d.cpm).length)?d.cpm:null); }
+    catch(e){ buildEditor(null); }
+  }
+  async function saveEditor(){
+    const loc=pickLoc(); const st=document.getElementById('segcpm-status');
+    const cpm={}; document.querySelectorAll('#segcpm-grid input[data-seg]').forEach(i=>{ const v=parseFloat(i.value); if(isFinite(v)) cpm[i.getAttribute('data-seg')]=v; });
+    if(st) st.textContent='Guardando…';
+    try{ const r=await fetch(PIXER+'/segcpm?loc='+encodeURIComponent(loc),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cpm})}); const d=await r.json();
+      if(d&&d.ok){ if(st) st.textContent='✅ Precios guardados ('+loc+') — el gemelo los aplica en ~1 min'; render(); }
+      else if(st) st.textContent='⚠️ '+((d&&d.error)||'error'); }
+    catch(e){ if(st) st.textContent='⚠️ error de red'; }
+  }
+  function wireEditor(){
+    const ed=document.getElementById('segcpm-editor'); if(!ed) return;
+    ed.addEventListener('toggle',()=>{ if(ed.open) loadEditor(); });
+    const btn=document.getElementById('segcpm-save'); if(btn) btn.onclick=saveEditor;
+  }
+  function start(){ render(); setInterval(render, 20000); wireEditor(); }
   if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded', start);
 })();
 </script>

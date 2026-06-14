@@ -701,6 +701,20 @@
           <button type="button" id="segcpm-save" style="cursor:pointer;background:#0e2a22;border:1px solid #2f8d8d;color:#7dffd0;border-radius:7px;padding:5px 12px;font-size:11px;font-weight:bold">Guardar precios</button>
         </div>
       </details>
+      <!-- Compra de campaña programática: segmento + presupuesto → el gemelo muestra
+           la creatividad a ese segmento y el presupuesto se consume con los impactos reales -->
+      <details id="camp-buy" style="margin-top:8px;border:1px solid rgba(120,255,160,.3);border-radius:10px;background:rgba(8,22,16,.4);padding:7px 10px">
+        <summary style="cursor:pointer;color:#7dffd0;font-size:11px;letter-spacing:.05em">🛒 Comprar campaña (RTB por segmento)</summary>
+        <div style="display:grid;gap:8px;margin-top:8px;font-size:12px">
+          <label style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>Segmento</span><select id="camp-seg" style="background:#0a1118;border:1px solid #2f6a8a;color:#dbeaff;border-radius:5px;padding:4px 6px;font:inherit"></select></label>
+          <label style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>Presupuesto</span><span><input id="camp-budget" type="number" min="1" max="100000" step="50" value="500" style="width:80px;background:#0a1118;border:1px solid #2f6a8a;color:#dbeaff;border-radius:5px;padding:4px 6px;font:inherit;text-align:right"> €</span></label>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <span id="camp-status" style="font-size:10px;opacity:.7"></span>
+            <button type="button" id="camp-launch" style="cursor:pointer;background:#0e2a22;border:1px solid #2f8d8d;color:#7dffd0;border-radius:7px;padding:5px 12px;font-size:11px;font-weight:bold">Lanzar campaña</button>
+          </div>
+          <div id="camp-list"></div>
+        </div>
+      </details>
       <details class="circuit-list-wrap" open>
         <summary id="circuit-list-title" data-i18n="circuit_points_title">Puntos del circuito</summary>
         <div class="circuit-list" id="circuit-list"></div>
@@ -4595,7 +4609,41 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     ed.addEventListener('toggle',()=>{ if(ed.open) loadEditor(); });
     const btn=document.getElementById('segcpm-save'); if(btn) btn.onclick=saveEditor;
   }
-  function start(){ render(); setInterval(render, 20000); wireEditor(); }
+  // ── Compra de campaña (POST /campaign) + monitor de presupuesto ──
+  function segLbl(k){ const m=SEGS.find(s=>s[0]===k); return m?m[1]:k; }
+  function fillCampSeg(){ const s=document.getElementById('camp-seg'); if(!s||s.children.length) return; s.innerHTML=SEGS.map(([k,l])=>'<option value="'+k+'">'+l+'</option>').join(''); s.value='joven_f'; }
+  async function launchCampaign(){
+    const loc=pickLoc(); const seg=(document.getElementById('camp-seg')||{}).value||'adulto_m';
+    const budget=parseFloat((document.getElementById('camp-budget')||{}).value)||0;
+    const cpm=SEG_CPM[seg]!=null?SEG_CPM[seg]:8; const st=document.getElementById('camp-status');
+    if(budget<=0){ if(st) st.textContent='⚠️ pon un presupuesto'; return; }
+    if(st) st.textContent='Lanzando…';
+    try{ const r=await fetch(PIXER+'/campaign',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({loc,seg,budget,cpm,name:'Campaña '+segLbl(seg),product:''})});
+      const d=await r.json();
+      if(d&&d.ok){ if(st) st.textContent='✅ Activa · '+budget+'€ @ '+cpm.toFixed(1)+'€ CPM ('+segLbl(seg)+')'; renderCampaigns(); }
+      else if(st) st.textContent='⚠️ '+((d&&d.error)||'error'); }
+    catch(e){ if(st) st.textContent='⚠️ error de red'; }
+  }
+  async function renderCampaigns(){
+    const box=document.getElementById('camp-list'); if(!box) return; const loc=pickLoc(); const t=todayStr();
+    try{
+      const [cr,dr]=await Promise.all([
+        fetch(PIXER+'/campaign/list?loc='+encodeURIComponent(loc),{cache:'no-store'}).then(r=>r.json()),
+        fetch(PIXER+'/day/range?loc='+encodeURIComponent(loc)+'&from='+t+'&to='+t,{cache:'no-store'}).then(r=>r.json())
+      ]);
+      const camps=(cr&&cr.campaigns)||[]; const ea=(((dr&&dr.days)||{})[t]||{}).extAds||{};
+      if(!camps.length){ box.innerHTML='<div style="opacity:.5;font-size:11px;margin-top:6px">Sin campañas. Lanza una arriba.</div>'; return; }
+      box.innerHTML='<div style="font-size:10px;color:#8ed2ff;margin:8px 0 4px;letter-spacing:.06em">CAMPAÑAS ACTIVAS</div>'+camps.map(c=>{
+        const imp=ea[c.seg]||0; const spent=Math.min(c.budget, imp/1000*c.cpm); const pct=Math.min(100, c.budget?spent/c.budget*100:0); const done=spent>=c.budget&&c.budget>0;
+        return '<div style="border:1px solid '+(done?'#7a3a3a':'#1f4357')+';border-radius:8px;padding:7px 9px;margin-bottom:6px">'+
+          '<div style="display:flex;justify-content:space-between"><b>'+segLbl(c.seg)+'</b><span style="opacity:.6;font-size:10px">'+(c.cpm||0).toFixed(1)+'€ CPM</span></div>'+
+          '<div style="height:6px;background:#0a141d;border-radius:4px;overflow:hidden;margin:5px 0"><div style="height:100%;width:'+pct.toFixed(0)+'%;background:'+(done?'#cc5555':'#2ee06a')+'"></div></div>'+
+          '<div style="display:flex;justify-content:space-between;font-size:11px"><span>'+spent.toFixed(2)+'€ / '+c.budget+'€</span><span>'+(done?'<b style="color:#ff8866">AGOTADA</b>':(imp+' impactos hoy')) +'</span></div></div>';
+      }).join('');
+    }catch(e){}
+  }
+  function wireCampaign(){ fillCampSeg(); const b=document.getElementById('camp-launch'); if(b) b.onclick=launchCampaign; const ed=document.getElementById('camp-buy'); if(ed) ed.addEventListener('toggle',()=>{ if(ed.open) renderCampaigns(); }); renderCampaigns(); setInterval(renderCampaigns,20000); }
+  function start(){ render(); setInterval(render, 20000); wireEditor(); wireCampaign(); }
   if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded', start);
 })();
 </script>

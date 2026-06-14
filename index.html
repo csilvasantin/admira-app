@@ -686,6 +686,12 @@
         <div class="circuit-stat"><b id="circuit-sel-impr">0</b><span data-i18n="impr_day_compact">impr/día</span></div>
         <div class="circuit-stat"><b id="circuit-sel-cpm">—</b><span data-i18n="cpm_label">CPM</span></div>
       </div>
+      <!-- Publi exterior EN VIVO del gemelo (impactos reales por segmento × CPM) -->
+      <div id="extad-live" style="display:none;margin-top:10px;padding:9px 11px;border:1px solid rgba(120,210,255,.35);border-radius:10px;background:rgba(8,18,28,.5);font-size:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;color:#8ed2ff;font-size:10px;letter-spacing:.06em;margin-bottom:5px">📡 PUBLI EXTERIOR · GEMELO (RTB POR SEGMENTO) <span id="extad-live-loc" style="opacity:.6"></span></div>
+        <div id="extad-live-rows"></div>
+        <div style="display:flex;justify-content:space-between;color:#9effa0;border-top:1px dashed rgba(120,210,255,.25);margin-top:5px;padding-top:5px"><span>Ingreso publi exterior hoy</span><b id="extad-live-total">0,00 €</b></div>
+      </div>
       <details class="circuit-list-wrap" open>
         <summary id="circuit-list-title" data-i18n="circuit_points_title">Puntos del circuito</summary>
         <div class="circuit-list" id="circuit-list"></div>
@@ -1566,7 +1572,7 @@ function screensForSurface(loc, surf) {
 // Gemelo digital genérico (público). Las tiendas con campo `twin` propio
 // (p.ej. Xtanco Barcelona → su juego con modelo Barcelona) lo sobrescriben.
 // Bump del ?v= al subir build nueva del gemelo (xtanco-version.js del 01).
-const TWIN_BASE = 'https://www.carlossilva.info/01.-AdmiraXperience-Game/game.html?v=20260614-0034';
+const TWIN_BASE = 'https://www.carlossilva.info/01.-AdmiraXperience-Game/game.html?v=20260614-0035';
 // Gemelo Hiperrealista (Unreal Engine 5 + Pixel Streaming). Base del player de
 // Pixel Streaming (lo sirve el signalling server en la workstation del stand,
 // expuesto p.ej. por Tailscale Funnel). VACÍO = botón oculto hasta que esté
@@ -4525,6 +4531,38 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     }
   }
   if(document.readyState!=='loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+<script>
+// ── PUBLI EXTERIOR EN VIVO DEL GEMELO ───────────────────────────────────────
+// Lee del KV (pixer-eleven /day/range) los impactos REALES de publi exterior por
+// segmento que reporta el gemelo al cerrar/registrar el día, y los muestra con su
+// CPM (RTB). Misma tabla CPM que el gemelo (la pauta vive en admira.app).
+(function(){
+  const PIXER='https://pixer-eleven.csilvasantin.workers.dev';
+  const SEG_CPM={ joven_m:9, joven_f:9, adulto_m:8, adulto_f:8.5, senior_m:5, senior_f:5, nino_m:3.5, nino_f:3.5 };
+  const AGEL={nino:'Niño',joven:'Joven',adulto:'Adulto',senior:'Senior'};
+  function todayStr(){ const d=new Date(); return ''+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'); }
+  function pickLoc(){ try{ if(typeof selectedLocationIds!=='undefined' && selectedLocationIds.size) return [...selectedLocationIds][0]; }catch(e){} try{ if(typeof LOCATIONS!=='undefined' && LOCATIONS[0]) return LOCATIONS[0].id; }catch(e){} return 'xtanco-generic'; }
+  async function render(){
+    const box=document.getElementById('extad-live'); if(!box) return;
+    const loc=pickLoc(); const t=todayStr();
+    try{
+      const r=await fetch(PIXER+'/day/range?loc='+encodeURIComponent(loc)+'&from='+t+'&to='+t,{cache:'no-store'});
+      const d=await r.json(); const day=(d&&d.days&&d.days[t])||null;
+      const ea=(day&&day.extAds)||null;
+      if(!ea||!Object.keys(ea).length){ box.style.display='none'; return; }
+      const rev=(day&&day.extAdsRev)||null;
+      const rows=Object.keys(ea).map(k=>{ const cpm=SEG_CPM[k]!=null?SEG_CPM[k]:8; const rv=(rev&&rev[k]!=null)?rev[k]:(ea[k]/1000*cpm); const p=k.split('_'); return {lbl:(p[0]==='f'?'♀':'♂')+' '+(AGEL[p[1]]||p[1]),n:ea[k],cpm,rv}; }).sort((a,b)=>b.rv-a.rv);
+      const tot=(day&&day.extAdsRevTotal!=null)?day.extAdsRevTotal:rows.reduce((s,x)=>s+x.rv,0);
+      document.getElementById('extad-live-loc').textContent=loc;
+      document.getElementById('extad-live-rows').innerHTML=rows.map(x=>'<div style="display:flex;justify-content:space-between"><span>'+x.lbl+' <span style="opacity:.5;font-size:10px">@'+x.cpm.toFixed(1)+'€</span></span><span><b>'+x.n+'</b> <span style="color:#9effa0">'+x.rv.toFixed(2)+'€</span></span></div>').join('');
+      document.getElementById('extad-live-total').textContent=tot.toFixed(2).replace('.',',')+' €';
+      box.style.display='block';
+    }catch(e){ /* silencioso */ }
+  }
+  function start(){ render(); setInterval(render, 20000); }
+  if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded', start);
 })();
 </script>
 </body>

@@ -707,7 +707,9 @@
         <summary style="cursor:pointer;color:#7dffd0;font-size:11px;letter-spacing:.05em">🛒 Comprar campaña (RTB por segmento)</summary>
         <div style="display:grid;gap:8px;margin-top:8px;font-size:12px">
           <label style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>Segmento</span><select id="camp-seg" style="background:#0a1118;border:1px solid #2f6a8a;color:#dbeaff;border-radius:5px;padding:4px 6px;font:inherit"></select></label>
+          <label style="display:flex;flex-direction:column;gap:4px"><span>Producto / concepto del anuncio</span><input id="camp-product" type="text" maxlength="80" placeholder="ej: perfume cítrico de verano" style="background:#0a1118;border:1px solid #2f6a8a;color:#dbeaff;border-radius:5px;padding:5px 7px;font:inherit"></label>
           <label style="display:flex;justify-content:space-between;align-items:center;gap:8px"><span>Presupuesto</span><span><input id="camp-budget" type="number" min="1" max="100000" step="50" value="500" style="width:80px;background:#0a1118;border:1px solid #2f6a8a;color:#dbeaff;border-radius:5px;padding:4px 6px;font:inherit;text-align:right"> €</span></label>
+          <div id="camp-preview" style="display:none;text-align:center"><img id="camp-preview-img" alt="creatividad" style="max-width:140px;border:1px solid #2f6a8a;border-radius:8px"><div style="font-size:9px;opacity:.6;margin-top:3px">creatividad generada por PixerIA</div></div>
           <div style="display:flex;justify-content:space-between;align-items:center">
             <span id="camp-status" style="font-size:10px;opacity:.7"></span>
             <button type="button" id="camp-launch" style="cursor:pointer;background:#0e2a22;border:1px solid #2f8d8d;color:#7dffd0;border-radius:7px;padding:5px 12px;font-size:11px;font-weight:bold">Lanzar campaña</button>
@@ -4612,17 +4614,45 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
   // ── Compra de campaña (POST /campaign) + monitor de presupuesto ──
   function segLbl(k){ const m=SEGS.find(s=>s[0]===k); return m?m[1]:k; }
   function fillCampSeg(){ const s=document.getElementById('camp-seg'); if(!s||s.children.length) return; s.innerHTML=SEGS.map(([k,l])=>'<option value="'+k+'">'+l+'</option>').join(''); s.value='joven_f'; }
+  const SEG_AUD={ nino_m:'children (boys)', nino_f:'children (girls)', joven_m:'young men', joven_f:'young women', adulto_m:'adult men', adulto_f:'adult women', senior_m:'older men', senior_f:'older women' };
+  const SEG_SEGOBJ={ // segmentation para el Stock (matching del gemelo)
+    nino_m:{genders:['hombre'],ageBuckets:['nino']}, nino_f:{genders:['mujer'],ageBuckets:['nino']},
+    joven_m:{genders:['hombre'],ageBuckets:['joven']}, joven_f:{genders:['mujer'],ageBuckets:['joven']},
+    adulto_m:{genders:['hombre'],ageBuckets:['adulto']}, adulto_f:{genders:['mujer'],ageBuckets:['adulto']},
+    senior_m:{genders:['hombre'],ageBuckets:['senior']}, senior_f:{genders:['mujer'],ageBuckets:['senior']} };
+  // Genera la creatividad de la campaña con PixerIA (Grok) y la publica al Stock.
+  async function genCreative(seg, product, st){
+    const aud=SEG_AUD[seg]||'general audience';
+    const prod=(product||'a relevant product for this audience').trim();
+    const prompt='Advertising poster of '+prod+', targeted at '+aud+', premium photorealistic ad, vertical poster, clean studio background, no text, eye-catching';
+    if(st) st.textContent='🎨 PixerIA generando la creatividad…';
+    const g=await fetch(PIXER+'/xai/image',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt,model:'grok-imagine-image-pro',b64:true})}).then(r=>r.json());
+    const arr=(g&&g.data)||[]; if(!arr.length||!arr[0].b64_json) throw new Error((g&&g.error)||'gen-fail');
+    if(st) st.textContent='📤 Publicando creatividad…';
+    const pub=await fetch(PIXER+'/stock/publish',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      type:'image', motor:'grok-imagine-image-pro', mime:arr[0].mime||'image/jpeg', base64:arr[0].b64_json,
+      title:'Campaña '+segLbl(seg)+(prod?(' · '+prod):''), prompt:prompt, tags:['campana','publi',seg.split('_')[1]],
+      segmentation:SEG_SEGOBJ[seg]||null, quality:'better' })}).then(r=>r.json());
+    if(!pub||!pub.ok||!pub.url) throw new Error((pub&&pub.error)||'pub-fail');
+    return pub.url;
+  }
   async function launchCampaign(){
     const loc=pickLoc(); const seg=(document.getElementById('camp-seg')||{}).value||'adulto_m';
+    const product=(document.getElementById('camp-product')||{}).value||'';
     const budget=parseFloat((document.getElementById('camp-budget')||{}).value)||0;
     const cpm=SEG_CPM[seg]!=null?SEG_CPM[seg]:8; const st=document.getElementById('camp-status');
+    const btn=document.getElementById('camp-launch'); const prev=document.getElementById('camp-preview'); const pimg=document.getElementById('camp-preview-img');
     if(budget<=0){ if(st) st.textContent='⚠️ pon un presupuesto'; return; }
-    if(st) st.textContent='Lanzando…';
-    try{ const r=await fetch(PIXER+'/campaign',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({loc,seg,budget,cpm,name:'Campaña '+segLbl(seg),product:''})});
+    if(btn) btn.disabled=true;
+    try{
+      const creativeUrl=await genCreative(seg, product, st);
+      if(pimg&&prev){ pimg.src=creativeUrl; prev.style.display='block'; }   // ves lo que ha creado
+      const r=await fetch(PIXER+'/campaign',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({loc,seg,budget,cpm,name:'Campaña '+segLbl(seg),product,creativeUrl})});
       const d=await r.json();
-      if(d&&d.ok){ if(st) st.textContent='✅ Activa · '+budget+'€ @ '+cpm.toFixed(1)+'€ CPM ('+segLbl(seg)+')'; renderCampaigns(); }
-      else if(st) st.textContent='⚠️ '+((d&&d.error)||'error'); }
-    catch(e){ if(st) st.textContent='⚠️ error de red'; }
+      if(d&&d.ok){ if(st) st.textContent='✅ Campaña activa con su creatividad · '+budget+'€ @ '+cpm.toFixed(1)+'€ CPM'; renderCampaigns(); }
+      else if(st) st.textContent='⚠️ '+((d&&d.error)||'error al crear campaña');
+    }catch(e){ if(st) st.textContent='⚠️ '+((e&&e.message)||'error generando creatividad'); }
+    finally{ if(btn) btn.disabled=false; }
   }
   async function renderCampaigns(){
     const box=document.getElementById('camp-list'); if(!box) return; const loc=pickLoc(); const t=todayStr();
@@ -4635,10 +4665,13 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
       if(!camps.length){ box.innerHTML='<div style="opacity:.5;font-size:11px;margin-top:6px">Sin campañas. Lanza una arriba.</div>'; return; }
       box.innerHTML='<div style="font-size:10px;color:#8ed2ff;margin:8px 0 4px;letter-spacing:.06em">CAMPAÑAS ACTIVAS</div>'+camps.map(c=>{
         const imp=ea[c.seg]||0; const spent=Math.min(c.budget, imp/1000*c.cpm); const pct=Math.min(100, c.budget?spent/c.budget*100:0); const done=spent>=c.budget&&c.budget>0;
-        return '<div style="border:1px solid '+(done?'#7a3a3a':'#1f4357')+';border-radius:8px;padding:7px 9px;margin-bottom:6px">'+
-          '<div style="display:flex;justify-content:space-between"><b>'+segLbl(c.seg)+'</b><span style="opacity:.6;font-size:10px">'+(c.cpm||0).toFixed(1)+'€ CPM</span></div>'+
+        const cre=c.creativeUrl&&/^https?:/.test(c.creativeUrl)?'<img src="'+c.creativeUrl+'" alt="" style="width:42px;height:42px;object-fit:cover;border:1px solid #2f6a8a;border-radius:6px;flex:0 0 42px">':'';
+        const prod=c.product?'<div style="font-size:10px;opacity:.6">'+(''+c.product).replace(/</g,'&lt;').slice(0,40)+'</div>':'';
+        return '<div style="border:1px solid '+(done?'#7a3a3a':'#1f4357')+';border-radius:8px;padding:7px 9px;margin-bottom:6px;display:flex;gap:9px">'+
+          cre+'<div style="flex:1;min-width:0">'+
+          '<div style="display:flex;justify-content:space-between"><b>'+segLbl(c.seg)+'</b><span style="opacity:.6;font-size:10px">'+(c.cpm||0).toFixed(1)+'€ CPM</span></div>'+prod+
           '<div style="height:6px;background:#0a141d;border-radius:4px;overflow:hidden;margin:5px 0"><div style="height:100%;width:'+pct.toFixed(0)+'%;background:'+(done?'#cc5555':'#2ee06a')+'"></div></div>'+
-          '<div style="display:flex;justify-content:space-between;font-size:11px"><span>'+spent.toFixed(2)+'€ / '+c.budget+'€</span><span>'+(done?'<b style="color:#ff8866">AGOTADA</b>':(imp+' impactos hoy')) +'</span></div></div>';
+          '<div style="display:flex;justify-content:space-between;font-size:11px"><span>'+spent.toFixed(2)+'€ / '+c.budget+'€</span><span>'+(done?'<b style="color:#ff8866">AGOTADA</b>':(imp+' impactos hoy')) +'</span></div></div></div>';
       }).join('');
     }catch(e){}
   }

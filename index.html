@@ -4657,21 +4657,24 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
   async function renderCampaigns(){
     const box=document.getElementById('camp-list'); if(!box) return; const loc=pickLoc(); const t=todayStr();
     try{
-      const [cr,dr]=await Promise.all([
-        fetch(PIXER+'/campaign/list?loc='+encodeURIComponent(loc),{cache:'no-store'}).then(r=>r.json()),
-        fetch(PIXER+'/day/range?loc='+encodeURIComponent(loc)+'&from='+t+'&to='+t,{cache:'no-store'}).then(r=>r.json())
-      ]);
-      const camps=(cr&&cr.campaigns)||[]; const ea=(((dr&&dr.days)||{})[t]||{}).extAds||{};
+      const cr=await fetch(PIXER+'/campaign/list?loc='+encodeURIComponent(loc),{cache:'no-store'}).then(r=>r.json());
+      const camps=(cr&&cr.campaigns)||[];
       if(!camps.length){ box.innerHTML='<div style="opacity:.5;font-size:11px;margin-top:6px">Sin campañas. Lanza una arriba.</div>'; return; }
+      // Presupuesto MULTI-DÍA: impactos del segmento desde el inicio de cada campaña
+      // hasta hoy. Pedimos el rango más amplio una vez y sumamos por día.
+      let minStart=t; camps.forEach(c=>{ if(c.startDate&&c.startDate<minStart) minStart=c.startDate; });
+      const dr=await fetch(PIXER+'/day/range?loc='+encodeURIComponent(loc)+'&from='+minStart+'&to='+t,{cache:'no-store'}).then(r=>r.json());
+      const days=(dr&&dr.days)||{};
+      const impFor=(seg,start)=>{ let s=0; for(const d in days){ if(d>=(start||minStart)){ const ea=days[d].extAds||{}; s+=ea[seg]||0; } } return s; };
       box.innerHTML='<div style="font-size:10px;color:#8ed2ff;margin:8px 0 4px;letter-spacing:.06em">CAMPAÑAS ACTIVAS</div>'+camps.map(c=>{
-        const imp=ea[c.seg]||0; const spent=Math.min(c.budget, imp/1000*c.cpm); const pct=Math.min(100, c.budget?spent/c.budget*100:0); const done=spent>=c.budget&&c.budget>0;
+        const imp=impFor(c.seg, c.startDate); const spent=Math.min(c.budget, imp/1000*c.cpm); const pct=Math.min(100, c.budget?spent/c.budget*100:0); const done=spent>=c.budget&&c.budget>0;
         const cre=c.creativeUrl&&/^https?:/.test(c.creativeUrl)?'<img src="'+c.creativeUrl+'" alt="" style="width:42px;height:42px;object-fit:cover;border:1px solid #2f6a8a;border-radius:6px;flex:0 0 42px">':'';
         const prod=c.product?'<div style="font-size:10px;opacity:.6">'+(''+c.product).replace(/</g,'&lt;').slice(0,40)+'</div>':'';
         return '<div style="border:1px solid '+(done?'#7a3a3a':'#1f4357')+';border-radius:8px;padding:7px 9px;margin-bottom:6px;display:flex;gap:9px">'+
           cre+'<div style="flex:1;min-width:0">'+
           '<div style="display:flex;justify-content:space-between"><b>'+segLbl(c.seg)+'</b><span style="opacity:.6;font-size:10px">'+(c.cpm||0).toFixed(1)+'€ CPM</span></div>'+prod+
           '<div style="height:6px;background:#0a141d;border-radius:4px;overflow:hidden;margin:5px 0"><div style="height:100%;width:'+pct.toFixed(0)+'%;background:'+(done?'#cc5555':'#2ee06a')+'"></div></div>'+
-          '<div style="display:flex;justify-content:space-between;font-size:11px"><span>'+spent.toFixed(2)+'€ / '+c.budget+'€</span><span>'+(done?'<b style="color:#ff8866">AGOTADA</b>':(imp+' impactos hoy')) +'</span></div></div></div>';
+          '<div style="display:flex;justify-content:space-between;font-size:11px"><span>'+spent.toFixed(2)+'€ / '+c.budget+'€</span><span>'+(done?'<b style="color:#ff8866">AGOTADA</b>':(imp+' impactos')) +'</span></div></div></div>';
       }).join('');
     }catch(e){}
   }

@@ -688,7 +688,7 @@
       </div>
       <!-- Publi exterior EN VIVO del gemelo (impactos reales por segmento × CPM) -->
       <div id="extad-live" style="display:none;margin-top:10px;padding:9px 11px;border:1px solid rgba(120,210,255,.35);border-radius:10px;background:rgba(8,18,28,.5);font-size:12px">
-        <div style="display:flex;justify-content:space-between;align-items:center;color:#8ed2ff;font-size:10px;letter-spacing:.06em;margin-bottom:5px">📡 CONSUMO EN VIVO · CPM POR SEGMENTO <span style="margin-left:auto;opacity:.6" id="extad-live-loc"></span> <span id="extad-live-pulse" style="color:#9effa0;transition:opacity .4s">● LIVE</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;color:#8ed2ff;font-size:10px;letter-spacing:.06em;margin-bottom:5px">📡 CONSUMO EN VIVO · CPM POR SEGMENTO <button id="extad-circuit-btn" style="margin-left:auto;cursor:pointer;background:rgba(120,210,255,.12);border:1px solid rgba(120,210,255,.35);color:#9fd6ff;border-radius:6px;padding:2px 8px;font:inherit;font-size:9px;letter-spacing:.05em">📊 CIRCUITO</button> <span style="opacity:.6" id="extad-live-loc"></span> <span id="extad-live-pulse" style="color:#9effa0;transition:opacity .4s">● LIVE</span></div>
         <div style="display:flex;justify-content:space-between;align-items:baseline;margin:2px 0 5px"><span style="font-size:10px;opacity:.7">Consumido hoy</span><span><b id="extad-live-total" style="font-size:18px;color:#9effa0">0,00 €</b> <span id="extad-live-delta" style="font-size:11px;color:#9effa0"></span></span></div>
         <svg id="extad-live-spark" viewBox="0 0 300 34" preserveAspectRatio="none" style="width:100%;height:30px;display:none;margin-bottom:5px"></svg>
         <div id="extad-live-chart" style="margin-bottom:6px"></div>
@@ -4573,6 +4573,30 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
   const AGEL={nino:'Niño',joven:'Joven',adulto:'Adulto',senior:'Senior'};
   function todayStr(){ const d=new Date(); return ''+d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0'); }
   function pickLoc(){ try{ if(typeof selectedLocationIds!=='undefined' && selectedLocationIds.size) return [...selectedLocationIds][0]; }catch(e){} try{ if(typeof LOCATIONS!=='undefined' && LOCATIONS[0]) return LOCATIONS[0].id; }catch(e){} return 'xtanco-generic'; }
+  // INFORME POR CIRCUITO: agrega el consumo de HOY de todos los Xpacios, agrupado por
+  // circuito (marca / tipo). Lee /day/range hoy por loc (paralelo, cap 30).
+  async function circuitReport(){
+    const all=(typeof window.loadOmnipLocations==='function')?window.loadOmnipLocations():[];
+    const locs=all.slice(0,60), t=todayStr();
+    const ck=l=>{ try{ return (l.external&&l.external.brand)||((l.kind||'').split(/[·|]/)[0].trim())||'Otros'; }catch(_){ return 'Otros'; } };
+    document.getElementById('circuit-report')?.remove();
+    const ov=document.createElement('div'); ov.id='circuit-report';
+    ov.style.cssText='position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;background:rgba(2,8,12,.92);padding:18px';
+    ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
+    ov.innerHTML='<div style="background:#04101a;border:2px solid #2f8d8d;border-radius:14px;padding:18px;max-width:520px;width:94vw;color:#dff8ff;max-height:88vh;overflow:auto"><div style="display:flex;justify-content:space-between"><b>📊 Informe por circuito · consumo hoy</b><span id="cr2-x" style="cursor:pointer;color:#75aab9;font-size:22px;line-height:1">×</span></div><div id="cr2-body" style="margin-top:10px;opacity:.7">Cargando '+locs.length+' Xpacios…</div></div>';
+    document.body.appendChild(ov);
+    ov.querySelector('#cr2-x').onclick=()=>ov.remove();
+    const results=await Promise.all(locs.map(l=>fetch(PIXER+'/day/range?loc='+encodeURIComponent(l.id)+'&from='+t+'&to='+t,{cache:'no-store'}).then(r=>r.json()).then(d=>({l,day:(d&&d.days&&d.days[t])||null})).catch(()=>({l,day:null}))));
+    const grp={}; let gImp=0,gRev=0,nX=0;
+    for(const {l,day} of results){ if(!day||!day.extAds||!Object.keys(day.extAds).length) continue; const k=ck(l); const imp=Object.keys(day.extAds).reduce((s,x)=>s+day.extAds[x],0); const rev=day.extAdsRevTotal!=null?day.extAdsRevTotal:0; grp[k]=grp[k]||{imp:0,rev:0,n:0}; grp[k].imp+=imp; grp[k].rev+=rev; grp[k].n++; gImp+=imp; gRev+=rev; nX++; }
+    const keys=Object.keys(grp).sort((a,b)=>grp[b].rev-grp[a].rev);
+    const body=document.getElementById('cr2-body'); if(!body) return;
+    if(!keys.length){ body.innerHTML='<div style="opacity:.6">Ningún Xpacio con consumo hoy todavía.</div>'; return; }
+    const mxRev=Math.max(...keys.map(k=>grp[k].rev),0.01);
+    body.innerHTML=keys.map(k=>{ const g=grp[k],w=Math.round(g.rev/mxRev*100); return '<div style="margin:7px 0"><div style="display:flex;justify-content:space-between;font-size:12px"><span><b>'+k+'</b> <span style="opacity:.5;font-size:10px">'+g.n+' Xpacio'+(g.n>1?'s':'')+'</span></span><span>'+g.imp+' impr · <span style="color:#9effa0">'+g.rev.toFixed(2)+'€</span></span></div><div style="height:7px;background:#0a141d;border-radius:4px;overflow:hidden;margin-top:3px"><div style="height:100%;width:'+w+'%;background:linear-gradient(90deg,#2f8d8d,#7dffd0)"></div></div></div>'; }).join('')
+      +'<div style="display:flex;justify-content:space-between;border-top:1px dashed rgba(120,210,255,.25);margin-top:8px;padding-top:6px;color:#9effa0"><b>Total red · '+nX+' Xpacios con consumo hoy</b><b>'+gImp+' impr · '+gRev.toFixed(2)+'€</b></div>'
+      +'<div style="font-size:10px;opacity:.5;margin-top:6px">Revisados los '+locs.length+' Xpacios principales de la red.</div>';
+  }
   async function render(){
     const box=document.getElementById('extad-live'); if(!box) return;
     const loc=pickLoc(); const t=todayStr();
@@ -4702,6 +4726,17 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     const labels=series.map((x,i)=> i%step===0?'<text x="'+Math.round(i*bw+bw/2)+'" y="'+(H+10)+'" fill="#6d8a96" font-size="8" text-anchor="middle">'+x.d.slice(5)+'</text>':'').join('');
     const kpi=(l,v)=>'<div style="flex:1;min-width:84px;background:#02141c;border:1px solid #1f4357;border-radius:8px;padding:8px 10px"><div style="font-size:9px;opacity:.6;text-transform:uppercase">'+l+'</div><div style="font-size:17px;font-weight:800;color:#7dffd0">'+v+'</div></div>';
     const cre=c.creativeUrl&&/^https?:/.test(c.creativeUrl)?'<img src="'+c.creativeUrl+'" style="width:54px;height:54px;object-fit:cover;border:1px solid #2f6a8a;border-radius:8px">':'';
+    // PLV del Xpacio en el periodo (qué superficie entregó): suma summary.plv de los días.
+    const PLVL={escaparate:'🪟 Escaparate',tft:'📺 TFT',led:'💡 LED'}; const plvAgg={};
+    for(const d of dlist){ const p=days[d]&&days[d].plv; if(p) for(const k in p){ plvAgg[k]=plvAgg[k]||{imp:0,rev:0}; plvAgg[k].imp+=(p[k].imp||0); plvAgg[k].rev+=(p[k].rev||0); } }
+    const plvKeys=Object.keys(plvAgg).filter(k=>plvAgg[k].imp>0);
+    let plvHtml='';
+    if(plvKeys.length){ const plvTot=plvKeys.reduce((s,k)=>s+plvAgg[k].imp,0);
+      plvHtml='<div style="font-size:10px;opacity:.6;text-transform:uppercase;margin:10px 0 3px">PLV del Xpacio · qué superficie entregó</div>'+
+        plvKeys.sort((a,b)=>plvAgg[b].imp-plvAgg[a].imp).map(k=>{ const pct=Math.round(plvAgg[k].imp/plvTot*100);
+          return '<div style="display:flex;align-items:center;gap:8px;margin:3px 0;font-size:11px"><span style="width:96px;color:#bcd6ee">'+(PLVL[k]||k)+'</span><span style="flex:1;height:7px;background:#0a141d;border-radius:4px;overflow:hidden"><span style="display:block;height:100%;width:'+pct+'%;background:#3a86a8"></span></span><span style="width:88px;text-align:right;color:#9fd0ff">'+plvAgg[k].imp+' impr · '+pct+'%</span></div>'; }).join('')+
+        '<div style="font-size:10px;opacity:.55;margin-top:3px">Nota: la campaña (segmento exterior) se sirve sobre todo por el escaparate; TFT/LED son PLV interior del Xpacio.</div>';
+    }
     const ov=document.createElement('div'); ov.id='camp-report';
     ov.style.cssText='position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;background:rgba(2,8,12,.92);padding:18px';
     ov.onclick=(e)=>{ if(e.target===ov) ov.remove(); };
@@ -4711,6 +4746,7 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
       +'<div style="font-size:10px;opacity:.6;text-transform:uppercase;margin:6px 0 3px">Impactos por día (en el gemelo)</div>'
       +'<svg viewBox="0 0 '+W+' '+(H+14)+'" preserveAspectRatio="none" style="width:100%;height:84px;background:#071019;border-radius:8px">'+bars+labels+'</svg>'
       +'<div style="font-size:11px;opacity:.75;margin-top:8px">Ingreso CPM acumulado: <b style="color:#ffd866">'+totRev.toFixed(2)+'€</b> · media '+Math.round(totImp/ndays)+' impactos/día · objetivo '+(c.budget||0)+'€ @ '+(c.cpm||0).toFixed(1)+'€ CPM</div>'
+      +plvHtml
       +'<div style="text-align:right;margin-top:10px"><button id="cr-del" style="cursor:pointer;background:#2a1015;border:1px solid #7a3a3a;color:#ff9a9a;border-radius:7px;padding:6px 12px;font-size:11px">🗑 Eliminar campaña</button></div>'
       +'</div>';
     document.body.appendChild(ov);
@@ -4747,7 +4783,7 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     }catch(e){}
   }
   function wireCampaign(){ fillCampSeg(); const b=document.getElementById('camp-launch'); if(b) b.onclick=launchCampaign; const ed=document.getElementById('camp-buy'); if(ed) ed.addEventListener('toggle',()=>{ if(ed.open) renderCampaigns(); }); renderCampaigns(); setInterval(renderCampaigns,20000); }
-  function start(){ render(); setInterval(render, 12000); wireEditor(); wireCampaign(); }
+  function start(){ render(); setInterval(render, 12000); wireEditor(); wireCampaign(); const cb=document.getElementById('extad-circuit-btn'); if(cb) cb.onclick=circuitReport; }
   if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded', start);
 })();
 </script>

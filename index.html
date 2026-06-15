@@ -688,9 +688,13 @@
       </div>
       <!-- Publi exterior EN VIVO del gemelo (impactos reales por segmento × CPM) -->
       <div id="extad-live" style="display:none;margin-top:10px;padding:9px 11px;border:1px solid rgba(120,210,255,.35);border-radius:10px;background:rgba(8,18,28,.5);font-size:12px">
-        <div style="display:flex;justify-content:space-between;align-items:center;color:#8ed2ff;font-size:10px;letter-spacing:.06em;margin-bottom:5px">📡 PUBLI EXTERIOR · GEMELO (RTB POR SEGMENTO) <span id="extad-live-loc" style="opacity:.6"></span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;color:#8ed2ff;font-size:10px;letter-spacing:.06em;margin-bottom:5px">📡 CONSUMO EN VIVO · CPM POR SEGMENTO <span style="margin-left:auto;opacity:.6" id="extad-live-loc"></span> <span id="extad-live-pulse" style="color:#9effa0;transition:opacity .4s">● LIVE</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;margin:2px 0 5px"><span style="font-size:10px;opacity:.7">Consumido hoy</span><span><b id="extad-live-total" style="font-size:18px;color:#9effa0">0,00 €</b> <span id="extad-live-delta" style="font-size:11px;color:#9effa0"></span></span></div>
+        <svg id="extad-live-spark" viewBox="0 0 300 34" preserveAspectRatio="none" style="width:100%;height:30px;display:none;margin-bottom:5px"></svg>
+        <div id="extad-live-chart" style="margin-bottom:6px"></div>
+        <div style="font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Consumo por segmento</div>
         <div id="extad-live-rows"></div>
-        <div style="display:flex;justify-content:space-between;color:#9effa0;border-top:1px dashed rgba(120,210,255,.25);margin-top:5px;padding-top:5px"><span>Ingreso publi exterior hoy</span><b id="extad-live-total">0,00 €</b></div>
+        <div style="display:flex;justify-content:space-between;color:#9effa0;border-top:1px dashed rgba(120,210,255,.25);margin-top:5px;padding-top:5px"><span>Total consumido hoy</span><b id="extad-live-total2">0,00 €</b></div>
       </div>
       <!-- Editor de CPM por segmento (la pauta RTB se fija aquí, en admira.app) -->
       <details id="segcpm-editor" style="margin-top:8px;border:1px solid rgba(255,216,102,.3);border-radius:10px;background:rgba(20,16,6,.4);padding:7px 10px">
@@ -4578,11 +4582,38 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
       const ea=(day&&day.extAds)||null;
       if(!ea||!Object.keys(ea).length){ box.style.display='none'; return; }
       const rev=(day&&day.extAdsRev)||null;
-      const rows=Object.keys(ea).map(k=>{ const cpm=SEG_CPM[k]!=null?SEG_CPM[k]:8; const rv=(rev&&rev[k]!=null)?rev[k]:(ea[k]/1000*cpm); const p=k.split('_'); return {lbl:(p[0]==='f'?'♀':'♂')+' '+(AGEL[p[1]]||p[1]),n:ea[k],cpm,rv}; }).sort((a,b)=>b.rv-a.rv);
+      const rows=Object.keys(ea).map(k=>{ const cpm=SEG_CPM[k]!=null?SEG_CPM[k]:8; const rv=(rev&&rev[k]!=null)?rev[k]:(ea[k]/1000*cpm); return {lbl:segLbl(k),n:ea[k],cpm,rv}; }).sort((a,b)=>b.rv-a.rv);
       const tot=(day&&day.extAdsRevTotal!=null)?day.extAdsRevTotal:rows.reduce((s,x)=>s+x.rv,0);
       document.getElementById('extad-live-loc').textContent=loc;
       document.getElementById('extad-live-rows').innerHTML=rows.map(x=>'<div style="display:flex;justify-content:space-between"><span>'+x.lbl+' <span style="opacity:.5;font-size:10px">@'+x.cpm.toFixed(1)+'€</span></span><span><b>'+x.n+'</b> <span style="color:#9effa0">'+x.rv.toFixed(2)+'€</span></span></div>').join('');
-      document.getElementById('extad-live-total').textContent=tot.toFixed(2).replace('.',',')+' €';
+      const fmt=v=>v.toFixed(2).replace('.',',')+' €';
+      document.getElementById('extad-live-total').textContent=fmt(tot);
+      const t2=document.getElementById('extad-live-total2'); if(t2) t2.textContent=fmt(tot);
+      // Δ desde el último refresco → "lo que he consumido se va actualizando"
+      if(render._loc!==loc){ render._loc=loc; render._series=[]; render._last=null; }   // reset al cambiar de Xpacio
+      const prev=render._last; render._last=tot;
+      const dEl=document.getElementById('extad-live-delta');
+      if(dEl){ const dv=prev==null?0:(tot-prev); dEl.textContent=dv>0.001?('▲ +'+fmt(dv)):''; dEl.style.color='#9effa0'; }
+      // pulso LIVE
+      const pu=document.getElementById('extad-live-pulse'); if(pu){ pu.style.opacity='1'; setTimeout(()=>{ try{pu.style.opacity='.35';}catch(_){} },350); }
+      // Sparkline del consumo acumulado en ESTA sesión (muestreo por refresco)
+      render._series=render._series||[]; render._series.push(tot); if(render._series.length>60) render._series.shift();
+      const sp=document.getElementById('extad-live-spark');
+      if(sp && render._series.length>1){ const s=render._series, mx=Math.max(...s)||1, W=300,H=30, st=W/(s.length-1);
+        const pts=s.map((v,i)=>(i*st).toFixed(1)+','+(H-(v/mx)*H+2).toFixed(1)).join(' ');
+        sp.innerHTML='<polyline points="'+pts+'" fill="none" stroke="#9effa0" stroke-width="1.5"/><polyline points="0,'+(H+2)+' '+pts+' '+W+','+(H+2)+'" fill="rgba(158,255,160,.10)" stroke="none"/>';
+        sp.style.display='block';
+      }
+      // Audiencia por hora (evolución del día) — barras reales de day.hours
+      const ch=document.getElementById('extad-live-chart');
+      if(ch){ const hrs=(day&&Array.isArray(day.hours))?day.hours:[];
+        if(hrs.length>1){ const mxA=Math.max(1,...hrs.map(h=>h.in||0)), curH=hrs[hrs.length-1].h, W=300,H=34,bw=W/hrs.length;
+          const bars=hrs.map((h,i)=>{ const bh=Math.round((h.in||0)/mxA*H), x=Math.round(i*bw); const cur=h.h===curH;
+            return '<rect x="'+(x+1)+'" y="'+(H-bh)+'" width="'+Math.max(2,Math.round(bw-2))+'" height="'+bh+'" rx="1" fill="'+(cur?'#ffd866':'#3a86a8')+'"/>'; }).join('');
+          const labs=hrs.map((h,i)=> i%Math.ceil(hrs.length/5)===0?'<text x="'+Math.round(i*bw+bw/2)+'" y="'+(H+9)+'" fill="#6d8a96" font-size="7" text-anchor="middle">'+h.h+'h</text>':'').join('');
+          ch.innerHTML='<div style="font-size:9px;opacity:.55;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px">Audiencia por hora · ahora '+curH+'h</div><svg viewBox="0 0 '+W+' '+(H+12)+'" preserveAspectRatio="none" style="width:100%;height:38px">'+bars+labs+'</svg>';
+        } else ch.innerHTML='';
+      }
       box.style.display='block';
     }catch(e){ /* silencioso */ }
   }
@@ -4716,7 +4747,7 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     }catch(e){}
   }
   function wireCampaign(){ fillCampSeg(); const b=document.getElementById('camp-launch'); if(b) b.onclick=launchCampaign; const ed=document.getElementById('camp-buy'); if(ed) ed.addEventListener('toggle',()=>{ if(ed.open) renderCampaigns(); }); renderCampaigns(); setInterval(renderCampaigns,20000); }
-  function start(){ render(); setInterval(render, 20000); wireEditor(); wireCampaign(); }
+  function start(){ render(); setInterval(render, 12000); wireEditor(); wireCampaign(); }
   if(document.readyState!=='loading') start(); else document.addEventListener('DOMContentLoaded', start);
 })();
 </script>

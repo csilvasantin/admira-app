@@ -4654,6 +4654,36 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
     }catch(e){ if(st) st.textContent='⚠️ '+((e&&e.message)||'error generando creatividad'); }
     finally{ if(btn) btn.disabled=false; }
   }
+  // INFORME de una campaña: cómo ha funcionado DENTRO del gemelo (impactos por día
+  // del segmento desde su inicio, gasto, CPM efectivo, ingreso CPM). Datos reales del
+  // DVR (/day/range, days[d].extAds/extAdsRev por segmento).
+  function campaignReport(c, days, minStart){
+    if(!c) return; document.getElementById('camp-report')?.remove();
+    const t=todayStr(), start=c.startDate||minStart;
+    const dlist=Object.keys(days||{}).filter(d=>d>=start).sort();
+    const series=dlist.map(d=>({ d, imp:(days[d].extAds&&days[d].extAds[c.seg])||0, rev:(days[d].extAdsRev&&days[d].extAdsRev[c.seg])||0 }));
+    const totImp=series.reduce((s,x)=>s+x.imp,0), totRev=series.reduce((s,x)=>s+x.rev,0);
+    const spent=Math.min(c.budget, totImp/1000*(c.cpm||0)), pct=c.budget?Math.min(100,spent/c.budget*100):0;
+    const effCpm=totImp?(spent/(totImp/1000)):0, ndays=series.length||1, done=spent>=c.budget&&c.budget>0;
+    const maxImp=Math.max(1,...series.map(x=>x.imp)), W=460,H=70,bw=W/Math.max(1,series.length);
+    const bars=series.map((x,i)=>{ const h=Math.round(x.imp/maxImp*H),bx=Math.round(i*bw); return '<rect x="'+(bx+1)+'" y="'+(H-h)+'" width="'+Math.max(2,Math.round(bw-2))+'" height="'+h+'" rx="1" fill="#78f3ff"></rect>'; }).join('');
+    const step=Math.max(1,Math.ceil(series.length/6));
+    const labels=series.map((x,i)=> i%step===0?'<text x="'+Math.round(i*bw+bw/2)+'" y="'+(H+10)+'" fill="#6d8a96" font-size="8" text-anchor="middle">'+x.d.slice(5)+'</text>':'').join('');
+    const kpi=(l,v)=>'<div style="flex:1;min-width:84px;background:#02141c;border:1px solid #1f4357;border-radius:8px;padding:8px 10px"><div style="font-size:9px;opacity:.6;text-transform:uppercase">'+l+'</div><div style="font-size:17px;font-weight:800;color:#7dffd0">'+v+'</div></div>';
+    const cre=c.creativeUrl&&/^https?:/.test(c.creativeUrl)?'<img src="'+c.creativeUrl+'" style="width:54px;height:54px;object-fit:cover;border:1px solid #2f6a8a;border-radius:8px">':'';
+    const ov=document.createElement('div'); ov.id='camp-report';
+    ov.style.cssText='position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;background:rgba(2,8,12,.92);padding:18px';
+    ov.onclick=(e)=>{ if(e.target===ov) ov.remove(); };
+    ov.innerHTML='<div style="background:#04101a;border:2px solid #2f8d8d;border-radius:14px;padding:18px;max-width:560px;width:94vw;max-height:90vh;overflow:auto;color:#dff8ff">'
+      +'<div style="display:flex;gap:10px;align-items:center;margin-bottom:12px">'+cre+'<div style="flex:1"><div style="font-weight:800;font-size:16px">📊 Informe · '+segLbl(c.seg)+'</div><div style="font-size:11px;opacity:.6">'+((c.product||'')+'')+' · '+start+' → '+t+' · '+ndays+' días</div></div><span id="cr-close" style="cursor:pointer;font-size:24px;color:#75aab9;line-height:1">×</span></div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">'+kpi('Impactos',totImp)+kpi('Gasto',spent.toFixed(2)+'€')+kpi('CPM efect.',effCpm.toFixed(2)+'€')+kpi('Presup.',pct.toFixed(0)+'%')+kpi('Estado',done?'Agotada':'Activa')+'</div>'
+      +'<div style="font-size:10px;opacity:.6;text-transform:uppercase;margin:6px 0 3px">Impactos por día (en el gemelo)</div>'
+      +'<svg viewBox="0 0 '+W+' '+(H+14)+'" preserveAspectRatio="none" style="width:100%;height:84px;background:#071019;border-radius:8px">'+bars+labels+'</svg>'
+      +'<div style="font-size:11px;opacity:.75;margin-top:8px">Ingreso CPM acumulado: <b style="color:#ffd866">'+totRev.toFixed(2)+'€</b> · media '+Math.round(totImp/ndays)+' impactos/día · objetivo '+(c.budget||0)+'€ @ '+(c.cpm||0).toFixed(1)+'€ CPM</div>'
+      +'</div>';
+    document.body.appendChild(ov);
+    ov.querySelector('#cr-close').onclick=()=>ov.remove();
+  }
   async function renderCampaigns(){
     const box=document.getElementById('camp-list'); if(!box) return; const loc=pickLoc(); const t=todayStr();
     try{
@@ -4666,16 +4696,17 @@ setLang(LANG); // aplica el idioma guardado (o ES por defecto) al cargar
       const dr=await fetch(PIXER+'/day/range?loc='+encodeURIComponent(loc)+'&from='+minStart+'&to='+t,{cache:'no-store'}).then(r=>r.json());
       const days=(dr&&dr.days)||{};
       const impFor=(seg,start)=>{ let s=0; for(const d in days){ if(d>=(start||minStart)){ const ea=days[d].extAds||{}; s+=ea[seg]||0; } } return s; };
-      box.innerHTML='<div style="font-size:10px;color:#8ed2ff;margin:8px 0 4px;letter-spacing:.06em">CAMPAÑAS ACTIVAS</div>'+camps.map(c=>{
+      box.innerHTML='<div style="font-size:10px;color:#8ed2ff;margin:8px 0 4px;letter-spacing:.06em">CAMPAÑAS ACTIVAS · clic para informe 📊</div>'+camps.map((c,i)=>{
         const imp=impFor(c.seg, c.startDate); const spent=Math.min(c.budget, imp/1000*c.cpm); const pct=Math.min(100, c.budget?spent/c.budget*100:0); const done=spent>=c.budget&&c.budget>0;
         const cre=c.creativeUrl&&/^https?:/.test(c.creativeUrl)?'<img src="'+c.creativeUrl+'" alt="" style="width:42px;height:42px;object-fit:cover;border:1px solid #2f6a8a;border-radius:6px;flex:0 0 42px">':'';
         const prod=c.product?'<div style="font-size:10px;opacity:.6">'+(''+c.product).replace(/</g,'&lt;').slice(0,40)+'</div>':'';
-        return '<div style="border:1px solid '+(done?'#7a3a3a':'#1f4357')+';border-radius:8px;padding:7px 9px;margin-bottom:6px;display:flex;gap:9px">'+
+        return '<div data-ci="'+i+'" title="Ver informe de rendimiento" style="border:1px solid '+(done?'#7a3a3a':'#1f4357')+';border-radius:8px;padding:7px 9px;margin-bottom:6px;display:flex;gap:9px;cursor:pointer">'+
           cre+'<div style="flex:1;min-width:0">'+
           '<div style="display:flex;justify-content:space-between"><b>'+segLbl(c.seg)+'</b><span style="opacity:.6;font-size:10px">'+(c.cpm||0).toFixed(1)+'€ CPM</span></div>'+prod+
           '<div style="height:6px;background:#0a141d;border-radius:4px;overflow:hidden;margin:5px 0"><div style="height:100%;width:'+pct.toFixed(0)+'%;background:'+(done?'#cc5555':'#2ee06a')+'"></div></div>'+
           '<div style="display:flex;justify-content:space-between;font-size:11px"><span>'+spent.toFixed(2)+'€ / '+c.budget+'€</span><span>'+(done?'<b style="color:#ff8866">AGOTADA</b>':(imp+' impactos')) +'</span></div></div></div>';
       }).join('');
+      box.querySelectorAll('[data-ci]').forEach(el=>{ el.onclick=()=>campaignReport(camps[+el.dataset.ci], days, minStart); });
     }catch(e){}
   }
   function wireCampaign(){ fillCampSeg(); const b=document.getElementById('camp-launch'); if(b) b.onclick=launchCampaign; const ed=document.getElementById('camp-buy'); if(ed) ed.addEventListener('toggle',()=>{ if(ed.open) renderCampaigns(); }); renderCampaigns(); setInterval(renderCampaigns,20000); }

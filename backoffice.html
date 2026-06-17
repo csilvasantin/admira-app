@@ -8,6 +8,7 @@
 <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
 <script src="locations.js?v=kioskos-20260608"></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
 <style>
   :root{--bg:#02080d;--ink:#dff8ff;--mut:#75aab9;--brand:#78f3ff;--accent:#ffd866;--good:#88ffaa;--warn:#ff8866;--danger:#ff4f5e;--card:#0a1620;--card2:#0d1c28;--line:rgba(120,243,255,.18)}
   *{box-sizing:border-box}
@@ -174,10 +175,8 @@
   <div class="gbox">
     <div class="glogo">OMNI<span class="dot">·</span>PUBLICITY</div>
     <h2 data-i18n="gate_title">Backoffice</h2>
-    <p class="gsub" data-i18n-html="gate_sub">Acceso restringido. Introduce el password para gestionar gemelos digitales en <b>OmniPublicity</b>.</p>
-    <input id="g-pass" type="password" placeholder="Password" autocomplete="current-password" autofocus>
-    <label class="grow"><input id="g-remember" type="checkbox" checked> <span data-i18n="remember">Recordar en este navegador</span></label>
-    <button class="gsubmit" id="g-submit" data-i18n="enter">Entrar</button>
+    <p class="gsub" data-i18n-html="gate_sub">Acceso restringido a cuentas <b>@admira.com</b>. Inicia sesión con Google para gestionar <b>OmniPublicity</b>.</p>
+    <div id="g-signin" style="display:flex;justify-content:center;margin:8px 0 4px"></div>
     <div class="gerr" id="g-err"></div>
     <div class="gfoot" data-i18n-html="gate_foot">¿Vienes a mirar el mapa? <a href="index.html">Ir al mapa público →</a></div>
   </div>
@@ -359,7 +358,7 @@ const I18N = {
   es: {
     bo_sub:'/ backoffice',
     gate_title:'Backoffice',
-    gate_sub:'Acceso restringido. Introduce el password para gestionar gemelos digitales en <b>OmniPublicity</b>.',
+    gate_sub:'Acceso restringido a cuentas <b>@admira.com</b>. Inicia sesión con Google para gestionar <b>OmniPublicity</b>.',
     remember:'Recordar en este navegador', enter:'Entrar',
     gate_foot:'¿Vienes a mirar el mapa? <a href="index.html">Ir al mapa público →</a>',
     nav_target:'Target Model', nav_public_map:'Mapa público', nav_rtb:'Concepto RTB', logout:'Logout',
@@ -402,7 +401,7 @@ const I18N = {
   en: {
     bo_sub:'/ backoffice',
     gate_title:'Backoffice',
-    gate_sub:'Restricted access. Enter the password to manage digital twins in <b>OmniPublicity</b>.',
+    gate_sub:'Restricted to <b>@admira.com</b> accounts. Sign in with Google to manage <b>OmniPublicity</b>.',
     remember:'Remember on this browser', enter:'Sign in',
     gate_foot:'Here to see the map? <a href="index.html">Go to the public map →</a>',
     nav_target:'Target Model', nav_public_map:'Public map', nav_rtb:'RTB concept', logout:'Logout',
@@ -463,59 +462,83 @@ function setLang(lang){
   try { if (typeof refreshBadge === 'function') refreshBadge(); } catch(_){}
 }
 
-// ─── Login gate ────────────────────────────────────────────────────
-// SHA-256("Nomeacuerd0") — cualquier cambio se hace regenerando el hash.
-const PASS_HASH = '09418087246c5efc32d92ed30f678fd02c0a4ade7dde8f2376da130991827a15';
-const AUTH_KEY = 'omnip-bo-auth';
-
-async function sha256Hex(str) {
-  const buf = new TextEncoder().encode(str);
-  const h = await crypto.subtle.digest('SHA-256', buf);
-  return [...new Uint8Array(h)].map(b => b.toString(16).padStart(2,'0')).join('');
-}
-
-function isAuthed() {
-  try {
-    const v = localStorage.getItem(AUTH_KEY) || sessionStorage.getItem(AUTH_KEY);
-    return v === PASS_HASH;
-  } catch { return false; }
-}
-
-function setAuthed(remember) {
-  try {
-    if (remember) localStorage.setItem(AUTH_KEY, PASS_HASH);
-    else sessionStorage.setItem(AUTH_KEY, PASS_HASH);
-  } catch {}
-}
-
-function clearAuth() {
-  try { localStorage.removeItem(AUTH_KEY); sessionStorage.removeItem(AUTH_KEY); } catch {}
-}
+// ─── Login gate · Sign in with Google (solo @admira.com) ────────────
+// La seguridad real la impone el worker omnipublicity-api: verifica la
+// firma del ID token, aud=GOOGLE_CLIENT_ID y hd/email=admira.com. Aquí
+// el gate es la capa de UX.
+const GOOGLE_CLIENT_ID = '861856772040-quq6ut76k4mqj3fdq87h6g6caht3nm4l.apps.googleusercontent.com';
+const ALLOWED_DOMAIN = 'admira.com';
+const GTOK_KEY = 'omnip-bo-gtoken';
 
 const gate = document.getElementById('gate');
-const gPass = document.getElementById('g-pass');
 const gErr = document.getElementById('g-err');
-const gRemember = document.getElementById('g-remember');
 
-async function tryUnlock() {
-  const v = gPass.value;
-  if (!v) { gPass.classList.add('err'); setTimeout(()=>gPass.classList.remove('err'), 400); return; }
-  const h = await sha256Hex(v);
-  if (h !== PASS_HASH) {
-    gPass.classList.add('err');
-    gErr.textContent = t('wrong_pass');
-    setTimeout(()=>gPass.classList.remove('err'), 400);
-    gPass.select();
+function parseJwt(tok) {
+  try {
+    let p = String(tok).split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+    while (p.length % 4) p += '=';
+    const json = decodeURIComponent(atob(p).split('').map(c => '%' + ('00'+c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+    return JSON.parse(json);
+  } catch { return null; }
+}
+function storedGoogle() {
+  try {
+    const raw = localStorage.getItem(GTOK_KEY) || sessionStorage.getItem(GTOK_KEY);
+    if (!raw) return null;
+    const o = JSON.parse(raw);
+    if (!o || !o.token) return null;
+    const pl = parseJwt(o.token);
+    if (!pl || !pl.exp || pl.exp * 1000 < Date.now()) return null;   // caducado
+    return o;
+  } catch { return null; }
+}
+function getGoogleToken() { const g = storedGoogle(); return g ? g.token : null; }
+function googleEmail() { const g = storedGoogle(); return g ? g.email : ''; }
+function isAuthed() {
+  const g = storedGoogle();
+  return !!(g && String(g.email||'').toLowerCase().endsWith('@'+ALLOWED_DOMAIN));
+}
+function clearAuth() {
+  try { localStorage.removeItem(GTOK_KEY); sessionStorage.removeItem(GTOK_KEY); } catch {}
+  try { if (window.google && google.accounts && google.accounts.id) google.accounts.id.disableAutoSelect(); } catch {}
+}
+
+// Callback de Google Identity Services tras login.
+function onGoogleCredential(resp) {
+  const token = resp && resp.credential;
+  const pl = token ? parseJwt(token) : null;
+  if (!pl) { gErr.textContent = (LANG==='en'?'Google sign-in error':'Error de acceso con Google'); return; }
+  const email = String(pl.email || '').toLowerCase();
+  const okDomain = (String(pl.hd||'').toLowerCase() === ALLOWED_DOMAIN) || email.endsWith('@'+ALLOWED_DOMAIN);
+  if (!okDomain || pl.email_verified === false) {
+    gErr.textContent = (LANG==='en'?'Only @':'Solo cuentas @') + ALLOWED_DOMAIN;
+    try { localStorage.removeItem(GTOK_KEY); sessionStorage.removeItem(GTOK_KEY); google.accounts.id.disableAutoSelect(); } catch {}
     return;
   }
-  setAuthed(gRemember.checked);
+  try { localStorage.setItem(GTOK_KEY, JSON.stringify({ token, email })); } catch {}
   gErr.textContent = '';
   gate.classList.add('hidden');
   bootBackoffice();
 }
-document.getElementById('g-submit').addEventListener('click', tryUnlock);
-gPass.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
-gPass.addEventListener('input', () => { gErr.textContent = ''; });
+
+function initGoogleGate() {
+  if (!(window.google && google.accounts && google.accounts.id)) return;
+  try {
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: onGoogleCredential,
+      hd: ALLOWED_DOMAIN,
+      auto_select: true,
+      cancel_on_tap_outside: false,
+    });
+    const host = document.getElementById('g-signin');
+    if (host) google.accounts.id.renderButton(host, { theme:'filled_blue', size:'large', shape:'pill', text:'signin_with', logo_alignment:'center', width:260 });
+    if (!isAuthed()) { try { google.accounts.id.prompt(); } catch {} }
+  } catch (e) { /* GIS no disponible */ }
+}
+// GIS llama a esto cuando termina de cargar (script async); si ya está, ahora.
+window.onGoogleLibraryLoad = initGoogleGate;
+if (window.google && google.accounts && google.accounts.id) initGoogleGate();
 
 document.getElementById('btn-logout').addEventListener('click', () => {
   if (!confirm(t('logout_confirm'))) return;
@@ -616,10 +639,11 @@ function promptApiToken(reason) {
 // ─── Publicar al worker ────────────────────────────────────────────
 async function publishToWorker() {
   if (!locations.length) { showToast('Catálogo vacío', 'err'); return; }
-  let token = getApiToken();
+  let token = getGoogleToken() || getApiToken();
   if (!token) {
-    token = await promptApiToken('Pega aquí el ADMIN_TOKEN del worker omnipublicity-api');
-    if (!token) return;
+    showToast(LANG==='en'?'Session expired — sign in with Google again':'Sesión caducada — vuelve a entrar con Google','err');
+    clearAuth(); setTimeout(()=>location.reload(), 1200);
+    return;
   }
   const btn = document.getElementById('btn-publish');
   const orig = btn.textContent;
@@ -630,10 +654,9 @@ async function publishToWorker() {
     showToast('Publicadas ' + res.count + ' Xpaces al worker');
   } catch (e) {
     const msg = String(e.message || e);
-    if (msg === 'invalid_token') {
-      showToast('Token inválido — corrígelo', 'err');
-      setApiToken('');
-      await promptApiToken('Token rechazado. Pega el ADMIN_TOKEN correcto');
+    if (msg === 'invalid_token' || msg === 'google_auth_failed' || msg === 'missing_token') {
+      showToast(LANG==='en'?'Session rejected — sign in again':'Sesión rechazada — vuelve a entrar','err');
+      clearAuth(); setTimeout(()=>location.reload(), 1200);
     } else {
       showToast(t('err_prefix') + msg, 'err');
     }

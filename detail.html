@@ -134,6 +134,13 @@
       </aside>
     </section>
 
+    <section class="report">
+      <div class="panel">
+        <h2>📡 Emisión × Audiencia <small id="rep-loc" style="opacity:.6;font-weight:400"></small></h2>
+        <div id="rep-body"><p class="addr">Cargando datos reales de emisión (admira.tv) y cámara…</p></div>
+      </div>
+    </section>
+
     <section class="lower">
       <div class="panel surface-panel">
         <h2>Inventario disponible</h2>
@@ -255,6 +262,49 @@ async function renderLive(){
   }catch(e){}
 }
 renderLive(); setInterval(renderLive, 12000);
+// ── Informe REAL: cruza QUÉ se emitió (admira.tv /emit) × QUIÉN lo vio (cámara /audience) ──
+const REPORT_API = 'https://api.admira.store';
+async function loadReport() {
+  const body = document.getElementById('rep-body');
+  const ll = document.getElementById('rep-loc'); if (ll) ll.textContent = '· ' + locId;
+  const getj = p => fetch(REPORT_API + p).then(r => r.ok ? r.json() : { screens: {} }).catch(() => ({ screens: {} }));
+  try {
+    const [emitR, audR] = await Promise.all([
+      getj('/emit/range?loc=' + encodeURIComponent(locId)),
+      getj('/audience/range?loc=' + encodeURIComponent(locId)),
+    ]);
+    let plays = 0, secs = 0, byType = {}, assets = [];
+    for (const sc of Object.values(emitR.screens || {})) for (const rec of Object.values(sc)) {
+      plays += rec.totalPlays || 0; secs += rec.totalSecs || 0;
+      for (const [t, n] of Object.entries(rec.byType || {})) byType[t] = (byType[t] || 0) + n;
+      for (const [id, a] of Object.entries(rec.assets || {})) assets.push({ title: a.title || id, n: a.n || 0 });
+    }
+    let samples = 0, present = 0, facesPeak = 0, male = 0, female = 0;
+    for (const sc of Object.values(audR.screens || {})) for (const agg of Object.values(sc)) {
+      samples += agg.samples || 0; present += agg.present || 0; facesPeak = Math.max(facesPeak, agg.facesPeak || 0);
+      male += (agg.gender && agg.gender.male) || 0; female += (agg.gender && agg.gender.female) || 0;
+    }
+    const gtot = male + female, pMale = gtot ? Math.round(male / gtot * 100) : 0, pFemale = gtot ? Math.round(female / gtot * 100) : 0;
+    const occ = samples ? Math.round(present / samples * 100) : 0;
+    if (!plays && !samples) { body.innerHTML = '<p class="addr">Sin datos reales todavía para «' + locId + '». Configura el circuito en admira.tv (canal) y la cámara del gemelo con loc=' + locId + '.</p>'; return; }
+    const bar = (lbl, pct, col) => '<div style="margin:7px 0"><div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:3px"><span>' + lbl + '</span><b>' + pct + '%</b></div><div style="height:9px;background:#1c2142;border-radius:5px;overflow:hidden"><div style="height:100%;width:' + pct + '%;background:' + col + '"></div></div></div>';
+    const typeRow = Object.entries(byType).sort((a, b) => b[1] - a[1]).map(([t, n]) => t + ': <b>' + n + '</b>').join(' · ') || '—';
+    const top = assets.sort((a, b) => b.n - a.n).slice(0, 5);
+    body.innerHTML =
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:22px">'
+      + '<div><h3 style="margin:0 0 8px;font-size:1rem">📺 Qué se emitió <small style="opacity:.6">· admira.tv</small></h3>'
+      + '<p style="margin:0 0 6px"><b style="font-size:1.4rem">' + fmtInt(plays) + '</b> pases · <b>' + Math.round(secs / 60) + '</b> min en pantalla</p>'
+      + '<p style="font-size:.85rem;color:#9aa0b4">' + typeRow + '</p>'
+      + (top.length ? '<p style="font-size:.8rem;color:#9aa0b4;margin:10px 0 2px">Top creatividades:</p><ol style="margin:0 0 0 18px;font-size:.85rem;line-height:1.7">' + top.map(a => '<li>' + String(a.title || '—').replace(/[<>]/g, '') + ' — ' + a.n + ' pases</li>').join('') + '</ol>' : '')
+      + '</div>'
+      + '<div><h3 style="margin:0 0 8px;font-size:1rem">📷 Quién lo vio <small style="opacity:.6">· cámara</small></h3>'
+      + '<p style="margin:0 0 8px"><b style="font-size:1.4rem">' + occ + '%</b> del tiempo con audiencia · pico <b>' + facesPeak + '</b> personas</p>'
+      + bar('👨 Hombres', pMale, '#3498db') + bar('👩 Mujeres', pFemale, '#e0a92c')
+      + '<p style="font-size:.8rem;color:#9aa0b4;margin-top:10px">' + (gtot ? ('Audiencia mayormente ' + (pMale >= pFemale ? 'masculina' : 'femenina') + ' · ' + fmtInt(samples) + ' lecturas de cámara') : '(sin género medido aún)') + '</p></div>'
+      + '</div>';
+  } catch (e) { body.innerHTML = '<p class="addr">Error cargando el informe: ' + (e && e.message) + '</p>'; }
+}
+loadReport();
 </script>
 </body>
 </html>

@@ -1,0 +1,55 @@
+# Admira · admira.app (preproducción) — Audiencia & Emisión (MCP)
+
+> Hub MCP de admira.app, la PREPRODUCCIÓN del retail-media Admira. Punto de entrada
+> para que cualquier agente (Claude, Codex, OpenCode, ChatGPT, bots…) y cualquier
+> humano consulten e interactúen con los datos de Emisión × Audiencia — y para que
+> nosotros consultemos a otros. Para silicio (bots) y carbono (humanos).
+> Producción equivalente: https://www.clearchannel.tv/mcp/
+
+Sitio: https://www.admira.app  (preproducción)
+Hub MCP: https://www.admira.app/mcp/
+Manifest máquina: https://www.admira.app/mcp/manifest.json
+Versión: v.26.06.21.r1
+Repo: https://github.com/csilvasantin/admira-app
+
+## Qué es
+
+admira.app mide el retail-media de forma verificable: cruza QUÉ se emitió en cada
+pantalla (proof-of-play de admira.tv) con QUIÉN lo vio (cámara on-device del gemelo
+XpaceOS: presencia, género, edad, franja horaria). Es la preproducción; producción
+rebrandeada = clearchannel.tv. La API es la misma.
+
+## API en vivo (base: https://api.admira.store)
+
+Lecturas (abiertas; CORS refleja el origen):
+- GET /emit/range?loc={loc} — proof-of-play: pases, segundos, byType, top creatividades.
+- GET /audience/range?loc={loc} — audiencia: muestras, presencia, pico, género, edad, hora.
+
+Escrituras (telemetría, sin credencial):
+- POST /emit — registra un pase. body: {loc, screen, type, title, secs, num?}.
+- POST /audience — registra una muestra de cámara. body: {loc, screen, faces, gender, genderScore, ageBucket, emotion?}.
+
+Ejemplo: https://api.admira.store/audience/range?loc=xtanco-demo
+
+## Informe (humano)
+
+- Informe por circuito: https://www.admira.app/detail.html?loc={loc}
+- Botón "Exportar informe" → Informe de Audiencia Verificada (HTML imprimible a PDF):
+  KPIs, donut de género, barras de edad/hora/tipo, desglose por pantalla, metodología.
+
+## Privacidad
+
+Detección on-device (@vladmandic/human, TensorFlow.js). No se almacenan imágenes ni
+datos personales: solo conteos agregados. Género/edad son estimaciones, no identificación.
+
+## Federación
+
+Misma convención /mcp/ en cada pata del ecosistema AdmiraNeXT:
+- Producción (Clear Channel): https://www.clearchannel.tv/mcp/
+- Consejo de Silicio: https://www.admira.live/mcp/
+- XpaceOS (el OS retail): https://www.xpaceos.com/mcp/
+
+## Convenciones
+
+- Versionado visible: v.AA.MM.DD.rN.
+- Avisos de cambios: Telegram grupo AdmiraXP, firmados "Admira IA".

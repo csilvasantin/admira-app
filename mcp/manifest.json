@@ -1,0 +1,50 @@
+{
+  "name": "admira-app-audience",
+  "title": "Admira · admira.app (preproducción) — Audiencia & Emisión",
+  "description": "Hub MCP de admira.app, la PREPRODUCCIÓN del retail-media Admira. Mismo cruce Emisión × Audiencia que producción (clearchannel.tv): proof-of-play de admira.tv × cámara on-device del gemelo XpaceOS. Para silicio (bots) y carbono (humanos).",
+  "version": "v.26.06.21.r1",
+  "site": "https://www.admira.app",
+  "hub": "https://www.admira.app/mcp/",
+  "llms_txt": "https://www.admira.app/mcp/llms.txt",
+  "repo": "https://github.com/csilvasantin/admira-app",
+  "stage": "preproduccion",
+  "contact": { "telegram_group": "AdmiraXP", "signature": "Admira IA" },
+
+  "http_api": {
+    "base_url": "https://api.admira.store",
+    "notes": "Worker pixer-eleven (Cloudflare), compartido con producción. Lecturas (/…/range) abiertas, CORS refleja el origen. Escrituras (/emit, /audience) son telemetría sin credencial. SIN PII: la cámara procesa on-device y solo envía conteos agregados.",
+    "read": [
+      { "method": "GET", "path": "/emit/range", "desc": "Proof-of-play por circuito: pases, segundos, byType, top creatividades, por pantalla y día.", "query": ["loc"], "example": "https://api.admira.store/emit/range?loc=xtanco-demo" },
+      { "method": "GET", "path": "/audience/range", "desc": "Audiencia por circuito: muestras, presencia, pico, género {male,female}, edad {nino,joven,adulto,senior}, franja horaria {0..23}.", "query": ["loc"], "example": "https://api.admira.store/audience/range?loc=xtanco-demo" }
+    ],
+    "interact": [
+      { "method": "POST", "path": "/emit", "desc": "Registra un pase (proof-of-play).", "body": { "loc": "string", "screen": "string", "type": "image|video|animation", "title": "string", "secs": "number", "num": "number?" } },
+      { "method": "POST", "path": "/audience", "desc": "Registra una muestra de cámara (audiencia).", "body": { "loc": "string", "screen": "string", "faces": "number", "gender": "male|female|''", "genderScore": "number", "ageBucket": "nino|joven|adulto|senior|''", "emotion": "string?" } }
+    ]
+  },
+
+  "report": {
+    "human": "https://www.admira.app/detail.html?loc={loc}",
+    "cross": "QUÉ se emitió (admira.tv /emit) × QUIÉN lo vio (cámara /audience: presencia + género + edad + franja horaria).",
+    "export": "Botón '🔬 Exportar informe' → Informe de Audiencia Verificada (HTML imprimible a PDF) con gráficos SVG, KPIs, desglose por pantalla, metodología y privacidad. Marca ADMIRA XP."
+  },
+
+  "privacy": {
+    "on_device": true,
+    "engine": "@vladmandic/human (TensorFlow.js)",
+    "stored": "solo conteos agregados (presencia, género, edad, hora)",
+    "note": "No se almacenan imágenes ni datos personales. Género y edad son estimaciones estadísticas, no identificación de personas."
+  },
+
+  "federation": {
+    "note": "Misma convención /mcp/ en cada pata del ecosistema AdmiraNeXT.",
+    "produccion": "https://www.clearchannel.tv/mcp/",
+    "consejo": "https://www.admira.live/mcp/",
+    "xpaceos": "https://www.xpaceos.com/mcp/"
+  },
+
+  "conventions": {
+    "versioning": "v.AA.MM.DD.rN",
+    "changes": "Telegram grupo AdmiraXP, firmado 'Admira IA'"
+  }
+}
